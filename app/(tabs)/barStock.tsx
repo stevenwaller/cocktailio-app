@@ -1,13 +1,10 @@
-import { StyleSheet, ScrollView } from 'react-native'
-
-import { Text, View } from '@/components/Themed'
+import { StyleSheet, ScrollView, Text, View } from 'react-native'
 
 export default function BarStockScreen() {
   return (
     <ScrollView>
       <View style={styles.container}>
         <Text style={styles.title}>Bar Stock</Text>
-        <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
         <Text style={{ fontSize: 20, fontFamily: 'SchotisBlack' }}>SchotisBlack</Text>
         <Text style={{ fontSize: 20, fontFamily: 'SchotisBlackItalic' }}>SchotisBlackItalic</Text>
         <Text style={{ fontSize: 20, fontFamily: 'SchotisBold' }}>SchotisBold</Text>
