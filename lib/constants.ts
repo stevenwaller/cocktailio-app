@@ -37,39 +37,8 @@ export const FONTS = {
 
 export const COLORS = {
   nav: {
-    text: '#123742'
-  },
-  black: '#000',
-  white: '#fff',
-  // green: '#33C758',
-  green: '#289031',
-  background: '#2B2B2B',
-  midground: '#444343',
-  foreground: '#F6F0E4',
-  foregroundDark: '#E8E2D9',
-  header: {
-    text: '#F6F0E4',
-    link: '#C68C41'
-  },
-  tabs: {
-    active: '#C68C41',
-    inactive: 'gray'
-  },
-  border: {
-    thick: '#979797',
-    thin: '#C0B7AD'
-  },
-  text: {
-    onLight: '#444444',
-    onDark: '#FDFBE3'
-  },
-  link: {
-    onLight: '#84510E',
-    onDark: '#B17E45'
-  },
-  btn: {
-    onLight: '#A66611',
-    onDark: '#B17E45'
+    text: '#123742',
+    bg: '#DC9F7D'
   }
 }
 
