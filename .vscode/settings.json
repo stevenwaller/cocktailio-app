@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["Cocktailio", "supabase"]
+  "cSpell.words": ["Cocktailio", "Postgrest", "supabase"],
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
