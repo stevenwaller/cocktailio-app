@@ -42,4 +42,14 @@ After running `npm run start` press `j` to open the Chrome console.
 
 ## Installing third party libraries
 
-Use the [Expo CLI](https://docs.expo.dev/more/expo-cli/#install) to install a library by running `npx expo install <library-name>`
+Use the [Expo CLI](https://docs.expo.dev/more/expo-cli/#install) to install a library by running `npx expo install <library-name>` or `npx expo install <library-name> -- --save-dev`
+
+## Generate Supabase types
+
+```
+npx supabase login
+```
+
+```
+npx supabase gen types typescript --project-id "$PROJECT_REF" --schema public > lib/types/supabase.ts
+```
