@@ -1,16 +1,29 @@
 import { PostgrestError } from '@supabase/supabase-js'
-import { useEffect, useState } from 'react'
-import { StyleSheet } from 'react-native'
+import { useEffect, useState, useCallback } from 'react'
+import { StyleSheet, ScrollView, Text, View } from 'react-native'
 
-import { Text, View } from '@/components/Themed'
-import { Tables } from '@/lib/types/supabaseGenerated'
+import ErrorAlert from '@/components/ErrorAlert'
+import { TCocktails } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
-const fetchData = (args: { minRange: number; maxRange: number }) => {
-  return supabaseClient
-    .from('cocktails')
-    .select(
-      `
+const itemsToLoad = 10
+
+export default function CocktailsScreen() {
+  const [minRange, setMinRange] = useState<number>(0)
+  const [maxRange, setMaxRange] = useState<number>(itemsToLoad - 1)
+  const [isFetching, setIsFetching] = useState(false)
+  const [data, setData] = useState<TCocktails[] | null>(null)
+  const [error, setError] = useState<PostgrestError | null>(null)
+  const [count, setCount] = useState<number | null>(0)
+  const [currentPage, setCurrentPage] = useState<number>(1)
+
+  const fetchData = useCallback(async () => {
+    setIsFetching(true)
+
+    const response = await supabaseClient
+      .from('cocktails')
+      .select(
+        `
       *,
       base_ingredient:ingredients!public_cocktails_base_ingredient_uuid_fkey(*),
       recipes!public_recipes_cocktail_uuid_fkey(
@@ -26,27 +39,47 @@ const fetchData = (args: { minRange: number; maxRange: number }) => {
         )
       )
     `,
-      { count: 'exact' }
-    )
-    .order('name')
-    .range(args.minRange, args.maxRange)
-}
+        { count: 'exact' }
+      )
+      .order('name')
+      .range(minRange, maxRange)
+      .returns<TCocktails[]>()
 
-export default function CocktailsScreen() {
-  const [isFetching, setIsFetching] = useState(false)
-  const [data, setData] = useState(null)
-  const [error, setError] = useState<PostgrestError | null>(null)
-  const [isFormFetching, setIsFormFetching] = useState(false)
+    console.log('response', response)
+
+    setIsFetching(false)
+    setData(response.data)
+    setError(response.error)
+    setCount(response.count)
+  }, [minRange, maxRange])
 
   useEffect(() => {
-    fetchData({ minRange: 0, maxRange: 10 })
+    fetchData()
   }, [fetchData])
 
+  const renderContent = () => {
+    if (isFetching) {
+      return <Text style={styles.title}>Loading...</Text>
+    }
+
+    if (!data) {
+      return <Text style={styles.title}>No data</Text>
+    }
+
+    return data.map((cocktail) => (
+      <View key={cocktail.id}>
+        <Text style={styles.title}>{cocktail.name}</Text>
+      </View>
+    ))
+  }
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Cocktails</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-    </View>
+    <ScrollView>
+      <View style={styles.container}>
+        <ErrorAlert message={error?.message} />
+        {renderContent()}
+      </View>
+    </ScrollView>
   )
 }
 
@@ -59,10 +92,5 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold'
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%'
   }
 })
