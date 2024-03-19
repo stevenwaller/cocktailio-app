@@ -7,6 +7,8 @@ import Colors from "@/constants/Colors";
 import { useColorScheme } from "@/components/useColorScheme";
 import { useClientOnlyValue } from "@/components/useClientOnlyValue";
 import DiscoverIcon from "@/components/_icons/Discover";
+import CocktailsIcon from "@/components/_icons/Cocktails";
+import BarStockIcon from "@/components/_icons/BarStock";
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
@@ -29,7 +31,7 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="discover"
         options={{
           title: "Discover",
           tabBarIcon: ({ color }) => <DiscoverIcon color={color} />,
@@ -50,10 +52,17 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="cocktails"
         options={{
-          title: "Tab Two",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: "Cocktails",
+          tabBarIcon: ({ color }) => <CocktailsIcon color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="barStock"
+        options={{
+          title: "Bar Stock",
+          tabBarIcon: ({ color }) => <BarStockIcon color={color} />,
         }}
       />
     </Tabs>
