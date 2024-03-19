@@ -1,8 +1,16 @@
+import { Stack } from 'expo-router'
 import { StyleSheet, ScrollView, Text, View } from 'react-native'
+
+import { COLORS, FONTS } from '@/lib/constants'
 
 export default function TabOneScreen() {
   return (
     <ScrollView>
+      <Stack.Screen
+        options={{
+          title: 'DISCOVER'
+        }}
+      />
       <View style={styles.container}>
         <Text style={styles.title}>Discover</Text>
       </View>
@@ -18,6 +26,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold'
+    color: COLORS.text.body,
+    fontFamily: FONTS.hells.serif.medium
   }
 })

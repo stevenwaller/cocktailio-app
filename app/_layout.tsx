@@ -3,6 +3,8 @@ import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
 
+import { COLORS } from '@/lib/constants'
+
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary
@@ -63,7 +65,11 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack>
+    <Stack
+      screenOptions={{
+        contentStyle: { backgroundColor: COLORS.bg.level1 }
+      }}
+    >
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
     </Stack>

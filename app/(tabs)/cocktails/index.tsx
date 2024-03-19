@@ -1,8 +1,10 @@
 import { PostgrestError } from '@supabase/supabase-js'
+import { Link, Stack } from 'expo-router'
 import { useEffect, useState, useCallback } from 'react'
 import { StyleSheet, ScrollView, Text, View } from 'react-native'
 
 import ErrorAlert from '@/components/ErrorAlert'
+import { COLORS, FONTS } from '@/lib/constants'
 import { TCocktails } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
@@ -67,14 +69,19 @@ export default function CocktailsScreen() {
     }
 
     return data.map((cocktail) => (
-      <View key={cocktail.id}>
+      <Link key={cocktail.id} href={`/cocktails/${cocktail.name}`}>
         <Text style={styles.title}>{cocktail.name}</Text>
-      </View>
+      </Link>
     ))
   }
 
   return (
     <ScrollView>
+      <Stack.Screen
+        options={{
+          title: 'COCKTAILS'
+        }}
+      />
       <View style={styles.container}>
         <ErrorAlert message={error?.message} />
         {renderContent()}
@@ -91,6 +98,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
+    color: COLORS.text.body,
+    fontFamily: FONTS.hells.serif.medium,
     fontWeight: 'bold'
   }
 })
