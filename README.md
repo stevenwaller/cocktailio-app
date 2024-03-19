@@ -35,3 +35,11 @@ Requires a Mac with Xcode, and Xcode command line tools installed. See [Expo doc
 Start the dev server and open the Android emulator.
 
 Requires JDK and Android Studio be installed. See [Expo docs](https://docs.expo.dev/workflow/android-studio-emulator/) for more info.
+
+## Debugging
+
+After running `npm run start` press `j` to open the Chrome console.
+
+## Installing third party libraries
+
+Use the [Expo CLI](https://docs.expo.dev/more/expo-cli/#install) to install a library by running `npx expo install <library-name>`
