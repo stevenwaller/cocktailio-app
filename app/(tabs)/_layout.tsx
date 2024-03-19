@@ -18,6 +18,7 @@ export default function TabLayout() {
         headerShown: useClientOnlyValue(false, true)
       }}
     >
+      <Tabs.Screen redirect name="index" />
       <Tabs.Screen
         name="discover"
         options={{
