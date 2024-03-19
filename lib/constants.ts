@@ -1,37 +1,37 @@
 export const FONTS = {
   hells: {
     sans: {
-      bold: 'HellschreiberSans-Bold',
-      boldItalic: 'HellschreiberSans-BoldItalic',
-      light: 'HellschreiberSans-Light',
-      lightItalic: 'HellschreiberSans-LightItalic',
-      medium: 'HellschreiberSans-Medium',
-      mediumItalic: 'HellschreiberSans-MediumIta'
+      bold: 'HellsSansBold',
+      boldItalic: 'HellsSansBoldItalic',
+      light: 'HellsSansLight',
+      lightItalic: 'HellsSansLightItalic',
+      medium: 'HellsSansMedium',
+      mediumItalic: 'HellsSansMediumItalic'
     },
     serif: {
-      bold: 'HellschreiberSerif-Bold',
-      boldItalic: 'HellschreiberSerif-BoldItalic',
-      light: 'HellschreiberSerif-Light',
-      lightItalic: 'HellschreiberSerif-LightItalic',
-      medium: 'HellschreiberSerif-Medium',
-      mediumItalic: 'HellschreiberSerif-MediumItalic'
+      bold: 'HellsSerifBold',
+      boldItalic: 'HellsSerifBoldItalic',
+      light: 'HellsSerifLight',
+      lightItalic: 'HellsSerifLightItalic',
+      medium: 'HellsSerifMedium',
+      mediumItalic: 'HellsSerifMediumItalic'
     }
   },
   schotis: {
-    black: 'SchotisText-Black',
-    blackItalic: 'SchotisText-BlackItalic',
-    bold: 'SchotisText-Bold',
-    boldItalic: 'SchotisText-BoldItalic',
-    book: 'SchotisText-Book',
-    bookItalic: 'SchotisText-BookItalic',
-    heavy: 'SchotisText-Heavy',
-    heavyItalic: 'SchotisText-HeavyItalic',
-    italic: 'SchotisText-Italic',
-    light: 'SchotisText-Light',
-    lightItalic: 'SchotisText-LightItalic',
-    semiBold: 'SchotisText-SemiBold',
-    semiBoldItalic: 'SchotisText-SemiBoldItalic',
-    regular: 'SchotisText'
+    black: 'SchotisBlack',
+    blackItalic: 'SchotisBlackItalic',
+    bold: 'SchotisBold',
+    boldItalic: 'SchotisBoldItalic',
+    book: 'SchotisBook',
+    bookItalic: 'SchotisBookItalic',
+    heavy: 'SchotisHeavy',
+    heavyItalic: 'SchotisHeavyItalic',
+    italic: 'SchotisItalic',
+    light: 'SchotisLight',
+    lightItalic: 'SchotisLightItalic',
+    semiBold: 'SchotisSemiBold',
+    semiBoldItalic: 'SchotisSemiBoldItalic',
+    normal: 'Schotis'
   }
 }
 
