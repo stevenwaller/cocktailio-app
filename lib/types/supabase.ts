@@ -6,11 +6,12 @@ export type TCocktails = Tables<'cocktails'> & {
     {
       steps: Tables<'recipe_steps'>[]
       source: Tables<'sources'>[]
-      components: Tables<'recipe_components'> & {
-        measurement: Tables<'measurements'>[]
-        ingredient: Tables<'recipe_component_ingredients'>[]
-        or_ingredient: Tables<'recipe_component_or_ingredients'>[]
-        pref_ingredient: Tables<'recipe_component_pref_ingredients'>[]
-      }
+      components: Tables<'recipe_components'> &
+        {
+          measurement: Tables<'measurements'>[]
+          ingredient: Tables<'recipe_component_ingredients'>[]
+          or_ingredient: Tables<'recipe_component_or_ingredients'>[]
+          pref_ingredient: Tables<'recipe_component_pref_ingredients'>[]
+        }[]
     }[]
 }

@@ -49,11 +49,15 @@ export const COLORS = {
   },
   text: {
     body: '#FFFAF0'
-  }
+  },
+  shadow: '#000'
 }
 
 export const SIZE = {
   app: {
-    gutter: 8
+    gutter: 12
+  },
+  border: {
+    radius: 6
   }
 }

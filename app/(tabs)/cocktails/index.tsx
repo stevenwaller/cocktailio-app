@@ -3,8 +3,9 @@ import { Link, Stack } from 'expo-router'
 import { useEffect, useState, useCallback } from 'react'
 import { StyleSheet, ScrollView, Text, View } from 'react-native'
 
+import CocktailCard from '@/components/CocktailCard'
 import ErrorAlert from '@/components/ErrorAlert'
-import { COLORS, FONTS } from '@/lib/constants'
+import { COLORS, FONTS, SIZE } from '@/lib/constants'
 import { TCocktails } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
@@ -26,21 +27,21 @@ export default function CocktailsScreen() {
       .from('cocktails')
       .select(
         `
-      *,
-      base_ingredient:ingredients!public_cocktails_base_ingredient_uuid_fkey(*),
-      recipes!public_recipes_cocktail_uuid_fkey(
-        *,
-        steps:recipe_steps(*),
-        source:sources(*),
-        components:recipe_components(
           *,
-          measurement:measurements(*),
-          ingredient:recipe_component_ingredients(*),
-          or_ingredient:recipe_component_or_ingredients(*),
-          pref_ingredient:recipe_component_pref_ingredients(*)
-        )
-      )
-    `,
+          base_ingredient:ingredients!public_cocktails_base_ingredient_uuid_fkey(*),
+          recipes!public_recipes_cocktail_uuid_fkey(
+            *,
+            steps:recipe_steps(*),
+            source:sources(*),
+            components:recipe_components(
+              *,
+              measurement:measurements(*),
+              ingredient:recipe_component_ingredients(*),
+              or_ingredient:recipe_component_or_ingredients(*),
+              pref_ingredient:recipe_component_pref_ingredients(*)
+            )
+          )
+        `,
         { count: 'exact' }
       )
       .order('name')
@@ -68,11 +69,7 @@ export default function CocktailsScreen() {
       return <Text style={styles.title}>No data</Text>
     }
 
-    return data.map((cocktail) => (
-      <Link key={cocktail.id} href={`/cocktails/${cocktail.name}`}>
-        <Text style={styles.title}>{cocktail.name}</Text>
-      </Link>
-    ))
+    return data.map((cocktail) => <CocktailCard key={cocktail.id} cocktail={cocktail} />)
   }
 
   return (
@@ -94,7 +91,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    padding: SIZE.app.gutter
   },
   title: {
     fontSize: 20,
