@@ -61,5 +61,8 @@ export const SIZE = {
   },
   border: {
     radius: 6
+  },
+  card: {
+    paddingX: 20
   }
 }

@@ -1,7 +1,8 @@
 import { Link } from 'expo-router'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 
-import { FONTS, COLORS, SIZE } from '@/lib/constants'
+import Card from '@/components/Card'
+import { FONTS, COLORS } from '@/lib/constants'
 import { TCocktail } from '@/lib/types/supabase'
 
 interface CocktailCardProps {
@@ -27,8 +28,8 @@ const CocktailCard = ({ cocktail, ...restProps }: CocktailCardProps) => {
   const { name } = cocktail
 
   return (
-    <View style={styles.card} {...restProps}>
-      <View style={styles.header}>
+    <Card {...restProps}>
+      <Card.Header>
         <Link
           style={styles.name}
           href={{
@@ -38,50 +39,17 @@ const CocktailCard = ({ cocktail, ...restProps }: CocktailCardProps) => {
         >
           {name}
         </Link>
-      </View>
-      <View style={styles.body}>{renderIngredients(cocktail)}</View>
-    </View>
+      </Card.Header>
+      <Card.Body>{renderIngredients(cocktail)}</Card.Body>
+    </Card>
   )
 }
 
 const styles = StyleSheet.create({
-  card: {
-    width: '100%',
-    marginBottom: 20,
-    backgroundColor: COLORS.bg.level3,
-    borderRadius: SIZE.border.radius,
-    shadowColor: COLORS.shadow,
-    shadowOffset: {
-      width: 0,
-      height: 3
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 30,
-    elevation: 40
-  },
-  header: {
-    display: 'flex',
-    width: '100%',
-    borderTopStartRadius: SIZE.border.radius,
-    borderTopEndRadius: SIZE.border.radius,
-    backgroundColor: COLORS.bg.level2
-  },
   name: {
-    paddingTop: 8,
-    paddingRight: 20,
-    paddingBottom: 10,
-    paddingLeft: 20,
     fontSize: 20,
     color: COLORS.text.link,
     fontFamily: FONTS.schotis.bold
-  },
-  body: {
-    display: 'flex',
-    width: '100%',
-    paddingTop: 16,
-    paddingRight: 20,
-    paddingBottom: 16,
-    paddingLeft: 20
   },
   ingredients: {
     fontSize: 14,

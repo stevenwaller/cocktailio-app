@@ -3,6 +3,7 @@ import { useLocalSearchParams, Stack } from 'expo-router'
 import { useEffect, useState, useCallback } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
+import { BodyText } from '@/components/_elements/Text'
 import { FONTS, COLORS, SIZE } from '@/lib/constants'
 import { TCocktail } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
@@ -65,15 +66,15 @@ export default function Page() {
 
   const renderContent = () => {
     if (isFetching) {
-      return <Text>Loading...</Text>
+      return <BodyText>Loading...</BodyText>
     }
 
     if (error) {
-      return <Text>Error: {error.message}</Text>
+      return <BodyText>Error: {error.message}</BodyText>
     }
 
     if (!cocktail) {
-      return <Text>No data</Text>
+      return <BodyText>No data</BodyText>
     }
 
     return (
@@ -94,6 +95,7 @@ export default function Page() {
         <View style={styles.header}>
           <Text style={styles.headerText}>{name}</Text>
         </View>
+        {renderContent()}
       </View>
     </>
   )
