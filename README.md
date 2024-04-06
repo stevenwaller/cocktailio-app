@@ -51,5 +51,5 @@ npx supabase login
 ```
 
 ```
-npx supabase gen types typescript --project-id "$PROJECT_REF" --schema public > lib/types/supabase.ts
+npx supabase gen types typescript --project-id "oysrqfsfxvjeyvtjohix" --schema public > lib/types/supabaseGenerated.ts
 ```
