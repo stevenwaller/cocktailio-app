@@ -64,5 +64,8 @@ export const SIZE = {
   },
   card: {
     paddingX: 20
+  },
+  margin: {
+    bottom: 20
   }
 }

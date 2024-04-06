@@ -9,7 +9,7 @@ import { COLORS, FONTS, SIZE } from '@/lib/constants'
 import { TCocktail } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
-const itemsToLoad = 10
+const itemsToLoad = 100
 
 export default function CocktailsScreen() {
   const [minRange, setMinRange] = useState<number>(0)

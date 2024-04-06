@@ -6,7 +6,10 @@ export type TCocktail = Tables<'cocktails'> & {
   era: Tables<'eras'>
   method: Tables<'methods'>
   steps: Tables<'cocktail_steps'>[]
-  sources: Tables<'sources'>[]
+  sources: Tables<'cocktail_sources'> &
+    {
+      source: Tables<'sources'>
+    }[]
   components: Tables<'cocktail_components'> &
     {
       measurement: Tables<'measurements'>
@@ -26,3 +29,5 @@ export type TCocktail = Tables<'cocktails'> & {
 }
 
 export type TIngredient = Tables<'cocktail_component_ingredients'>
+
+export type TSource = Tables<'sources'>

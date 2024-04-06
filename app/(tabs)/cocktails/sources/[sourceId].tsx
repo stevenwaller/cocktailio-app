@@ -1,65 +1,39 @@
 import { PostgrestError } from '@supabase/supabase-js'
 import { useLocalSearchParams, Stack } from 'expo-router'
 import { useEffect, useState, useCallback } from 'react'
-import { StyleSheet, Text, View, ScrollView } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 
-import RecipeCard from '@/components/RecipeCard'
 import { BodyText, PageTitleText } from '@/components/_elements/Text'
 import { FONTS, COLORS, SIZE } from '@/lib/constants'
-import { TCocktail } from '@/lib/types/supabase'
+import { TSource } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
-export default function CocktailDetailPage() {
+export default function SourceDetailPage() {
   const [isFetching, setIsFetching] = useState(false)
-  const [cocktail, setCocktail] = useState<TCocktail | null>(null)
+  const [source, setSource] = useState<TSource | null>(null)
   const [error, setError] = useState<PostgrestError | null>(null)
-  const { cocktailId, name } = useLocalSearchParams()
+  const { sourceId, name } = useLocalSearchParams()
 
   const fetchData = useCallback(async () => {
     setIsFetching(true)
 
     const response = await supabaseClient
-      .from('cocktails')
+      .from('sources')
       .select(
         `
-        *,
-        base_ingredient:ingredients(*),
-        glass:glasses(*),
-        era:eras(*),
-        method:methods(*),
-        steps:cocktail_steps(*),
-        sources:cocktail_sources(
-          *,
-          source:sources(*)
-        ),
-        components:cocktail_components(
-          *,
-          measurement:measurements(*),
-          ingredients:cocktail_component_ingredients(
-            *,
-            ingredient:ingredients(*)
-          ),
-          or_ingredients:cocktail_component_or_ingredients(
-            *,
-            ingredient:ingredients(*)
-          ),
-          pref_ingredients:cocktail_component_pref_ingredients(
-            *,
-            ingredient:ingredients(*)
-          )
-        )
+        *
         `
       )
-      .eq('id', cocktailId)
-      .returns<TCocktail>()
+      .eq('id', sourceId)
+      .returns<TSource>()
       .single()
 
     // console.log('response', response)
 
     setIsFetching(false)
-    setCocktail(response.data)
+    setSource(response.data)
     setError(response.error)
-  }, [cocktailId])
+  }, [sourceId])
 
   useEffect(() => {
     fetchData()
@@ -74,30 +48,21 @@ export default function CocktailDetailPage() {
       return <BodyText>Error: {error.message}</BodyText>
     }
 
-    if (!cocktail) {
+    if (!source) {
       return <BodyText>No data</BodyText>
-    }
-
-    const renderDescription = () => {
-      if (!cocktail.description) return null
-
-      return (
-        <View style={styles.description}>
-          <Text style={styles.descriptionText}>{cocktail.description}</Text>
-        </View>
-      )
     }
 
     return (
       <>
-        {renderDescription()}
-        <RecipeCard cocktail={cocktail} />
+        <View style={styles.description}>
+          <Text style={styles.descriptionText}>{source.name}</Text>
+        </View>
       </>
     )
   }
 
   return (
-    <ScrollView>
+    <>
       <Stack.Screen
         options={{
           title: ''
@@ -109,7 +74,7 @@ export default function CocktailDetailPage() {
         </View>
         {renderContent()}
       </View>
-    </ScrollView>
+    </>
   )
 }
 
@@ -122,8 +87,7 @@ const styles = StyleSheet.create({
     marginTop: SIZE.app.gutter
   },
   description: {
-    marginTop: SIZE.app.gutter,
-    marginBottom: SIZE.margin.bottom
+    marginTop: SIZE.app.gutter
   },
   descriptionText: {
     fontFamily: FONTS.hells.sans.medium,

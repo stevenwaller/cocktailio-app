@@ -7,7 +7,46 @@ export function BodyText({ style, ...restProps }: TextProps) {
     <Text
       style={[
         style,
-        { fontSize: 16, fontFamily: FONTS.hells.serif.medium, color: COLORS.text.body }
+        {
+          fontSize: 16,
+          fontFamily: FONTS.hells.serif.medium,
+          color: COLORS.text.body,
+          lineHeight: 21
+        }
+      ]}
+      {...restProps}
+    />
+  )
+}
+
+export function BodyLinkText({ style, ...restProps }: TextProps) {
+  return (
+    <Text
+      style={[
+        style,
+        {
+          fontSize: 16,
+          fontFamily: FONTS.hells.serif.medium,
+          color: COLORS.text.link,
+          lineHeight: 21
+        }
+      ]}
+      {...restProps}
+    />
+  )
+}
+
+export function PageTitleText({ style, ...restProps }: TextProps) {
+  return (
+    <Text
+      style={[
+        style,
+        {
+          fontFamily: FONTS.schotis.bold,
+          fontSize: 32,
+          color: COLORS.text.body,
+          lineHeight: 42
+        }
       ]}
       {...restProps}
     />
