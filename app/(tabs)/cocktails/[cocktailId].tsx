@@ -3,6 +3,7 @@ import { useLocalSearchParams, Stack } from 'expo-router'
 import { useEffect, useState, useCallback } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
+import RecipeCard from '@/components/RecipeCard'
 import { BodyText } from '@/components/_elements/Text'
 import { FONTS, COLORS, SIZE } from '@/lib/constants'
 import { TCocktail } from '@/lib/types/supabase'
@@ -53,7 +54,7 @@ export default function Page() {
       .returns<TCocktail>()
       .single()
 
-    console.log('response', response)
+    // console.log('response', response)
 
     setIsFetching(false)
     setCocktail(response.data)
@@ -78,9 +79,12 @@ export default function Page() {
     }
 
     return (
-      <View style={styles.description}>
-        <Text style={styles.descriptionText}>{cocktail.description}</Text>
-      </View>
+      <>
+        <View style={styles.description}>
+          <Text style={styles.descriptionText}>{cocktail.description}</Text>
+        </View>
+        <RecipeCard cocktail={cocktail} />
+      </>
     )
   }
 
