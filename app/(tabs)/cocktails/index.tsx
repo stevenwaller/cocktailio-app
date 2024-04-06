@@ -1,7 +1,7 @@
 import { PostgrestError } from '@supabase/supabase-js'
 import { Link, Stack } from 'expo-router'
 import { useEffect, useState, useCallback } from 'react'
-import { StyleSheet, ScrollView, Text, View } from 'react-native'
+import { StyleSheet, ScrollView, Text, View, Pressable } from 'react-native'
 
 import CocktailCard from '@/components/CocktailCard'
 import ErrorAlert from '@/components/ErrorAlert'
@@ -74,6 +74,9 @@ export default function CocktailsScreen() {
 
   return (
     <ScrollView>
+      <Link href="/refineModal" asChild>
+        <Pressable>{() => <Text>Refined</Text>}</Pressable>
+      </Link>
       <Stack.Screen
         options={{
           title: 'COCKTAILS'

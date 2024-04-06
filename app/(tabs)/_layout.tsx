@@ -27,7 +27,7 @@ export default function TabLayout() {
           title: 'Discover',
           tabBarIcon: ({ color }) => <DiscoverIcon color={color} />,
           headerRight: () => (
-            <Link href="/modal" asChild>
+            <Link href="/refineModal" asChild>
               <Pressable>
                 {({ pressed }) => (
                   <SettingsIcon
