@@ -29,7 +29,13 @@ const CocktailCard = ({ cocktail, ...restProps }: CocktailCardProps) => {
   return (
     <View style={styles.card} {...restProps}>
       <View style={styles.header}>
-        <Link style={styles.name} href={`/cocktails/${cocktail.name}`}>
+        <Link
+          style={styles.name}
+          href={{
+            pathname: `/cocktails/${cocktail.id}`,
+            params: { name: cocktail.name }
+          }}
+        >
           {name}
         </Link>
       </View>
@@ -41,9 +47,6 @@ const CocktailCard = ({ cocktail, ...restProps }: CocktailCardProps) => {
 const styles = StyleSheet.create({
   card: {
     width: '100%',
-    // paddingTop: 17,
-    // paddingRight: 20,
-    // paddingLeft: 20,
     marginBottom: 20,
     backgroundColor: COLORS.bg.level3,
     borderRadius: SIZE.border.radius,
