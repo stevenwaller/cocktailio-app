@@ -15,12 +15,20 @@ export default function TabLayout() {
         tabBarActiveTintColor: COLORS.nav.active,
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: COLORS.nav.bg
+          backgroundColor: COLORS.nav.bg,
+          borderTopWidth: 0
         }
       }}
       sceneContainerStyle={{ backgroundColor: COLORS.bg.level1 }}
     >
       <Tabs.Screen redirect name="index" />
+      <Tabs.Screen
+        name="cocktails"
+        options={{
+          title: 'Cocktails',
+          tabBarIcon: ({ color }) => <CocktailsIcon color={color} />
+        }}
+      />
       <Tabs.Screen
         name="discover"
         options={{
@@ -38,13 +46,6 @@ export default function TabLayout() {
               </Pressable>
             </Link>
           )
-        }}
-      />
-      <Tabs.Screen
-        name="cocktails"
-        options={{
-          title: 'Cocktails',
-          tabBarIcon: ({ color }) => <CocktailsIcon color={color} />
         }}
       />
       <Tabs.Screen

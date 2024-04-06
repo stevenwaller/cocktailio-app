@@ -6,7 +6,7 @@ import { StyleSheet, ScrollView, Text, View, Pressable } from 'react-native'
 import CocktailCard from '@/components/CocktailCard'
 import ErrorAlert from '@/components/ErrorAlert'
 import { COLORS, FONTS, SIZE } from '@/lib/constants'
-import { TCocktails } from '@/lib/types/supabase'
+import { TCocktail } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
 const itemsToLoad = 10
@@ -15,7 +15,7 @@ export default function CocktailsScreen() {
   const [minRange, setMinRange] = useState<number>(0)
   const [maxRange, setMaxRange] = useState<number>(itemsToLoad - 1)
   const [isFetching, setIsFetching] = useState(false)
-  const [data, setData] = useState<TCocktails[] | null>(null)
+  const [data, setData] = useState<TCocktail[] | null>(null)
   const [error, setError] = useState<PostgrestError | null>(null)
   const [count, setCount] = useState<number | null>(0)
   const [currentPage, setCurrentPage] = useState<number>(1)
@@ -27,26 +27,38 @@ export default function CocktailsScreen() {
       .from('cocktails')
       .select(
         `
+        *,
+        base_ingredient:ingredients(*),
+        glass:glasses(*),
+        era:eras(*),
+        method:methods(*),
+        steps:cocktail_steps(*),
+        sources:cocktail_sources(
           *,
-          base_ingredient:ingredients!public_cocktails_base_ingredient_uuid_fkey(*),
-          recipes!public_recipes_cocktail_uuid_fkey(
+          source:sources(*)
+        ),
+        components:cocktail_components(
+          *,
+          measurement:measurements(*),
+          ingredients:cocktail_component_ingredients(
             *,
-            steps:recipe_steps(*),
-            source:sources(*),
-            components:recipe_components(
-              *,
-              measurement:measurements(*),
-              ingredient:recipe_component_ingredients(*),
-              or_ingredient:recipe_component_or_ingredients(*),
-              pref_ingredient:recipe_component_pref_ingredients(*)
-            )
+            ingredient:ingredients(*)
+          ),
+          or_ingredients:cocktail_component_or_ingredients(
+            *,
+            ingredient:ingredients(*)
+          ),
+          pref_ingredients:cocktail_component_pref_ingredients(
+            *,
+            ingredient:ingredients(*)
           )
+        )
         `,
         { count: 'exact' }
       )
       .order('name')
       .range(minRange, maxRange)
-      .returns<TCocktails[]>()
+      .returns<TCocktail[]>()
 
     console.log('response', response)
 

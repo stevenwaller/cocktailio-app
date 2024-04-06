@@ -1,17 +1,28 @@
 import { Tables } from './supabaseGenerated'
 
-export type TCocktails = Tables<'cocktails'> & {
+export type TCocktail = Tables<'cocktails'> & {
   base_ingredient: Tables<'ingredients'>
-  recipes: Tables<'recipes'> &
+  glass: Tables<'glasses'>
+  era: Tables<'eras'>
+  method: Tables<'methods'>
+  steps: Tables<'cocktail_steps'>[]
+  sources: Tables<'sources'>[]
+  components: Tables<'cocktail_components'> &
     {
-      steps: Tables<'recipe_steps'>[]
-      source: Tables<'sources'>[]
-      components: Tables<'recipe_components'> &
+      measurement: Tables<'measurements'>
+      ingredients: Tables<'cocktail_component_ingredients'> &
         {
-          measurement: Tables<'measurements'>[]
-          ingredient: Tables<'recipe_component_ingredients'>[]
-          or_ingredient: Tables<'recipe_component_or_ingredients'>[]
-          pref_ingredient: Tables<'recipe_component_pref_ingredients'>[]
+          ingredient: Tables<'ingredients'>
+        }[]
+      or_ingredients: Tables<'cocktail_component_or_ingredients'> &
+        {
+          ingredient: Tables<'ingredients'>
+        }[]
+      pref_ingredients: Tables<'cocktail_component_pref_ingredients'> &
+        {
+          ingredient: Tables<'ingredients'>
         }[]
     }[]
 }
+
+export type TIngredient = Tables<'cocktail_component_ingredients'>

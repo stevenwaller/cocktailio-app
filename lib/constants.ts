@@ -38,17 +38,19 @@ export const FONTS = {
 export const COLORS = {
   nav: {
     text: '#123742',
-    bg: '#DC9F7D',
+    bg: '#E28C67',
     active: '#000',
     inactive: '#123742'
   },
   bg: {
     level1: '#123742',
     level2: '#244653',
-    level3: '#2F5462'
+    level3: '#2F5462',
+    level4: '#3A6170'
   },
   text: {
-    body: '#FFFAF0'
+    body: '#FFFAF0',
+    link: '#F0B59E'
   },
   shadow: '#000'
 }
