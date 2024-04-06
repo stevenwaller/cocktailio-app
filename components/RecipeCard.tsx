@@ -5,7 +5,7 @@ import Card from '@/components/Card'
 import { FONTS, COLORS } from '@/lib/constants'
 import { TCocktail } from '@/lib/types/supabase'
 
-interface CocktailCardProps {
+interface RecipeCardProps {
   cocktail: TCocktail
 }
 
@@ -24,24 +24,19 @@ const renderIngredients = (cocktail: TCocktail) => {
   return <Text style={styles.ingredients}>{returnString}</Text>
 }
 
-const CocktailCard = ({ cocktail, ...restProps }: CocktailCardProps) => {
-  const { name } = cocktail
-
+const RecipeCard = ({ cocktail, ...restProps }: RecipeCardProps) => {
   return (
     <Card {...restProps}>
       <Card.Header>
-        <Link
-          style={styles.name}
-          href={{
-            pathname: `/cocktails/${cocktail.id}`,
-            params: { name: cocktail.name }
-          }}
-          asChild
-        >
-          <Card.HeaderText isLink>{name}</Card.HeaderText>
-        </Link>
+        <Card.HeaderText>Ingredients</Card.HeaderText>
       </Card.Header>
       <Card.Body>{renderIngredients(cocktail)}</Card.Body>
+      <Card.Header isBody>
+        <Card.HeaderText>Preparation</Card.HeaderText>
+      </Card.Header>
+      <Card.Body>
+        <Text>Steps to here</Text>
+      </Card.Body>
     </Card>
   )
 }
@@ -59,6 +54,6 @@ const styles = StyleSheet.create({
   }
 })
 
-CocktailCard.displayName = 'CocktailCard'
+RecipeCard.displayName = 'RecipeCard'
 
-export default CocktailCard
+export default RecipeCard
