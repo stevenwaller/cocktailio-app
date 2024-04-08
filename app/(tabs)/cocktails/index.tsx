@@ -1,4 +1,5 @@
-import BottomSheet, {
+import {
+  BottomSheetModal,
   BottomSheetView,
   BottomSheetBackdrop,
   BottomSheetBackdropProps
@@ -6,10 +7,12 @@ import BottomSheet, {
 import { PostgrestError } from '@supabase/supabase-js'
 import { Link, Stack } from 'expo-router'
 import { useEffect, useState, useCallback, useMemo, useRef } from 'react'
-import { StyleSheet, ScrollView, Text, View, Pressable, Button } from 'react-native'
+import { StyleSheet, ScrollView, Text, View, Pressable } from 'react-native'
 
 import CocktailCard from '@/components/CocktailCard'
 import ErrorAlert from '@/components/ErrorAlert'
+import PageContainer from '@/components/PageContainer'
+import FilterIcon from '@/components/_icons/Filter'
 import { COLORS, FONTS, SIZE } from '@/lib/constants'
 import { TCocktail } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
@@ -24,7 +27,7 @@ export default function CocktailsScreen() {
   const [error, setError] = useState<PostgrestError | null>(null)
   const [count, setCount] = useState<number | null>(0)
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const sheetRef = useRef<BottomSheet>(null)
+  const sheetRef = useRef<BottomSheetModal>(null)
 
   // variables
   const snapPoints = useMemo(() => ['25%', '50%', '90%'], [])
@@ -101,7 +104,18 @@ export default function CocktailsScreen() {
       return <Text style={styles.title}>No data</Text>
     }
 
-    return data.map((cocktail) => <CocktailCard key={cocktail.id} cocktail={cocktail} />)
+    return (
+      <>
+        <View style={styles.filters}>
+          <Pressable onPress={() => sheetRef.current?.present()}>
+            <FilterIcon color={COLORS.text.link} />
+          </Pressable>
+        </View>
+        {data.map((cocktail) => (
+          <CocktailCard key={cocktail.id} cocktail={cocktail} />
+        ))}
+      </>
+    )
   }
 
   const renderBackdrop = useCallback(
@@ -114,43 +128,36 @@ export default function CocktailsScreen() {
   return (
     <>
       <ScrollView>
-        <Button title="Snap To 90%" onPress={() => handleSnapPress(2)} />
-        <Button title="Snap To 50%" onPress={() => handleSnapPress(1)} />
-        <Button title="Snap To 25%" onPress={() => handleSnapPress(0)} />
-        <Button title="Close" onPress={() => handleClosePress()} />
-        <Link href="/refineModal" asChild>
-          <Pressable>{() => <Text>Refined</Text>}</Pressable>
-        </Link>
         <Stack.Screen
           options={{
             title: 'COCKTAILS'
           }}
         />
-        <View style={styles.container}>
+        <PageContainer>
           <ErrorAlert message={error?.message} />
           {renderContent()}
-        </View>
+        </PageContainer>
       </ScrollView>
-      <BottomSheet
+      <BottomSheetModal
         ref={sheetRef}
         onChange={handleSheetChange}
         snapPoints={snapPoints}
         backdropComponent={renderBackdrop}
+        backgroundStyle={{ backgroundColor: COLORS.bg.level3 }}
+        handleIndicatorStyle={{ backgroundColor: COLORS.text.link }}
       >
         <BottomSheetView style={styles.contentContainer}>
           <Text>Awesome 🎉</Text>
         </BottomSheetView>
-      </BottomSheet>
+      </BottomSheetModal>
     </>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: SIZE.app.paddingX
+  filters: {
+    flexDirection: 'row',
+    marginBottom: SIZE.app.paddingY
   },
   title: {
     fontSize: 20,
