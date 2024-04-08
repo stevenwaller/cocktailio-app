@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="27px" height="26px" viewBox="0 0 27 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>unselected</title>
+    <g id="Bar-Stock" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Cocktails-Copy-19" transform="translate(-19, -600)" fill-rule="nonzero">
+            <g id="ingredient" transform="translate(20, 586)">
+                <g id="unselected" transform="translate(0, 15)">
+                    <path d="M12.025,24 C8.825,24 5.825,22.8 3.525,20.5 C-1.175,15.8 -1.175,8.2 3.525,3.5 C5.825,1.2 8.825,0 12.025,0 C15.225,0 18.225,1.2 20.525,3.5 C25.225,8.2 25.225,15.8 20.525,20.5 C18.225,22.8 15.225,24 12.025,24 Z" id="Shape" stroke="#F0B59E" stroke-width="2"></path>
+                    <polygon id="Path" fill="#F0B59E" transform="translate(12, 12) rotate(-45) translate(-12, -12)" points="16.5857864 8.8275469 15.1724531 7.41421356 12 10.5866667 8.8275469 7.41421356 7.41421356 8.8275469 10.5866667 12 7.41421356 15.1724531 8.8275469 16.5857864 12 13.4133333 15.1724531 16.5857864 16.5857864 15.1724531 13.4133333 12"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

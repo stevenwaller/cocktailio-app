@@ -59,7 +59,8 @@ export const COLORS = {
 
 export const SIZE = {
   app: {
-    gutter: 12
+    paddingX: 12,
+    paddingY: 25
   },
   border: {
     radius: 6
@@ -67,7 +68,5 @@ export const SIZE = {
   card: {
     paddingX: 20
   },
-  margin: {
-    bottom: 20
-  }
+  marginY: 20
 }

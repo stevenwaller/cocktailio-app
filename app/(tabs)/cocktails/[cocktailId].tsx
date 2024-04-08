@@ -117,14 +117,13 @@ export default function CocktailDetailPage() {
 
 const styles = StyleSheet.create({
   container: {
-    paddingLeft: SIZE.app.gutter,
-    paddingRight: SIZE.app.gutter
+    paddingTop: SIZE.app.paddingY,
+    paddingLeft: SIZE.app.paddingX,
+    paddingRight: SIZE.app.paddingX
   },
-  header: {
-    marginTop: SIZE.app.gutter
-  },
+  header: {},
   description: {
-    marginTop: SIZE.app.gutter
+    marginTop: 10
   },
   descriptionText: {
     fontFamily: FONTS.hells.sans.medium,
@@ -132,6 +131,6 @@ const styles = StyleSheet.create({
     color: COLORS.text.body
   },
   recipeCard: {
-    marginTop: SIZE.margin.bottom
+    marginTop: SIZE.app.paddingY
   }
 })

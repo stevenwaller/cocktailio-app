@@ -4,7 +4,7 @@ import { StyleSheet, View, StyleProp, ViewStyle } from 'react-native'
 import { COLORS, SIZE } from '@/lib/constants'
 
 interface CardProps {
-  style: StyleProp<ViewStyle>
+  style?: StyleProp<ViewStyle>
   children: ReactNode
 }
 
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
       width: 0,
       height: 3
     },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.5,
     shadowRadius: 30,
     elevation: 40
   }

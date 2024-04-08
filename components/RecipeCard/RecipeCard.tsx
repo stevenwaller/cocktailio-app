@@ -3,11 +3,12 @@ import { StyleSheet, Text, View, StyleProp, ViewStyle } from 'react-native'
 
 import Card from '@/components/Card'
 import { BodyText, BodyLinkText } from '@/components/_elements/Text'
+import AddInput from '@/components/_inputs/AddInput'
 import { FONTS, COLORS } from '@/lib/constants'
 import { TCocktail, IComponent } from '@/lib/types/supabase'
 
 interface RecipeCardProps {
-  style: StyleProp<ViewStyle>
+  style?: StyleProp<ViewStyle>
   cocktail: TCocktail
 }
 
@@ -33,7 +34,7 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
     return (
       <View style={styles.ingredient}>
         <View style={styles.ingredientAction}>
-          <Text>Checkbox</Text>
+          <AddInput />
         </View>
         <View style={styles.ingredientText}>
           <View style={styles.pill}>
@@ -60,7 +61,7 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
             ))}
             {or_ingredients?.length > 0 &&
               or_ingredients?.map((ingredient, index) => (
-                <>
+                <Text style={styles.orIngredients}>
                   {index === 0 && ' ('}
                   {index !== 0 && ' or '}
                   <Link
@@ -73,7 +74,7 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
                     {ingredient.ingredient.name}
                   </Link>
                   {index === or_ingredients.length - 1 && ')'}
-                </>
+                </Text>
               ))}
           </Text>
 
@@ -235,11 +236,13 @@ const styles = StyleSheet.create({
     marginBottom: 0
   },
   ingredient: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    gap: 15
   },
   ingredientAction: {},
   ingredientText: {
-    flex: 1
+    flex: 1,
+    paddingTop: 2
   },
   pill: {
     borderRadius: 20,
@@ -262,6 +265,7 @@ const styles = StyleSheet.create({
   ingredientTitleLink: {
     color: COLORS.text.link
   },
+  orIngredients: { fontFamily: FONTS.hells.sans.medium, fontSize: 18 },
   ingredientNote: {
     marginTop: 20
   },
