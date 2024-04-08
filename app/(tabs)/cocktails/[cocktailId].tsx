@@ -3,6 +3,7 @@ import { useLocalSearchParams, Stack } from 'expo-router'
 import { useEffect, useState, useCallback } from 'react'
 import { StyleSheet, Text, View, ScrollView } from 'react-native'
 
+import PageContainer from '@/components/PageContainer'
 import RecipeCard from '@/components/RecipeCard'
 import { BodyText, PageTitleText } from '@/components/_elements/Text'
 import { FONTS, COLORS, SIZE } from '@/lib/constants'
@@ -105,22 +106,17 @@ export default function CocktailDetailPage() {
           title: ''
         }}
       />
-      <View style={styles.container}>
+      <PageContainer>
         <View style={styles.header}>
           <PageTitleText>{name}</PageTitleText>
         </View>
         {renderContent()}
-      </View>
+      </PageContainer>
     </ScrollView>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: SIZE.app.paddingY,
-    paddingLeft: SIZE.app.paddingX,
-    paddingRight: SIZE.app.paddingX
-  },
   header: {},
   description: {
     marginTop: 10

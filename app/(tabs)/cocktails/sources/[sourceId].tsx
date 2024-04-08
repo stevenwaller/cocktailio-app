@@ -3,6 +3,7 @@ import { useLocalSearchParams, Stack } from 'expo-router'
 import { useEffect, useState, useCallback } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
+import PageContainer from '@/components/PageContainer'
 import { BodyText, PageTitleText } from '@/components/_elements/Text'
 import { FONTS, COLORS, SIZE } from '@/lib/constants'
 import { TSource } from '@/lib/types/supabase'
@@ -68,26 +69,20 @@ export default function SourceDetailPage() {
           title: ''
         }}
       />
-      <View style={styles.container}>
+      <PageContainer>
         <View style={styles.header}>
           <PageTitleText>{name}</PageTitleText>
         </View>
         {renderContent()}
-      </View>
+      </PageContainer>
     </>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    paddingLeft: SIZE.app.gutter,
-    paddingRight: SIZE.app.gutter
-  },
-  header: {
-    marginTop: SIZE.app.gutter
-  },
+  header: {},
   description: {
-    marginTop: SIZE.app.gutter
+    marginTop: 10
   },
   descriptionText: {
     fontFamily: FONTS.hells.sans.medium,
