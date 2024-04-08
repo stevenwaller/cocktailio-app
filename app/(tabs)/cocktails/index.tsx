@@ -1,7 +1,12 @@
+import BottomSheet, {
+  BottomSheetView,
+  BottomSheetBackdrop,
+  BottomSheetBackdropProps
+} from '@gorhom/bottom-sheet'
 import { PostgrestError } from '@supabase/supabase-js'
 import { Link, Stack } from 'expo-router'
-import { useEffect, useState, useCallback } from 'react'
-import { StyleSheet, ScrollView, Text, View, Pressable } from 'react-native'
+import { useEffect, useState, useCallback, useMemo, useRef } from 'react'
+import { StyleSheet, ScrollView, Text, View, Pressable, Button } from 'react-native'
 
 import CocktailCard from '@/components/CocktailCard'
 import ErrorAlert from '@/components/ErrorAlert'
@@ -19,6 +24,21 @@ export default function CocktailsScreen() {
   const [error, setError] = useState<PostgrestError | null>(null)
   const [count, setCount] = useState<number | null>(0)
   const [currentPage, setCurrentPage] = useState<number>(1)
+  const sheetRef = useRef<BottomSheet>(null)
+
+  // variables
+  const snapPoints = useMemo(() => ['25%', '50%', '90%'], [])
+
+  // callbacks
+  const handleSheetChange = useCallback((index: number) => {
+    console.log('handleSheetChange', index)
+  }, [])
+  const handleSnapPress = useCallback((index: number) => {
+    sheetRef.current?.snapToIndex(index)
+  }, [])
+  const handleClosePress = useCallback(() => {
+    sheetRef.current?.close()
+  }, [])
 
   const fetchData = useCallback(async () => {
     setIsFetching(true)
@@ -84,21 +104,44 @@ export default function CocktailsScreen() {
     return data.map((cocktail) => <CocktailCard key={cocktail.id} cocktail={cocktail} />)
   }
 
+  const renderBackdrop = useCallback(
+    (props: BottomSheetBackdropProps) => (
+      <BottomSheetBackdrop {...props} appearsOnIndex={0} disappearsOnIndex={-1} opacity={0.43} />
+    ),
+    []
+  )
+
   return (
-    <ScrollView>
-      <Link href="/refineModal" asChild>
-        <Pressable>{() => <Text>Refined</Text>}</Pressable>
-      </Link>
-      <Stack.Screen
-        options={{
-          title: 'COCKTAILS'
-        }}
-      />
-      <View style={styles.container}>
-        <ErrorAlert message={error?.message} />
-        {renderContent()}
-      </View>
-    </ScrollView>
+    <>
+      <ScrollView>
+        <Button title="Snap To 90%" onPress={() => handleSnapPress(2)} />
+        <Button title="Snap To 50%" onPress={() => handleSnapPress(1)} />
+        <Button title="Snap To 25%" onPress={() => handleSnapPress(0)} />
+        <Button title="Close" onPress={() => handleClosePress()} />
+        <Link href="/refineModal" asChild>
+          <Pressable>{() => <Text>Refined</Text>}</Pressable>
+        </Link>
+        <Stack.Screen
+          options={{
+            title: 'COCKTAILS'
+          }}
+        />
+        <View style={styles.container}>
+          <ErrorAlert message={error?.message} />
+          {renderContent()}
+        </View>
+      </ScrollView>
+      <BottomSheet
+        ref={sheetRef}
+        onChange={handleSheetChange}
+        snapPoints={snapPoints}
+        backdropComponent={renderBackdrop}
+      >
+        <BottomSheetView style={styles.contentContainer}>
+          <Text>Awesome 🎉</Text>
+        </BottomSheetView>
+      </BottomSheet>
+    </>
   )
 }
 
@@ -107,12 +150,16 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: SIZE.app.gutter
+    padding: SIZE.app.paddingX
   },
   title: {
     fontSize: 20,
     color: COLORS.text.body,
     fontFamily: FONTS.hells.serif.medium,
     fontWeight: 'bold'
+  },
+  contentContainer: {
+    flex: 1,
+    alignItems: 'center'
   }
 })

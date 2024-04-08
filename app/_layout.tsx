@@ -2,6 +2,7 @@ import { useFonts } from 'expo-font'
 import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 import { COLORS } from '@/lib/constants'
 
@@ -65,13 +66,15 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack
-      screenOptions={{
-        contentStyle: { backgroundColor: COLORS.bg.level1 }
-      }}
-    >
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="refineModal" options={{ presentation: 'modal' }} />
-    </Stack>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Stack
+        screenOptions={{
+          contentStyle: { backgroundColor: COLORS.bg.level1 }
+        }}
+      >
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="refineModal" options={{ presentation: 'modal' }} />
+      </Stack>
+    </GestureHandlerRootView>
   )
 }

@@ -1,4 +1,5 @@
 import { Link } from 'expo-router'
+import { Fragment } from 'react'
 import { StyleSheet, Text, View, StyleProp, ViewStyle } from 'react-native'
 
 import Card from '@/components/Card'
@@ -46,7 +47,7 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
           </View>
           <Text style={styles.ingredientTitle}>
             {ingredients?.map((ingredient, index) => (
-              <>
+              <Fragment key={ingredient.id}>
                 {index !== 0 && ' or '}
                 <Link
                   style={styles.ingredientTitleLink}
@@ -57,11 +58,11 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
                 >
                   {ingredient.ingredient.name}
                 </Link>
-              </>
+              </Fragment>
             ))}
             {or_ingredients?.length > 0 &&
               or_ingredients?.map((ingredient, index) => (
-                <Text style={styles.orIngredients}>
+                <Text key={ingredient.id} style={styles.orIngredients}>
                   {index === 0 && ' ('}
                   {index !== 0 && ' or '}
                   <Link
@@ -89,25 +90,21 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
             <View style={styles.ingredientNote}>
               <Text style={styles.ingredientNoteTitle}>RECOMMENDED</Text>
               <Text style={styles.ingredientNoteDescription}>
-                {pref_ingredients?.map((ingredient, index) => {
-                  return (
-                    <>
-                      {index !== 0 && `, `}
-                      {pref_ingredients.length > 1 &&
-                        index === pref_ingredients.length - 1 &&
-                        ' or '}
-                      <Link
-                        style={styles.ingredientTitleLink}
-                        href={{
-                          pathname: `/cocktails/ingredients/${ingredient.ingredient.id}`,
-                          params: { name: ingredient.ingredient.name }
-                        }}
-                      >
-                        {ingredient.ingredient.name}
-                      </Link>
-                    </>
-                  )
-                })}
+                {pref_ingredients?.map((ingredient, index) => (
+                  <Fragment key={ingredient.id}>
+                    {index !== 0 && `, `}
+                    {pref_ingredients.length > 1 && index === pref_ingredients.length - 1 && ' or '}
+                    <Link
+                      style={styles.ingredientTitleLink}
+                      href={{
+                        pathname: `/cocktails/ingredients/${ingredient.ingredient.id}`,
+                        params: { name: ingredient.ingredient.name }
+                      }}
+                    >
+                      {ingredient.ingredient.name}
+                    </Link>
+                  </Fragment>
+                ))}
               </Text>
             </View>
           )}
