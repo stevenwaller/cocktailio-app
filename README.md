@@ -24,6 +24,8 @@ Start the development server.
   - Alternatively press `shift i` to select which iOS simulator to open.
 - Press `a` to run android emulator.
 
+Run `npm run start -c` to clear the cache
+
 ### `npm run ios`
 
 Start the dev server and open the iOS emulator.
