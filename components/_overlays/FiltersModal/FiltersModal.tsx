@@ -32,6 +32,7 @@ const screenOptions: StackNavigationOptions = {
   },
   headerShadowVisible: false,
   headerStatusBarHeight: 0,
+  headerBackTitleVisible: false,
   cardStyle: {
     backgroundColor: COLORS.bg.level3,
     overflow: 'visible'
@@ -40,11 +41,11 @@ const screenOptions: StackNavigationOptions = {
 
 const filtersScreenOptions = { headerLeft: () => null }
 
-interface FilterSheetProps {
+interface FiltersModalProps {
   onChange?: (index: number) => void
 }
 
-const FilterSheet = forwardRef<BottomSheetModal, FilterSheetProps>(({ onChange }, ref) => {
+const FiltersModal = forwardRef<BottomSheetModal, FiltersModalProps>(({ onChange }, ref) => {
   const snapPoints = useMemo(() => ['50%', '90%'], [])
 
   const renderBackdrop = useCallback(
@@ -73,6 +74,6 @@ const FilterSheet = forwardRef<BottomSheetModal, FilterSheetProps>(({ onChange }
   )
 })
 
-FilterSheet.displayName = 'FilterSheet'
+FiltersModal.displayName = 'FiltersModal'
 
-export default FilterSheet
+export default FiltersModal

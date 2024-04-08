@@ -8,7 +8,7 @@ import CocktailCard from '@/components/CocktailCard'
 import ErrorAlert from '@/components/ErrorAlert'
 import PageContainer from '@/components/PageContainer'
 import FilterIcon from '@/components/_icons/Filter'
-import FilterBottomSheetModal from '@/components/_overlays/FilterBottomSheetModal'
+import FiltersModal from '@/components/_overlays/FiltersModal'
 import { COLORS, FONTS, SIZE } from '@/lib/constants'
 import { TCocktail } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
@@ -114,7 +114,7 @@ export default function CocktailsScreen() {
           {renderContent()}
         </PageContainer>
       </ScrollView>
-      <FilterBottomSheetModal ref={sheetRef} />
+      <FiltersModal ref={sheetRef} />
     </>
   )
 }
