@@ -12,7 +12,7 @@ const FiltersScreen = (props: FiltersScreenProps) => {
   return (
     <BottomSheetView style={styles.container}>
       <Pressable onPress={() => navigate('IN STOCK' as never)}>
-        <Text>In Stock</Text>
+        <Text>In Stoooock</Text>
       </Pressable>
     </BottomSheetView>
   )

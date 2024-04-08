@@ -1,4 +1,3 @@
-import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import { PostgrestError } from '@supabase/supabase-js'
 import { Stack } from 'expo-router'
 import { useEffect, useState, useCallback, useRef } from 'react'
@@ -6,9 +5,8 @@ import { StyleSheet, ScrollView, Text, View, Pressable } from 'react-native'
 
 import CocktailCard from '@/components/CocktailCard'
 import ErrorAlert from '@/components/ErrorAlert'
+import FiltersBar from '@/components/FiltersBar'
 import PageContainer from '@/components/PageContainer'
-import FilterIcon from '@/components/_icons/Filter'
-import FiltersModal from '@/components/_overlays/FiltersModal'
 import { COLORS, FONTS, SIZE } from '@/lib/constants'
 import { TCocktail } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
@@ -23,7 +21,6 @@ export default function CocktailsScreen() {
   const [error, setError] = useState<PostgrestError | null>(null)
   const [count, setCount] = useState<number | null>(0)
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const sheetRef = useRef<BottomSheetModal>(null)
 
   const fetchData = useCallback(async () => {
     setIsFetching(true)
@@ -86,22 +83,12 @@ export default function CocktailsScreen() {
       return <Text style={styles.title}>No data</Text>
     }
 
-    return (
-      <>
-        <View style={styles.filters}>
-          <Pressable onPress={() => sheetRef.current?.present()}>
-            <FilterIcon color={COLORS.text.link} />
-          </Pressable>
-        </View>
-        {data.map((cocktail) => (
-          <CocktailCard key={cocktail.id} cocktail={cocktail} />
-        ))}
-      </>
-    )
+    return data.map((cocktail) => <CocktailCard key={cocktail.id} cocktail={cocktail} />)
   }
 
   return (
     <>
+      <FiltersBar />
       <ScrollView>
         <Stack.Screen
           options={{
@@ -109,20 +96,18 @@ export default function CocktailsScreen() {
             headerTitleAlign: 'center'
           }}
         />
-        <PageContainer>
+        <PageContainer style={styles.pageContainer}>
           <ErrorAlert message={error?.message} />
           {renderContent()}
         </PageContainer>
       </ScrollView>
-      <FiltersModal ref={sheetRef} />
     </>
   )
 }
 
 const styles = StyleSheet.create({
-  filters: {
-    flexDirection: 'row',
-    marginBottom: SIZE.app.paddingY
+  pageContainer: {
+    paddingTop: SIZE.marginY
   },
   title: {
     fontSize: 20,
