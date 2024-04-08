@@ -46,11 +46,13 @@ export const COLORS = {
     level1: '#123742',
     level2: '#244653',
     level3: '#2F5462',
-    level4: '#3A6170'
+    level4: '#3A6170',
+    highlight: '#527B89'
   },
   text: {
     body: '#FFFAF0',
-    link: '#F0B59E'
+    link: '#F0B59E',
+    muted: '#A1C4CE'
   },
   shadow: '#000'
 }

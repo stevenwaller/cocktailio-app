@@ -1,30 +1,147 @@
 import { Link } from 'expo-router'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, StyleProp, ViewStyle } from 'react-native'
 
 import Card from '@/components/Card'
 import { BodyText, BodyLinkText } from '@/components/_elements/Text'
 import { FONTS, COLORS } from '@/lib/constants'
-import { TCocktail } from '@/lib/types/supabase'
+import { TCocktail, IComponent } from '@/lib/types/supabase'
 
 interface RecipeCardProps {
+  style: StyleProp<ViewStyle>
   cocktail: TCocktail
 }
 
-const RecipeCard = ({ cocktail, ...restProps }: RecipeCardProps) => {
+const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
   const { steps, components, note, sources } = cocktail
-  const renderIngredients = () => {
-    let returnString = ''
 
-    components.forEach((component, index) => {
-      const isLastComponent = index === components.length - 1
-      component.ingredients.forEach((ingredient) => {
-        returnString += ingredient.ingredient.name
+  const renderIngredients = (component: IComponent) => {
+    if (!component) return null
 
-        if (!isLastComponent) returnString += ' • '
-      })
-    })
+    const {
+      amount,
+      amount_max,
+      measurement,
+      ingredients,
+      or_ingredients,
+      pref_ingredients,
+      note,
+      substitute
+    } = component
 
-    return <Text style={styles.ingredients}>{returnString}</Text>
+    console.log('ingredients', ingredients)
+
+    return (
+      <View style={styles.ingredient}>
+        <View style={styles.ingredientAction}>
+          <Text>Checkbox</Text>
+        </View>
+        <View style={styles.ingredientText}>
+          <View style={styles.pill}>
+            <Text style={styles.pillText}>
+              {amount}
+              {amount_max && ` - ${amount_max}`}
+              {measurement && ` ${measurement.abbreviation}`}
+            </Text>
+          </View>
+          <Text style={styles.ingredientTitle}>
+            {ingredients?.map((ingredient, index) => (
+              <>
+                {index !== 0 && ' or '}
+                <Link
+                  style={styles.ingredientTitleLink}
+                  href={{
+                    pathname: `/cocktails/ingredients/${ingredient.ingredient.id}`,
+                    params: { name: ingredient.ingredient.name }
+                  }}
+                >
+                  {ingredient.ingredient.name}
+                </Link>
+              </>
+            ))}
+            {or_ingredients?.length > 0 &&
+              or_ingredients?.map((ingredient, index) => (
+                <>
+                  {index === 0 && ' ('}
+                  {index !== 0 && ' or '}
+                  <Link
+                    style={styles.ingredientTitleLink}
+                    href={{
+                      pathname: `/cocktails/ingredients/${ingredient.ingredient.id}`,
+                      params: { name: ingredient.ingredient.name }
+                    }}
+                  >
+                    {ingredient.ingredient.name}
+                  </Link>
+                  {index === or_ingredients.length - 1 && ')'}
+                </>
+              ))}
+          </Text>
+
+          {note && (
+            <View style={styles.ingredientNote}>
+              <Text style={styles.ingredientNoteTitle}>NOTE</Text>
+              <Text style={styles.ingredientNoteDescription}>{note}</Text>
+            </View>
+          )}
+
+          {pref_ingredients?.length > 0 && (
+            <View style={styles.ingredientNote}>
+              <Text style={styles.ingredientNoteTitle}>RECOMMENDED</Text>
+              <Text style={styles.ingredientNoteDescription}>
+                {pref_ingredients?.map((ingredient, index) => {
+                  return (
+                    <>
+                      {index !== 0 && `, `}
+                      {pref_ingredients.length > 1 &&
+                        index === pref_ingredients.length - 1 &&
+                        ' or '}
+                      <Link
+                        style={styles.ingredientTitleLink}
+                        href={{
+                          pathname: `/cocktails/ingredients/${ingredient.ingredient.id}`,
+                          params: { name: ingredient.ingredient.name }
+                        }}
+                      >
+                        {ingredient.ingredient.name}
+                      </Link>
+                    </>
+                  )
+                })}
+              </Text>
+            </View>
+          )}
+
+          {substitute && (
+            <View style={styles.ingredientNote}>
+              <Text style={styles.ingredientNoteTitle}>SUBSTITUTE</Text>
+              <Text style={styles.ingredientNoteDescription}>{substitute}</Text>
+            </View>
+          )}
+        </View>
+      </View>
+    )
+  }
+
+  const renderComponents = () => {
+    if (!components || components.length <= 0) return null
+
+    return (
+      <>
+        <Card.Header>
+          <Card.HeaderText>Ingredients</Card.HeaderText>
+        </Card.Header>
+        <Card.Body>
+          {components.map((component, index) => (
+            <View
+              key={component.id}
+              style={[styles.component, index === components.length - 1 && styles.isLastComponent]}
+            >
+              {renderIngredients(component)}
+            </View>
+          ))}
+        </Card.Body>
+      </>
+    )
   }
 
   const renderSteps = () => {
@@ -91,11 +208,8 @@ const RecipeCard = ({ cocktail, ...restProps }: RecipeCardProps) => {
   }
 
   return (
-    <Card {...restProps}>
-      <Card.Header>
-        <Card.HeaderText>Ingredients</Card.HeaderText>
-      </Card.Header>
-      <Card.Body>{renderIngredients()}</Card.Body>
+    <Card style={style} {...restProps}>
+      {renderComponents()}
       {renderSteps()}
       {renderNote()}
       {renderSources()}
@@ -109,10 +223,60 @@ const styles = StyleSheet.create({
     color: COLORS.text.link,
     fontFamily: FONTS.schotis.bold
   },
-  ingredients: {
+  component: {
+    paddingBottom: 20,
+    marginBottom: 20,
+    borderBottomColor: '#153C47',
+    borderBottomWidth: 1
+  },
+  isLastComponent: {
+    paddingBottom: 0,
+    borderBottomWidth: 0,
+    marginBottom: 0
+  },
+  ingredient: {
+    flexDirection: 'row'
+  },
+  ingredientAction: {},
+  ingredientText: {
+    flex: 1
+  },
+  pill: {
+    borderRadius: 20,
+    backgroundColor: COLORS.bg.highlight,
+    alignSelf: 'flex-start',
+    paddingVertical: 2,
+    paddingHorizontal: 10,
+    marginBottom: 5
+  },
+  pillText: {
     fontSize: 14,
+    fontFamily: FONTS.hells.sans.bold,
+    color: 'white'
+  },
+  ingredientTitle: {
+    fontSize: 20,
+    fontFamily: FONTS.hells.sans.bold,
+    color: COLORS.text.body
+  },
+  ingredientTitleLink: {
+    color: COLORS.text.link
+  },
+  ingredientNote: {
+    marginTop: 20
+  },
+  ingredientNoteTitle: {
+    fontSize: 10,
+    letterSpacing: 0.4,
+    fontFamily: FONTS.hells.sans.bold,
+    color: COLORS.text.muted,
+    marginBottom: 3
+  },
+  ingredientNoteDescription: {
+    fontSize: 15,
+    fontFamily: FONTS.hells.sans.medium,
     color: COLORS.text.body,
-    fontFamily: FONTS.hells.sans.medium
+    lineHeight: 18
   },
   step: {
     flexDirection: 'row',

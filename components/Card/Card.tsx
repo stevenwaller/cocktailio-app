@@ -1,15 +1,16 @@
 import { ReactNode } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, StyleProp, ViewStyle } from 'react-native'
 
 import { COLORS, SIZE } from '@/lib/constants'
 
 interface CardProps {
+  style: StyleProp<ViewStyle>
   children: ReactNode
 }
 
-const Card = ({ children, ...restProps }: CardProps) => {
+const Card = ({ children, style, ...restProps }: CardProps) => {
   return (
-    <View style={styles.card} {...restProps}>
+    <View style={[styles.card, style]} {...restProps}>
       {children}
     </View>
   )

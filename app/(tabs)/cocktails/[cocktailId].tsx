@@ -51,6 +51,8 @@ export default function CocktailDetailPage() {
         `
       )
       .eq('id', cocktailId)
+      .order('order', { referencedTable: 'steps' })
+      .order('order', { referencedTable: 'cocktail_components' })
       .returns<TCocktail>()
       .single()
 
@@ -91,7 +93,7 @@ export default function CocktailDetailPage() {
     return (
       <>
         {renderDescription()}
-        <RecipeCard cocktail={cocktail} />
+        <RecipeCard style={styles.recipeCard} cocktail={cocktail} />
       </>
     )
   }
@@ -122,12 +124,14 @@ const styles = StyleSheet.create({
     marginTop: SIZE.app.gutter
   },
   description: {
-    marginTop: SIZE.app.gutter,
-    marginBottom: SIZE.margin.bottom
+    marginTop: SIZE.app.gutter
   },
   descriptionText: {
     fontFamily: FONTS.hells.sans.medium,
     fontSize: 16,
     color: COLORS.text.body
+  },
+  recipeCard: {
+    marginTop: SIZE.margin.bottom
   }
 })

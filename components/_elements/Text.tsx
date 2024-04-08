@@ -9,7 +9,7 @@ export function BodyText({ style, ...restProps }: TextProps) {
         style,
         {
           fontSize: 16,
-          fontFamily: FONTS.hells.serif.medium,
+          fontFamily: FONTS.hells.sans.medium,
           color: COLORS.text.body,
           lineHeight: 21
         }
@@ -26,7 +26,7 @@ export function BodyLinkText({ style, ...restProps }: TextProps) {
         style,
         {
           fontSize: 16,
-          fontFamily: FONTS.hells.serif.medium,
+          fontFamily: FONTS.hells.sans.medium,
           color: COLORS.text.link,
           lineHeight: 21
         }
@@ -45,7 +45,7 @@ export function PageTitleText({ style, ...restProps }: TextProps) {
           fontFamily: FONTS.schotis.bold,
           fontSize: 32,
           color: COLORS.text.body,
-          lineHeight: 42
+          lineHeight: 35
         }
       ]}
       {...restProps}

@@ -8,26 +8,25 @@ export type TCocktail = Tables<'cocktails'> & {
   steps: Tables<'cocktail_steps'>[]
   sources: Tables<'cocktail_sources'> &
     {
+      id: string
       source: Tables<'sources'>
     }[]
-  components: Tables<'cocktail_components'> &
-    {
-      measurement: Tables<'measurements'>
-      ingredients: Tables<'cocktail_component_ingredients'> &
-        {
-          ingredient: Tables<'ingredients'>
-        }[]
-      or_ingredients: Tables<'cocktail_component_or_ingredients'> &
-        {
-          ingredient: Tables<'ingredients'>
-        }[]
-      pref_ingredients: Tables<'cocktail_component_pref_ingredients'> &
-        {
-          ingredient: Tables<'ingredients'>
-        }[]
-    }[]
+  components: IComponent[]
 }
 
-export type TIngredient = Tables<'cocktail_component_ingredients'>
+export type IComponent = Tables<'cocktail_components'> & {
+  id: string
+  measurement: Tables<'measurements'>
+  ingredients: TComponentIngredient[]
+  or_ingredients: TComponentIngredient[]
+  pref_ingredients: TComponentIngredient[]
+}
+
+export type TComponentIngredient = Tables<'cocktail_component_ingredients'> & {
+  id: string
+  ingredient: TIngredient
+}
+
+export type TIngredient = Tables<'ingredients'>
 
 export type TSource = Tables<'sources'>
