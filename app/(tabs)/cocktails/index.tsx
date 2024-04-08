@@ -1,18 +1,14 @@
-import {
-  BottomSheetModal,
-  BottomSheetView,
-  BottomSheetBackdrop,
-  BottomSheetBackdropProps
-} from '@gorhom/bottom-sheet'
+import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import { PostgrestError } from '@supabase/supabase-js'
-import { Link, Stack } from 'expo-router'
-import { useEffect, useState, useCallback, useMemo, useRef } from 'react'
+import { Stack } from 'expo-router'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { StyleSheet, ScrollView, Text, View, Pressable } from 'react-native'
 
 import CocktailCard from '@/components/CocktailCard'
 import ErrorAlert from '@/components/ErrorAlert'
 import PageContainer from '@/components/PageContainer'
 import FilterIcon from '@/components/_icons/Filter'
+import FilterBottomSheetModal from '@/components/_overlays/FilterBottomSheetModal'
 import { COLORS, FONTS, SIZE } from '@/lib/constants'
 import { TCocktail } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
@@ -28,20 +24,6 @@ export default function CocktailsScreen() {
   const [count, setCount] = useState<number | null>(0)
   const [currentPage, setCurrentPage] = useState<number>(1)
   const sheetRef = useRef<BottomSheetModal>(null)
-
-  // variables
-  const snapPoints = useMemo(() => ['25%', '50%', '90%'], [])
-
-  // callbacks
-  const handleSheetChange = useCallback((index: number) => {
-    console.log('handleSheetChange', index)
-  }, [])
-  const handleSnapPress = useCallback((index: number) => {
-    sheetRef.current?.snapToIndex(index)
-  }, [])
-  const handleClosePress = useCallback(() => {
-    sheetRef.current?.close()
-  }, [])
 
   const fetchData = useCallback(async () => {
     setIsFetching(true)
@@ -118,13 +100,6 @@ export default function CocktailsScreen() {
     )
   }
 
-  const renderBackdrop = useCallback(
-    (props: BottomSheetBackdropProps) => (
-      <BottomSheetBackdrop {...props} appearsOnIndex={0} disappearsOnIndex={-1} opacity={0.43} />
-    ),
-    []
-  )
-
   return (
     <>
       <ScrollView>
@@ -138,18 +113,7 @@ export default function CocktailsScreen() {
           {renderContent()}
         </PageContainer>
       </ScrollView>
-      <BottomSheetModal
-        ref={sheetRef}
-        onChange={handleSheetChange}
-        snapPoints={snapPoints}
-        backdropComponent={renderBackdrop}
-        backgroundStyle={{ backgroundColor: COLORS.bg.level3 }}
-        handleIndicatorStyle={{ backgroundColor: COLORS.text.link }}
-      >
-        <BottomSheetView style={styles.contentContainer}>
-          <Text>Awesome 🎉</Text>
-        </BottomSheetView>
-      </BottomSheetModal>
+      <FilterBottomSheetModal ref={sheetRef} />
     </>
   )
 }
@@ -164,9 +128,5 @@ const styles = StyleSheet.create({
     color: COLORS.text.body,
     fontFamily: FONTS.hells.serif.medium,
     fontWeight: 'bold'
-  },
-  contentContainer: {
-    flex: 1,
-    alignItems: 'center'
   }
 })
