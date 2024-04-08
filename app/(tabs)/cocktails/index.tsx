@@ -105,7 +105,8 @@ export default function CocktailsScreen() {
       <ScrollView>
         <Stack.Screen
           options={{
-            title: 'COCKTAILS'
+            title: 'COCKTAILS',
+            headerTitleAlign: 'center'
           }}
         />
         <PageContainer>

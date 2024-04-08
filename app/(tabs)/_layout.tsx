@@ -52,6 +52,7 @@ export default function TabLayout() {
         name="barStock"
         options={{
           title: 'Bar Stock',
+          headerTitleAlign: 'center',
           tabBarIcon: ({ color }) => <BarStockIcon color={color} />
         }}
       />

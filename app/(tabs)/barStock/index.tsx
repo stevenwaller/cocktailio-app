@@ -1,3 +1,4 @@
+import { Stack } from 'expo-router'
 import { StyleSheet, ScrollView, Text, View } from 'react-native'
 
 import { FONTS, COLORS } from '@/lib/constants'
@@ -5,6 +6,12 @@ import { FONTS, COLORS } from '@/lib/constants'
 export default function BarStockScreen() {
   return (
     <ScrollView>
+      <Stack.Screen
+        options={{
+          title: 'BAR STOCK',
+          headerTitleAlign: 'center'
+        }}
+      />
       <View style={styles.container}>
         <Text style={{ fontSize: 20, color: COLORS.text.body, fontFamily: FONTS.schotis.black }}>
           SchotisBlack
