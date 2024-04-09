@@ -55,6 +55,21 @@ const FiltersModal = forwardRef<BottomSheetModal, FiltersModalProps>(({ onChange
     []
   )
 
+  const renderScreens = (screenName: string) => {
+    if (screenName === 'FILTERS') {
+      return (
+        <>
+          <Stack.Screen name="FILTERS" options={filtersScreenOptions} component={FiltersScreen} />
+          <Stack.Screen name="IN STOCK" component={InStockScreen} />
+        </>
+      )
+    }
+
+    if (screenName === 'IN STOCK') {
+      return <Stack.Screen name="IN STOCK" component={InStockScreen} />
+    }
+  }
+
   return (
     <BottomSheetModal
       ref={ref}
@@ -64,12 +79,17 @@ const FiltersModal = forwardRef<BottomSheetModal, FiltersModalProps>(({ onChange
       backgroundStyle={{ backgroundColor: COLORS.nav.bg }}
       handleIndicatorStyle={{ backgroundColor: COLORS.text.link }}
     >
-      <NavigationContainer independent>
-        <Stack.Navigator screenOptions={screenOptions}>
-          <Stack.Screen name="FILTERS" options={filtersScreenOptions} component={FiltersScreen} />
-          <Stack.Screen name="IN STOCK" component={InStockScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      {(data) => {
+        const screenName = data?.data
+
+        return (
+          <NavigationContainer independent>
+            <Stack.Navigator screenOptions={screenOptions}>
+              {renderScreens(screenName)}
+            </Stack.Navigator>
+          </NavigationContainer>
+        )
+      }}
     </BottomSheetModal>
   )
 })

@@ -1,8 +1,10 @@
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import { useRef } from 'react'
-import { StyleSheet, ScrollView, Text, View, Pressable } from 'react-native'
+import { StyleSheet, ScrollView, View, Pressable } from 'react-native'
 
+import ChevronDown from '@/components/_icons/ChevronDown'
 import FilterIcon from '@/components/_icons/Filter'
+import Button from '@/components/_inputs/Button'
 import FiltersModal from '@/components/_overlays/FiltersModal'
 import { COLORS, FONTS, SIZE } from '@/lib/constants'
 
@@ -15,9 +17,14 @@ const FiltersBar = ({}: FiltersBarProps) => {
     <>
       <ScrollView style={styles.scrollView} horizontal showsHorizontalScrollIndicator={false}>
         <View style={styles.filters}>
-          <Pressable onPress={() => sheetRef.current?.present()}>
-            <FilterIcon color={COLORS.text.link} />
+          <Pressable style={styles.iconBtn} onPress={() => sheetRef.current?.present('FILTERS')}>
+            <FilterIcon color={COLORS.text.action} />
           </Pressable>
+          <Button
+            label="In Stock"
+            onPress={() => sheetRef.current?.present('IN STOCK')}
+            slotRight={<ChevronDown color={COLORS.text.dark} />}
+          />
         </View>
       </ScrollView>
       <FiltersModal ref={sheetRef} />
@@ -35,6 +42,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  iconBtn: {
+    marginRight: 15
   },
   title: {
     fontSize: 20,

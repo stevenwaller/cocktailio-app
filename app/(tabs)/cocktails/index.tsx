@@ -1,7 +1,7 @@
 import { PostgrestError } from '@supabase/supabase-js'
 import { Stack } from 'expo-router'
-import { useEffect, useState, useCallback, useRef } from 'react'
-import { StyleSheet, ScrollView, Text, View, Pressable } from 'react-native'
+import { useEffect, useState, useCallback } from 'react'
+import { StyleSheet, ScrollView, Text } from 'react-native'
 
 import CocktailCard from '@/components/CocktailCard'
 import ErrorAlert from '@/components/ErrorAlert'
@@ -61,8 +61,6 @@ export default function CocktailsScreen() {
       .order('name')
       .range(minRange, maxRange)
       .returns<TCocktail[]>()
-
-    console.log('response', response)
 
     setIsFetching(false)
     setData(response.data)

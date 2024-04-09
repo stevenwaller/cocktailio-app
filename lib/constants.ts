@@ -47,12 +47,15 @@ export const COLORS = {
     level2: '#244653',
     level3: '#2F5462',
     level4: '#3A6170',
-    highlight: '#527B89'
+    highlight: '#527B89',
+    action: '#E28C67'
   },
   text: {
     body: '#FFFAF0',
     link: '#F0B59E',
-    muted: '#A1C4CE'
+    muted: '#A1C4CE',
+    dark: '#123742',
+    action: '#E28C67'
   },
   shadow: '#000'
 }
