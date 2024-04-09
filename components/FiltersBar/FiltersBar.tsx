@@ -25,7 +25,7 @@ const FiltersBar = ({ filters, onChange }: FiltersBarProps) => {
   }
 
   return (
-    <>
+    <View>
       <ScrollView style={styles.scrollView} horizontal showsHorizontalScrollIndicator={false}>
         <View style={styles.filters}>
           <Pressable style={styles.iconBtn} hitSlop={15} onPress={() => handleFilterPress()}>
@@ -45,7 +45,7 @@ const FiltersBar = ({ filters, onChange }: FiltersBarProps) => {
       <StackNavModal ref={modalRef}>
         <FilterNav currentFilterIndex={currentFilterIndex} filters={filters} onChange={onChange} />
       </StackNavModal>
-    </>
+    </View>
   )
 }
 

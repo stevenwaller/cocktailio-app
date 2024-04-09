@@ -63,7 +63,13 @@ const FilterNav = ({ currentFilterIndex, filters, onChange }: FilterNavProps) =>
             )}
           </Stack.Screen>
           <Stack.Screen name="BASE SPIRIT">
-            {(props) => <BaseSpiritScreen {...props} onChange={onChange} />}
+            {(props) => (
+              <BaseSpiritScreen
+                {...props}
+                filter={filters.find((item) => item.name === 'Base Spirit')}
+                onChange={onChange}
+              />
+            )}
           </Stack.Screen>
         </>
       )

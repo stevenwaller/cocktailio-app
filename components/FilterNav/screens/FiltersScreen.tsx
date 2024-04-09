@@ -1,6 +1,6 @@
 import { BottomSheetView } from '@gorhom/bottom-sheet'
 import { useNavigation } from '@react-navigation/native'
-import { StyleSheet, Pressable, Text } from 'react-native'
+import { StyleSheet, Pressable, Text, View } from 'react-native'
 
 import ChevronRight from '@/components/_icons/ChevronRight'
 import { COLORS, FONTS } from '@/lib/constants'
@@ -21,8 +21,15 @@ const FiltersScreen = ({ filters }: IFiltersScreen) => {
           style={styles.filter}
           onPress={() => navigate(filter.screen as never)}
         >
-          <Text style={styles.filterText}>{filter.name}</Text>
-          <ChevronRight style={styles.filterIcon} color={COLORS.text.link} />
+          <Text style={styles.filterName}>{filter.name}</Text>
+          <View>
+            {filter.value.map((value) => (
+              <Text key={value} style={styles.filterValue}>
+                {value}
+              </Text>
+            ))}
+            <ChevronRight style={styles.filterIcon} color={COLORS.text.link} />
+          </View>
         </Pressable>
       ))}
     </BottomSheetView>
@@ -42,8 +49,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 15
   },
-  filterText: {
+  filterName: {
     fontSize: 18,
+    color: COLORS.text.body,
+    fontFamily: FONTS.hells.sans.medium
+  },
+  filterValue: {
+    fontSize: 10,
     color: COLORS.text.body,
     fontFamily: FONTS.hells.sans.medium
   },

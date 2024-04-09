@@ -1,7 +1,7 @@
 import { PostgrestError } from '@supabase/supabase-js'
 import { Stack } from 'expo-router'
 import { useEffect, useState, useCallback } from 'react'
-import { StyleSheet, ScrollView, Text } from 'react-native'
+import { StyleSheet, ScrollView, Text, View } from 'react-native'
 
 import CocktailCard from '@/components/CocktailCard'
 import ErrorAlert from '@/components/ErrorAlert'
@@ -28,12 +28,14 @@ export default function CocktailsScreen() {
       index: 0,
       name: 'In Bar Stock',
       screen: 'IN BAR STOCK',
+      key: 'in_bar_stock',
       value: []
     },
     {
       index: 1,
       name: 'Base Spirit',
       screen: 'BASE SPIRIT',
+      key: 'base_ingredient',
       value: []
     }
     // {
@@ -59,9 +61,10 @@ export default function CocktailsScreen() {
   ])
 
   const fetchData = useCallback(async () => {
+    console.log('fetchData')
     setIsFetching(true)
 
-    const response = await supabaseClient
+    let query = supabaseClient
       .from('cocktails')
       .select(
         `
@@ -98,11 +101,22 @@ export default function CocktailsScreen() {
       .range(minRange, maxRange)
       .returns<TCocktail[]>()
 
+    filters.forEach((filter) => {
+      if (filter.name === 'Base Spirit' && filter.value.length > 0) {
+        // @ts-expect-error
+        query = query.in('base_ingredient_id', filter.value)
+      }
+    })
+
+    const response = await query
+
+    console.log('response', response)
+
     setIsFetching(false)
     setData(response.data)
     setError(response.error)
     setCount(response.count)
-  }, [minRange, maxRange])
+  }, [minRange, maxRange, filters])
 
   useEffect(() => {
     fetchData()
@@ -122,15 +136,15 @@ export default function CocktailsScreen() {
       return <Text style={styles.title}>Loading...</Text>
     }
 
-    if (!data) {
-      return <Text style={styles.title}>No data</Text>
+    if (!data || data.length === 0) {
+      return <Text style={styles.title}>No data found</Text>
     }
 
     return data.map((cocktail) => <CocktailCard key={cocktail.id} cocktail={cocktail} />)
   }
 
   return (
-    <>
+    <View>
       <FiltersBar filters={filters} onChange={handleFilterChange} />
       <ScrollView>
         <Stack.Screen
@@ -144,7 +158,7 @@ export default function CocktailsScreen() {
           {renderContent()}
         </PageContainer>
       </ScrollView>
-    </>
+    </View>
   )
 }
 
