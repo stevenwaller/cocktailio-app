@@ -13,7 +13,7 @@ interface IStackNavModalProps {
 }
 
 const StackNavModal = forwardRef<BottomSheetModal, IStackNavModalProps>(({ children }, ref) => {
-  const snapPoints = useMemo(() => ['50%', '90%'], [])
+  const snapPoints = useMemo(() => ['50%'], [])
 
   const renderBackdrop = useCallback(
     (props: BottomSheetBackdropProps) => (

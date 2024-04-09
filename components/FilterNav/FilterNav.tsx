@@ -12,7 +12,7 @@ import { COLORS, FONTS } from '@/lib/constants'
 import { IFilter } from '@/lib/types'
 
 interface FilterNavProps {
-  currentFilterName?: string
+  currentFilterIndex?: number
   filters: IFilter[]
   onChange: (filter: IFilter) => void
 }
@@ -42,16 +42,25 @@ const screenOptions: StackNavigationOptions = {
 
 const filtersScreenOptions = { headerLeft: () => null }
 
-const FilterNav = ({ currentFilterName, filters, onChange }: FilterNavProps) => {
+const FilterNav = ({ currentFilterIndex, filters, onChange }: FilterNavProps) => {
+  const currentFilter = currentFilterIndex !== undefined ? filters[currentFilterIndex] : undefined
+
+  // TODO: render the screens dynamically instead of hard coding them
   const renderScreens = () => {
-    if (currentFilterName === 'Filters') {
+    if (currentFilter === undefined) {
       return (
         <>
           <Stack.Screen name="FILTERS" options={filtersScreenOptions}>
             {(props) => <FiltersScreen {...props} filters={filters} />}
           </Stack.Screen>
           <Stack.Screen name="IN BAR STOCK">
-            {(props) => <InBarStockScreen {...props} onChange={onChange} />}
+            {(props) => (
+              <InBarStockScreen
+                {...props}
+                filter={filters.find((item) => item.name === 'In Bar Stock')}
+                onChange={onChange}
+              />
+            )}
           </Stack.Screen>
           <Stack.Screen name="BASE SPIRIT">
             {(props) => <BaseSpiritScreen {...props} onChange={onChange} />}
@@ -60,18 +69,18 @@ const FilterNav = ({ currentFilterName, filters, onChange }: FilterNavProps) => 
       )
     }
 
-    if (currentFilterName === 'In Bar Stock') {
+    if (currentFilter?.name === 'In Bar Stock') {
       return (
         <Stack.Screen name="IN BAR STOCK">
-          {(props) => <InBarStockScreen {...props} onChange={onChange} />}
+          {(props) => <InBarStockScreen {...props} filter={currentFilter} onChange={onChange} />}
         </Stack.Screen>
       )
     }
 
-    if (currentFilterName === 'Base Spirit') {
+    if (currentFilter?.name === 'Base Spirit') {
       return (
         <Stack.Screen name="BASE SPIRIT">
-          {(props) => <BaseSpiritScreen {...props} onChange={onChange} />}
+          {(props) => <BaseSpiritScreen {...props} filter={currentFilter} onChange={onChange} />}
         </Stack.Screen>
       )
     }

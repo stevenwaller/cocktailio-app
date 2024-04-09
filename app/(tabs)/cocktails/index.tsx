@@ -22,13 +22,16 @@ export default function CocktailsScreen() {
   const [error, setError] = useState<PostgrestError | null>(null)
   const [count, setCount] = useState<number | null>(0)
   const [currentPage, setCurrentPage] = useState<number>(1)
+  // TODO: use enum for consistent names
   const [filters, setFilters] = useState<IFilter[]>([
     {
+      index: 0,
       name: 'In Bar Stock',
       screen: 'IN BAR STOCK',
       value: []
     },
     {
+      index: 1,
       name: 'Base Spirit',
       screen: 'BASE SPIRIT',
       value: []
@@ -107,6 +110,11 @@ export default function CocktailsScreen() {
 
   const handleFilterChange = (filter: IFilter) => {
     console.log('filter changed', filter)
+
+    const newFilters = [...filters]
+    newFilters[filter.index] = filter
+
+    setFilters(newFilters)
   }
 
   const renderContent = () => {

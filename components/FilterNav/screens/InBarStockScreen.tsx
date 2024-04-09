@@ -3,7 +3,8 @@ import { Text } from 'react-native'
 import { IFilter } from '@/lib/types'
 
 interface InBarStockScreenProps {
-  onChange: (filter: IFilter) => void
+  filter?: IFilter
+  onChange: (filterName: IFilter) => void
 }
 
 const InBarStockScreen = (props: InBarStockScreenProps) => {

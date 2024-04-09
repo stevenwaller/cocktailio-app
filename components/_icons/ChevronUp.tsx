@@ -2,7 +2,7 @@ import * as React from 'react'
 import Svg, { SvgProps, Path } from 'react-native-svg'
 
 const SvgComponent = ({ color, ...props }: SvgProps) => (
-  <Svg width={19} height={19} {...props}>
+  <Svg width={19} height={19} viewBox="0 0 19 19" {...props}>
     <Path
       fill={color}
       fillRule="nonzero"

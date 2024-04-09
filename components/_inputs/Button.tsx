@@ -35,20 +35,24 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: COLORS.bg.action,
     flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: SIZE.border.radius,
-    paddingVertical: 5,
-    paddingHorizontal: 10
+    paddingVertical: 7,
+    paddingHorizontal: 11
   },
   label: {
     fontFamily: FONTS.hells.sans.medium,
-    fontSize: 16,
+    fontSize: 14,
     color: COLORS.text.dark
   },
   slotLeft: {
-    marginRight: 5
+    marginRight: 3,
+    marginLeft: -3
   },
   slotRight: {
-    marginLeft: 5
+    marginLeft: 3,
+    marginRight: -3
   }
 })
 

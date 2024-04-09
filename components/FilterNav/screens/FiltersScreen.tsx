@@ -13,11 +13,8 @@ interface IFiltersScreen {
 const FiltersScreen = ({ filters }: IFiltersScreen) => {
   const { navigate } = useNavigation()
 
-  console.log('filters', filters)
-
   return (
     <BottomSheetView style={styles.container}>
-      <Text>Filters</Text>
       {filters.map((filter) => (
         <Pressable
           key={filter.name}

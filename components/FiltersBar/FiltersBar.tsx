@@ -16,11 +16,11 @@ interface FiltersBarProps {
 }
 
 const FiltersBar = ({ filters, onChange }: FiltersBarProps) => {
-  const [currentFilterName, setCurrentFilterName] = useState<string>()
+  const [currentFilterIndex, setCurrentFilterIndex] = useState<number>()
   const modalRef = useRef<BottomSheetModal>(null)
 
-  const handleFilterPress = (filterName: string) => {
-    setCurrentFilterName(filterName)
+  const handleFilterPress = (filterIndex?: number) => {
+    setCurrentFilterIndex(filterIndex)
     modalRef.current?.present()
   }
 
@@ -28,11 +28,7 @@ const FiltersBar = ({ filters, onChange }: FiltersBarProps) => {
     <>
       <ScrollView style={styles.scrollView} horizontal showsHorizontalScrollIndicator={false}>
         <View style={styles.filters}>
-          <Pressable
-            style={styles.iconBtn}
-            hitSlop={15}
-            onPress={() => handleFilterPress('Filters')}
-          >
+          <Pressable style={styles.iconBtn} hitSlop={15} onPress={() => handleFilterPress()}>
             <FilterIcon color={COLORS.text.action} />
           </Pressable>
           {filters.map((filter) => (
@@ -40,14 +36,14 @@ const FiltersBar = ({ filters, onChange }: FiltersBarProps) => {
               key={filter.name}
               style={styles.button}
               label={filter.name}
-              onPress={() => handleFilterPress(filter.name)}
-              slotRight={<ChevronDown color={COLORS.text.dark} />}
+              onPress={() => handleFilterPress(filter.index)}
+              slotRight={<ChevronDown color={COLORS.text.dark} width={15} height={15} />}
             />
           ))}
         </View>
       </ScrollView>
       <StackNavModal ref={modalRef}>
-        <FilterNav currentFilterName={currentFilterName} filters={filters} onChange={onChange} />
+        <FilterNav currentFilterIndex={currentFilterIndex} filters={filters} onChange={onChange} />
       </StackNavModal>
     </>
   )
@@ -56,7 +52,7 @@ const FiltersBar = ({ filters, onChange }: FiltersBarProps) => {
 const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: COLORS.bg.level2,
-    height: 56,
+    height: 54,
     paddingHorizontal: SIZE.app.paddingX
   },
   filters: {
