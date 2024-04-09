@@ -22,12 +22,12 @@ const FiltersScreen = ({ filters }: IFiltersScreen) => {
           onPress={() => navigate(filter.screen as never)}
         >
           <Text style={styles.filterName}>{filter.name}</Text>
-          <View>
-            {filter.value.map((value) => (
-              <Text key={value} style={styles.filterValue}>
-                {value}
-              </Text>
-            ))}
+          <View style={styles.filterRight}>
+            <Text style={styles.filterValue}>
+              {filter.value.map((value, index) => {
+                return `${index !== 0 ? ', ' : ''}${value.name}`
+              })}
+            </Text>
             <ChevronRight style={styles.filterIcon} color={COLORS.text.link} />
           </View>
         </Pressable>
@@ -54,8 +54,12 @@ const styles = StyleSheet.create({
     color: COLORS.text.body,
     fontFamily: FONTS.hells.sans.medium
   },
+  filterRight: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
   filterValue: {
-    fontSize: 10,
+    fontSize: 12,
     color: COLORS.text.body,
     fontFamily: FONTS.hells.sans.medium
   },

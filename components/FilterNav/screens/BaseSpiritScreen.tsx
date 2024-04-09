@@ -23,10 +23,10 @@ const BaseSpiritScreen = ({ filter, onChange }: BaseSpiritScreenProps) => {
 
     const newFilter = { ...filter }
 
-    if (newFilter.value.includes(ingredient.id)) {
-      newFilter.value = newFilter.value.filter((id) => id !== ingredient.id)
+    if (newFilter.value.some((item) => item.id === ingredient.id)) {
+      newFilter.value = newFilter.value.filter((item) => item.id !== ingredient.id)
     } else {
-      newFilter.value.push(ingredient.id)
+      newFilter.value.push({ id: ingredient.id, name: ingredient.name })
     }
 
     onChange(newFilter)
@@ -43,7 +43,7 @@ const BaseSpiritScreen = ({ filter, onChange }: BaseSpiritScreenProps) => {
       {data.map((ingredient) => (
         <View key={ingredient.id} style={styles.ingredient}>
           <AddInput
-            checked={filter?.value.includes(ingredient.id)}
+            checked={filter?.value.some((item) => item.id === ingredient.id)}
             onPress={() => handleIngredientPress(ingredient)}
           />
           <Text style={styles.ingredientText}>{ingredient.name}</Text>

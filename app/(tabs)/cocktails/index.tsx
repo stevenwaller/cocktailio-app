@@ -104,7 +104,10 @@ export default function CocktailsScreen() {
     filters.forEach((filter) => {
       if (filter.name === 'Base Spirit' && filter.value.length > 0) {
         // @ts-expect-error
-        query = query.in('base_ingredient_id', filter.value)
+        query = query.in(
+          'base_ingredient_id',
+          filter.value.map((item) => item.id)
+        )
       }
     })
 

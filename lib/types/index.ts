@@ -3,5 +3,8 @@ export interface IFilter {
   name: string
   screen: string
   key: string
-  value: string[]
+  value: {
+    id: string
+    name: string
+  }[]
 }
