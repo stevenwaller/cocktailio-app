@@ -8,6 +8,7 @@ import ErrorAlert from '@/components/ErrorAlert'
 import FiltersBar from '@/components/FiltersBar'
 import PageContainer from '@/components/PageContainer'
 import { COLORS, FONTS, SIZE } from '@/lib/constants'
+import { IFilter } from '@/lib/types'
 import { TCocktail } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
@@ -21,6 +22,38 @@ export default function CocktailsScreen() {
   const [error, setError] = useState<PostgrestError | null>(null)
   const [count, setCount] = useState<number | null>(0)
   const [currentPage, setCurrentPage] = useState<number>(1)
+  const [filters, setFilters] = useState<IFilter[]>([
+    {
+      name: 'In Bar Stock',
+      screen: 'IN BAR STOCK',
+      value: []
+    },
+    {
+      name: 'Base Spirit',
+      screen: 'BASE SPIRIT',
+      value: []
+    }
+    // {
+    //   name: 'Ingredients',
+    //   screen: 'INGREDIENTS',
+    //   value: []
+    // },
+    // {
+    //   name: 'Sources',
+    //   screen: 'SOURCES',
+    //   value: []
+    // },
+    // {
+    //   name: 'Collections',
+    //   screen: 'COLLECTIONS',
+    //   value: []
+    // },
+    // {
+    //   name: 'Method',
+    //   screen: 'METHOD',
+    //   value: []
+    // }
+  ])
 
   const fetchData = useCallback(async () => {
     setIsFetching(true)
@@ -72,6 +105,10 @@ export default function CocktailsScreen() {
     fetchData()
   }, [fetchData])
 
+  const handleFilterChange = (filter: IFilter) => {
+    console.log('filter changed', filter)
+  }
+
   const renderContent = () => {
     if (isFetching) {
       return <Text style={styles.title}>Loading...</Text>
@@ -86,7 +123,7 @@ export default function CocktailsScreen() {
 
   return (
     <>
-      <FiltersBar />
+      <FiltersBar filters={filters} onChange={handleFilterChange} />
       <ScrollView>
         <Stack.Screen
           options={{

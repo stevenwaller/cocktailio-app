@@ -6,7 +6,7 @@ const SvgComponent = ({ color, ...props }: SvgProps) => (
     <Path
       fill={color}
       fillRule="nonzero"
-      d="m8.688 9.89-4.54-4.538L3 6.5 9.5 13 16 6.5l-1.148-1.148-4.54 4.539-.812.77z"
+      d="m8.688 10.89-4.54-4.538L3 7.5 9.5 14 16 7.5l-1.148-1.148-4.54 4.539-.812.77z"
     />
   </Svg>
 )

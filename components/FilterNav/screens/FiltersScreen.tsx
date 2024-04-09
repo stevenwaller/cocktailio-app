@@ -3,50 +3,29 @@ import { useNavigation } from '@react-navigation/native'
 import { StyleSheet, Pressable, Text } from 'react-native'
 
 import ChevronRight from '@/components/_icons/ChevronRight'
-import { COLORS, FONTS, SIZE } from '@/lib/constants'
+import { COLORS, FONTS } from '@/lib/constants'
+import { IFilter } from '@/lib/types'
 
-const filterScreens = [
-  {
-    name: 'In Stock',
-    screen: 'IN STOCK'
-  },
-  {
-    name: 'Base Spirit',
-    screen: 'BASE SPIRIT'
-  },
-  {
-    name: 'Ingredients',
-    screen: 'INGREDIENTS'
-  },
-  {
-    name: 'Sources',
-    screen: 'SOURCES'
-  },
-  {
-    name: 'Collections',
-    screen: 'COLLECTIONS'
-  },
-  {
-    name: 'Method',
-    screen: 'METHOD'
-  }
-]
+interface IFiltersScreen {
+  filters: IFilter[]
+}
 
-interface FiltersScreenProps {}
-
-const FiltersScreen = (props: FiltersScreenProps) => {
+const FiltersScreen = ({ filters }: IFiltersScreen) => {
   const { navigate } = useNavigation()
+
+  console.log('filters', filters)
 
   return (
     <BottomSheetView style={styles.container}>
-      {filterScreens.map((item) => (
+      <Text>Filters</Text>
+      {filters.map((filter) => (
         <Pressable
-          key={item.name}
-          style={styles.item}
-          onPress={() => navigate(item.screen as never)}
+          key={filter.name}
+          style={styles.filter}
+          onPress={() => navigate(filter.screen as never)}
         >
-          <Text style={styles.itemText}>{item.name}</Text>
-          <ChevronRight style={styles.itemIcon} color={COLORS.text.link} />
+          <Text style={styles.filterText}>{filter.name}</Text>
+          <ChevronRight style={styles.filterIcon} color={COLORS.text.link} />
         </Pressable>
       ))}
     </BottomSheetView>
@@ -61,17 +40,17 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     paddingLeft: 20
   },
-  item: {
+  filter: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 15
   },
-  itemText: {
+  filterText: {
     fontSize: 18,
     color: COLORS.text.body,
     fontFamily: FONTS.hells.sans.medium
   },
-  itemIcon: {}
+  filterIcon: {}
 })
 
 FiltersScreen.displayName = 'FiltersScreen'
