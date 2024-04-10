@@ -5,13 +5,15 @@ export type TCocktail = Tables<'cocktails'> & {
   glass: Tables<'glasses'>
   era: Tables<'eras'>
   method: Tables<'methods'>
-  steps: Tables<'cocktail_steps'>[]
-  sources: Tables<'cocktail_sources'> &
-    {
-      id: string
-      source: Tables<'sources'>
-    }[]
-  components: IComponent[]
+  steps: Tables<'cocktail_steps'>[] | null
+  sources:
+    | (Tables<'cocktail_sources'> &
+        {
+          id: string
+          source: Tables<'sources'>
+        }[])
+    | null
+  components: IComponent[] | null
 }
 
 export type IComponent = Tables<'cocktail_components'> & {

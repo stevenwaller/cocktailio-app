@@ -64,54 +64,44 @@ export default function CocktailsScreen() {
     console.log('fetchData')
     setIsFetching(true)
 
-    let query = supabaseClient
-      .from('cocktails')
-      .select(
-        `
-        *,
-        base_ingredient:ingredients(*),
-        glass:glasses(*),
-        era:eras(*),
-        method:methods(*),
-        steps:cocktail_steps(*),
-        sources:cocktail_sources(
-          *,
-          source:sources(*)
-        ),
-        components:cocktail_components(
-          *,
-          measurement:measurements(*),
-          ingredients:cocktail_component_ingredients(
-            *,
-            ingredient:ingredients(*)
-          ),
-          or_ingredients:cocktail_component_or_ingredients(
-            *,
-            ingredient:ingredients(*)
-          ),
-          pref_ingredients:cocktail_component_pref_ingredients(
-            *,
-            ingredient:ingredients(*)
-          )
-        )
-        `,
-        { count: 'exact' }
-      )
-      .order('name')
-      .range(minRange, maxRange)
-      .returns<TCocktail[]>()
+    // const response = await supabaseClient
+    //   .from('cocktails')
+    //   .select(
+    //     `
+    //     *,
+    //     base_ingredient:ingredients(*),
+    //     glass:glasses(*),
+    //     era:eras(*),
+    //     method:methods(*),
+    //     steps:cocktail_steps(*),
+    //     sources:cocktail_sources(
+    //       *,
+    //       source:sources(*)
+    //     ),
+    //     components:cocktail_components(
+    //       *,
+    //       measurement:measurements(*),
+    //       ingredients:cocktail_component_ingredients(
+    //         *,
+    //         ingredient:ingredients(*)
+    //       ),
+    //       or_ingredients:cocktail_component_or_ingredients(
+    //         *,
+    //         ingredient:ingredients(*)
+    //       ),
+    //       pref_ingredients:cocktail_component_pref_ingredients(
+    //         *,
+    //         ingredient:ingredients(*)
+    //       )
+    //     )
+    //     `,
+    //     { count: 'exact' }
+    //   )
+    //   .order('name')
+    //   .range(minRange, maxRange)
+    //   .returns<TCocktail[]>()
 
-    filters.forEach((filter) => {
-      if (filter.name === 'Base Spirit' && filter.value.length > 0) {
-        // @ts-expect-error
-        query = query.in(
-          'base_ingredient_id',
-          filter.value.map((item) => item.id)
-        )
-      }
-    })
-
-    const response = await query
+    const response = await supabaseClient.rpc('query_cocktails').returns<TCocktail[]>()
 
     console.log('response', response)
 

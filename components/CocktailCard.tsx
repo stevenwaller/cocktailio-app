@@ -12,7 +12,11 @@ interface CocktailCardProps {
 const renderIngredients = (cocktail: TCocktail) => {
   let returnString = ''
 
+  if (!cocktail.components) return null
+
   cocktail.components.forEach((component, index) => {
+    if (!cocktail.components) return null
+
     const isLastComponent = index === cocktail.components.length - 1
     component.ingredients.forEach((ingredient) => {
       returnString += ingredient.ingredient.name
