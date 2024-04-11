@@ -7,14 +7,14 @@ export default function Layout() {
     <Stack
       screenOptions={{
         headerStyle: {
-          backgroundColor: COLORS.nav.bg
+          backgroundColor: COLORS.nav.bg,
         },
         headerTintColor: COLORS.nav.text,
         headerTitleStyle: {
-          fontFamily: FONTS.schotis.black
+          fontFamily: FONTS.schotis.black,
         },
         contentStyle: { backgroundColor: COLORS.bg.level1 },
-        headerBackTitleVisible: false
+        headerBackTitleVisible: false,
       }}
     />
   )

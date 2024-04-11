@@ -15,7 +15,7 @@ const CardHeaderText = forwardRef<Text, CardHeaderTextProps>(
         {children}
       </Text>
     )
-  }
+  },
 )
 
 const styles = StyleSheet.create({
@@ -23,11 +23,11 @@ const styles = StyleSheet.create({
     width: '100%',
     fontSize: 20,
     color: COLORS.text.body,
-    fontFamily: FONTS.schotis.bold
+    fontFamily: FONTS.schotis.bold,
   },
   isLink: {
-    color: COLORS.text.link
-  }
+    color: COLORS.text.link,
+  },
 })
 
 CardHeaderText.displayName = 'CardHeaderText'

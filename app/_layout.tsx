@@ -9,12 +9,12 @@ import { COLORS } from '@/lib/constants'
 
 export {
   // Catch any errors thrown by the Layout component.
-  ErrorBoundary
+  ErrorBoundary,
 } from 'expo-router'
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)'
+  initialRouteName: '(tabs)',
 }
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -48,7 +48,7 @@ export default function RootLayout() {
     HellsSerifLight: require('../assets/fonts/hellschreiber-serif/HellschreiberSerif-Light.ttf'),
     HellsSerifLightItalic: require('../assets/fonts/hellschreiber-serif/HellschreiberSerif-LightItalic.otf'),
     HellsSerifMedium: require('../assets/fonts/hellschreiber-serif/HellschreiberSerif-Medium.ttf'),
-    HellsSerifMediumItalic: require('../assets/fonts/hellschreiber-serif/HellschreiberSerif-MediumItalic.otf')
+    HellsSerifMediumItalic: require('../assets/fonts/hellschreiber-serif/HellschreiberSerif-MediumItalic.otf'),
   })
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
@@ -71,7 +71,7 @@ export default function RootLayout() {
       <BottomSheetModalProvider>
         <Stack
           screenOptions={{
-            contentStyle: { backgroundColor: COLORS.bg.level1 }
+            contentStyle: { backgroundColor: COLORS.bg.level1 },
           }}
         >
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

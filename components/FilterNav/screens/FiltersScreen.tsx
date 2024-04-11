@@ -42,28 +42,28 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingRight: 15,
     paddingBottom: 20,
-    paddingLeft: 20
+    paddingLeft: 20,
   },
   filter: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 15
+    marginBottom: 15,
   },
   filterName: {
     fontSize: 18,
     color: COLORS.text.body,
-    fontFamily: FONTS.hells.sans.medium
+    fontFamily: FONTS.hells.sans.medium,
   },
   filterRight: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   filterValue: {
     fontSize: 12,
     color: COLORS.text.body,
-    fontFamily: FONTS.hells.sans.medium
+    fontFamily: FONTS.hells.sans.medium,
   },
-  filterIcon: {}
+  filterIcon: {},
 })
 
 FiltersScreen.displayName = 'FiltersScreen'

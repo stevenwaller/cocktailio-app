@@ -27,12 +27,12 @@ const styles = StyleSheet.create({
     paddingLeft: SIZE.card.paddingX,
     fontSize: 20,
     color: COLORS.text.link,
-    fontFamily: FONTS.schotis.bold
+    fontFamily: FONTS.schotis.bold,
   },
   isTop: {
     borderTopStartRadius: SIZE.border.radius,
-    borderTopEndRadius: SIZE.border.radius
-  }
+    borderTopEndRadius: SIZE.border.radius,
+  },
 })
 
 CardHeader.displayName = 'CardHeader'

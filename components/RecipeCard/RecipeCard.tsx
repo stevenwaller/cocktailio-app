@@ -27,7 +27,7 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
       or_ingredients,
       pref_ingredients,
       note,
-      substitute
+      substitute,
     } = component
 
     console.log('ingredients', ingredients)
@@ -53,7 +53,7 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
                   style={styles.ingredientTitleLink}
                   href={{
                     pathname: `/cocktails/ingredients/${ingredient.ingredient.id}`,
-                    params: { name: ingredient.ingredient.name }
+                    params: { name: ingredient.ingredient.name },
                   }}
                 >
                   {ingredient.ingredient.name}
@@ -69,7 +69,7 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
                     style={styles.ingredientTitleLink}
                     href={{
                       pathname: `/cocktails/ingredients/${ingredient.ingredient.id}`,
-                      params: { name: ingredient.ingredient.name }
+                      params: { name: ingredient.ingredient.name },
                     }}
                   >
                     {ingredient.ingredient.name}
@@ -98,7 +98,7 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
                       style={styles.ingredientTitleLink}
                       href={{
                         pathname: `/cocktails/ingredients/${ingredient.ingredient.id}`,
-                        params: { name: ingredient.ingredient.name }
+                        params: { name: ingredient.ingredient.name },
                       }}
                     >
                       {ingredient.ingredient.name}
@@ -194,7 +194,7 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
               key={source.id}
               href={{
                 pathname: `/cocktails/sources/${source.source.id}`,
-                params: { name: source.source.name }
+                params: { name: source.source.name },
               }}
             >
               <BodyLinkText>{source.source.name}</BodyLinkText>
@@ -219,27 +219,27 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 20,
     color: COLORS.text.link,
-    fontFamily: FONTS.schotis.bold
+    fontFamily: FONTS.schotis.bold,
   },
   component: {
     paddingBottom: 20,
     marginBottom: 20,
     borderBottomColor: '#153C47',
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
   },
   isLastComponent: {
     paddingBottom: 0,
     borderBottomWidth: 0,
-    marginBottom: 0
+    marginBottom: 0,
   },
   ingredient: {
     flexDirection: 'row',
-    gap: 15
+    gap: 15,
   },
   ingredientAction: {},
   ingredientText: {
     flex: 1,
-    paddingTop: 2
+    paddingTop: 2,
   },
   pill: {
     borderRadius: 20,
@@ -247,54 +247,54 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     paddingVertical: 2,
     paddingHorizontal: 10,
-    marginBottom: 5
+    marginBottom: 5,
   },
   pillText: {
     fontSize: 14,
     fontFamily: FONTS.hells.sans.bold,
-    color: 'white'
+    color: 'white',
   },
   ingredientTitle: {
     fontSize: 20,
     fontFamily: FONTS.hells.sans.bold,
-    color: COLORS.text.body
+    color: COLORS.text.body,
   },
   ingredientTitleLink: {
-    color: COLORS.text.link
+    color: COLORS.text.link,
   },
   orIngredients: { fontFamily: FONTS.hells.sans.medium, fontSize: 18 },
   ingredientNote: {
-    marginTop: 20
+    marginTop: 20,
   },
   ingredientNoteTitle: {
     fontSize: 10,
     letterSpacing: 0.4,
     fontFamily: FONTS.hells.sans.bold,
     color: COLORS.text.muted,
-    marginBottom: 3
+    marginBottom: 3,
   },
   ingredientNoteDescription: {
     fontSize: 15,
     fontFamily: FONTS.hells.sans.medium,
     color: COLORS.text.body,
-    lineHeight: 18
+    lineHeight: 18,
   },
   step: {
     flexDirection: 'row',
-    marginBottom: 20
+    marginBottom: 20,
   },
   isLastStep: {
-    marginBottom: 0
+    marginBottom: 0,
   },
   stepCount: {
     fontSize: 20,
     color: COLORS.text.body,
-    fontFamily: FONTS.hells.sans.bold
+    fontFamily: FONTS.hells.sans.bold,
   },
   stepText: {
     paddingTop: 4,
-    paddingLeft: 20
-  }
+    paddingLeft: 20,
+  },
 })
 
 RecipeCard.displayName = 'RecipeCard'

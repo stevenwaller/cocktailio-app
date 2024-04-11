@@ -1,7 +1,7 @@
 import {
   BottomSheetModal,
   BottomSheetBackdrop,
-  BottomSheetBackdropProps
+  BottomSheetBackdropProps,
 } from '@gorhom/bottom-sheet'
 import { NavigationContainer } from '@react-navigation/native'
 import { forwardRef, useMemo, useCallback, ReactNode } from 'react'
@@ -19,7 +19,7 @@ const StackNavModal = forwardRef<BottomSheetModal, IStackNavModalProps>(({ child
     (props: BottomSheetBackdropProps) => (
       <BottomSheetBackdrop {...props} appearsOnIndex={0} disappearsOnIndex={-1} opacity={0.43} />
     ),
-    []
+    [],
   )
 
   return (

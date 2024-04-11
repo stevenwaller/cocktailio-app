@@ -6,5 +6,5 @@ import CardHeaderText from './CardHeaderText'
 export default Object.assign(Card, {
   Body: CardBody,
   Header: CardHeader,
-  HeaderText: CardHeaderText
+  HeaderText: CardHeaderText,
 })

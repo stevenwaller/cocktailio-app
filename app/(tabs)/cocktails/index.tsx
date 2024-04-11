@@ -29,15 +29,15 @@ export default function CocktailsScreen() {
       name: 'In Bar Stock',
       screen: 'IN BAR STOCK',
       key: 'in_bar_stock',
-      value: []
+      value: [],
     },
     {
       index: 1,
       name: 'Base Spirit',
       screen: 'BASE SPIRIT',
       key: 'base_ingredient',
-      value: []
-    }
+      value: [],
+    },
     // {
     //   name: 'Ingredients',
     //   screen: 'INGREDIENTS',
@@ -143,7 +143,7 @@ export default function CocktailsScreen() {
         <Stack.Screen
           options={{
             title: 'COCKTAILS',
-            headerTitleAlign: 'center'
+            headerTitleAlign: 'center',
           }}
         />
         <PageContainer style={styles.pageContainer}>
@@ -157,12 +157,12 @@ export default function CocktailsScreen() {
 
 const styles = StyleSheet.create({
   pageContainer: {
-    paddingTop: SIZE.marginY
+    paddingTop: SIZE.marginY,
   },
   title: {
     fontSize: 20,
     color: COLORS.text.body,
     fontFamily: FONTS.hells.serif.medium,
-    fontWeight: 'bold'
-  }
+    fontWeight: 'bold',
+  },
 })

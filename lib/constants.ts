@@ -6,7 +6,7 @@ export const FONTS = {
       light: 'HellsSansLight',
       lightItalic: 'HellsSansLightItalic',
       medium: 'HellsSansMedium',
-      mediumItalic: 'HellsSansMediumItalic'
+      mediumItalic: 'HellsSansMediumItalic',
     },
     serif: {
       bold: 'HellsSerifBold',
@@ -14,8 +14,8 @@ export const FONTS = {
       light: 'HellsSerifLight',
       lightItalic: 'HellsSerifLightItalic',
       medium: 'HellsSerifMedium',
-      mediumItalic: 'HellsSerifMediumItalic'
-    }
+      mediumItalic: 'HellsSerifMediumItalic',
+    },
   },
   schotis: {
     black: 'SchotisBlack',
@@ -31,8 +31,8 @@ export const FONTS = {
     lightItalic: 'SchotisLightItalic',
     semiBold: 'SchotisSemiBold',
     semiBoldItalic: 'SchotisSemiBoldItalic',
-    normal: 'Schotis'
-  }
+    normal: 'Schotis',
+  },
 }
 
 export const COLORS = {
@@ -40,7 +40,7 @@ export const COLORS = {
     text: '#123742',
     bg: '#E28C67',
     active: '#000',
-    inactive: '#123742'
+    inactive: '#123742',
   },
   bg: {
     level1: '#123742',
@@ -48,28 +48,28 @@ export const COLORS = {
     level3: '#2F5462',
     level4: '#3A6170',
     highlight: '#527B89',
-    action: '#E28C67'
+    action: '#E28C67',
   },
   text: {
     body: '#FFFAF0',
     link: '#F0B59E',
     muted: '#A1C4CE',
     dark: '#123742',
-    action: '#E28C67'
+    action: '#E28C67',
   },
-  shadow: '#000'
+  shadow: '#000',
 }
 
 export const SIZE = {
   app: {
     paddingX: 12,
-    paddingY: 25
+    paddingY: 25,
   },
   border: {
-    radius: 6
+    radius: 6,
   },
   card: {
-    paddingX: 20
+    paddingX: 20,
   },
-  marginY: 20
+  marginY: 20,
 }

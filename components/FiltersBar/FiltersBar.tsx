@@ -53,25 +53,25 @@ const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: COLORS.bg.level2,
     height: 54,
-    paddingHorizontal: SIZE.app.paddingX
+    paddingHorizontal: SIZE.app.paddingX,
   },
   filters: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   iconBtn: {
-    marginRight: 15
+    marginRight: 15,
   },
   button: {
-    marginRight: 10
+    marginRight: 10,
   },
   title: {
     fontSize: 20,
     color: COLORS.text.body,
     fontFamily: FONTS.hells.serif.medium,
-    fontWeight: 'bold'
-  }
+    fontWeight: 'bold',
+  },
 })
 
 FiltersBar.displayName = 'FiltersBar'

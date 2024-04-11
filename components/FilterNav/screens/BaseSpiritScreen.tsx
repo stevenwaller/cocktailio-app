@@ -15,7 +15,7 @@ interface BaseSpiritScreenProps {
 const BaseSpiritScreen = ({ filter, onChange }: BaseSpiritScreenProps) => {
   const { data, error, isFetching } = useSupabase<TIngredient>({
     tableName: 'ingredients',
-    args: [{ operator: 'eq', key: 'is_base', value: true }]
+    args: [{ operator: 'eq', key: 'is_base', value: true }],
   })
 
   const handleIngredientPress = (ingredient: TIngredient) => {
@@ -59,20 +59,20 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingRight: 15,
     paddingBottom: 20,
-    paddingLeft: 20
+    paddingLeft: 20,
   },
   ingredient: {
     flexDirection: 'row',
     alignContent: 'center',
-    marginBottom: 15
+    marginBottom: 15,
   },
   ingredientText: {
     fontSize: 18,
     color: COLORS.text.body,
     fontFamily: FONTS.hells.sans.medium,
     marginLeft: 10,
-    paddingTop: 2
-  }
+    paddingTop: 2,
+  },
 })
 
 BaseSpiritScreen.displayName = 'BaseSpiritScreen'

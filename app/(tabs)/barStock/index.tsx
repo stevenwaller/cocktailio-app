@@ -9,7 +9,7 @@ export default function BarStockScreen() {
       <Stack.Screen
         options={{
           title: 'BAR STOCK',
-          headerTitleAlign: 'center'
+          headerTitleAlign: 'center',
         }}
       />
       <View style={styles.container}>
@@ -63,7 +63,7 @@ export default function BarStockScreen() {
           style={{
             fontSize: 20,
             color: COLORS.text.body,
-            fontFamily: FONTS.schotis.semiBoldItalic
+            fontFamily: FONTS.schotis.semiBoldItalic,
           }}
         >
           SchotisSemiBoldItalic
@@ -86,7 +86,7 @@ export default function BarStockScreen() {
           style={{
             fontSize: 20,
             color: COLORS.text.body,
-            fontFamily: FONTS.hells.sans.lightItalic
+            fontFamily: FONTS.hells.sans.lightItalic,
           }}
         >
           HellsSansLightItalic
@@ -100,7 +100,7 @@ export default function BarStockScreen() {
           style={{
             fontSize: 20,
             color: COLORS.text.body,
-            fontFamily: FONTS.hells.sans.mediumItalic
+            fontFamily: FONTS.hells.sans.mediumItalic,
           }}
         >
           HellsSansMediumItalic
@@ -112,7 +112,7 @@ export default function BarStockScreen() {
           style={{
             fontSize: 20,
             color: COLORS.text.body,
-            fontFamily: FONTS.hells.serif.boldItalic
+            fontFamily: FONTS.hells.serif.boldItalic,
           }}
         >
           HellsSerifBoldItalic
@@ -126,7 +126,7 @@ export default function BarStockScreen() {
           style={{
             fontSize: 20,
             color: COLORS.text.body,
-            fontFamily: FONTS.hells.serif.lightItalic
+            fontFamily: FONTS.hells.serif.lightItalic,
           }}
         >
           HellsSerifLightItalic
@@ -140,7 +140,7 @@ export default function BarStockScreen() {
           style={{
             fontSize: 20,
             color: COLORS.text.body,
-            fontFamily: FONTS.hells.serif.mediumItalic
+            fontFamily: FONTS.hells.serif.mediumItalic,
           }}
         >
           HellsSerifMediumItalic
@@ -154,6 +154,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
-  }
+    justifyContent: 'center',
+  },
 })

@@ -21,19 +21,19 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     padding: 10,
     // border: '1px solid red',
-    backgroundColor: 'red'
+    backgroundColor: 'red',
   },
   title: {
     color: 'red',
     fontWeight: 'bold',
-    fontSize: 20
+    fontSize: 20,
   },
   message: {
     color: 'red',
     fontSize: 15,
     fontWeight: 'bold',
-    fontStyle: 'italic'
-  }
+    fontStyle: 'italic',
+  },
 })
 
 ErrorAlert.displayName = 'ErrorAlert'

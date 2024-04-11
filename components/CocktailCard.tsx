@@ -38,7 +38,7 @@ const CocktailCard = ({ cocktail, ...restProps }: CocktailCardProps) => {
           style={styles.name}
           href={{
             pathname: `/cocktails/${cocktail.id}`,
-            params: { name: cocktail.name }
+            params: { name: cocktail.name },
           }}
           asChild
         >
@@ -54,13 +54,13 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 20,
     color: COLORS.text.link,
-    fontFamily: FONTS.schotis.bold
+    fontFamily: FONTS.schotis.bold,
   },
   ingredients: {
     fontSize: 14,
     color: COLORS.text.body,
-    fontFamily: FONTS.hells.sans.medium
-  }
+    fontFamily: FONTS.hells.sans.medium,
+  },
 })
 
 CocktailCard.displayName = 'CocktailCard'

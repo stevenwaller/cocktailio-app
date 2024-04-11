@@ -26,7 +26,7 @@ const AddInput = ({ style, value, checked, onPress = () => {} }: AddInputProps) 
 }
 
 const styles = StyleSheet.create({
-  container: {}
+  container: {},
 })
 
 AddInput.displayName = 'AddInput'

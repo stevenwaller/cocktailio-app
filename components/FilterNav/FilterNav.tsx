@@ -1,7 +1,7 @@
 import {
   createStackNavigator,
   StackNavigationOptions,
-  TransitionPresets
+  TransitionPresets,
 } from '@react-navigation/stack'
 
 import BaseSpiritScreen from './screens/BaseSpiritScreen'
@@ -26,18 +26,18 @@ const screenOptions: StackNavigationOptions = {
   headerTintColor: COLORS.nav.text,
   headerTitleAlign: 'center',
   headerStyle: {
-    backgroundColor: COLORS.nav.bg
+    backgroundColor: COLORS.nav.bg,
   },
   headerTitleStyle: {
-    fontFamily: FONTS.schotis.black
+    fontFamily: FONTS.schotis.black,
   },
   headerShadowVisible: false,
   headerStatusBarHeight: 0,
   headerBackTitleVisible: false,
   cardStyle: {
     backgroundColor: COLORS.bg.level3,
-    overflow: 'visible'
-  }
+    overflow: 'visible',
+  },
 }
 
 const filtersScreenOptions = { headerLeft: () => null }

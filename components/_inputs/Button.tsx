@@ -39,21 +39,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: SIZE.border.radius,
     paddingVertical: 7,
-    paddingHorizontal: 11
+    paddingHorizontal: 11,
   },
   label: {
     fontFamily: FONTS.hells.sans.medium,
     fontSize: 14,
-    color: COLORS.text.dark
+    color: COLORS.text.dark,
   },
   slotLeft: {
     marginRight: 3,
-    marginLeft: -3
+    marginLeft: -3,
   },
   slotRight: {
     marginLeft: 3,
-    marginRight: -3
-  }
+    marginRight: -3,
+  },
 })
 
 Button.displayName = 'Button'

@@ -49,7 +49,7 @@ export default function CocktailDetailPage() {
             ingredient:ingredients(*)
           )
         )
-        `
+        `,
       )
       .eq('id', cocktailId)
       .order('order', { referencedTable: 'steps' })
@@ -103,7 +103,7 @@ export default function CocktailDetailPage() {
     <ScrollView>
       <Stack.Screen
         options={{
-          title: ''
+          title: '',
         }}
       />
       <PageContainer>
@@ -119,14 +119,14 @@ export default function CocktailDetailPage() {
 const styles = StyleSheet.create({
   header: {},
   description: {
-    marginTop: 10
+    marginTop: 10,
   },
   descriptionText: {
     fontFamily: FONTS.hells.sans.medium,
     fontSize: 16,
-    color: COLORS.text.body
+    color: COLORS.text.body,
   },
   recipeCard: {
-    marginTop: SIZE.app.paddingY
-  }
+    marginTop: SIZE.app.paddingY,
+  },
 })

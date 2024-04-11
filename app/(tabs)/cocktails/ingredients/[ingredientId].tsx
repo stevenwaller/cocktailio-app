@@ -23,7 +23,7 @@ export default function IngredientDetailPage() {
       .select(
         `
         *
-        `
+        `,
       )
       .eq('id', ingredientId)
       .returns<TIngredient>()
@@ -67,7 +67,7 @@ export default function IngredientDetailPage() {
     <>
       <Stack.Screen
         options={{
-          title: ''
+          title: '',
         }}
       />
       <PageContainer>
@@ -83,11 +83,11 @@ export default function IngredientDetailPage() {
 const styles = StyleSheet.create({
   header: {},
   description: {
-    marginTop: 10
+    marginTop: 10,
   },
   descriptionText: {
     fontFamily: FONTS.hells.sans.medium,
     fontSize: 16,
-    color: COLORS.text.body
-  }
+    color: COLORS.text.body,
+  },
 })

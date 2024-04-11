@@ -25,12 +25,12 @@ const styles = StyleSheet.create({
     shadowColor: COLORS.shadow,
     shadowOffset: {
       width: 0,
-      height: 3
+      height: 3,
     },
     shadowOpacity: 0.5,
     shadowRadius: 20,
-    elevation: 40
-  }
+    elevation: 40,
+  },
 })
 
 Card.displayName = 'Card'

@@ -22,8 +22,8 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingRight: SIZE.card.paddingX,
     paddingBottom: 20,
-    paddingLeft: SIZE.card.paddingX
-  }
+    paddingLeft: SIZE.card.paddingX,
+  },
 })
 
 CardBody.displayName = 'CardBody'

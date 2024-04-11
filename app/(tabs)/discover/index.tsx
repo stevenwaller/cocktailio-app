@@ -9,7 +9,7 @@ export default function TabOneScreen() {
       <Stack.Screen
         options={{
           title: 'DISCOVER',
-          headerTitleAlign: 'center'
+          headerTitleAlign: 'center',
         }}
       />
       <View style={styles.container}>
@@ -23,11 +23,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   title: {
     fontSize: 20,
     color: COLORS.text.body,
-    fontFamily: FONTS.hells.serif.medium
-  }
+    fontFamily: FONTS.hells.serif.medium,
+  },
 })

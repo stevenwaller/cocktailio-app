@@ -16,8 +16,8 @@ export default function TabLayout() {
         headerShown: false,
         tabBarStyle: {
           backgroundColor: COLORS.nav.bg,
-          borderTopWidth: 0
-        }
+          borderTopWidth: 0,
+        },
       }}
       sceneContainerStyle={{ backgroundColor: COLORS.bg.level1 }}
     >
@@ -26,7 +26,7 @@ export default function TabLayout() {
         name="cocktails"
         options={{
           title: 'Cocktails',
-          tabBarIcon: ({ color }) => <CocktailsIcon color={color} />
+          tabBarIcon: ({ color }) => <CocktailsIcon color={color} />,
         }}
       />
       <Tabs.Screen
@@ -45,7 +45,7 @@ export default function TabLayout() {
                 )}
               </Pressable>
             </Link>
-          )
+          ),
         }}
       />
       <Tabs.Screen
@@ -53,7 +53,7 @@ export default function TabLayout() {
         options={{
           title: 'Bar Stock',
           headerTitleAlign: 'center',
-          tabBarIcon: ({ color }) => <BarStockIcon color={color} />
+          tabBarIcon: ({ color }) => <BarStockIcon color={color} />,
         }}
       />
     </Tabs>

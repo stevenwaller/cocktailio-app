@@ -18,8 +18,8 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: SIZE.app.paddingY,
     paddingLeft: SIZE.app.paddingX,
-    paddingRight: SIZE.app.paddingX
-  }
+    paddingRight: SIZE.app.paddingX,
+  },
 })
 
 PageContainer.displayName = 'PageContainer'
