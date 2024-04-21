@@ -101,9 +101,32 @@ export default function CocktailsScreen() {
     //   .range(minRange, maxRange)
     //   .returns<TCocktail[]>()
 
-    const response = await supabaseClient.rpc('query_cocktails').returns<TCocktail[]>()
+    const query = supabaseClient.rpc('query_cocktails', { bar_stock: {}, filter_ingredients: {} })
 
-    console.log('response', response)
+    filters.forEach((filter) => {
+      const values = filter.value.map((item) => item.id)
+
+      console.log('values', values, values.length)
+
+      switch (filter.name) {
+        case 'Base Spirit':
+          if (values.length > 0) {
+            query.in(
+              'base_ingredient_id',
+              filter.value.map((item) => item.id),
+            )
+          }
+
+          break
+
+        default:
+          break
+      }
+    })
+
+    const response = await query.returns<TCocktail[]>()
+
+    // console.log('response', response)
 
     setIsFetching(false)
     setData(response.data)
@@ -115,13 +138,9 @@ export default function CocktailsScreen() {
     fetchData()
   }, [fetchData])
 
-  const handleFilterChange = (filter: IFilter) => {
-    console.log('filter changed', filter)
-
-    const newFilters = [...filters]
-    newFilters[filter.index] = filter
-
-    setFilters(newFilters)
+  const handleApply = (newFilters: IFilter[]) => {
+    console.log('newFilters', newFilters[1].value)
+    setFilters([...newFilters])
   }
 
   const renderContent = () => {
@@ -138,7 +157,7 @@ export default function CocktailsScreen() {
 
   return (
     <View>
-      <FiltersBar filters={filters} onChange={handleFilterChange} />
+      <FiltersBar filters={filters} onApply={handleApply} />
       <ScrollView>
         <Stack.Screen
           options={{

@@ -7,4 +7,7 @@ export interface IFilter {
     id: string
     name: string
   }[]
+  // value: {
+  //   [key: string]: string
+  // }
 }

@@ -70,6 +70,7 @@ export const SIZE = {
   },
   card: {
     paddingX: 20,
+    paddingY: 15,
   },
   marginY: 20,
 }

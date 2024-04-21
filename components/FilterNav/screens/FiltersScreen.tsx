@@ -1,4 +1,4 @@
-import { BottomSheetView } from '@gorhom/bottom-sheet'
+import { BottomSheetScrollView } from '@gorhom/bottom-sheet'
 import { useNavigation } from '@react-navigation/native'
 import { StyleSheet, Pressable, Text, View } from 'react-native'
 
@@ -14,7 +14,7 @@ const FiltersScreen = ({ filters }: IFiltersScreen) => {
   const { navigate } = useNavigation()
 
   return (
-    <BottomSheetView style={styles.container}>
+    <BottomSheetScrollView style={styles.container} enableFooterMarginAdjustment>
       {filters.map((filter) => (
         <Pressable
           key={filter.name}
@@ -32,7 +32,7 @@ const FiltersScreen = ({ filters }: IFiltersScreen) => {
           </View>
         </Pressable>
       ))}
-    </BottomSheetView>
+    </BottomSheetScrollView>
   )
 }
 

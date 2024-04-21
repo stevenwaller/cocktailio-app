@@ -19,9 +19,9 @@ const styles = StyleSheet.create({
   body: {
     display: 'flex',
     width: '100%',
-    paddingTop: 20,
+    paddingTop: SIZE.card.paddingY,
     paddingRight: SIZE.card.paddingX,
-    paddingBottom: 20,
+    paddingBottom: SIZE.card.paddingY,
     paddingLeft: SIZE.card.paddingX,
   },
 })
