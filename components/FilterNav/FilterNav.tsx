@@ -29,7 +29,7 @@ const screenOptions: StackNavigationOptions = {
     backgroundColor: COLORS.bg.level2,
   },
   headerTitleStyle: {
-    fontFamily: FONTS.schotis.black,
+    fontFamily: FONTS.schotis.bold,
     fontSize: 20,
   },
   headerShadowVisible: false,
@@ -51,7 +51,7 @@ const FilterNav = ({ currentFilterIndex, filters, onChange }: FilterNavProps) =>
     if (currentFilter === undefined) {
       return (
         <>
-          <Stack.Screen name="FILTERS" options={filtersScreenOptions}>
+          <Stack.Screen name="Filters" options={filtersScreenOptions}>
             {(props) => <FiltersScreen {...props} filters={filters} />}
           </Stack.Screen>
           <Stack.Screen name="In Bar Stock">
