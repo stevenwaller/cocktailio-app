@@ -61,7 +61,6 @@ export default function CocktailsScreen() {
   ])
 
   const fetchData = useCallback(async () => {
-    console.log('fetchData')
     setIsFetching(true)
 
     // const response = await supabaseClient
@@ -106,8 +105,6 @@ export default function CocktailsScreen() {
     filters.forEach((filter) => {
       const values = filter.value.map((item) => item.id)
 
-      console.log('values', values, values.length)
-
       switch (filter.name) {
         case 'Base Spirit':
           if (values.length > 0) {
@@ -125,8 +122,6 @@ export default function CocktailsScreen() {
 
     const response = await query.returns<TCocktail[]>()
 
-    // console.log('response', response)
-
     setIsFetching(false)
     setData(response.data)
     setError(response.error)
@@ -138,7 +133,6 @@ export default function CocktailsScreen() {
   }, [fetchData])
 
   const handleApply = (newFilters: IFilter[]) => {
-    console.log('newFilters', newFilters[1].value)
     setFilters([...newFilters])
   }
 

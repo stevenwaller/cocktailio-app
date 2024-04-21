@@ -23,7 +23,6 @@ const FiltersBar = ({ filters: filtersProp, onApply }: FiltersBarProps) => {
   const modalRef = useRef<BottomSheetModal>(null)
 
   const handleFilterChange = (filter: IFilter) => {
-    console.log('filterChange', filter.value)
     const newFilters = [...filters]
     newFilters[filter.index] = filter
 
@@ -36,7 +35,6 @@ const FiltersBar = ({ filters: filtersProp, onApply }: FiltersBarProps) => {
   }
 
   const handleApply = () => {
-    console.log('handleApply', filters[1].value)
     onApply(filters)
     modalRef.current?.dismiss()
   }
