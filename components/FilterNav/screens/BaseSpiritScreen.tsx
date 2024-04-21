@@ -21,7 +21,7 @@ const BaseSpiritScreen = ({ filter, onChange }: BaseSpiritScreenProps) => {
   const handleIngredientPress = (ingredient: TIngredient) => {
     if (!filter) return
 
-    const newFilter = { ...filter }
+    const newFilter = { ...filter, value: [...filter.value] }
 
     if (newFilter.value.some((item) => item.id === ingredient.id)) {
       newFilter.value = newFilter.value.filter((item) => item.id !== ingredient.id)
