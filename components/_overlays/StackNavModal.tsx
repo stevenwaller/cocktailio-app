@@ -29,7 +29,7 @@ const StackNavModal = forwardRef<BottomSheetModal, IStackNavModalProps>(
         ref={ref}
         snapPoints={snapPoints}
         backdropComponent={renderBackdrop}
-        backgroundStyle={{ backgroundColor: COLORS.nav.bg }}
+        backgroundStyle={{ backgroundColor: COLORS.bg.level2 }}
         handleIndicatorStyle={{ backgroundColor: COLORS.text.link }}
         {...restProps}
       >

@@ -27,14 +27,14 @@ export default function CocktailsScreen() {
     {
       index: 0,
       name: 'In Bar Stock',
-      screen: 'IN BAR STOCK',
+      screen: 'In Bar Stock',
       key: 'in_bar_stock',
       value: [],
     },
     {
       index: 1,
       name: 'Base Spirit',
-      screen: 'BASE SPIRIT',
+      screen: 'Base Spirit',
       key: 'base_ingredient',
       value: [],
     },
@@ -116,7 +116,6 @@ export default function CocktailsScreen() {
               filter.value.map((item) => item.id),
             )
           }
-
           break
 
         default:

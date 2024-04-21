@@ -23,13 +23,14 @@ const screenOptions: StackNavigationOptions = {
   ...TransitionPresets.SlideFromRightIOS,
   headerMode: 'screen',
   headerShown: true,
-  headerTintColor: COLORS.nav.text,
+  headerTintColor: COLORS.text.body,
   headerTitleAlign: 'center',
   headerStyle: {
-    backgroundColor: COLORS.nav.bg,
+    backgroundColor: COLORS.bg.level2,
   },
   headerTitleStyle: {
     fontFamily: FONTS.schotis.black,
+    fontSize: 20,
   },
   headerShadowVisible: false,
   headerStatusBarHeight: 0,
@@ -53,7 +54,7 @@ const FilterNav = ({ currentFilterIndex, filters, onChange }: FilterNavProps) =>
           <Stack.Screen name="FILTERS" options={filtersScreenOptions}>
             {(props) => <FiltersScreen {...props} filters={filters} />}
           </Stack.Screen>
-          <Stack.Screen name="IN BAR STOCK">
+          <Stack.Screen name="In Bar Stock">
             {(props) => (
               <InBarStockScreen
                 {...props}
@@ -62,7 +63,7 @@ const FilterNav = ({ currentFilterIndex, filters, onChange }: FilterNavProps) =>
               />
             )}
           </Stack.Screen>
-          <Stack.Screen name="BASE SPIRIT">
+          <Stack.Screen name="Base Spirit">
             {(props) => (
               <BaseSpiritScreen
                 {...props}
@@ -77,7 +78,7 @@ const FilterNav = ({ currentFilterIndex, filters, onChange }: FilterNavProps) =>
 
     if (currentFilter?.name === 'In Bar Stock') {
       return (
-        <Stack.Screen name="IN BAR STOCK">
+        <Stack.Screen name="In Bar Stock">
           {(props) => <InBarStockScreen {...props} filter={currentFilter} onChange={onChange} />}
         </Stack.Screen>
       )
@@ -85,7 +86,7 @@ const FilterNav = ({ currentFilterIndex, filters, onChange }: FilterNavProps) =>
 
     if (currentFilter?.name === 'Base Spirit') {
       return (
-        <Stack.Screen name="BASE SPIRIT">
+        <Stack.Screen name="In Bar Stock">
           {(props) => <BaseSpiritScreen {...props} filter={currentFilter} onChange={onChange} />}
         </Stack.Screen>
       )
