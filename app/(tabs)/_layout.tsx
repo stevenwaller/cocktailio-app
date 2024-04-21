@@ -35,7 +35,7 @@ export default function TabLayout() {
           title: 'Discover',
           tabBarIcon: ({ color }) => <DiscoverIcon color={color} />,
           headerRight: () => (
-            <Link href="/refineModal" asChild>
+            <Link href="/authModal" asChild>
               <Pressable>
                 {({ pressed }) => (
                   <SettingsIcon
@@ -54,6 +54,14 @@ export default function TabLayout() {
           title: 'Bar Stock',
           headerTitleAlign: 'center',
           tabBarIcon: ({ color }) => <BarStockIcon color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: 'Settings',
+          headerTitleAlign: 'center',
+          tabBarIcon: ({ color }) => <SettingsIcon color={color} />,
         }}
       />
     </Tabs>

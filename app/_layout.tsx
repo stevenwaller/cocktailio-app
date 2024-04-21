@@ -6,6 +6,7 @@ import { useEffect } from 'react'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 import { COLORS } from '@/lib/constants'
+import AuthContextProvider from '@/lib/contexts/AuthContextProvider'
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -68,16 +69,18 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <BottomSheetModalProvider>
-        <Stack
-          screenOptions={{
-            contentStyle: { backgroundColor: COLORS.bg.level1 },
-          }}
-        >
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="refineModal" options={{ presentation: 'modal' }} />
-        </Stack>
-      </BottomSheetModalProvider>
+      <AuthContextProvider>
+        <BottomSheetModalProvider>
+          <Stack
+            screenOptions={{
+              contentStyle: { backgroundColor: COLORS.bg.level1 },
+            }}
+          >
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="authModal" options={{ presentation: 'modal' }} />
+          </Stack>
+        </BottomSheetModalProvider>
+      </AuthContextProvider>
     </GestureHandlerRootView>
   )
 }

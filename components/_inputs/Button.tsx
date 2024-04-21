@@ -1,9 +1,17 @@
 import { ReactNode } from 'react'
-import { Pressable, StyleSheet, Text, View, ViewStyle, StyleProp } from 'react-native'
+import {
+  Pressable,
+  PressableProps,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+  StyleProp,
+} from 'react-native'
 
 import { COLORS, FONTS, SIZE } from '@/lib/constants'
 
-interface ButtonProps {
+interface ButtonProps extends PressableProps {
   style?: StyleProp<ViewStyle>
   label?: string
   children?: ReactNode
