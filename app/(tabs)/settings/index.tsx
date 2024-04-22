@@ -1,16 +1,15 @@
 import { useNavigation } from '@react-navigation/native'
 import { Stack } from 'expo-router'
-import { useContext } from 'react'
 import { StyleSheet, ScrollView, Text } from 'react-native'
 
 import PageContainer from '@/components/PageContainer'
 import Button from '@/components/_inputs/Button'
 import { COLORS, FONTS } from '@/lib/constants'
-import { SessionContext } from '@/lib/contexts/AuthContextProvider'
+import { useAuth } from '@/lib/contexts/AuthContextProvider'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
 export default function SettingsScreen() {
-  const { user } = useContext(SessionContext)
+  const { user } = useAuth()
   const { navigate } = useNavigation()
 
   const handleSignOut = async () => {

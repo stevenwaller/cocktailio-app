@@ -1,15 +1,14 @@
 import { useNavigation } from '@react-navigation/native'
 import { Stack } from 'expo-router'
-import { useContext } from 'react'
 import { StyleSheet, ScrollView } from 'react-native'
 
 import PageContainer from '@/components/PageContainer'
 import { BodyText } from '@/components/_elements/Text'
 import Button from '@/components/_inputs/Button'
-import { SessionContext } from '@/lib/contexts/AuthContextProvider'
+import { useAuth } from '@/lib/contexts/AuthContextProvider'
 
 export default function BarStockScreen() {
-  const { user } = useContext(SessionContext)
+  const { user } = useAuth()
   const { navigate } = useNavigation()
 
   return (
