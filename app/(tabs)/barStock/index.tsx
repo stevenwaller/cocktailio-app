@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/native'
 import { Stack } from 'expo-router'
 import { StyleSheet, ScrollView } from 'react-native'
 
@@ -9,7 +8,6 @@ import { useAuth } from '@/lib/contexts/AuthContextProvider'
 
 export default function BarStockScreen() {
   const { user, openAuthModal } = useAuth()
-  const { navigate } = useNavigation()
 
   return (
     <ScrollView>

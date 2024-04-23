@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/native'
 import { Stack } from 'expo-router'
 import { StyleSheet, ScrollView, Text } from 'react-native'
 
@@ -9,8 +8,7 @@ import { useAuth } from '@/lib/contexts/AuthContextProvider'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
 export default function SettingsScreen() {
-  const { user } = useAuth()
-  const { navigate } = useNavigation()
+  const { user, openAuthModal } = useAuth()
 
   const handleSignOut = async () => {
     const { error } = await supabaseClient.auth.signOut()
@@ -33,7 +31,7 @@ export default function SettingsScreen() {
         {user ? (
           <Button label="Log Out" onPress={handleSignOut} />
         ) : (
-          <Button label="Log In / Create Account" onPress={() => navigate('authModal' as never)} />
+          <Button label="Log In / Create Account" onPress={() => openAuthModal()} />
         )}
       </PageContainer>
     </ScrollView>
