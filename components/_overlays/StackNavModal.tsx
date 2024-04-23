@@ -1,40 +1,15 @@
-import {
-  BottomSheetModal,
-  BottomSheetModalProps,
-  BottomSheetBackdrop,
-  BottomSheetBackdropProps,
-} from '@gorhom/bottom-sheet'
+import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import { NavigationContainer } from '@react-navigation/native'
-import { forwardRef, useMemo, useCallback, ReactNode } from 'react'
+import { forwardRef } from 'react'
 
-import { COLORS } from '@/lib/constants'
+import Modal, { IModalProps } from '@/components/_overlays/Modal'
 
-interface IStackNavModalProps extends BottomSheetModalProps {
-  children: ReactNode
-}
-
-const StackNavModal = forwardRef<BottomSheetModal, IStackNavModalProps>(
+const StackNavModal = forwardRef<BottomSheetModal, IModalProps>(
   ({ children, ...restProps }, ref) => {
-    const snapPoints = useMemo(() => ['50%'], [])
-
-    const renderBackdrop = useCallback(
-      (props: BottomSheetBackdropProps) => (
-        <BottomSheetBackdrop {...props} appearsOnIndex={0} disappearsOnIndex={-1} opacity={0.43} />
-      ),
-      [],
-    )
-
     return (
-      <BottomSheetModal
-        ref={ref}
-        snapPoints={snapPoints}
-        backdropComponent={renderBackdrop}
-        backgroundStyle={{ backgroundColor: COLORS.bg.level2 }}
-        handleIndicatorStyle={{ backgroundColor: COLORS.text.link }}
-        {...restProps}
-      >
+      <Modal ref={ref} {...restProps}>
         <NavigationContainer independent>{children}</NavigationContainer>
-      </BottomSheetModal>
+      </Modal>
     )
   },
 )

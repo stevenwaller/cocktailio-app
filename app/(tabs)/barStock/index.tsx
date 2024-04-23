@@ -8,7 +8,7 @@ import Button from '@/components/_inputs/Button'
 import { useAuth } from '@/lib/contexts/AuthContextProvider'
 
 export default function BarStockScreen() {
-  const { user } = useAuth()
+  const { user, openAuthModal } = useAuth()
   const { navigate } = useNavigation()
 
   return (
@@ -23,7 +23,7 @@ export default function BarStockScreen() {
         {user ? (
           <BodyText>Welcome, {user.email}</BodyText>
         ) : (
-          <Button label="Sign In / Create Account" onPress={() => navigate('authModal' as never)} />
+          <Button label="Sign In / Create Account" onPress={() => openAuthModal()} />
         )}
       </PageContainer>
     </ScrollView>

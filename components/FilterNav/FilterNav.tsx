@@ -30,7 +30,6 @@ const screenOptions: StackNavigationOptions = {
   },
   headerTitleStyle: {
     fontFamily: FONTS.schotis.bold,
-    fontSize: 20,
   },
   headerShadowVisible: false,
   headerStatusBarHeight: 0,

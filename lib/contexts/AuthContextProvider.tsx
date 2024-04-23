@@ -1,14 +1,18 @@
+import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import type { User } from '@supabase/supabase-js'
-import { createContext, useState, useEffect, ReactNode, useContext } from 'react'
+import { createContext, useState, useEffect, useRef, ReactNode, useContext } from 'react'
 
+import AuthModal from '@/components/_overlays/AuthModal'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
 interface IAuthContext {
   user: User | null
+  openAuthModal: () => void
 }
 
 export const AuthContext = createContext<IAuthContext>({
   user: null,
+  openAuthModal: () => {},
 })
 
 export const useAuth = () => useContext(AuthContext)
@@ -19,6 +23,11 @@ interface AuthContextProviderProps {
 
 const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [user, setUser] = useState<User | null>(null)
+  const modalRef = useRef<BottomSheetModal>(null)
+
+  const openAuthModal = () => {
+    modalRef.current?.present()
+  }
 
   useEffect(() => {
     const { data } = supabaseClient.auth.onAuthStateChange((event, session) => {
@@ -34,7 +43,12 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     }
   }, [])
 
-  return <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
+  return (
+    <AuthContext.Provider value={{ user, openAuthModal }}>
+      {children}
+      <AuthModal ref={modalRef} />
+    </AuthContext.Provider>
+  )
 }
 
 export default AuthContextProvider

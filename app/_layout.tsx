@@ -69,18 +69,17 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <AuthContextProvider>
-        <BottomSheetModalProvider>
+      <BottomSheetModalProvider>
+        <AuthContextProvider>
           <Stack
             screenOptions={{
               contentStyle: { backgroundColor: COLORS.bg.level1 },
             }}
           >
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="authModal" options={{ presentation: 'modal' }} />
           </Stack>
-        </BottomSheetModalProvider>
-      </AuthContextProvider>
+        </AuthContextProvider>
+      </BottomSheetModalProvider>
     </GestureHandlerRootView>
   )
 }

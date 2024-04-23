@@ -34,18 +34,6 @@ export default function TabLayout() {
         options={{
           title: 'Discover',
           tabBarIcon: ({ color }) => <DiscoverIcon color={color} />,
-          headerRight: () => (
-            <Link href="/authModal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <SettingsIcon
-                    color={COLORS.nav.text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
         }}
       />
       <Tabs.Screen
