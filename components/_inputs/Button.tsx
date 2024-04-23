@@ -32,7 +32,11 @@ const Button = ({
   ...restProps
 }: ButtonProps) => {
   return (
-    <Pressable style={[styles.button, styles[`button_${size}`]]} onPress={onPress} {...restProps}>
+    <Pressable
+      style={[styles.button, styles[`button_${size}`], style]}
+      onPress={onPress}
+      {...restProps}
+    >
       {slotLeft && <View style={styles.slotLeft}>{slotLeft}</View>}
       <Text style={[styles.label, styles[`label_${size}`]]}>{label}</Text>
       {children}
