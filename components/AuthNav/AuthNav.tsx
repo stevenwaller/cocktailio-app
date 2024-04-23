@@ -19,6 +19,8 @@ const screenOptions: StackNavigationOptions = {
   headerTitleAlign: 'center',
   headerStyle: {
     backgroundColor: COLORS.bg.level2,
+    borderTopWidth: 1,
+    borderTopColor: COLORS.bg.level2,
   },
   headerTitleStyle: {
     fontFamily: FONTS.schotis.bold,
@@ -26,14 +28,12 @@ const screenOptions: StackNavigationOptions = {
   },
   headerShadowVisible: false,
   headerStatusBarHeight: 0,
-  // headerBackTitleVisible: false,
+  headerBackTitleVisible: false,
   cardStyle: {
     backgroundColor: COLORS.bg.level3,
     overflow: 'visible',
   },
 }
-
-const filtersScreenOptions = { headerLeft: () => null }
 
 interface AuthNavProps {
   onComplete: () => void
@@ -42,10 +42,10 @@ interface AuthNavProps {
 const AuthNav = ({ onComplete }: AuthNavProps) => {
   return (
     <Stack.Navigator screenOptions={screenOptions}>
-      <Stack.Screen name="Create An Account" options={filtersScreenOptions}>
+      <Stack.Screen name="Create An Account">
         {(props) => <CreateAccountScreen {...props} onComplete={onComplete} />}
       </Stack.Screen>
-      <Stack.Screen name="Sign In" options={filtersScreenOptions}>
+      <Stack.Screen name="Sign In">
         {(props) => <SignInScreen {...props} onComplete={onComplete} />}
       </Stack.Screen>
     </Stack.Navigator>

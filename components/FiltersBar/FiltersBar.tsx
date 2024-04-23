@@ -69,6 +69,7 @@ const FiltersBar = ({ filters: filtersProp, onApply }: FiltersBarProps) => {
               key={filter.name}
               style={styles.button}
               label={filter.name}
+              size="small"
               onPress={() => handleFilterPress(filter.index)}
               slotRight={<ChevronDown color={COLORS.text.dark} width={15} height={15} />}
             >

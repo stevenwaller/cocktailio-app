@@ -52,7 +52,6 @@ const SignIn = ({ onComplete }: ISignInProps) => {
             style={styles.input}
             onChangeText={(text) => setEmail(text)}
             value={email}
-            placeholder="email@address.com"
             autoCapitalize="none"
           />
         </View>
@@ -63,7 +62,6 @@ const SignIn = ({ onComplete }: ISignInProps) => {
             onChangeText={(text) => setPassword(text)}
             value={password}
             secureTextEntry
-            placeholder="Password"
             autoCapitalize="none"
           />
         </View>
@@ -103,7 +101,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     marginBottom: 4,
-    fontFamily: FONTS.hells.sans.medium,
+    fontFamily: FONTS.hells.sans.bold,
     color: COLORS.text.body,
   },
   input: {

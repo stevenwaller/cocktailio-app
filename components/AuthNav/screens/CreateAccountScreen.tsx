@@ -50,7 +50,6 @@ const CreateAccountScreen = ({ onComplete }: ICreateAccountScreenProps) => {
             style={styles.input}
             onChangeText={(text) => setEmail(text)}
             value={email}
-            placeholder="email@address.com"
             autoCapitalize="none"
           />
         </View>
@@ -61,7 +60,6 @@ const CreateAccountScreen = ({ onComplete }: ICreateAccountScreenProps) => {
             onChangeText={(text) => setPassword(text)}
             value={password}
             secureTextEntry
-            placeholder="Password"
             autoCapitalize="none"
           />
         </View>

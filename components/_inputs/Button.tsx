@@ -17,6 +17,7 @@ interface ButtonProps extends PressableProps {
   children?: ReactNode
   slotLeft?: ReactNode
   slotRight?: ReactNode
+  size?: 'small' | 'medium' | 'large'
   onPress?: () => void
 }
 
@@ -27,12 +28,13 @@ const Button = ({
   label,
   children,
   onPress,
+  size = 'medium',
   ...restProps
 }: ButtonProps) => {
   return (
-    <Pressable style={[styles.button, style]} onPress={onPress} {...restProps}>
+    <Pressable style={[styles.button, styles[`button_${size}`]]} onPress={onPress} {...restProps}>
       {slotLeft && <View style={styles.slotLeft}>{slotLeft}</View>}
-      <Text style={styles.label}>{label}</Text>
+      <Text style={[styles.label, styles[`label_${size}`]]}>{label}</Text>
       {children}
       {slotRight && <View style={styles.slotRight}>{slotRight}</View>}
     </Pressable>
@@ -46,13 +48,33 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: SIZE.border.radius,
+  },
+  button_small: {
     paddingVertical: 7,
     paddingHorizontal: 11,
   },
+  button_medium: {
+    paddingVertical: 10,
+    paddingHorizontal: 11,
+  },
+  button_large: {
+    paddingVertical: 20,
+    paddingHorizontal: 11,
+  },
   label: {
+    color: COLORS.text.dark,
+  },
+  label_small: {
     fontFamily: FONTS.hells.sans.medium,
     fontSize: 14,
-    color: COLORS.text.dark,
+  },
+  label_medium: {
+    fontFamily: FONTS.hells.sans.bold,
+    fontSize: 16,
+  },
+  label_large: {
+    fontFamily: FONTS.hells.sans.bold,
+    fontSize: 16,
   },
   slotLeft: {
     marginRight: 3,
