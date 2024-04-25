@@ -53,6 +53,7 @@ const SignIn = ({ onComplete }: ISignInProps) => {
             onChangeText={(text) => setEmail(text)}
             value={email}
             autoCapitalize="none"
+            readOnly={loading}
           />
         </View>
         <View style={styles.formRow}>
@@ -63,10 +64,11 @@ const SignIn = ({ onComplete }: ISignInProps) => {
             value={password}
             secureTextEntry
             autoCapitalize="none"
+            readOnly={loading}
           />
         </View>
         <View style={styles.formRow}>
-          <Button label="Sign In" disabled={loading} onPress={() => signInWithEmail()} />
+          <Button label="Sign In" loading={loading} onPress={() => signInWithEmail()} />
         </View>
       </BottomSheetView>
     </BottomSheetScrollView>

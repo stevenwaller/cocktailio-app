@@ -19,10 +19,18 @@ const CreateAccountScreen = ({ onComplete }: ICreateAccountScreenProps) => {
 
   async function signUpWithEmail() {
     setLoading(true)
-    const { error } = await supabaseClient.auth.signUp({
+    const { data, error } = await supabaseClient.auth.signUp({
       email,
       password,
     })
+
+    // create initial bar and collection
+    await supabaseClient.from('bars').insert({ name: 'Home Bar', user_id: data.user?.id }).single()
+
+    await supabaseClient
+      .from('collections')
+      .insert({ name: 'Favorites', user_id: data.user?.id })
+      .single()
 
     setLoading(false)
 
@@ -51,6 +59,7 @@ const CreateAccountScreen = ({ onComplete }: ICreateAccountScreenProps) => {
             onChangeText={(text) => setEmail(text)}
             value={email}
             autoCapitalize="none"
+            readOnly={loading}
           />
         </View>
         <View style={styles.formRow}>
@@ -61,10 +70,11 @@ const CreateAccountScreen = ({ onComplete }: ICreateAccountScreenProps) => {
             value={password}
             secureTextEntry
             autoCapitalize="none"
+            readOnly={loading}
           />
         </View>
         <View style={styles.formRow}>
-          <Button label="Create Account" disabled={loading} onPress={() => signUpWithEmail()} />
+          <Button label="Create Account" loading={loading} onPress={() => signUpWithEmail()} />
         </View>
       </BottomSheetView>
     </BottomSheetScrollView>

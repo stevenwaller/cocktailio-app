@@ -15,7 +15,7 @@ interface BaseSpiritScreenProps {
 const BaseSpiritScreen = ({ filter, onChange }: BaseSpiritScreenProps) => {
   const { data, error, isFetching } = useSupabase<TIngredient>({
     tableName: 'ingredients',
-    args: [{ operator: 'eq', key: 'is_base', value: true }],
+    filters: [{ operator: 'eq', key: 'is_base', value: true }],
   })
 
   const handleIngredientPress = (ingredient: TIngredient) => {

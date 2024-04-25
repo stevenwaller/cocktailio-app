@@ -18,6 +18,7 @@ interface ButtonProps extends PressableProps {
   slotLeft?: ReactNode
   slotRight?: ReactNode
   size?: 'small' | 'medium' | 'large'
+  loading?: boolean
   onPress?: () => void
 }
 
@@ -28,19 +29,32 @@ const Button = ({
   label,
   children,
   onPress,
+  loading,
   size = 'medium',
   ...restProps
 }: ButtonProps) => {
+  const renderContent = () => {
+    if (loading) {
+      return <Text style={[styles.label, styles[`label_${size}`]]}>Loading...</Text>
+    } else {
+      return (
+        <>
+          {slotLeft && <View style={styles.slotLeft}>{slotLeft}</View>}
+          <Text style={[styles.label, styles[`label_${size}`]]}>{label}</Text>
+          {children}
+          {slotRight && <View style={styles.slotRight}>{slotRight}</View>}
+        </>
+      )
+    }
+  }
+
   return (
     <Pressable
       style={[styles.button, styles[`button_${size}`], style]}
       onPress={onPress}
       {...restProps}
     >
-      {slotLeft && <View style={styles.slotLeft}>{slotLeft}</View>}
-      <Text style={[styles.label, styles[`label_${size}`]]}>{label}</Text>
-      {children}
-      {slotRight && <View style={styles.slotRight}>{slotRight}</View>}
+      {renderContent()}
     </Pressable>
   )
 }

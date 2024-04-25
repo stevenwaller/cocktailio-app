@@ -2,8 +2,8 @@ import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import type { User } from '@supabase/supabase-js'
 import { createContext, useState, useEffect, useRef, ReactNode, useContext } from 'react'
 
-import AuthNav from '@/components/AuthNav'
 import StackNavModal from '@/components/_overlays/StackNavModal'
+import AuthNav from '@/content/AuthNav'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
 const snapPoints = ['92%']

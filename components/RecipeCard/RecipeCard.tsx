@@ -30,8 +30,6 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
       substitute,
     } = component
 
-    console.log('ingredients', ingredients)
-
     return (
       <View style={styles.ingredient}>
         <View style={styles.ingredientAction}>

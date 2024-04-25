@@ -32,3 +32,11 @@ export type TComponentIngredient = Tables<'cocktail_component_ingredients'> & {
 export type TIngredient = Tables<'ingredients'>
 
 export type TSource = Tables<'sources'>
+
+export type TBar = Tables<'bars'> & {
+  ingredients: TBarIngredient[]
+}
+
+export type TBarIngredient = Tables<'bar_ingredients'> & {
+  ingredient: TIngredient
+}

@@ -1,41 +1,121 @@
-export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[]
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[]
 
 export type Database = {
   public: {
     Tables: {
+      bar_ingredients: {
+        Row: {
+          bar_id: string | null
+          created_at: string
+          id: number
+          ingredient_id: string | null
+        }
+        Insert: {
+          bar_id?: string | null
+          created_at?: string
+          id?: number
+          ingredient_id?: string | null
+        }
+        Update: {
+          bar_id?: string | null
+          created_at?: string
+          id?: number
+          ingredient_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bar_ingredients_bar_id_fkey"
+            columns: ["bar_id"]
+            isOneToOne: false
+            referencedRelation: "bars"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bar_ingredients_ingredient_id_fkey"
+            columns: ["ingredient_id"]
+            isOneToOne: false
+            referencedRelation: "ingredients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bars: {
+        Row: {
+          created_at: string
+          id: string
+          name: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bars_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       cocktail_component_ingredients: {
         Row: {
           cocktail_component_id: string | null
           created_at: string | null
           id: string
           ingredient_id: string | null
+          type:
+            | Database["public"]["Enums"]["cocktail_component_ingredient_type"]
+            | null
         }
         Insert: {
           cocktail_component_id?: string | null
           created_at?: string | null
           id?: string
           ingredient_id?: string | null
+          type?:
+            | Database["public"]["Enums"]["cocktail_component_ingredient_type"]
+            | null
         }
         Update: {
           cocktail_component_id?: string | null
           created_at?: string | null
           id?: string
           ingredient_id?: string | null
+          type?:
+            | Database["public"]["Enums"]["cocktail_component_ingredient_type"]
+            | null
         }
         Relationships: [
           {
-            foreignKeyName: 'public_cocktail_component_ingredients_cocktail_component_id_fke'
-            columns: ['cocktail_component_id']
+            foreignKeyName: "public_cocktail_component_ingredients_cocktail_component_id_fke"
+            columns: ["cocktail_component_id"]
             isOneToOne: false
-            referencedRelation: 'cocktail_components'
-            referencedColumns: ['id']
+            referencedRelation: "cocktail_components"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'public_cocktail_component_ingredients_ingredient_id_fkey'
-            columns: ['ingredient_id']
+            foreignKeyName: "public_cocktail_component_ingredients_ingredient_id_fkey"
+            columns: ["ingredient_id"]
             isOneToOne: false
-            referencedRelation: 'ingredients'
-            referencedColumns: ['id']
+            referencedRelation: "ingredients"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -60,18 +140,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'public_cocktail_component_or_ingredients_cocktail_component_id_'
-            columns: ['cocktail_component_id']
+            foreignKeyName: "public_cocktail_component_or_ingredients_cocktail_component_id_"
+            columns: ["cocktail_component_id"]
             isOneToOne: false
-            referencedRelation: 'cocktail_components'
-            referencedColumns: ['id']
+            referencedRelation: "cocktail_components"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'public_cocktail_component_or_ingredients_ingredient_id_fkey'
-            columns: ['ingredient_id']
+            foreignKeyName: "public_cocktail_component_or_ingredients_ingredient_id_fkey"
+            columns: ["ingredient_id"]
             isOneToOne: false
-            referencedRelation: 'ingredients'
-            referencedColumns: ['id']
+            referencedRelation: "ingredients"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -96,18 +176,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'public_cocktail_component_pref_ingredients_cocktail_component_i'
-            columns: ['cocktail_component_id']
+            foreignKeyName: "public_cocktail_component_pref_ingredients_cocktail_component_i"
+            columns: ["cocktail_component_id"]
             isOneToOne: false
-            referencedRelation: 'cocktail_components'
-            referencedColumns: ['id']
+            referencedRelation: "cocktail_components"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'public_cocktail_component_pref_ingredients_ingredient_id_fkey'
-            columns: ['ingredient_id']
+            foreignKeyName: "public_cocktail_component_pref_ingredients_ingredient_id_fkey"
+            columns: ["ingredient_id"]
             isOneToOne: false
-            referencedRelation: 'ingredients'
-            referencedColumns: ['id']
+            referencedRelation: "ingredients"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -118,10 +198,12 @@ export type Database = {
           cocktail_id: string | null
           created_at: string | null
           id: string
+          ingredients_array: string[] | null
           measurement_id: string | null
           note: string | null
           optional: boolean | null
           order: number | null
+          sub_ingredients_array: string[] | null
           substitute: string | null
           variation: string | null
         }
@@ -131,10 +213,12 @@ export type Database = {
           cocktail_id?: string | null
           created_at?: string | null
           id?: string
+          ingredients_array?: string[] | null
           measurement_id?: string | null
           note?: string | null
           optional?: boolean | null
           order?: number | null
+          sub_ingredients_array?: string[] | null
           substitute?: string | null
           variation?: string | null
         }
@@ -144,27 +228,29 @@ export type Database = {
           cocktail_id?: string | null
           created_at?: string | null
           id?: string
+          ingredients_array?: string[] | null
           measurement_id?: string | null
           note?: string | null
           optional?: boolean | null
           order?: number | null
+          sub_ingredients_array?: string[] | null
           substitute?: string | null
           variation?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: 'public_cocktail_components_cocktail_id_fkey'
-            columns: ['cocktail_id']
+            foreignKeyName: "public_cocktail_components_cocktail_id_fkey"
+            columns: ["cocktail_id"]
             isOneToOne: false
-            referencedRelation: 'cocktails'
-            referencedColumns: ['id']
+            referencedRelation: "cocktails"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'public_cocktail_components_measurement_id_fkey'
-            columns: ['measurement_id']
+            foreignKeyName: "public_cocktail_components_measurement_id_fkey"
+            columns: ["measurement_id"]
             isOneToOne: false
-            referencedRelation: 'measurements'
-            referencedColumns: ['id']
+            referencedRelation: "measurements"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -192,25 +278,25 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'public_cocktail_related_cocktails_cocktail_id_fkey'
-            columns: ['cocktail_id']
+            foreignKeyName: "public_cocktail_related_cocktails_cocktail_id_fkey"
+            columns: ["cocktail_id"]
             isOneToOne: false
-            referencedRelation: 'cocktails'
-            referencedColumns: ['id']
+            referencedRelation: "cocktails"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'public_cocktail_related_cocktails_inverse_id_fkey'
-            columns: ['inverse_id']
+            foreignKeyName: "public_cocktail_related_cocktails_inverse_id_fkey"
+            columns: ["inverse_id"]
             isOneToOne: false
-            referencedRelation: 'cocktail_related_cocktails'
-            referencedColumns: ['id']
+            referencedRelation: "cocktail_related_cocktails"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'public_cocktail_related_cocktails_related_cocktail_id_fkey'
-            columns: ['related_cocktail_id']
+            foreignKeyName: "public_cocktail_related_cocktails_related_cocktail_id_fkey"
+            columns: ["related_cocktail_id"]
             isOneToOne: false
-            referencedRelation: 'cocktails'
-            referencedColumns: ['id']
+            referencedRelation: "cocktails"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -235,18 +321,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'public_cocktail_sources_cocktail_id_fkey'
-            columns: ['cocktail_id']
+            foreignKeyName: "public_cocktail_sources_cocktail_id_fkey"
+            columns: ["cocktail_id"]
             isOneToOne: false
-            referencedRelation: 'cocktails'
-            referencedColumns: ['id']
+            referencedRelation: "cocktails"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'public_cocktail_sources_source_id_fkey'
-            columns: ['source_id']
+            foreignKeyName: "public_cocktail_sources_source_id_fkey"
+            columns: ["source_id"]
             isOneToOne: false
-            referencedRelation: 'sources'
-            referencedColumns: ['id']
+            referencedRelation: "sources"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -274,11 +360,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'public_cocktail_steps_cocktail_id_fkey'
-            columns: ['cocktail_id']
+            foreignKeyName: "public_cocktail_steps_cocktail_id_fkey"
+            columns: ["cocktail_id"]
             isOneToOne: false
-            referencedRelation: 'cocktails'
-            referencedColumns: ['id']
+            referencedRelation: "cocktails"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -296,7 +382,6 @@ export type Database = {
           name: string
           note: string | null
           slug: string
-          source_id: string | null
         }
         Insert: {
           base_ingredient_id?: string | null
@@ -311,7 +396,6 @@ export type Database = {
           name: string
           note?: string | null
           slug: string
-          source_id?: string | null
         }
         Update: {
           base_ingredient_id?: string | null
@@ -326,43 +410,100 @@ export type Database = {
           name?: string
           note?: string | null
           slug?: string
-          source_id?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: 'public_cocktails_base_ingredient_uuid_fkey'
-            columns: ['base_ingredient_id']
+            foreignKeyName: "public_cocktails_base_ingredient_uuid_fkey"
+            columns: ["base_ingredient_id"]
             isOneToOne: false
-            referencedRelation: 'ingredients'
-            referencedColumns: ['id']
+            referencedRelation: "ingredients"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'public_cocktails_era_id_fkey'
-            columns: ['era_id']
+            foreignKeyName: "public_cocktails_era_id_fkey"
+            columns: ["era_id"]
             isOneToOne: false
-            referencedRelation: 'eras'
-            referencedColumns: ['id']
+            referencedRelation: "eras"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'public_cocktails_glass_id_fkey'
-            columns: ['glass_id']
+            foreignKeyName: "public_cocktails_glass_id_fkey"
+            columns: ["glass_id"]
             isOneToOne: false
-            referencedRelation: 'glasses'
-            referencedColumns: ['id']
+            referencedRelation: "glasses"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'public_cocktails_method_id_fkey'
-            columns: ['method_id']
+            foreignKeyName: "public_cocktails_method_id_fkey"
+            columns: ["method_id"]
             isOneToOne: false
-            referencedRelation: 'methods'
-            referencedColumns: ['id']
+            referencedRelation: "methods"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      collection_cocktails: {
+        Row: {
+          cocktail_id: string | null
+          collection_id: string | null
+          created_at: string
+          id: string
+        }
+        Insert: {
+          cocktail_id?: string | null
+          collection_id?: string | null
+          created_at?: string
+          id?: string
+        }
+        Update: {
+          cocktail_id?: string | null
+          collection_id?: string | null
+          created_at?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "collection_cocktails_cocktail_id_fkey"
+            columns: ["cocktail_id"]
+            isOneToOne: false
+            referencedRelation: "cocktails"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'public_cocktails_source_id_fkey'
-            columns: ['source_id']
+            foreignKeyName: "collection_cocktails_collection_id_fkey"
+            columns: ["collection_id"]
             isOneToOne: false
-            referencedRelation: 'sources'
-            referencedColumns: ['id']
+            referencedRelation: "collections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      collections: {
+        Row: {
+          created_at: string
+          id: string
+          name: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "collections_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -422,51 +563,60 @@ export type Database = {
       }
       ingredients: {
         Row: {
+          aka: string | null
           created_at: string | null
           description: string | null
           hierarchy: string[] | null
           history: string | null
           id: string
+          is_base: boolean | null
+          is_brand: boolean | null
+          is_category: boolean | null
           name: string
           order: number | null
           parent_ingredient_id: string | null
           slug: string
-          type: Database['public']['Enums']['ingredient_type']
           website: string | null
         }
         Insert: {
+          aka?: string | null
           created_at?: string | null
           description?: string | null
           hierarchy?: string[] | null
           history?: string | null
           id?: string
+          is_base?: boolean | null
+          is_brand?: boolean | null
+          is_category?: boolean | null
           name: string
           order?: number | null
           parent_ingredient_id?: string | null
           slug: string
-          type: Database['public']['Enums']['ingredient_type']
           website?: string | null
         }
         Update: {
+          aka?: string | null
           created_at?: string | null
           description?: string | null
           hierarchy?: string[] | null
           history?: string | null
           id?: string
+          is_base?: boolean | null
+          is_brand?: boolean | null
+          is_category?: boolean | null
           name?: string
           order?: number | null
           parent_ingredient_id?: string | null
           slug?: string
-          type?: Database['public']['Enums']['ingredient_type']
           website?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: 'public_ingredients_parent_ingredient_uuid_fkey'
-            columns: ['parent_ingredient_id']
+            foreignKeyName: "public_ingredients_parent_ingredient_uuid_fkey"
+            columns: ["parent_ingredient_id"]
             isOneToOne: false
-            referencedRelation: 'ingredients'
-            referencedColumns: ['id']
+            referencedRelation: "ingredients"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -558,6 +708,12 @@ export type Database = {
             }
             Returns: Json
           }
+      delete_function: {
+        Args: {
+          _name: string
+        }
+        Returns: number
+      }
       foo: {
         Args: Record<PropertyKey, never>
         Returns: {
@@ -566,18 +722,57 @@ export type Database = {
           recipes: Json
         }[]
       }
+      get_bars_for_user: {
+        Args: Record<PropertyKey, never>
+        Returns: string[]
+      }
+      get_collections_for_user: {
+        Args: Record<PropertyKey, never>
+        Returns: string[]
+      }
+      logging_example: {
+        Args: {
+          log_message: string
+          warning_message: string
+          error_message: string
+        }
+        Returns: undefined
+      }
       plv8: {
         Args: Record<PropertyKey, never>
         Returns: Json
       }
       query_cocktails: {
-        Args: Record<PropertyKey, never>
-        Returns: Json
+        Args: {
+          bar_stock: Json
+          filter_ingredients: Json
+        }
+        Returns: {
+          created_at: string
+          id: string
+          method_id: string
+          note: string
+          description: string
+          history: string
+          name: string
+          slug: string
+          era_id: string
+          invention_date: string
+          base_ingredient_id: string
+          glass_id: string
+          base_ingredient: Json
+          glass: Json
+          era: Json
+          method: Json
+          steps: Json
+          sources: Json
+          components: Json
+          related_cocktails: Json
+        }[]
       }
     }
     Enums: {
-      ingredient_type: 'Category' | 'Base Ingredient' | 'Ingredient' | 'Brand'
-      ingredient_types: 'Category' | 'Kind' | 'Type' | 'Brand'
+      cocktail_component_ingredient_type: "Default" | "Or" | "Recommended"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -585,25 +780,27 @@ export type Database = {
   }
 }
 
-type PublicSchema = Database[Extract<keyof Database, 'public'>]
+type PublicSchema = Database[Extract<keyof Database, "public">]
 
 export type Tables<
   PublicTableNameOrOptions extends
-    | keyof (PublicSchema['Tables'] & PublicSchema['Views'])
+    | keyof (PublicSchema["Tables"] & PublicSchema["Views"])
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof (Database[PublicTableNameOrOptions['schema']]['Tables'] &
-        Database[PublicTableNameOrOptions['schema']]['Views'])
+    ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+        Database[PublicTableNameOrOptions["schema"]]["Views"])
     : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? (Database[PublicTableNameOrOptions['schema']]['Tables'] &
-      Database[PublicTableNameOrOptions['schema']]['Views'])[TableName] extends {
+  ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+      Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
       Row: infer R
     }
     ? R
     : never
-  : PublicTableNameOrOptions extends keyof (PublicSchema['Tables'] & PublicSchema['Views'])
-    ? (PublicSchema['Tables'] & PublicSchema['Views'])[PublicTableNameOrOptions] extends {
+  : PublicTableNameOrOptions extends keyof (PublicSchema["Tables"] &
+        PublicSchema["Views"])
+    ? (PublicSchema["Tables"] &
+        PublicSchema["Views"])[PublicTableNameOrOptions] extends {
         Row: infer R
       }
       ? R
@@ -611,18 +808,20 @@ export type Tables<
     : never
 
 export type TablesInsert<
-  PublicTableNameOrOptions extends keyof PublicSchema['Tables'] | { schema: keyof Database },
+  PublicTableNameOrOptions extends
+    | keyof PublicSchema["Tables"]
+    | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
     : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicTableNameOrOptions['schema']]['Tables'][TableName] extends {
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Insert: infer I
     }
     ? I
     : never
-  : PublicTableNameOrOptions extends keyof PublicSchema['Tables']
-    ? PublicSchema['Tables'][PublicTableNameOrOptions] extends {
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
         Insert: infer I
       }
       ? I
@@ -630,18 +829,20 @@ export type TablesInsert<
     : never
 
 export type TablesUpdate<
-  PublicTableNameOrOptions extends keyof PublicSchema['Tables'] | { schema: keyof Database },
+  PublicTableNameOrOptions extends
+    | keyof PublicSchema["Tables"]
+    | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
     : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicTableNameOrOptions['schema']]['Tables'][TableName] extends {
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Update: infer U
     }
     ? U
     : never
-  : PublicTableNameOrOptions extends keyof PublicSchema['Tables']
-    ? PublicSchema['Tables'][PublicTableNameOrOptions] extends {
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
         Update: infer U
       }
       ? U
@@ -649,12 +850,14 @@ export type TablesUpdate<
     : never
 
 export type Enums<
-  PublicEnumNameOrOptions extends keyof PublicSchema['Enums'] | { schema: keyof Database },
+  PublicEnumNameOrOptions extends
+    | keyof PublicSchema["Enums"]
+    | { schema: keyof Database },
   EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicEnumNameOrOptions['schema']]['Enums']
+    ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
     : never = never,
 > = PublicEnumNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicEnumNameOrOptions['schema']]['Enums'][EnumName]
-  : PublicEnumNameOrOptions extends keyof PublicSchema['Enums']
-    ? PublicSchema['Enums'][PublicEnumNameOrOptions]
+  ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
+    ? PublicSchema["Enums"][PublicEnumNameOrOptions]
     : never

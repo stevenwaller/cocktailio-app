@@ -2,11 +2,11 @@ import { BottomSheetModal, BottomSheetFooter } from '@gorhom/bottom-sheet'
 import { useRef, useState } from 'react'
 import { StyleSheet, ScrollView, View, Pressable, Text, Platform } from 'react-native'
 
-import FilterNav from '@/components/FilterNav'
 import ChevronDown from '@/components/_icons/ChevronDown'
 import FilterIcon from '@/components/_icons/Filter'
 import Button from '@/components/_inputs/Button'
 import StackNavModal from '@/components/_overlays/StackNavModal'
+import FilterNav from '@/content/FilterNav'
 import { COLORS, FONTS, SIZE } from '@/lib/constants'
 import { IFilter } from '@/lib/types'
 

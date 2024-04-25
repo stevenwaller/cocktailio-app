@@ -6,14 +6,18 @@ import supabaseClient from '@/lib/utils/supabaseClient'
 interface IUseSupabase {
   tableName: string
   select?: string
-  args?: {
-    operator: 'eq' | 'neq' | 'gt' | 'gte' | 'lt' | 'lte' | 'like' | 'ilike'
+  filters?: {
+    operator: 'eq' | 'neq' | 'gt' | 'gte' | 'lt' | 'lte' | 'like' | 'ilike' | 'is'
     key: string
-    value: string | number | boolean
+    value: string | number | boolean | null
+  }[]
+  orders?: {
+    column: string
+    args: any
   }[]
 }
 
-const useSupabase = <ItemType>({ tableName, select = '*', args }: IUseSupabase) => {
+const useSupabase = <ItemType>({ tableName, select = '*', filters }: IUseSupabase) => {
   const [isFetching, setIsFetching] = useState(false)
   const [data, setData] = useState<ItemType[] | null>(null)
   const [error, setError] = useState<PostgrestError | null>(null)
@@ -24,18 +28,12 @@ const useSupabase = <ItemType>({ tableName, select = '*', args }: IUseSupabase) 
 
     let query = supabaseClient.from(tableName).select(select).returns<ItemType[]>()
 
-    if (args) {
-      args.forEach(({ operator, key, value }) => {
-        switch (operator) {
-          case 'eq':
-            // @ts-expect-error
-            query = query.eq(key, value)
-            break
-        }
+    if (filters) {
+      filters.forEach(({ operator, key, value }) => {
+        // @ts-expect-error
+        query = query[operator](key, value)
       })
     }
-
-    // TODO: build out the rest of the query base on args
 
     const response = await query
 
@@ -43,7 +41,40 @@ const useSupabase = <ItemType>({ tableName, select = '*', args }: IUseSupabase) 
     setData(response.data)
     setError(response.error)
     setCount(response.count)
-  }, [args])
+  }, [filters])
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
+  return { data, error, isFetching, count, refetch: fetchData }
+}
+
+export const useSupabaseSingle = <ItemType>({ tableName, select = '*', filters }: IUseSupabase) => {
+  const [isFetching, setIsFetching] = useState(false)
+  const [data, setData] = useState<ItemType | null>(null)
+  const [error, setError] = useState<PostgrestError | null>(null)
+  const [count, setCount] = useState<number | null>(null)
+
+  const fetchData = useCallback(async () => {
+    setIsFetching(true)
+
+    let query = supabaseClient.from(tableName).select(select).returns<ItemType[]>().single()
+
+    if (filters) {
+      filters.forEach(({ operator, key, value }) => {
+        // @ts-expect-error
+        query = query[operator](key, value)
+      })
+    }
+
+    const response = await query
+
+    setIsFetching(false)
+    setData(response.data)
+    setError(response.error)
+    setCount(response.count)
+  }, [filters])
 
   useEffect(() => {
     fetchData()

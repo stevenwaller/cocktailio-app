@@ -4,6 +4,7 @@ import { StyleSheet, ScrollView } from 'react-native'
 import PageContainer from '@/components/PageContainer'
 import { BodyText } from '@/components/_elements/Text'
 import Button from '@/components/_inputs/Button'
+import BarList from '@/content/BarList'
 import { useAuth } from '@/lib/contexts/AuthContextProvider'
 
 export default function BarStockScreen() {
@@ -19,9 +20,12 @@ export default function BarStockScreen() {
       />
       <PageContainer>
         {user ? (
-          <BodyText>Welcome, {user.email}</BodyText>
+          <BarList />
         ) : (
-          <Button label="Sign In / Create Account" onPress={() => openAuthModal()} />
+          <>
+            <BodyText>Create and account or sign in to manage your bar stock</BodyText>
+            <Button label="Sign In / Create Account" onPress={() => openAuthModal()} />
+          </>
         )}
       </PageContainer>
     </ScrollView>
