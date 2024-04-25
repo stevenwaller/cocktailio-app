@@ -2,9 +2,9 @@ import { StyleSheet, View, ViewProps } from 'react-native'
 
 import { SIZE } from '@/lib/constants'
 
-const CardBody = ({ children, ...restProps }: ViewProps) => {
+const CardBody = ({ children, style, ...restProps }: ViewProps) => {
   return (
-    <View style={styles.body} {...restProps}>
+    <View style={[styles.body, style]} {...restProps}>
       {children}
     </View>
   )

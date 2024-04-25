@@ -8,9 +8,9 @@ interface CardHeaderTextProps extends TextProps {
 }
 
 const CardHeaderText = forwardRef<Text, CardHeaderTextProps>(
-  ({ isLink, children, ...restProps }, ref) => {
+  ({ isLink, children, style, ...restProps }, ref) => {
     return (
-      <Text style={[styles.text, isLink && styles.isLink]} {...restProps} ref={ref}>
+      <Text style={[styles.text, isLink && styles.isLink, style]} {...restProps} ref={ref}>
         {children}
       </Text>
     )

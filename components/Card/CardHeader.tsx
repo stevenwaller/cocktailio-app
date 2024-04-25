@@ -6,9 +6,9 @@ interface CardHeaderProps extends ViewProps {
   isBody?: boolean
 }
 
-const CardHeader = ({ isBody, children, ...restProps }: CardHeaderProps) => {
+const CardHeader = ({ isBody, children, style, ...restProps }: CardHeaderProps) => {
   return (
-    <View style={[styles.header, !isBody && styles.isTop]} {...restProps}>
+    <View style={[styles.header, !isBody && styles.isTop, style]} {...restProps}>
       {children}
     </View>
   )
