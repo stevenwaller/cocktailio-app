@@ -1,11 +1,9 @@
-import { ReactNode } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, ViewProps } from 'react-native'
 
 import { COLORS, SIZE, FONTS } from '@/lib/constants'
 
-interface CardHeaderProps {
+interface CardHeaderProps extends ViewProps {
   isBody?: boolean
-  children: ReactNode
 }
 
 const CardHeader = ({ isBody, children, ...restProps }: CardHeaderProps) => {

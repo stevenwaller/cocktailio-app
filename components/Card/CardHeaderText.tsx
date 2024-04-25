@@ -1,11 +1,10 @@
-import { ReactNode, forwardRef } from 'react'
-import { StyleSheet, Text } from 'react-native'
+import { forwardRef } from 'react'
+import { StyleSheet, Text, TextProps } from 'react-native'
 
 import { COLORS, FONTS } from '@/lib/constants'
 
-interface CardHeaderTextProps {
+interface CardHeaderTextProps extends TextProps {
   isLink?: boolean
-  children: ReactNode
 }
 
 const CardHeaderText = forwardRef<Text, CardHeaderTextProps>(

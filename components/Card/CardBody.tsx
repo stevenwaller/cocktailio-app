@@ -1,13 +1,8 @@
-import { ReactNode } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, ViewProps } from 'react-native'
 
 import { SIZE } from '@/lib/constants'
 
-interface CardBodyProps {
-  children: ReactNode
-}
-
-const CardBody = ({ children, ...restProps }: CardBodyProps) => {
+const CardBody = ({ children, ...restProps }: ViewProps) => {
   return (
     <View style={styles.body} {...restProps}>
       {children}
