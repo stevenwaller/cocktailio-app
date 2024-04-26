@@ -12,9 +12,10 @@ import useBarStore from '@/lib/stores/useBarStore'
 import { TIngredient } from '@/lib/types/supabase'
 
 export default function Ingredients() {
-  const [openAccordions, setOpenAccordions] = useState<string[]>(['All Ingredients'])
+  const [openAccordions, setOpenAccordions] = useState<any>({})
   const { barId, name } = useLocalSearchParams()
-  const bar = useBarStore((state) => state.barsById[barId as string])
+  const bar = useBarStore((state) => state.bars.find((bar) => bar.id === barId))
+  const setBar = useBarStore((state) => state.setBar)
 
   const {
     data: ingredients,
@@ -52,29 +53,47 @@ export default function Ingredients() {
     ],
   })
 
-  const handleToggle = (title: string) => {
-    if (openAccordions.includes(title)) {
-      setOpenAccordions(openAccordions.filter((accordion) => accordion !== title))
+  const handleToggle = (ingredient: TIngredient) => {
+    const newOpenAccordions = { ...openAccordions }
+
+    if (openAccordions[ingredient.id]) {
+      delete newOpenAccordions[ingredient.id]
+
+      const closeChildren = (ingredient: TIngredient) => {
+        ingredient.ingredients?.forEach((child) => {
+          delete newOpenAccordions[child.id]
+          closeChildren(child)
+        })
+      }
+
+      closeChildren(ingredient)
     } else {
-      setOpenAccordions([...openAccordions, title])
+      newOpenAccordions[ingredient.id] = {}
     }
+
+    setOpenAccordions(newOpenAccordions)
   }
 
-  const renderIngredients = (ingredients: TIngredient[] | undefined, level: number) => {
+  const renderIngredients = (ingredients: TIngredient[] | undefined, depth: number) => {
     if (!ingredients || ingredients.length === 0) return
 
-    return ingredients.map((ingredient) => (
-      <SelectableAccordion
-        key={ingredient.id}
-        label={ingredient.name}
-        level={level}
-        isSelectable={!ingredient.is_category}
-        isOpen
-        headerLabelStyle={ingredient.is_brand ? { fontFamily: FONTS.hells.sans.boldItalic } : null}
-      >
-        {renderIngredients(ingredient.ingredients, level + 1)}
-      </SelectableAccordion>
-    ))
+    return ingredients.map((ingredient, index) => {
+      return (
+        <SelectableAccordion
+          key={ingredient.id}
+          label={ingredient.name}
+          style={[styles.accordion, depth > 0 && { paddingLeft: 34 }]}
+          // isSelected={isSelected[ingredient.id]}
+          isOpen={openAccordions[ingredient.id]}
+          onToggle={() => handleToggle(ingredient)}
+          headerLabelStyle={
+            ingredient.is_brand ? { fontFamily: FONTS.hells.sans.boldItalic } : null
+          }
+        >
+          {renderIngredients(ingredient.ingredients, depth + 1)}
+        </SelectableAccordion>
+      )
+    })
   }
 
   const renderCategories = () => {
@@ -82,8 +101,8 @@ export default function Ingredients() {
       <AccordionCard
         key={ingredient.id}
         title={ingredient.name}
-        isOpen={openAccordions.includes(ingredient.id)}
-        onToggle={() => handleToggle(ingredient.id)}
+        isOpen={openAccordions[ingredient.id]}
+        onToggle={() => handleToggle(ingredient)}
       >
         {renderIngredients(ingredient.ingredients, 0)}
       </AccordionCard>
@@ -110,7 +129,7 @@ export default function Ingredients() {
     <ScrollView>
       <Stack.Screen
         options={{
-          title: `${name} Ingredients`,
+          title: `INGREDIENTS`,
         }}
       />
       <PageContainer>{renderContent()}</PageContainer>
@@ -118,4 +137,8 @@ export default function Ingredients() {
   )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  accordion: {
+    marginBottom: 12,
+  },
+})

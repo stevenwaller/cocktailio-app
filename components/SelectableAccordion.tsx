@@ -6,35 +6,33 @@ import AddInput from '@/components/_inputs/AddInput'
 import { COLORS, FONTS } from '@/lib/constants'
 
 interface SelectableAccordionProps extends ViewProps {
-  level?: number
-  isSelectable?: boolean
+  isSelected?: boolean
   label: string
   isOpen: boolean
   headerLabelStyle?: StyleProp<TextStyle>
+  onSelect?: () => void
+  onToggle?: () => void
 }
 
 const SelectableAccordion = ({
   label,
-  level = 0,
-  isSelectable = true,
   isOpen,
   children,
   style,
   headerLabelStyle,
+  isSelected,
+  onSelect,
+  onToggle,
 }: SelectableAccordionProps) => {
-  const levelStyles = {
-    paddingLeft: level > 0 ? 34 : 0,
-  }
-
   return (
-    <View style={[styles.accordion, levelStyles, style]}>
+    <View style={[styles.accordion, style]}>
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          {isSelectable && <AddInput style={styles.addInput} />}
+          <AddInput style={styles.addInput} onPress={onSelect} checked={isSelected} />
           <Text style={[styles.headerLabel, headerLabelStyle]}>{label}</Text>
         </View>
         {children && (
-          <Pressable>
+          <Pressable onPress={onToggle}>
             {isOpen ? (
               <ChevronUpIcon color={COLORS.text.link} />
             ) : (

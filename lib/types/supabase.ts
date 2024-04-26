@@ -35,8 +35,11 @@ export type TIngredient = Tables<'ingredients'> & {
 
 export type TSource = Tables<'sources'>
 
+export type TIngredientsById = Record<string, TIngredient>
+
 export type TBar = Tables<'bars'> & {
   ingredients: TBarIngredient[]
+  ingredientsById: TIngredientsById
 }
 
 export type TBarIngredient = Tables<'bar_ingredients'> & {

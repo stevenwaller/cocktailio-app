@@ -1,5 +1,5 @@
 import { Link } from 'expo-router'
-import { StyleSheet, Text } from 'react-native'
+import { StyleSheet, Text, Pressable } from 'react-native'
 
 import Card from '@/components/Card'
 import ChevronRightIcon from '@/components/_icons/ChevronRight'
@@ -16,31 +16,23 @@ const BarCard = ({ bar, ...restProps }: BarCardProps) => {
   return (
     <Card {...restProps}>
       <Card.Header>
-        <Link
-          style={styles.name}
-          href={
-            {
-              pathname: `/barStock/${bar.id}`,
-              params: { name: bar.name },
-            } as never
-          }
-          asChild
-        >
-          <Card.HeaderText isLink>{name}</Card.HeaderText>
-        </Link>
+        <Card.HeaderText>{name}</Card.HeaderText>
       </Card.Header>
       <Card.Body>
         <Link
-          style={styles.action}
+          style={[styles.action, { marginBottom: 10 }]}
           href={
             {
               pathname: `/barStock/${bar.id}/ingredients`,
               params: { name: bar.name },
             } as never
           }
+          asChild
         >
-          <Text style={styles.actionText}>Add/Remove Ingredients</Text>
-          <ChevronRightIcon color={COLORS.text.link} />
+          <Pressable>
+            <Text style={styles.actionText}>Add/Remove Ingredients</Text>
+            <ChevronRightIcon color={COLORS.text.link} />
+          </Pressable>
         </Link>
         <Link
           style={styles.action}
@@ -50,9 +42,12 @@ const BarCard = ({ bar, ...restProps }: BarCardProps) => {
               params: { name: bar.name },
             } as never
           }
+          asChild
         >
-          <Text style={styles.actionText}>View cocktails you can make</Text>
-          <ChevronRightIcon color={COLORS.text.link} />
+          <Pressable>
+            <Text style={styles.actionText}>View cocktails you can make</Text>
+            <ChevronRightIcon color={COLORS.text.link} />
+          </Pressable>
         </Link>
       </Card.Body>
     </Card>
@@ -65,9 +60,13 @@ const styles = StyleSheet.create({
     color: COLORS.text.link,
     fontFamily: FONTS.schotis.bold,
   },
-  action: {},
+  action: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   actionText: {
-    fontSize: 14,
+    fontSize: 16,
     color: COLORS.text.body,
     fontFamily: FONTS.hells.sans.bold,
   },

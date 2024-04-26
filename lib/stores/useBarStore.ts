@@ -2,25 +2,28 @@ import { create } from 'zustand'
 
 import { TBar } from '@/lib/types/supabase'
 
-type TBarsById = Record<string, TBar>
-
 interface IBarStore {
   bars: TBar[]
-  barsById: TBarsById
   setBars: (newBars: TBar[]) => void
-  setBarsById: (newBars: TBarsById) => void
+  setBar: (newBar: TBar) => void
 }
 
 const useBarStore = create<IBarStore>()((set) => ({
   bars: [],
-  barsById: {},
   setBars: (newBars: TBar[]) =>
     set((state) => {
       return { bars: newBars }
     }),
-  setBarsById: (newBars: TBarsById) =>
+  setBar: (newBar: TBar) =>
     set((state) => {
-      return { barsById: newBars }
+      const newBars = state.bars.map((bar) => {
+        if (bar.id === newBar.id) {
+          return newBar
+        }
+        return bar
+      })
+
+      return { bars: newBars }
     }),
 }))
 

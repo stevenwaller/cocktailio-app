@@ -5,7 +5,7 @@ import BarCard from '@/components/BarCard'
 import { BodyText } from '@/components/_elements/Text'
 import Button from '@/components/_inputs/Button'
 import useBarStore from '@/lib/stores/useBarStore'
-import { TBar } from '@/lib/types/supabase'
+import { TBar, TIngredient, TIngredientsById } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
 const BarList = () => {
@@ -13,7 +13,6 @@ const BarList = () => {
   const [error, setError] = useState<PostgrestError | null>(null)
   const bars = useBarStore((state) => state.bars)
   const setBars = useBarStore((state) => state.setBars)
-  const setBarsById = useBarStore((state) => state.setBarsById)
 
   const fetchData = async () => {
     setIsFetching(true)
@@ -32,14 +31,19 @@ const BarList = () => {
       .returns<TBar[]>()
 
     setIsFetching(false)
-    if (response.data) {
-      const barsById: Record<string, TBar> = {}
 
+    if (response.data) {
+      // for each bar create a new object with the ingredients by id
       response.data.forEach((bar) => {
-        barsById[bar.id] = bar
+        const ingredientsById: TIngredientsById = {}
+
+        bar.ingredients.forEach((barIngredient) => {
+          ingredientsById[barIngredient.ingredient.id] = barIngredient.ingredient
+        })
+
+        bar.ingredientsById = ingredientsById
       })
 
-      setBarsById(barsById)
       setBars(response.data)
     }
     setError(response.error)
