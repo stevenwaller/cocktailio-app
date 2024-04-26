@@ -1,5 +1,6 @@
 import { ViewProps, Text, View, StyleSheet, Pressable, StyleProp, TextStyle } from 'react-native'
 
+import Badge from '@/components/Badge'
 import ChevronDownIcon from '@/components/_icons/ChevronDown'
 import ChevronUpIcon from '@/components/_icons/ChevronUp'
 import AddInput from '@/components/_inputs/AddInput'
@@ -9,6 +10,7 @@ interface SelectableAccordionProps extends ViewProps {
   isSelected?: boolean
   label: string
   isOpen: boolean
+  count?: number
   headerLabelStyle?: StyleProp<TextStyle>
   onSelect?: () => void
   onToggle?: () => void
@@ -19,6 +21,7 @@ const SelectableAccordion = ({
   isOpen,
   children,
   style,
+  count,
   headerLabelStyle,
   isSelected,
   onSelect,
@@ -32,13 +35,16 @@ const SelectableAccordion = ({
           <Text style={[styles.headerLabel, headerLabelStyle]}>{label}</Text>
         </View>
         {children && (
-          <Pressable onPress={onToggle}>
-            {isOpen ? (
-              <ChevronUpIcon color={COLORS.text.link} />
-            ) : (
-              <ChevronDownIcon color={COLORS.text.link} />
-            )}
-          </Pressable>
+          <View style={styles.headerRight}>
+            {count && <Badge>{count}</Badge>}
+            <Pressable onPress={onToggle}>
+              {isOpen ? (
+                <ChevronUpIcon color={COLORS.text.link} />
+              ) : (
+                <ChevronDownIcon color={COLORS.text.link} />
+              )}
+            </Pressable>
+          </View>
         )}
       </View>
       {isOpen && <View style={styles.body}>{children}</View>}
@@ -54,6 +60,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  headerRight: {
     flexDirection: 'row',
     alignItems: 'center',
   },

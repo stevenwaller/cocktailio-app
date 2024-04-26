@@ -13,19 +13,19 @@ export type Database = {
         Row: {
           bar_id: string | null
           created_at: string
-          id: number
+          id: string
           ingredient_id: string | null
         }
         Insert: {
           bar_id?: string | null
           created_at?: string
-          id?: number
+          id?: string
           ingredient_id?: string | null
         }
         Update: {
           bar_id?: string | null
           created_at?: string
-          id?: number
+          id?: string
           ingredient_id?: string | null
         }
         Relationships: [

@@ -10,6 +10,8 @@ import { FONTS, COLORS, SIZE } from '@/lib/constants'
 import useSupabase from '@/lib/hooks/useSupabase'
 import useBarStore from '@/lib/stores/useBarStore'
 import { TIngredient } from '@/lib/types/supabase'
+import supabaseClient from '@/lib/utils/supabaseClient'
+import uuid from '@/lib/utils/uuid'
 
 export default function Ingredients() {
   const [openAccordions, setOpenAccordions] = useState<any>({})
@@ -53,6 +55,8 @@ export default function Ingredients() {
     ],
   })
 
+  if (!bar) return null
+
   const handleToggle = (ingredient: TIngredient) => {
     const newOpenAccordions = { ...openAccordions }
 
@@ -74,6 +78,41 @@ export default function Ingredients() {
     setOpenAccordions(newOpenAccordions)
   }
 
+  const handleSelect = async (ingredient: TIngredient) => {
+    const alreadySelected = !!bar.ingredientsById[ingredient.id]
+
+    const newBar = {
+      ...bar,
+      ingredientsById: { ...bar.ingredientsById },
+      bar_ingredients: [...bar.bar_ingredients],
+    }
+
+    const newBarVariables = {
+      id: uuid(),
+      created_at: new Date().toISOString(),
+      bar_id: bar.id,
+      ingredient_id: ingredient.id,
+    }
+
+    if (alreadySelected) {
+      delete newBar.ingredientsById[ingredient.id]
+      newBar.bar_ingredients = newBar.bar_ingredients.filter(
+        (bar_ingredient) => bar_ingredient.ingredient_id !== ingredient.id,
+      )
+    } else {
+      newBar.ingredientsById[ingredient.id] = ingredient
+      newBar.bar_ingredients.push({ ...newBarVariables, ingredient })
+    }
+
+    setBar(newBar)
+
+    if (alreadySelected) {
+      await supabaseClient.from('bar_ingredients').delete().eq('ingredient_id', ingredient.id)
+    } else {
+      await supabaseClient.from('bar_ingredients').insert(newBarVariables).select().single()
+    }
+  }
+
   const renderIngredients = (ingredients: TIngredient[] | undefined, depth: number) => {
     if (!ingredients || ingredients.length === 0) return
 
@@ -83,9 +122,10 @@ export default function Ingredients() {
           key={ingredient.id}
           label={ingredient.name}
           style={[styles.accordion, depth > 0 && { paddingLeft: 34 }]}
-          // isSelected={isSelected[ingredient.id]}
+          isSelected={!!bar.ingredientsById[ingredient.id]}
           isOpen={openAccordions[ingredient.id]}
           onToggle={() => handleToggle(ingredient)}
+          onSelect={() => handleSelect(ingredient)}
           headerLabelStyle={
             ingredient.is_brand ? { fontFamily: FONTS.hells.sans.boldItalic } : null
           }

@@ -22,7 +22,7 @@ const BarList = () => {
       .select(
         `
         *,
-        ingredients:bar_ingredients (
+        bar_ingredients (
           *,
           ingredient:ingredients (*)
         )
@@ -37,7 +37,7 @@ const BarList = () => {
       response.data.forEach((bar) => {
         const ingredientsById: TIngredientsById = {}
 
-        bar.ingredients.forEach((barIngredient) => {
+        bar.bar_ingredients.forEach((barIngredient) => {
           ingredientsById[barIngredient.ingredient.id] = barIngredient.ingredient
         })
 

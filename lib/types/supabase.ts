@@ -38,7 +38,7 @@ export type TSource = Tables<'sources'>
 export type TIngredientsById = Record<string, TIngredient>
 
 export type TBar = Tables<'bars'> & {
-  ingredients: TBarIngredient[]
+  bar_ingredients: TBarIngredient[]
   ingredientsById: TIngredientsById
 }
 

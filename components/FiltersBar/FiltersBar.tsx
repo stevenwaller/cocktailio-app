@@ -2,6 +2,7 @@ import { BottomSheetModal, BottomSheetFooter } from '@gorhom/bottom-sheet'
 import { useRef, useState } from 'react'
 import { StyleSheet, ScrollView, View, Pressable, Text, Platform } from 'react-native'
 
+import Badge from '@/components/Badge'
 import ChevronDown from '@/components/_icons/ChevronDown'
 import FilterIcon from '@/components/_icons/Filter'
 import Button from '@/components/_inputs/Button'
@@ -50,11 +51,7 @@ const FiltersBar = ({ filters: filtersProp, onApply }: FiltersBarProps) => {
   const renderBadge = (filter: IFilter) => {
     if (filter.value.length === 0) return null
 
-    return (
-      <View style={styles.badge}>
-        <Text style={styles.badgeText}>{filter.value.length}</Text>
-      </View>
-    )
+    return <Badge isLink>{filter.value.length}</Badge>
   }
 
   return (
@@ -105,23 +102,6 @@ const styles = StyleSheet.create({
   },
   button: {
     marginRight: 10,
-  },
-  badge: {
-    backgroundColor: '#F0CFBA',
-    borderRadius: 50,
-    padding: 0.5,
-    height: 15,
-    minWidth: 15,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: 3,
-    marginRight: 2,
-  },
-  badgeText: {
-    fontSize: 10,
-    color: COLORS.text.dark,
-    fontFamily: FONTS.hells.sans.bold,
   },
   title: {
     fontSize: 20,

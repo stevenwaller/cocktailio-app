@@ -1,6 +1,7 @@
 import { Link } from 'expo-router'
-import { StyleSheet, Text, Pressable } from 'react-native'
+import { StyleSheet, Text, View, Pressable } from 'react-native'
 
+import Badge from '@/components/Badge'
 import Card from '@/components/Card'
 import ChevronRightIcon from '@/components/_icons/ChevronRight'
 import { FONTS, COLORS } from '@/lib/constants'
@@ -31,7 +32,10 @@ const BarCard = ({ bar, ...restProps }: BarCardProps) => {
         >
           <Pressable>
             <Text style={styles.actionText}>Add/Remove Ingredients</Text>
-            <ChevronRightIcon color={COLORS.text.link} />
+            <View style={styles.actionRight}>
+              {bar.bar_ingredients.length > 0 && <Badge>{bar.bar_ingredients.length}</Badge>}
+              <ChevronRightIcon color={COLORS.text.link} />
+            </View>
           </Pressable>
         </Link>
         <Link
@@ -69,6 +73,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: COLORS.text.body,
     fontFamily: FONTS.hells.sans.bold,
+  },
+  actionRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 })
 
