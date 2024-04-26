@@ -6,7 +6,7 @@ import AccordionCard from '@/components/AccordionCard'
 import PageContainer from '@/components/PageContainer'
 import SelectableAccordion from '@/components/SelectableAccordion'
 import { BodyText } from '@/components/_elements/Text'
-import { FONTS, COLORS, SIZE } from '@/lib/constants'
+import { FONTS } from '@/lib/constants'
 import useSupabase from '@/lib/hooks/useSupabase'
 import useBarStore from '@/lib/stores/useBarStore'
 import { TIngredient } from '@/lib/types/supabase'
@@ -15,7 +15,7 @@ import uuid from '@/lib/utils/uuid'
 
 export default function Ingredients() {
   const [openAccordions, setOpenAccordions] = useState<any>({})
-  const { barId, name } = useLocalSearchParams()
+  const { barId } = useLocalSearchParams()
   const bar = useBarStore((state) => state.bars.find((bar) => bar.id === barId))
   const setBar = useBarStore((state) => state.setBar)
 
@@ -56,6 +56,27 @@ export default function Ingredients() {
   })
 
   if (!bar) return null
+
+  const getSelectedCount = (ingredient: TIngredient) => {
+    let count = 0
+
+    const getSubCount = (subIngredients: TIngredient[]) => {
+      subIngredients.forEach((subIngredient) => {
+        if (bar.ingredientsById[subIngredient.id]) {
+          count++
+        }
+        if (subIngredient.ingredients) {
+          getSubCount(subIngredient.ingredients)
+        }
+      })
+    }
+
+    if (ingredient.ingredients) {
+      getSubCount(ingredient.ingredients)
+    }
+
+    return count
+  }
 
   const handleToggle = (ingredient: TIngredient) => {
     const newOpenAccordions = { ...openAccordions }
@@ -129,6 +150,7 @@ export default function Ingredients() {
           headerLabelStyle={
             ingredient.is_brand ? { fontFamily: FONTS.hells.sans.boldItalic } : null
           }
+          count={getSelectedCount(ingredient)}
         >
           {renderIngredients(ingredient.ingredients, depth + 1)}
         </SelectableAccordion>
@@ -143,6 +165,7 @@ export default function Ingredients() {
         title={ingredient.name}
         isOpen={openAccordions[ingredient.id]}
         onToggle={() => handleToggle(ingredient)}
+        count={getSelectedCount(ingredient)}
       >
         {renderIngredients(ingredient.ingredients, 0)}
       </AccordionCard>

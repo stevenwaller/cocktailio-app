@@ -22,18 +22,15 @@ const BarCard = ({ bar, ...restProps }: BarCardProps) => {
       <Card.Body>
         <Link
           style={[styles.action, { marginBottom: 10 }]}
-          href={
-            {
-              pathname: `/barStock/${bar.id}/ingredients`,
-              params: { name: bar.name },
-            } as never
-          }
+          href={`/barStock/${bar.id}/ingredients`}
           asChild
         >
           <Pressable>
             <Text style={styles.actionText}>Add/Remove Ingredients</Text>
             <View style={styles.actionRight}>
-              {bar.bar_ingredients.length > 0 && <Badge>{bar.bar_ingredients.length}</Badge>}
+              {bar.bar_ingredients.length > 0 && (
+                <Badge style={styles.badge}>{bar.bar_ingredients.length}</Badge>
+              )}
               <ChevronRightIcon color={COLORS.text.link} />
             </View>
           </Pressable>
@@ -77,6 +74,9 @@ const styles = StyleSheet.create({
   actionRight: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  badge: {
+    marginRight: 5,
   },
 })
 

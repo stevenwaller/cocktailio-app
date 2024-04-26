@@ -6,12 +6,13 @@ interface IBadgeProps extends ViewProps {
   isLink?: boolean
 }
 
-const Badge = ({ isLink, children }: IBadgeProps) => {
+const Badge = ({ isLink, children, style }: IBadgeProps) => {
   return (
     <View
       style={[
         styles.badge,
         isLink ? { backgroundColor: '#F0CFBA' } : { backgroundColor: '#7FA4B2' },
+        style,
       ]}
     >
       <Text style={styles.badgeText}>{children}</Text>

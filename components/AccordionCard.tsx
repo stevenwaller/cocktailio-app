@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
-import { Pressable, StyleSheet } from 'react-native'
+import { Pressable, StyleSheet, View } from 'react-native'
 
+import Badge from '@/components/Badge'
 import Card from '@/components/Card'
 import ChevronDownIcon from '@/components/_icons/ChevronDown'
 import ChevronUpIcon from '@/components/_icons/ChevronUp'
@@ -10,6 +11,7 @@ interface AccordionCardProps {
   title: string
   children: ReactNode
   isOpen?: boolean
+  count?: number
   onToggle?: () => void
 }
 
@@ -17,6 +19,7 @@ const AccordionCard = ({
   title,
   children,
   isOpen,
+  count,
   onToggle = () => {},
   ...restProps
 }: AccordionCardProps) => {
@@ -24,13 +27,16 @@ const AccordionCard = ({
     <Card {...restProps}>
       <Card.Header style={[styles.header, !isOpen && styles.closedHeader]}>
         <Card.HeaderText>{title}</Card.HeaderText>
-        <Pressable onPress={onToggle}>
-          {isOpen ? (
-            <ChevronUpIcon color={COLORS.text.link} />
-          ) : (
-            <ChevronDownIcon color={COLORS.text.link} />
-          )}
-        </Pressable>
+        <View style={styles.headerRight}>
+          {!isOpen && count ? <Badge style={styles.badge}>{count}</Badge> : null}
+          <Pressable onPress={onToggle}>
+            {isOpen ? (
+              <ChevronUpIcon color={COLORS.text.link} />
+            ) : (
+              <ChevronDownIcon color={COLORS.text.link} />
+            )}
+          </Pressable>
+        </View>
       </Card.Header>
       {isOpen && <Card.Body>{children}</Card.Body>}
     </Card>
@@ -42,6 +48,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  badge: {
+    marginRight: 10,
   },
   closedHeader: {
     borderBottomStartRadius: SIZE.border.radius,

@@ -36,7 +36,7 @@ const SelectableAccordion = ({
         </View>
         {children && (
           <View style={styles.headerRight}>
-            {count && <Badge>{count}</Badge>}
+            {!isOpen && count ? <Badge style={styles.badge}>{count}</Badge> : null}
             <Pressable onPress={onToggle}>
               {isOpen ? (
                 <ChevronUpIcon color={COLORS.text.link} />
@@ -66,6 +66,9 @@ const styles = StyleSheet.create({
   headerRight: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  badge: {
+    marginRight: 10,
   },
   addInput: {
     marginRight: 9,
