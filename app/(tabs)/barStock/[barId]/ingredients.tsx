@@ -70,9 +70,23 @@ export default function Ingredients() {
         level={level}
         isSelectable={!ingredient.is_category}
         isOpen
+        headerLabelStyle={ingredient.is_brand ? { fontFamily: FONTS.hells.sans.boldItalic } : null}
       >
         {renderIngredients(ingredient.ingredients, level + 1)}
       </SelectableAccordion>
+    ))
+  }
+
+  const renderCategories = () => {
+    return ingredients?.map((ingredient) => (
+      <AccordionCard
+        key={ingredient.id}
+        title={ingredient.name}
+        isOpen={openAccordions.includes(ingredient.id)}
+        onToggle={() => handleToggle(ingredient.id)}
+      >
+        {renderIngredients(ingredient.ingredients, 0)}
+      </AccordionCard>
     ))
   }
 
@@ -89,17 +103,7 @@ export default function Ingredients() {
       return <BodyText>No data</BodyText>
     }
 
-    return (
-      <>
-        <AccordionCard
-          title="All Ingredients"
-          isOpen={openAccordions.includes('All Ingredients')}
-          onToggle={() => handleToggle('All Ingredients')}
-        >
-          {renderIngredients(ingredients, 0)}
-        </AccordionCard>
-      </>
-    )
+    return renderCategories()
   }
 
   return (

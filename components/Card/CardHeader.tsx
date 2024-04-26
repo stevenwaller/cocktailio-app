@@ -17,7 +17,7 @@ const CardHeader = ({ isBody, children, style, ...restProps }: CardHeaderProps) 
 const styles = StyleSheet.create({
   header: {
     display: 'flex',
-    width: '100%',
+    // width: '100%',
     backgroundColor: COLORS.bg.level2,
     paddingTop: 8,
     paddingRight: SIZE.card.paddingX,

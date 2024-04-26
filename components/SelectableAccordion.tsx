@@ -1,4 +1,4 @@
-import { ViewProps, Text, View, StyleSheet, Pressable } from 'react-native'
+import { ViewProps, Text, View, StyleSheet, Pressable, StyleProp, TextStyle } from 'react-native'
 
 import ChevronDownIcon from '@/components/_icons/ChevronDown'
 import ChevronUpIcon from '@/components/_icons/ChevronUp'
@@ -10,6 +10,7 @@ interface SelectableAccordionProps extends ViewProps {
   isSelectable?: boolean
   label: string
   isOpen: boolean
+  headerLabelStyle?: StyleProp<TextStyle>
 }
 
 const SelectableAccordion = ({
@@ -19,9 +20,10 @@ const SelectableAccordion = ({
   isOpen,
   children,
   style,
+  headerLabelStyle,
 }: SelectableAccordionProps) => {
   const levelStyles = {
-    paddingLeft: level > 1 ? 17 * level : 0,
+    paddingLeft: level > 0 ? 34 : 0,
   }
 
   return (
@@ -29,7 +31,7 @@ const SelectableAccordion = ({
       <View style={styles.header}>
         <View style={styles.headerLeft}>
           {isSelectable && <AddInput style={styles.addInput} />}
-          <Text style={styles.headerLabel}>{label}</Text>
+          <Text style={[styles.headerLabel, headerLabelStyle]}>{label}</Text>
         </View>
         {children && (
           <Pressable>

@@ -13,7 +13,7 @@ const CardBody = ({ children, style, ...restProps }: ViewProps) => {
 const styles = StyleSheet.create({
   body: {
     display: 'flex',
-    width: '100%',
+    // width: '100%',
     paddingTop: SIZE.card.paddingY,
     paddingRight: SIZE.card.paddingX,
     paddingBottom: SIZE.card.paddingY,
