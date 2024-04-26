@@ -29,7 +29,9 @@ export type TComponentIngredient = Tables<'cocktail_component_ingredients'> & {
   ingredient: TIngredient
 }
 
-export type TIngredient = Tables<'ingredients'>
+export type TIngredient = Tables<'ingredients'> & {
+  ingredients?: TIngredient[]
+}
 
 export type TSource = Tables<'sources'>
 

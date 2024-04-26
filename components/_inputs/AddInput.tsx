@@ -1,11 +1,10 @@
-import { StyleSheet, Pressable, View, StyleProp, ViewStyle } from 'react-native'
+import { StyleSheet, Pressable, View, ViewProps } from 'react-native'
 
 import CircleCheckFilled from '@/components/_icons/CircleCheckFilled'
 import CirclePlus from '@/components/_icons/CirclePlus'
 import { COLORS } from '@/lib/constants'
 
-interface AddInputProps {
-  style?: StyleProp<ViewStyle>
+interface AddInputProps extends ViewProps {
   value?: string
   checked?: boolean
   onPress?: (value: string | undefined, checked?: boolean) => void

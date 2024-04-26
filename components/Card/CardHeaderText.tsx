@@ -19,7 +19,6 @@ const CardHeaderText = forwardRef<Text, CardHeaderTextProps>(
 
 const styles = StyleSheet.create({
   text: {
-    width: '100%',
     fontSize: 20,
     color: COLORS.text.body,
     fontFamily: FONTS.schotis.bold,

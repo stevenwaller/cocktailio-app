@@ -13,11 +13,11 @@ interface IUseSupabase {
   }[]
   orders?: {
     column: string
-    args: any
+    args?: any
   }[]
 }
 
-const useSupabase = <ItemType>({ tableName, select = '*', filters }: IUseSupabase) => {
+const useSupabase = <ItemType>({ tableName, select = '*', filters, orders }: IUseSupabase) => {
   const [isFetching, setIsFetching] = useState(false)
   const [data, setData] = useState<ItemType[] | null>(null)
   const [error, setError] = useState<PostgrestError | null>(null)
@@ -32,6 +32,16 @@ const useSupabase = <ItemType>({ tableName, select = '*', filters }: IUseSupabas
       filters.forEach(({ operator, key, value }) => {
         // @ts-expect-error
         query = query[operator](key, value)
+      })
+    }
+
+    if (orders) {
+      orders.forEach(({ column, args }) => {
+        if (args) {
+          query = query.order(column, args)
+        } else {
+          query = query.order(column)
+        }
       })
     }
 
