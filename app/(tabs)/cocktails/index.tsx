@@ -63,43 +63,6 @@ export default function CocktailsScreen() {
   const fetchData = useCallback(async () => {
     setIsFetching(true)
 
-    // const response = await supabaseClient
-    //   .from('cocktails')
-    //   .select(
-    //     `
-    //     *,
-    //     base_ingredient:ingredients(*),
-    //     glass:glasses(*),
-    //     era:eras(*),
-    //     method:methods(*),
-    //     steps:cocktail_steps(*),
-    //     sources:cocktail_sources(
-    //       *,
-    //       source:sources(*)
-    //     ),
-    //     components:cocktail_components(
-    //       *,
-    //       measurement:measurements(*),
-    //       ingredients:cocktail_component_ingredients(
-    //         *,
-    //         ingredient:ingredients(*)
-    //       ),
-    //       or_ingredients:cocktail_component_or_ingredients(
-    //         *,
-    //         ingredient:ingredients(*)
-    //       ),
-    //       pref_ingredients:cocktail_component_pref_ingredients(
-    //         *,
-    //         ingredient:ingredients(*)
-    //       )
-    //     )
-    //     `,
-    //     { count: 'exact' }
-    //   )
-    //   .order('name')
-    //   .range(minRange, maxRange)
-    //   .returns<TCocktail[]>()
-
     const query = supabaseClient.rpc('query_cocktails', { bar_stock: {}, filter_ingredients: {} })
 
     filters.forEach((filter) => {
