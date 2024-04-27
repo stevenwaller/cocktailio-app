@@ -23,17 +23,17 @@ export default function TabLayout() {
     >
       <Tabs.Screen redirect name="index" />
       <Tabs.Screen
-        name="cocktails"
-        options={{
-          title: 'Cocktails',
-          tabBarIcon: ({ color }) => <CocktailsIcon color={color} />,
-        }}
-      />
-      <Tabs.Screen
         name="discover"
         options={{
           title: 'Discover',
           tabBarIcon: ({ color }) => <DiscoverIcon color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="cocktails"
+        options={{
+          title: 'Cocktails',
+          tabBarIcon: ({ color }) => <CocktailsIcon color={color} />,
         }}
       />
       <Tabs.Screen
