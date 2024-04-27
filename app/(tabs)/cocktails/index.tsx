@@ -28,7 +28,7 @@ export default function CocktailsScreen() {
       index: 0,
       name: 'With Bar Stock',
       screen: 'With Bar Stock',
-      key: 'in_bar_stock',
+      key: 'with_bar_stock',
       value: [],
     },
     {
@@ -63,7 +63,15 @@ export default function CocktailsScreen() {
   const fetchData = useCallback(async () => {
     setIsFetching(true)
 
-    const query = supabaseClient.rpc('query_cocktails', { bar_stock: {}, filter_ingredients: {} })
+    let barId = null
+    const barStockFilter = filters.find((filter) => filter.name === 'With Bar Stock')
+    if (barStockFilter) {
+      if (barStockFilter.value.length > 0) {
+        barId = barStockFilter.value[0]
+      }
+    }
+
+    const query = supabaseClient.rpc('query_cocktails', { bar_id: barId, filter_ingredients: {} })
 
     filters.forEach((filter) => {
       const values = filter.value.map((item) => item.id)
