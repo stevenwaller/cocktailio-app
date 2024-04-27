@@ -25,19 +25,19 @@ const AccordionCard = ({
 }: AccordionCardProps) => {
   return (
     <Card {...restProps}>
-      <Card.Header style={[styles.header, !isOpen && styles.closedHeader]}>
-        <Card.HeaderText>{title}</Card.HeaderText>
-        <View style={styles.headerRight}>
-          {!isOpen && count ? <Badge style={styles.badge}>{count}</Badge> : null}
-          <Pressable onPress={onToggle}>
+      <Pressable onPress={onToggle}>
+        <Card.Header style={[styles.header, !isOpen && styles.closedHeader]}>
+          <Card.HeaderText>{title}</Card.HeaderText>
+          <View style={styles.headerRight}>
+            {!isOpen && count ? <Badge style={styles.badge}>{count}</Badge> : null}
             {isOpen ? (
               <ChevronUpIcon color={COLORS.text.link} />
             ) : (
               <ChevronDownIcon color={COLORS.text.link} />
             )}
-          </Pressable>
-        </View>
-      </Card.Header>
+          </View>
+        </Card.Header>
+      </Pressable>
       {isOpen && <Card.Body>{children}</Card.Body>}
     </Card>
   )

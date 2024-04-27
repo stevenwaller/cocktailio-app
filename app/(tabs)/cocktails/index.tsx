@@ -26,8 +26,8 @@ export default function CocktailsScreen() {
   const [filters, setFilters] = useState<IFilter[]>([
     {
       index: 0,
-      name: 'In Bar Stock',
-      screen: 'In Bar Stock',
+      name: 'With Bar Stock',
+      screen: 'With Bar Stock',
       key: 'in_bar_stock',
       value: [],
     },

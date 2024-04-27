@@ -6,7 +6,7 @@ import {
 
 import BaseSpiritScreen from './screens/BaseSpiritScreen'
 import FiltersScreen from './screens/FiltersScreen'
-import InBarStockScreen from './screens/InBarStockScreen'
+import WithBarStockScreen from './screens/WithBarStockScreen'
 
 import { COLORS, FONTS } from '@/lib/constants'
 import { IFilter } from '@/lib/types'
@@ -54,11 +54,11 @@ const FilterNav = ({ currentFilterIndex, filters, onChange }: FilterNavProps) =>
           <Stack.Screen name="Filters" options={filtersScreenOptions}>
             {(props) => <FiltersScreen {...props} filters={filters} />}
           </Stack.Screen>
-          <Stack.Screen name="In Bar Stock">
+          <Stack.Screen name="With Bar Stock">
             {(props) => (
-              <InBarStockScreen
+              <WithBarStockScreen
                 {...props}
-                filter={filters.find((item) => item.name === 'In Bar Stock')}
+                filter={filters.find((item) => item.name === 'With Bar Stock')}
                 onChange={onChange}
               />
             )}
@@ -76,17 +76,17 @@ const FilterNav = ({ currentFilterIndex, filters, onChange }: FilterNavProps) =>
       )
     }
 
-    if (currentFilter?.name === 'In Bar Stock') {
+    if (currentFilter?.name === 'With Bar Stock') {
       return (
-        <Stack.Screen name="In Bar Stock">
-          {(props) => <InBarStockScreen {...props} filter={currentFilter} onChange={onChange} />}
+        <Stack.Screen name="With Bar Stock">
+          {(props) => <WithBarStockScreen {...props} filter={currentFilter} onChange={onChange} />}
         </Stack.Screen>
       )
     }
 
     if (currentFilter?.name === 'Base Spirit') {
       return (
-        <Stack.Screen name="In Bar Stock">
+        <Stack.Screen name="With Bar Stock">
           {(props) => <BaseSpiritScreen {...props} filter={currentFilter} onChange={onChange} />}
         </Stack.Screen>
       )

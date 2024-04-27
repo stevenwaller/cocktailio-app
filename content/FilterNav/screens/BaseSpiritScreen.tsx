@@ -1,6 +1,7 @@
 import { BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet'
 import { Text, StyleSheet, View } from 'react-native'
 
+import { BodyText } from '@/components/_elements/Text'
 import AddInput from '@/components/_inputs/AddInput'
 import { COLORS, FONTS } from '@/lib/constants'
 import useSupabase from '@/lib/hooks/useSupabase'
@@ -32,11 +33,11 @@ const BaseSpiritScreen = ({ filter, onChange }: BaseSpiritScreenProps) => {
     onChange(newFilter)
   }
 
-  if (isFetching) return <Text>Loading...</Text>
+  if (isFetching) return <BodyText>Loading...</BodyText>
 
-  if (error) return <Text>Error: {error.message}</Text>
+  if (error) return <BodyText>Error: {error.message}</BodyText>
 
-  if (!data) return <Text>No data</Text>
+  if (!data) return <BodyText>No data</BodyText>
 
   return (
     <BottomSheetScrollView style={styles.container} enableFooterMarginAdjustment>

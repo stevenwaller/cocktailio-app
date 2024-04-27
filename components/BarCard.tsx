@@ -21,7 +21,7 @@ const BarCard = ({ bar, ...restProps }: BarCardProps) => {
       </Card.Header>
       <Card.Body>
         <Link
-          style={[styles.action, { marginBottom: 10 }]}
+          style={[styles.action, { marginBottom: 20 }]}
           href={`/barStock/${bar.id}/ingredients`}
           asChild
         >
@@ -36,7 +36,7 @@ const BarCard = ({ bar, ...restProps }: BarCardProps) => {
           </Pressable>
         </Link>
         <Link
-          style={styles.action}
+          style={[styles.action, { marginBottom: 10 }]}
           href={
             {
               pathname: `/barStock/${bar.id}/cocktails`,

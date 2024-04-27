@@ -27,7 +27,7 @@ export default function SettingsScreen() {
         }}
       />
       <PageContainer>
-        <Text style={styles.title}>Settings</Text>
+        <Text style={[styles.title, { marginBottom: 15 }]}>Account</Text>
         {user ? (
           <Button label="Log Out" onPress={handleSignOut} />
         ) : (
@@ -42,6 +42,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     color: COLORS.text.body,
-    fontFamily: FONTS.hells.serif.medium,
+    fontFamily: FONTS.schotis.semiBold,
   },
 })
