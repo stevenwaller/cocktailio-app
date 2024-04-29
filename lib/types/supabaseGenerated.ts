@@ -655,19 +655,19 @@ export type Database = {
           created_at: string
           description: string | null
           id: string
-          name: string | null
+          name: string
         }
         Insert: {
           created_at?: string
           description?: string | null
           id?: string
-          name?: string | null
+          name: string
         }
         Update: {
           created_at?: string
           description?: string | null
           id?: string
-          name?: string | null
+          name?: string
         }
         Relationships: []
       }
@@ -745,10 +745,17 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: Json
       }
+      query_bar_stock: {
+        Args: {
+          bar_id: string
+        }
+        Returns: Json
+      }
       query_cocktails: {
         Args: {
-          bar_stock: Json
+          bar_id: string
           filter_ingredients: Json
+          filter_sources: string[]
         }
         Returns: {
           created_at: string

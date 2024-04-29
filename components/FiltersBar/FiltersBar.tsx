@@ -56,7 +56,12 @@ const FiltersBar = ({ filters: filtersProp, onApply }: FiltersBarProps) => {
 
   return (
     <View>
-      <ScrollView style={styles.scrollView} horizontal showsHorizontalScrollIndicator={false}>
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={{ paddingRight: 20 }}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+      >
         <View style={styles.filters}>
           <Pressable style={styles.iconBtn} hitSlop={15} onPress={() => handleFilterPress()}>
             <FilterIcon color={COLORS.text.action} />

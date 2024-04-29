@@ -36,7 +36,12 @@ export default function CocktailsScreen() {
     },
     {
       index: 2,
-      name: 'Sources',
+      name: 'Source',
+      value: [],
+    },
+    {
+      index: 3,
+      name: 'Method',
       value: [],
     },
     // {
@@ -50,11 +55,6 @@ export default function CocktailsScreen() {
     //   screen: 'COLLECTIONS',
     //   value: []
     // },
-    // {
-    //   name: 'Method',
-    //   screen: 'METHOD',
-    //   value: []
-    // }
   ])
 
   const fetchData = useCallback(async () => {
@@ -72,7 +72,7 @@ export default function CocktailsScreen() {
       bar_id: barId,
       filter_ingredients: {},
       filter_sources: filters
-        .find((filter) => filter.name === 'Sources')
+        .find((filter) => filter.name === 'Source')
         ?.value.map((item) => item.id),
     })
 
@@ -88,42 +88,12 @@ export default function CocktailsScreen() {
             )
           }
           break
-        case 'Sources':
+        case 'Method':
           if (values.length > 0) {
-            const formattedValues = filter.value.map((item) => ({ source_id: item.id }))
-
-            console.log('formattedValues', formattedValues)
-
-            const stringy = JSON.stringify(formattedValues)
-
-            console.log('stringy', stringy)
-
-            // 'e8d84a99-05c2-4fe8-bc24-2475286088ad' The Ultimate Bar Book
-            // '60b1ecb0-a576-44d8-beb1-6911e3bce945' The bar book
-
-            // query.contains('sources', JSON.stringify(formattedValues))
-
-            // filter.value.forEach((item) => {
-            //   query.contains(
-            //     'sources',
-            //     JSON.stringify([
-            //       {
-            //         source_id: item.id,
-            //       },
-            //     ]),
-            //   )
-            // })
-
-            // query.or(`sources.cs.{{'source_id': 'e8d84a99-05c2-4fe8-bc24-2475286088ad'}}`)
-
-            // query.contains(
-            //   'sources',
-            //   JSON.stringify([
-            //     {
-            //       source_id: 'e8d84a99-05c2-4fe8-bc24-2475286088ad', // The Ultimate Bar Book
-            //     },
-            //   ]),
-            // )
+            query.in(
+              'method_id',
+              filter.value.map((item) => item.id),
+            )
           }
           break
         default:

@@ -6,7 +6,8 @@ import {
 
 import BaseSpiritScreen from './screens/BaseSpiritScreen'
 import FiltersScreen from './screens/FiltersScreen'
-import SourcesScreen from './screens/SourcesScreen'
+import MethodScreen from './screens/MethodScreen'
+import SourceScreen from './screens/SourceScreen'
 import WithBarStockScreen from './screens/WithBarStockScreen'
 
 import { COLORS, FONTS } from '@/lib/constants'
@@ -75,9 +76,18 @@ const FilterNav = ({ currentFilterIndex, filters, onChange }: FilterNavProps) =>
           </Stack.Screen>
           <Stack.Screen name="Sources">
             {(props) => (
-              <SourcesScreen
+              <SourceScreen
                 {...props}
-                filter={filters.find((item) => item.name === 'Sources')}
+                filter={filters.find((item) => item.name === 'Source')}
+                onChange={onChange}
+              />
+            )}
+          </Stack.Screen>
+          <Stack.Screen name="Method">
+            {(props) => (
+              <MethodScreen
+                {...props}
+                filter={filters.find((item) => item.name === 'Method')}
                 onChange={onChange}
               />
             )}
@@ -102,10 +112,18 @@ const FilterNav = ({ currentFilterIndex, filters, onChange }: FilterNavProps) =>
       )
     }
 
-    if (currentFilter?.name === 'Sources') {
+    if (currentFilter?.name === 'Source') {
       return (
-        <Stack.Screen name="Sources">
-          {(props) => <SourcesScreen {...props} filter={currentFilter} onChange={onChange} />}
+        <Stack.Screen name="Source">
+          {(props) => <SourceScreen {...props} filter={currentFilter} onChange={onChange} />}
+        </Stack.Screen>
+      )
+    }
+
+    if (currentFilter?.name === 'Method') {
+      return (
+        <Stack.Screen name="Method">
+          {(props) => <MethodScreen {...props} filter={currentFilter} onChange={onChange} />}
         </Stack.Screen>
       )
     }
