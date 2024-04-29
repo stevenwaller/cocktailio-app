@@ -48,10 +48,7 @@ const useBars = () => {
 
   useEffect(() => {
     if (!bars || bars.length === 0) {
-      console.log('no bars, fetch data')
       fetchData()
-    } else {
-      console.log('bars already fetched', bars)
     }
   }, [])
 

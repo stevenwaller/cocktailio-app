@@ -4,7 +4,7 @@ import { Text, StyleSheet, View } from 'react-native'
 import { BodyText } from '@/components/_elements/Text'
 import AddInput from '@/components/_inputs/AddInput'
 import { COLORS, FONTS } from '@/lib/constants'
-import useSupabase from '@/lib/hooks/useSupabase'
+import useBaseSpirits from '@/lib/hooks/useBaseSpirits'
 import { IFilter } from '@/lib/types'
 import { TIngredient } from '@/lib/types/supabase'
 
@@ -14,10 +14,7 @@ interface BaseSpiritScreenProps {
 }
 
 const BaseSpiritScreen = ({ filter, onChange }: BaseSpiritScreenProps) => {
-  const { data, error, isFetching } = useSupabase<TIngredient>({
-    tableName: 'ingredients',
-    filters: [{ operator: 'eq', key: 'is_base', value: true }],
-  })
+  const { isFetching, error, spirits } = useBaseSpirits()
 
   const handleIngredientPress = (ingredient: TIngredient) => {
     if (!filter) return
@@ -37,12 +34,12 @@ const BaseSpiritScreen = ({ filter, onChange }: BaseSpiritScreenProps) => {
 
   if (error) return <BodyText>Error: {error.message}</BodyText>
 
-  if (!data) return <BodyText>No data</BodyText>
+  if (!spirits) return <BodyText>No data</BodyText>
 
   return (
     <BottomSheetScrollView style={styles.container} enableFooterMarginAdjustment>
       <BottomSheetView style={styles.scrollContent}>
-        {data.map((ingredient) => (
+        {spirits.map((ingredient) => (
           <View key={ingredient.id} style={styles.ingredient}>
             <AddInput
               checked={filter?.value.some((item) => item.id === ingredient.id)}
