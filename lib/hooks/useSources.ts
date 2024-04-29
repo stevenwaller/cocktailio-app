@@ -16,8 +16,6 @@ const useSources = () => {
 
     const response = await supabaseClient.from('sources').select(`*`).returns<TSource[]>()
 
-    console.log('sources response', response)
-
     setIsFetching(false)
 
     if (response.data) {
