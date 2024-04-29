@@ -8,6 +8,7 @@ import BaseSpiritScreen from './screens/BaseSpiritScreen'
 import EraScreen from './screens/EraScreen'
 import FiltersScreen from './screens/FiltersScreen'
 import GlasswareScreen from './screens/GlasswareScreen'
+import IngredientScreen from './screens/IngredientScreen'
 import MethodScreen from './screens/MethodScreen'
 import SourceScreen from './screens/SourceScreen'
 import WithBarStockScreen from './screens/WithBarStockScreen'
@@ -76,6 +77,15 @@ const FilterNav = ({ currentFilterIndex, filters, onChange }: FilterNavProps) =>
               />
             )}
           </Stack.Screen>
+          <Stack.Screen name="Ingredient">
+            {(props) => (
+              <IngredientScreen
+                {...props}
+                filter={filters.find((item) => item.name === 'Ingredient')}
+                onChange={onChange}
+              />
+            )}
+          </Stack.Screen>
           <Stack.Screen name="Sources">
             {(props) => (
               <SourceScreen
@@ -128,6 +138,14 @@ const FilterNav = ({ currentFilterIndex, filters, onChange }: FilterNavProps) =>
       return (
         <Stack.Screen name="Base Spirit">
           {(props) => <BaseSpiritScreen {...props} filter={currentFilter} onChange={onChange} />}
+        </Stack.Screen>
+      )
+    }
+
+    if (currentFilter?.name === 'Ingredient') {
+      return (
+        <Stack.Screen name="Ingredient">
+          {(props) => <IngredientScreen {...props} filter={currentFilter} onChange={onChange} />}
         </Stack.Screen>
       )
     }

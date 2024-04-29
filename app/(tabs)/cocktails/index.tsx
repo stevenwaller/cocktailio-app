@@ -36,30 +36,29 @@ export default function CocktailsScreen() {
     },
     {
       index: 2,
-      name: 'Source',
+      name: 'Ingredient',
       value: [],
     },
     {
       index: 3,
-      name: 'Method',
+      name: 'Source',
       value: [],
     },
     {
       index: 4,
-      name: 'Era',
+      name: 'Method',
       value: [],
     },
     {
       index: 5,
+      name: 'Era',
+      value: [],
+    },
+    {
+      index: 6,
       name: 'Glassware',
       value: [],
     },
-    // {
-    //   name: 'Ingredients',
-    //   screen: 'INGREDIENTS',
-    //   value: []
-    // },
-
     // {
     //   name: 'Collections',
     //   screen: 'COLLECTIONS',
@@ -78,9 +77,19 @@ export default function CocktailsScreen() {
       }
     }
 
+    const ingredientFilter: Record<string, string> = {}
+
+    filters
+      .find((filter) => filter.name === 'Ingredient')
+      ?.value.forEach((item) => {
+        ingredientFilter[item.id] = item.name
+      })
+
+    console.log('ingredientFilter', ingredientFilter)
+
     const query = supabaseClient.rpc('query_cocktails', {
       bar_id: barId,
-      filter_ingredients: {},
+      filter_ingredients: ingredientFilter,
       filter_sources: filters
         .find((filter) => filter.name === 'Source')
         ?.value.map((item) => item.id),

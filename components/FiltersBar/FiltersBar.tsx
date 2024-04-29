@@ -15,13 +15,12 @@ interface FiltersBarProps {
   filters: IFilter[]
   onApply: (filters: IFilter[]) => void
 }
-// TODO
-// clear filters
-// reset filters on dismiss
+
 const FiltersBar = ({ filters: filtersProp, onApply }: FiltersBarProps) => {
   const [filters, setFilters] = useState<IFilter[]>(filtersProp)
   const [currentFilterIndex, setCurrentFilterIndex] = useState<number>()
   const modalRef = useRef<BottomSheetModal>(null)
+  const [snapPoints, setSnapPoints] = useState(['50%', '90%'])
 
   const handleFilterChange = (filter: IFilter) => {
     const newFilters = [...filters]
@@ -80,7 +79,7 @@ const FiltersBar = ({ filters: filtersProp, onApply }: FiltersBarProps) => {
           ))}
         </View>
       </ScrollView>
-      <StackNavModal ref={modalRef} footerComponent={renderFooter}>
+      <StackNavModal ref={modalRef} footerComponent={renderFooter} snapPoints={snapPoints}>
         <FilterNav
           currentFilterIndex={currentFilterIndex}
           filters={filters}
