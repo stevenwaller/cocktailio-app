@@ -6,6 +6,7 @@ import {
 
 import BaseSpiritScreen from './screens/BaseSpiritScreen'
 import FiltersScreen from './screens/FiltersScreen'
+import SourcesScreen from './screens/SourcesScreen'
 import WithBarStockScreen from './screens/WithBarStockScreen'
 
 import { COLORS, FONTS } from '@/lib/constants'
@@ -72,6 +73,15 @@ const FilterNav = ({ currentFilterIndex, filters, onChange }: FilterNavProps) =>
               />
             )}
           </Stack.Screen>
+          <Stack.Screen name="Sources">
+            {(props) => (
+              <SourcesScreen
+                {...props}
+                filter={filters.find((item) => item.name === 'Sources')}
+                onChange={onChange}
+              />
+            )}
+          </Stack.Screen>
         </>
       )
     }
@@ -86,8 +96,16 @@ const FilterNav = ({ currentFilterIndex, filters, onChange }: FilterNavProps) =>
 
     if (currentFilter?.name === 'Base Spirit') {
       return (
-        <Stack.Screen name="With Bar Stock">
+        <Stack.Screen name="Base Spirit">
           {(props) => <BaseSpiritScreen {...props} filter={currentFilter} onChange={onChange} />}
+        </Stack.Screen>
+      )
+    }
+
+    if (currentFilter?.name === 'Sources') {
+      return (
+        <Stack.Screen name="Sources">
+          {(props) => <SourcesScreen {...props} filter={currentFilter} onChange={onChange} />}
         </Stack.Screen>
       )
     }

@@ -1,5 +1,7 @@
 import { Link } from 'expo-router'
-import { StyleSheet, Text } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
+
+import { BodyText } from './_elements/Text'
 
 import Card from '@/components/Card'
 import { FONTS, COLORS } from '@/lib/constants'
@@ -45,7 +47,17 @@ const CocktailCard = ({ cocktail, ...restProps }: CocktailCardProps) => {
           <Card.HeaderText isLink>{name}</Card.HeaderText>
         </Link>
       </Card.Header>
-      <Card.Body>{renderIngredients(cocktail)}</Card.Body>
+      <Card.Body>
+        {renderIngredients(cocktail)}
+        <View style={{ marginTop: 20 }}>
+          <BodyText style={{ marginBottom: 10 }}>Sources:</BodyText>
+          {cocktail.sources?.map((source) => (
+            <Text key={source.id} style={styles.ingredients}>
+              {source.source.name}
+            </Text>
+          ))}
+        </View>
+      </Card.Body>
     </Card>
   )
 }

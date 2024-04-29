@@ -19,7 +19,7 @@ const FiltersScreen = ({ filters }: IFiltersScreen) => {
         <Pressable
           key={filter.name}
           style={styles.filter}
-          onPress={() => navigate(filter.screen as never)}
+          onPress={() => navigate(filter.name as never)}
         >
           <Text style={styles.filterName}>{filter.name}</Text>
           <View style={styles.filterRight}>

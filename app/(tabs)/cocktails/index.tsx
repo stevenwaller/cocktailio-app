@@ -27,15 +27,16 @@ export default function CocktailsScreen() {
     {
       index: 0,
       name: 'With Bar Stock',
-      screen: 'With Bar Stock',
-      key: 'with_bar_stock',
       value: [],
     },
     {
       index: 1,
       name: 'Base Spirit',
-      screen: 'Base Spirit',
-      key: 'base_ingredient',
+      value: [],
+    },
+    {
+      index: 2,
+      name: 'Sources',
       value: [],
     },
     // {
@@ -43,11 +44,7 @@ export default function CocktailsScreen() {
     //   screen: 'INGREDIENTS',
     //   value: []
     // },
-    // {
-    //   name: 'Sources',
-    //   screen: 'SOURCES',
-    //   value: []
-    // },
+
     // {
     //   name: 'Collections',
     //   screen: 'COLLECTIONS',
@@ -67,11 +64,17 @@ export default function CocktailsScreen() {
     const barStockFilter = filters.find((filter) => filter.name === 'With Bar Stock')
     if (barStockFilter) {
       if (barStockFilter.value.length > 0) {
-        barId = barStockFilter.value[0]
+        barId = barStockFilter.value[0].id
       }
     }
 
-    const query = supabaseClient.rpc('query_cocktails', { bar_id: barId, filter_ingredients: {} })
+    const query = supabaseClient.rpc('query_cocktails', {
+      bar_id: barId,
+      filter_ingredients: {},
+      filter_sources: filters
+        .find((filter) => filter.name === 'Sources')
+        ?.value.map((item) => item.id),
+    })
 
     filters.forEach((filter) => {
       const values = filter.value.map((item) => item.id)
@@ -85,7 +88,44 @@ export default function CocktailsScreen() {
             )
           }
           break
+        case 'Sources':
+          if (values.length > 0) {
+            const formattedValues = filter.value.map((item) => ({ source_id: item.id }))
 
+            console.log('formattedValues', formattedValues)
+
+            const stringy = JSON.stringify(formattedValues)
+
+            console.log('stringy', stringy)
+
+            // 'e8d84a99-05c2-4fe8-bc24-2475286088ad' The Ultimate Bar Book
+            // '60b1ecb0-a576-44d8-beb1-6911e3bce945' The bar book
+
+            // query.contains('sources', JSON.stringify(formattedValues))
+
+            // filter.value.forEach((item) => {
+            //   query.contains(
+            //     'sources',
+            //     JSON.stringify([
+            //       {
+            //         source_id: item.id,
+            //       },
+            //     ]),
+            //   )
+            // })
+
+            // query.or(`sources.cs.{{'source_id': 'e8d84a99-05c2-4fe8-bc24-2475286088ad'}}`)
+
+            // query.contains(
+            //   'sources',
+            //   JSON.stringify([
+            //     {
+            //       source_id: 'e8d84a99-05c2-4fe8-bc24-2475286088ad', // The Ultimate Bar Book
+            //     },
+            //   ]),
+            // )
+          }
+          break
         default:
           break
       }

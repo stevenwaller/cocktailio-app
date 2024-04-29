@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     padding: 10,
     // border: '1px solid red',
-    backgroundColor: 'red',
+    // backgroundColor: 'red',
   },
   title: {
     color: 'red',
