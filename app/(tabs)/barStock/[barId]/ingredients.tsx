@@ -8,7 +8,7 @@ import SelectableAccordion from '@/components/SelectableAccordion'
 import { BodyText } from '@/components/_elements/Text'
 import { FONTS } from '@/lib/constants'
 import useBars from '@/lib/hooks/useBars'
-import useSupabase from '@/lib/hooks/useSupabase'
+import useIngredients from '@/lib/hooks/useIngredients'
 import { TIngredient } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
 import uuid from '@/lib/utils/uuid'
@@ -17,42 +17,7 @@ export default function Ingredients() {
   const [openAccordions, setOpenAccordions] = useState<any>({})
   const { barId } = useLocalSearchParams()
   const { bar, setBar } = useBars(barId as string)
-
-  const {
-    data: ingredients,
-    error,
-    isFetching,
-  } = useSupabase<TIngredient>({
-    tableName: 'ingredients',
-    select: `
-      *,
-      ingredients (
-        *,
-        ingredients (
-          *,
-          ingredients (
-            *
-          )
-        )
-      )
-    `,
-    filters: [
-      {
-        operator: 'is',
-        key: 'hierarchy',
-        value: null,
-      },
-    ],
-    orders: [
-      {
-        column: 'order',
-      },
-      {
-        column: 'name',
-        args: { referencedTable: 'ingredients' },
-      },
-    ],
-  })
+  const { ingredients, error, isFetching } = useIngredients()
 
   if (!bar) return null
 
