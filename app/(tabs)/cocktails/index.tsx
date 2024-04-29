@@ -44,6 +44,16 @@ export default function CocktailsScreen() {
       name: 'Method',
       value: [],
     },
+    {
+      index: 4,
+      name: 'Era',
+      value: [],
+    },
+    {
+      index: 5,
+      name: 'Glassware',
+      value: [],
+    },
     // {
     //   name: 'Ingredients',
     //   screen: 'INGREDIENTS',
@@ -92,6 +102,22 @@ export default function CocktailsScreen() {
           if (values.length > 0) {
             query.in(
               'method_id',
+              filter.value.map((item) => item.id),
+            )
+          }
+          break
+        case 'Era':
+          if (values.length > 0) {
+            query.in(
+              'era_id',
+              filter.value.map((item) => item.id),
+            )
+          }
+          break
+        case 'Glassware':
+          if (values.length > 0) {
+            query.in(
+              'glass_id',
               filter.value.map((item) => item.id),
             )
           }
@@ -151,6 +177,7 @@ export default function CocktailsScreen() {
 const styles = StyleSheet.create({
   pageContainer: {
     paddingTop: SIZE.marginY,
+    paddingBottom: 60,
   },
   title: {
     fontSize: 20,

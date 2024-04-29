@@ -516,7 +516,7 @@ export type Database = {
           description: string | null
           end_year: number | null
           id: string
-          name: string | null
+          name: string
           start_year: number | null
         }
         Insert: {
@@ -524,7 +524,7 @@ export type Database = {
           description?: string | null
           end_year?: number | null
           id?: string
-          name?: string | null
+          name: string
           start_year?: number | null
         }
         Update: {
@@ -532,7 +532,7 @@ export type Database = {
           description?: string | null
           end_year?: number | null
           id?: string
-          name?: string | null
+          name?: string
           start_year?: number | null
         }
         Relationships: []

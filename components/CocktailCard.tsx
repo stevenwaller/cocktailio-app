@@ -50,12 +50,24 @@ const CocktailCard = ({ cocktail, ...restProps }: CocktailCardProps) => {
       <Card.Body>
         {renderIngredients(cocktail)}
         <View style={{ marginTop: 20 }}>
-          <BodyText style={{ marginBottom: 10 }}>Sources:</BodyText>
+          <BodyText style={{ marginBottom: 5 }}>SOURCES:</BodyText>
           {cocktail.sources?.map((source) => (
             <Text key={source.id} style={styles.ingredients}>
               {source.source.name}
             </Text>
           ))}
+        </View>
+        <View style={{ marginTop: 20 }}>
+          <BodyText style={{ marginBottom: 5 }}>METHOD:</BodyText>
+          <BodyText>{cocktail.method?.name}</BodyText>
+        </View>
+        <View style={{ marginTop: 20 }}>
+          <BodyText style={{ marginBottom: 5 }}>ERA:</BodyText>
+          <BodyText>{cocktail.era?.name}</BodyText>
+        </View>
+        <View style={{ marginTop: 20 }}>
+          <BodyText style={{ marginBottom: 5 }}>GLASSWARE:</BodyText>
+          <BodyText>{cocktail.glass?.name}</BodyText>
         </View>
       </Card.Body>
     </Card>

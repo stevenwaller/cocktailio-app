@@ -5,7 +5,9 @@ import {
 } from '@react-navigation/stack'
 
 import BaseSpiritScreen from './screens/BaseSpiritScreen'
+import EraScreen from './screens/EraScreen'
 import FiltersScreen from './screens/FiltersScreen'
+import GlasswareScreen from './screens/GlasswareScreen'
 import MethodScreen from './screens/MethodScreen'
 import SourceScreen from './screens/SourceScreen'
 import WithBarStockScreen from './screens/WithBarStockScreen'
@@ -92,6 +94,24 @@ const FilterNav = ({ currentFilterIndex, filters, onChange }: FilterNavProps) =>
               />
             )}
           </Stack.Screen>
+          <Stack.Screen name="Era">
+            {(props) => (
+              <EraScreen
+                {...props}
+                filter={filters.find((item) => item.name === 'Era')}
+                onChange={onChange}
+              />
+            )}
+          </Stack.Screen>
+          <Stack.Screen name="Glassware">
+            {(props) => (
+              <GlasswareScreen
+                {...props}
+                filter={filters.find((item) => item.name === 'Glassware')}
+                onChange={onChange}
+              />
+            )}
+          </Stack.Screen>
         </>
       )
     }
@@ -124,6 +144,22 @@ const FilterNav = ({ currentFilterIndex, filters, onChange }: FilterNavProps) =>
       return (
         <Stack.Screen name="Method">
           {(props) => <MethodScreen {...props} filter={currentFilter} onChange={onChange} />}
+        </Stack.Screen>
+      )
+    }
+
+    if (currentFilter?.name === 'Era') {
+      return (
+        <Stack.Screen name="Era">
+          {(props) => <EraScreen {...props} filter={currentFilter} onChange={onChange} />}
+        </Stack.Screen>
+      )
+    }
+
+    if (currentFilter?.name === 'Glassware') {
+      return (
+        <Stack.Screen name="Glassware">
+          {(props) => <GlasswareScreen {...props} filter={currentFilter} onChange={onChange} />}
         </Stack.Screen>
       )
     }

@@ -1,10 +1,14 @@
 import { Tables } from './supabaseGenerated'
 
+export type TEra = Tables<'eras'>
+
+export type TGlass = Tables<'glasses'>
+
 export type TCocktail = Tables<'cocktails'> & {
   base_ingredient: Tables<'ingredients'>
-  glass: Tables<'glasses'>
-  era: Tables<'eras'>
-  method: Tables<'methods'>
+  glass: TGlass
+  era: TEra
+  method: TMethod
   steps: Tables<'cocktail_steps'>[] | null
   sources:
     | (Tables<'cocktail_sources'> &
