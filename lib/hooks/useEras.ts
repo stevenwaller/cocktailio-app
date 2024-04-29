@@ -14,7 +14,11 @@ const useEras = () => {
   const fetchData = async () => {
     setIsFetching(true)
 
-    const response = await supabaseClient.from('eras').select(`*`).returns<TEra[]>()
+    const response = await supabaseClient
+      .from('eras')
+      .select(`*`)
+      .order('start_year')
+      .returns<TEra[]>()
 
     setIsFetching(false)
 
