@@ -5,11 +5,13 @@ import useBarStore from '@/lib/stores/useBarStore'
 import { TBar, TIngredientsById } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
-const useBars = () => {
+const useBars = (barId: string) => {
   const [isFetching, setIsFetching] = useState(false)
   const [error, setError] = useState<PostgrestError | null>(null)
   const bars = useBarStore((state) => state.bars)
+  const bar = useBarStore((state) => state.bars.find((bar) => bar.id === barId))
   const setBars = useBarStore((state) => state.setBars)
+  const setBar = useBarStore((state) => state.setBar)
 
   const fetchData = async () => {
     setIsFetching(true)
@@ -52,7 +54,7 @@ const useBars = () => {
     }
   }, [])
 
-  return { isFetching, fetchData, error, bars, setBars }
+  return { isFetching, fetchData, error, bar, bars, setBars, setBar }
 }
 
 export default useBars

@@ -7,8 +7,8 @@ import PageContainer from '@/components/PageContainer'
 import SelectableAccordion from '@/components/SelectableAccordion'
 import { BodyText } from '@/components/_elements/Text'
 import { FONTS } from '@/lib/constants'
+import useBars from '@/lib/hooks/useBars'
 import useSupabase from '@/lib/hooks/useSupabase'
-import useBarStore from '@/lib/stores/useBarStore'
 import { TIngredient } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
 import uuid from '@/lib/utils/uuid'
@@ -16,8 +16,7 @@ import uuid from '@/lib/utils/uuid'
 export default function Ingredients() {
   const [openAccordions, setOpenAccordions] = useState<any>({})
   const { barId } = useLocalSearchParams()
-  const bar = useBarStore((state) => state.bars.find((bar) => bar.id === barId))
-  const setBar = useBarStore((state) => state.setBar)
+  const { bar, setBar } = useBars(barId as string)
 
   const {
     data: ingredients,
