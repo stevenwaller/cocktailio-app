@@ -1,24 +1,28 @@
 import { Link } from 'expo-router'
-import { useRef } from 'react'
 import { StyleSheet, Text, View, Pressable } from 'react-native'
 
 import Badge from '@/components/Badge'
-import Card from '@/components/Card'
+import Card, { CardProps } from '@/components/Card'
 import ChevronRightIcon from '@/components/_icons/ChevronRight'
+import MoreIcon from '@/components/_icons/More'
 import { FONTS, COLORS } from '@/lib/constants'
 import { TBar } from '@/lib/types/supabase'
 
-interface BarCardProps {
+interface BarCardProps extends CardProps {
   bar: TBar
+  onMorePress?: (bar: TBar) => void
 }
 
-const BarCard = ({ bar, ...restProps }: BarCardProps) => {
+const BarCard = ({ bar, onMorePress = () => {}, ...restProps }: BarCardProps) => {
   const { name } = bar
 
   return (
     <Card {...restProps}>
       <Card.Header>
         <Card.HeaderText>{name}</Card.HeaderText>
+        <Pressable style={styles.more} onPress={() => onMorePress(bar)}>
+          <MoreIcon color={COLORS.text.link} />
+        </Pressable>
       </Card.Header>
       <Card.Body>
         <Link
@@ -78,6 +82,11 @@ const styles = StyleSheet.create({
   },
   badge: {
     marginRight: 5,
+  },
+  more: {
+    height: 20,
+    alignContent: 'center',
+    justifyContent: 'center',
   },
 })
 

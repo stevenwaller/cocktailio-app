@@ -3,7 +3,7 @@ import { StyleSheet, Text, TextProps } from 'react-native'
 
 import { COLORS, FONTS } from '@/lib/constants'
 
-interface CardHeaderTextProps extends TextProps {
+export interface CardHeaderTextProps extends TextProps {
   isLink?: boolean
 }
 

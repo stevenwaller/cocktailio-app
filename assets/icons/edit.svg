@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="22px" height="12px" viewBox="0 0 22 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>note</title>
+    <g id="Bar-Stock" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Cocktails-Copy-19" transform="translate(-338, -279)" fill="#F0B59E">
+            <g id="basic-essentials" transform="translate(12, 261)">
+                <g id="note" transform="translate(326, 17.9925)">
+                    <path d="M0,12.0075 L8,12.0075 L8,10.0075 L0,10.0075 L0,12.0075 Z M11,5.0075 L0,5.0075 L0,7.0075 L9,7.0075 L11,5.0075 Z M13,0.0075 L0,0.0075 L0,2.0075 L13,2.0075 L13,0.0075 Z" id="Shape" fill-rule="nonzero"></path>
+                    <path d="M10,12.0075 L10,9.5375 L16.88,2.6575 C17.08,2.4575 17.39,2.4575 17.59,2.6575 L19.36,4.4275 C19.56,4.6275 19.56,4.9375 19.36,5.1375 L12.47,12.0075 L10,12.0075 Z" id="Path"></path>
+                    <path d="M21.8022966,2.69795307 C22.0659011,2.43434848 22.0659011,2.01897154 21.8022966,1.75536695 L20.2446331,0.197703445 C19.9810285,-0.0659011483 19.5656515,-0.0659011483 19.3020469,0.197703445 L18,1.50773839 L20.4922616,4 L21.8022966,2.69795307 L21.8022966,2.69795307 Z" id="Path"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

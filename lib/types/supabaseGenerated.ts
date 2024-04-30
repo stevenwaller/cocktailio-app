@@ -50,21 +50,21 @@ export type Database = {
           created_at: string
           id: string
           ingredients_by_id: Json | null
-          name: string | null
+          name: string
           user_id: string | null
         }
         Insert: {
           created_at?: string
           id?: string
           ingredients_by_id?: Json | null
-          name?: string | null
+          name: string
           user_id?: string | null
         }
         Update: {
           created_at?: string
           id?: string
           ingredients_by_id?: Json | null
-          name?: string | null
+          name?: string
           user_id?: string | null
         }
         Relationships: [

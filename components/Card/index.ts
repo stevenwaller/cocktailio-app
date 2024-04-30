@@ -1,7 +1,9 @@
-import Card from './Card'
-import CardBody from './CardBody'
-import CardHeader from './CardHeader'
-import CardHeaderText from './CardHeaderText'
+import Card, { CardProps } from './Card'
+import CardBody, { CardBodyProps } from './CardBody'
+import CardHeader, { CardHeaderProps } from './CardHeader'
+import CardHeaderText, { CardHeaderTextProps } from './CardHeaderText'
+
+export { CardProps, CardBodyProps, CardHeaderProps, CardHeaderTextProps }
 
 export default Object.assign(Card, {
   Body: CardBody,

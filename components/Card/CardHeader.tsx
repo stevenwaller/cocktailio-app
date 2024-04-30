@@ -2,7 +2,7 @@ import { StyleSheet, View, ViewProps } from 'react-native'
 
 import { COLORS, SIZE, FONTS } from '@/lib/constants'
 
-interface CardHeaderProps extends ViewProps {
+export interface CardHeaderProps extends ViewProps {
   isBody?: boolean
 }
 
@@ -17,7 +17,9 @@ const CardHeader = ({ isBody, children, style, ...restProps }: CardHeaderProps) 
 const styles = StyleSheet.create({
   header: {
     display: 'flex',
-    // width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     backgroundColor: COLORS.bg.level2,
     paddingTop: 8,
     paddingRight: SIZE.card.paddingX,
