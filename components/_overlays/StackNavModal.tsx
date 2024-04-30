@@ -1,18 +1,17 @@
-import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import { NavigationContainer } from '@react-navigation/native'
 import { forwardRef } from 'react'
 
-import Modal, { IModalProps } from '@/components/_overlays/Modal'
+import Modal, { IModalProps, IModal } from '@/components/_overlays/Modal'
 
-const StackNavModal = forwardRef<BottomSheetModal, IModalProps>(
-  ({ children, ...restProps }, ref) => {
-    return (
-      <Modal ref={ref} {...restProps}>
-        <NavigationContainer independent>{children}</NavigationContainer>
-      </Modal>
-    )
-  },
-)
+export interface IStackNavModal extends IModal {}
+
+const StackNavModal = forwardRef<IModal, IModalProps>(({ children, ...restProps }, ref) => {
+  return (
+    <Modal ref={ref} {...restProps}>
+      <NavigationContainer independent>{children}</NavigationContainer>
+    </Modal>
+  )
+})
 
 StackNavModal.displayName = 'StackNavModal'
 

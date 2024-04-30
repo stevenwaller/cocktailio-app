@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
     paddingTop: SIZE.app.paddingY,
     paddingLeft: SIZE.app.paddingX,
     paddingRight: SIZE.app.paddingX,
+    paddingBottom: 40,
   },
 })
 

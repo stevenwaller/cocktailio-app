@@ -1,8 +1,8 @@
-import { BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet'
 import { Text, StyleSheet, View } from 'react-native'
 
 import { BodyText } from '@/components/_elements/Text'
 import AddInput from '@/components/_inputs/AddInput'
+import ModalBody from '@/components/_overlays/ModalBody'
 import { COLORS, FONTS } from '@/lib/constants'
 import useBaseSpirits from '@/lib/hooks/useBaseSpirits'
 import { IFilter } from '@/lib/types'
@@ -37,32 +37,21 @@ const BaseSpiritScreen = ({ filter, onChange }: BaseSpiritScreenProps) => {
   if (!spirits) return <BodyText>No data</BodyText>
 
   return (
-    <BottomSheetScrollView style={styles.container} enableFooterMarginAdjustment>
-      <BottomSheetView style={styles.scrollContent}>
-        {spirits.map((ingredient) => (
-          <View key={ingredient.id} style={styles.ingredient}>
-            <AddInput
-              checked={filter?.value.some((item) => item.id === ingredient.id)}
-              onPress={() => handleIngredientPress(ingredient)}
-            />
-            <Text style={styles.ingredientText}>{ingredient.name}</Text>
-          </View>
-        ))}
-      </BottomSheetView>
-    </BottomSheetScrollView>
+    <ModalBody>
+      {spirits.map((ingredient) => (
+        <View key={ingredient.id} style={styles.ingredient}>
+          <AddInput
+            checked={filter?.value.some((item) => item.id === ingredient.id)}
+            onPress={() => handleIngredientPress(ingredient)}
+          />
+          <Text style={styles.ingredientText}>{ingredient.name}</Text>
+        </View>
+      ))}
+    </ModalBody>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: COLORS.bg.level3,
-  },
-  scrollContent: {
-    paddingTop: 20,
-    paddingRight: 15,
-    paddingBottom: 20,
-    paddingLeft: 20,
-  },
   ingredient: {
     flexDirection: 'row',
     alignContent: 'center',

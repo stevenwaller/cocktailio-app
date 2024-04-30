@@ -1,8 +1,8 @@
-import { BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet'
 import { Text, StyleSheet, View } from 'react-native'
 
 import { BodyText } from '@/components/_elements/Text'
 import RadioInput from '@/components/_inputs/RadioInput'
+import ModalBody from '@/components/_overlays/ModalBody'
 import { COLORS, FONTS } from '@/lib/constants'
 import useBars from '@/lib/hooks/useBars'
 import { IFilter } from '@/lib/types'
@@ -37,35 +37,24 @@ const WithBarStockScreen = ({ filter, onChange }: WithBarStockScreenProps) => {
   if (!bars) return <BodyText>No data</BodyText>
 
   return (
-    <BottomSheetScrollView style={styles.container}>
-      <BottomSheetView style={styles.scrollContent}>
-        <BodyText style={{ marginBottom: 20 }}>
-          Filter cocktails by ingredients you have stocked in your bar
-        </BodyText>
-        {bars.map((bar) => (
-          <View key={bar.id} style={styles.item}>
-            <RadioInput
-              checked={filter?.value.some((item) => item.id === bar.id)}
-              onPress={() => handleItemPress(bar)}
-            />
-            <Text style={styles.itemText}>{bar.name}</Text>
-          </View>
-        ))}
-      </BottomSheetView>
-    </BottomSheetScrollView>
+    <ModalBody>
+      <BodyText style={{ marginBottom: 20 }}>
+        Filter cocktails by ingredients you have stocked in your bar
+      </BodyText>
+      {bars.map((bar) => (
+        <View key={bar.id} style={styles.item}>
+          <RadioInput
+            checked={filter?.value.some((item) => item.id === bar.id)}
+            onPress={() => handleItemPress(bar)}
+          />
+          <Text style={styles.itemText}>{bar.name}</Text>
+        </View>
+      ))}
+    </ModalBody>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: COLORS.bg.level3,
-  },
-  scrollContent: {
-    paddingTop: 20,
-    paddingRight: 15,
-    paddingBottom: 20,
-    paddingLeft: 20,
-  },
   item: {
     flexDirection: 'row',
     alignContent: 'center',

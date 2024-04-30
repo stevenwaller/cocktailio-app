@@ -1,8 +1,8 @@
-import { BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet'
 import { Text, StyleSheet, View } from 'react-native'
 
 import { BodyText } from '@/components/_elements/Text'
 import AddInput from '@/components/_inputs/AddInput'
+import ModalBody from '@/components/_overlays/ModalBody'
 import { COLORS, FONTS } from '@/lib/constants'
 import useEras from '@/lib/hooks/useEras'
 import { IFilter } from '@/lib/types'
@@ -37,32 +37,21 @@ const EraScreen = ({ filter, onChange }: EraScreenProps) => {
   if (!eras) return <BodyText>No data</BodyText>
 
   return (
-    <BottomSheetScrollView style={styles.container} enableFooterMarginAdjustment>
-      <BottomSheetView style={styles.scrollContent}>
-        {eras.map((era) => (
-          <View key={era.id} style={styles.era}>
-            <AddInput
-              checked={filter?.value.some((item) => item.id === era.id)}
-              onPress={() => handleEraPress(era)}
-            />
-            <Text style={styles.eraText}>{era.name}</Text>
-          </View>
-        ))}
-      </BottomSheetView>
-    </BottomSheetScrollView>
+    <ModalBody>
+      {eras.map((era) => (
+        <View key={era.id} style={styles.era}>
+          <AddInput
+            checked={filter?.value.some((item) => item.id === era.id)}
+            onPress={() => handleEraPress(era)}
+          />
+          <Text style={styles.eraText}>{era.name}</Text>
+        </View>
+      ))}
+    </ModalBody>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: COLORS.bg.level3,
-  },
-  scrollContent: {
-    paddingTop: 20,
-    paddingRight: 15,
-    paddingBottom: 20,
-    paddingLeft: 20,
-  },
   era: {
     flexDirection: 'row',
     alignContent: 'center',

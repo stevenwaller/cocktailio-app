@@ -1,16 +1,16 @@
 import { BottomSheetView } from '@gorhom/bottom-sheet'
-import { Text, StyleSheet } from 'react-native'
+import { Text, StyleSheet, ViewProps } from 'react-native'
 
 import { COLORS, FONTS } from '@/lib/constants'
 
-interface IModalHeaderProps {
+interface IModalHeaderProps extends ViewProps {
   title: string
 }
 
 const ModalHeader = ({ title }: IModalHeaderProps) => {
   return (
     <BottomSheetView style={styles.modalHeader}>
-      <Text style={styles.modalHeaderText}>Account</Text>
+      <Text style={styles.modalHeaderText}>{title}</Text>
     </BottomSheetView>
   )
 }

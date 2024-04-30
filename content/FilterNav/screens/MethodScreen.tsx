@@ -1,8 +1,8 @@
-import { BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet'
 import { Text, StyleSheet, View } from 'react-native'
 
 import { BodyText } from '@/components/_elements/Text'
 import AddInput from '@/components/_inputs/AddInput'
+import ModalBody from '@/components/_overlays/ModalBody'
 import { COLORS, FONTS } from '@/lib/constants'
 import useMethods from '@/lib/hooks/useMethods'
 import { IFilter } from '@/lib/types'
@@ -37,32 +37,21 @@ const MethodScreen = ({ filter, onChange }: MethodScreenProps) => {
   if (!methods) return <BodyText>No data</BodyText>
 
   return (
-    <BottomSheetScrollView style={styles.container} enableFooterMarginAdjustment>
-      <BottomSheetView style={styles.scrollContent}>
-        {methods.map((method) => (
-          <View key={method.id} style={styles.method}>
-            <AddInput
-              checked={filter?.value.some((item) => item.id === method.id)}
-              onPress={() => handleMethodPress(method)}
-            />
-            <Text style={styles.methodText}>{method.name}</Text>
-          </View>
-        ))}
-      </BottomSheetView>
-    </BottomSheetScrollView>
+    <ModalBody>
+      {methods.map((method) => (
+        <View key={method.id} style={styles.method}>
+          <AddInput
+            checked={filter?.value.some((item) => item.id === method.id)}
+            onPress={() => handleMethodPress(method)}
+          />
+          <Text style={styles.methodText}>{method.name}</Text>
+        </View>
+      ))}
+    </ModalBody>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: COLORS.bg.level3,
-  },
-  scrollContent: {
-    paddingTop: 20,
-    paddingRight: 15,
-    paddingBottom: 20,
-    paddingLeft: 20,
-  },
   method: {
     flexDirection: 'row',
     alignContent: 'center',

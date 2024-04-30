@@ -1,8 +1,8 @@
-import { BottomSheetScrollView } from '@gorhom/bottom-sheet'
 import { useNavigation } from '@react-navigation/native'
 import { StyleSheet, Pressable, Text, View } from 'react-native'
 
 import ChevronRight from '@/components/_icons/ChevronRight'
+import ModalBody from '@/components/_overlays/ModalBody'
 import { COLORS, FONTS } from '@/lib/constants'
 import { IFilter } from '@/lib/types'
 
@@ -14,7 +14,7 @@ const FiltersScreen = ({ filters }: IFiltersScreen) => {
   const { navigate } = useNavigation()
 
   return (
-    <BottomSheetScrollView style={styles.container} enableFooterMarginAdjustment>
+    <ModalBody>
       {filters.map((filter) => (
         <Pressable
           key={filter.name}
@@ -32,18 +32,11 @@ const FiltersScreen = ({ filters }: IFiltersScreen) => {
           </View>
         </Pressable>
       ))}
-    </BottomSheetScrollView>
+    </ModalBody>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: COLORS.bg.level3,
-    paddingTop: 20,
-    paddingRight: 15,
-    paddingBottom: 20,
-    paddingLeft: 20,
-  },
   filter: {
     flexDirection: 'row',
     justifyContent: 'space-between',

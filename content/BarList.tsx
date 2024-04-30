@@ -1,33 +1,76 @@
-import { BottomSheetModal, BottomSheetFooter } from '@gorhom/bottom-sheet'
 import { useRef, useState } from 'react'
-import { StyleSheet, ScrollView, View, Pressable, Text, Platform, TextInput } from 'react-native'
+import { StyleSheet, Alert } from 'react-native'
 
 import BarCard from '@/components/BarCard'
 import { BodyText } from '@/components/_elements/Text'
+import FormField from '@/components/_forms/FormField'
+import PlusIcon from '@/components/_icons/Plus'
+import BottomSheetTextInput from '@/components/_inputs/BottomSheetTextInput'
 import Button from '@/components/_inputs/Button'
-import { COLORS, FONTS, SIZE } from '@/lib/constants'
+import Modal, { IModal } from '@/components/_overlays/Modal'
+import ModalBody from '@/components/_overlays/ModalBody'
+import ModalFooter from '@/components/_overlays/ModalFooter'
+import ModalHeader from '@/components/_overlays/ModalHeader'
+import { COLORS } from '@/lib/constants'
+import { useAuth } from '@/lib/contexts/AuthContextProvider'
 import useBars from '@/lib/hooks/useBars'
+import { TBar } from '@/lib/types/supabase'
+import supabaseClient from '@/lib/utils/supabaseClient'
+
+const snapPoints = ['30%']
 
 const BarList = () => {
-  const { isFetching, error, bars } = useBars()
-  const modalRef = useRef<BottomSheetModal>(null)
+  const { user } = useAuth()
+  const { isFetching, error, bars, setBars } = useBars()
+  const modalRef = useRef<IModal>(null)
+  const [inputValue, setInputValue] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleCreateNewBar = () => {
     console.log('create new bar')
     modalRef.current?.present()
   }
 
-  const handleApply = () => {
-    // onApply(filters)
+  const handleSave = async () => {
+    if (!inputValue) {
+      Alert.alert('Please enter a name')
+      return
+    }
+
+    setIsSubmitting(true)
+
+    const barVariables = {
+      name: inputValue,
+      user_id: user ? user.id : null,
+    }
+
+    const response = await supabaseClient.from('bars').insert(barVariables).select().single<TBar>()
+
+    console.log('response', response)
+
+    setIsSubmitting(false)
+
+    if (response.error) {
+      Alert.alert(response.error.message)
+      return
+    }
+
+    setBars([
+      ...bars,
+      {
+        ...response.data,
+        bar_ingredients: [],
+        ingredientsById: {},
+      },
+    ])
+
     modalRef.current?.dismiss()
   }
 
   const renderFooter = (props: any) => (
-    <BottomSheetFooter {...props}>
-      <Pressable style={styles.footerButton} onPress={handleApply}>
-        <Text style={styles.footerText}>Apply</Text>
-      </Pressable>
-    </BottomSheetFooter>
+    <ModalFooter {...props}>
+      <Button label="Save" onPress={handleSave} />
+    </ModalFooter>
   )
 
   if (error) {
@@ -47,24 +90,25 @@ const BarList = () => {
       {bars.map((bar: any) => (
         <BarCard key={bar.id} bar={bar} />
       ))}
-      <Button label="Create New Bar" onPress={handleCreateNewBar} />
+      <Button
+        slotLeft={<PlusIcon color={COLORS.text.dark} />}
+        label="Create New Bar"
+        onPress={handleCreateNewBar}
+        loading={isSubmitting}
+      />
+      <Modal ref={modalRef} footerComponent={renderFooter} snapPoints={snapPoints}>
+        <ModalHeader title="Create new bar" />
+        <ModalBody>
+          <FormField label="Bar name">
+            <BottomSheetTextInput editable={!isSubmitting} onChangeText={setInputValue} />
+          </FormField>
+        </ModalBody>
+      </Modal>
     </>
   )
 }
 
-const styles = StyleSheet.create({
-  footerButton: {
-    padding: 15,
-    paddingBottom: Platform.OS === 'ios' ? 35 : 15,
-    backgroundColor: COLORS.bg.action,
-  },
-  footerText: {
-    fontSize: 16,
-    fontFamily: FONTS.hells.sans.bold,
-    textAlign: 'center',
-    color: COLORS.text.dark,
-  },
-})
+const styles = StyleSheet.create({})
 
 BarList.displayName = 'BarList'
 

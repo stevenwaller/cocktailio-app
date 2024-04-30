@@ -1,11 +1,9 @@
-import { BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet'
 import { useState } from 'react'
-import { Text, StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 
-import AccordionCard from '@/components/AccordionCard'
 import SelectableAccordion from '@/components/SelectableAccordion'
 import { BodyText } from '@/components/_elements/Text'
-import AddInput from '@/components/_inputs/AddInput'
+import ModalBody from '@/components/_overlays/ModalBody'
 import { COLORS, FONTS } from '@/lib/constants'
 import useIngredients from '@/lib/hooks/useIngredients'
 import { IFilter } from '@/lib/types'
@@ -107,36 +105,25 @@ const IngredientScreen = ({ filter, onChange }: IngredientsScreenProps) => {
   if (!ingredients) return <BodyText>No data</BodyText>
 
   return (
-    <BottomSheetScrollView style={styles.container} enableFooterMarginAdjustment>
-      <BottomSheetView style={styles.scrollContent}>
-        {ingredients.map((ingredient) => (
-          <SelectableAccordion
-            key={ingredient.id}
-            label={ingredient.name}
-            style={styles.accordion}
-            noSelect
-            isOpen={openAccordions[ingredient.id]}
-            onToggle={() => handleToggle(ingredient)}
-            count={getSelectedCount(ingredient)}
-          >
-            {renderIngredients(ingredient.ingredients, 0)}
-          </SelectableAccordion>
-        ))}
-      </BottomSheetView>
-    </BottomSheetScrollView>
+    <ModalBody>
+      {ingredients.map((ingredient) => (
+        <SelectableAccordion
+          key={ingredient.id}
+          label={ingredient.name}
+          style={styles.accordion}
+          noSelect
+          isOpen={openAccordions[ingredient.id]}
+          onToggle={() => handleToggle(ingredient)}
+          count={getSelectedCount(ingredient)}
+        >
+          {renderIngredients(ingredient.ingredients, 0)}
+        </SelectableAccordion>
+      ))}
+    </ModalBody>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: COLORS.bg.level3,
-  },
-  scrollContent: {
-    paddingTop: 20,
-    paddingRight: 15,
-    paddingBottom: 20,
-    paddingLeft: 20,
-  },
   ingredient: {
     flexDirection: 'row',
     alignContent: 'center',

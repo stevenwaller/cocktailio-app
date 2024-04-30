@@ -52,7 +52,7 @@ const SignIn = ({ onComplete }: ISignInProps) => {
         </View>
         <FormField label="Email">
           <TextInput
-            onChangeText={(text) => setEmail(text)}
+            onChangeText={setEmail}
             value={email}
             autoCapitalize="none"
             readOnly={loading}
@@ -60,7 +60,7 @@ const SignIn = ({ onComplete }: ISignInProps) => {
         </FormField>
         <FormField label="Password">
           <TextInput
-            onChangeText={(text) => setPassword(text)}
+            onChangeText={setPassword}
             value={password}
             secureTextEntry
             autoCapitalize="none"

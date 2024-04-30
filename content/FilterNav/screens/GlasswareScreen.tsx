@@ -1,8 +1,8 @@
-import { BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet'
 import { Text, StyleSheet, View } from 'react-native'
 
 import { BodyText } from '@/components/_elements/Text'
 import AddInput from '@/components/_inputs/AddInput'
+import ModalBody from '@/components/_overlays/ModalBody'
 import { COLORS, FONTS } from '@/lib/constants'
 import useGlasses from '@/lib/hooks/useGlasses'
 import { IFilter } from '@/lib/types'
@@ -37,32 +37,21 @@ const GlasswareScreen = ({ filter, onChange }: GlasswareScreenProps) => {
   if (!glasses) return <BodyText>No data</BodyText>
 
   return (
-    <BottomSheetScrollView style={styles.container} enableFooterMarginAdjustment>
-      <BottomSheetView style={styles.scrollContent}>
-        {glasses.map((glass) => (
-          <View key={glass.id} style={styles.glass}>
-            <AddInput
-              checked={filter?.value.some((item) => item.id === glass.id)}
-              onPress={() => handleGlassPress(glass)}
-            />
-            <Text style={styles.glassText}>{glass.name}</Text>
-          </View>
-        ))}
-      </BottomSheetView>
-    </BottomSheetScrollView>
+    <ModalBody>
+      {glasses.map((glass) => (
+        <View key={glass.id} style={styles.glass}>
+          <AddInput
+            checked={filter?.value.some((item) => item.id === glass.id)}
+            onPress={() => handleGlassPress(glass)}
+          />
+          <Text style={styles.glassText}>{glass.name}</Text>
+        </View>
+      ))}
+    </ModalBody>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: COLORS.bg.level3,
-  },
-  scrollContent: {
-    paddingTop: 20,
-    paddingRight: 15,
-    paddingBottom: 20,
-    paddingLeft: 20,
-  },
   glass: {
     flexDirection: 'row',
     alignContent: 'center',

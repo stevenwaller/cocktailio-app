@@ -1,4 +1,5 @@
 import { Link } from 'expo-router'
+import { useRef } from 'react'
 import { StyleSheet, Text, View, Pressable } from 'react-native'
 
 import Badge from '@/components/Badge'

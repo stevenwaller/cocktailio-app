@@ -1,12 +1,12 @@
-import { BottomSheetModal, BottomSheetFooter } from '@gorhom/bottom-sheet'
 import { useRef, useState } from 'react'
-import { StyleSheet, ScrollView, View, Pressable, Text, Platform } from 'react-native'
+import { StyleSheet, ScrollView, View, Pressable } from 'react-native'
 
 import Badge from '@/components/Badge'
 import ChevronDown from '@/components/_icons/ChevronDown'
 import FilterIcon from '@/components/_icons/Filter'
 import Button from '@/components/_inputs/Button'
-import StackNavModal from '@/components/_overlays/StackNavModal'
+import ModalFooter from '@/components/_overlays/ModalFooter'
+import StackNavModal, { IStackNavModal } from '@/components/_overlays/StackNavModal'
 import FilterNav from '@/content/FilterNav'
 import { COLORS, FONTS, SIZE } from '@/lib/constants'
 import { IFilter } from '@/lib/types'
@@ -19,8 +19,8 @@ interface FiltersBarProps {
 const FiltersBar = ({ filters: filtersProp, onApply }: FiltersBarProps) => {
   const [filters, setFilters] = useState<IFilter[]>(filtersProp)
   const [currentFilterIndex, setCurrentFilterIndex] = useState<number>()
-  const modalRef = useRef<BottomSheetModal>(null)
-  const [snapPoints, setSnapPoints] = useState(['50%', '90%'])
+  const modalRef = useRef<IStackNavModal>(null)
+  const [snapPoints, setSnapPoints] = useState(['50%'])
 
   const handleFilterChange = (filter: IFilter) => {
     const newFilters = [...filters]
@@ -29,8 +29,15 @@ const FiltersBar = ({ filters: filtersProp, onApply }: FiltersBarProps) => {
     setFilters(newFilters)
   }
 
-  const handleFilterPress = (filterIndex?: number) => {
-    setCurrentFilterIndex(filterIndex)
+  const handleFilterPress = (filter?: IFilter) => {
+    if (filter?.name === 'Ingredient') {
+      setSnapPoints(['90%'])
+    } else {
+      setSnapPoints(['50%', '90%'])
+    }
+
+    setCurrentFilterIndex(filter?.index)
+
     modalRef.current?.present()
   }
 
@@ -40,11 +47,9 @@ const FiltersBar = ({ filters: filtersProp, onApply }: FiltersBarProps) => {
   }
 
   const renderFooter = (props: any) => (
-    <BottomSheetFooter {...props}>
-      <Pressable style={styles.footerButton} onPress={handleApply}>
-        <Text style={styles.footerText}>Apply</Text>
-      </Pressable>
-    </BottomSheetFooter>
+    <ModalFooter {...props}>
+      <Button label="Apply" onPress={handleApply} />
+    </ModalFooter>
   )
 
   const renderBadge = (filter: IFilter) => {
@@ -71,7 +76,7 @@ const FiltersBar = ({ filters: filtersProp, onApply }: FiltersBarProps) => {
               style={styles.button}
               label={filter.name}
               size="small"
-              onPress={() => handleFilterPress(filter.index)}
+              onPress={() => handleFilterPress(filter)}
               slotRight={<ChevronDown color={COLORS.text.dark} width={15} height={15} />}
             >
               {renderBadge(filter)}
@@ -112,17 +117,6 @@ const styles = StyleSheet.create({
     color: COLORS.text.body,
     fontFamily: FONTS.hells.serif.medium,
     fontWeight: 'bold',
-  },
-  footerButton: {
-    padding: 15,
-    paddingBottom: Platform.OS === 'ios' ? 35 : 15,
-    backgroundColor: COLORS.bg.action,
-  },
-  footerText: {
-    fontSize: 16,
-    fontFamily: FONTS.hells.sans.bold,
-    textAlign: 'center',
-    color: COLORS.text.dark,
   },
 })
 

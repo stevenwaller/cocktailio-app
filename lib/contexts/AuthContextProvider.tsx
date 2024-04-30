@@ -1,8 +1,7 @@
-import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import type { User } from '@supabase/supabase-js'
 import { createContext, useState, useEffect, useRef, ReactNode, useContext } from 'react'
 
-import StackNavModal from '@/components/_overlays/StackNavModal'
+import StackNavModal, { IStackNavModal } from '@/components/_overlays/StackNavModal'
 import AuthNav from '@/content/AuthNav'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
@@ -26,7 +25,7 @@ interface AuthContextProviderProps {
 
 const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [user, setUser] = useState<User | null>(null)
-  const modalRef = useRef<BottomSheetModal>(null)
+  const modalRef = useRef<IStackNavModal>(null)
 
   const openAuthModal = () => {
     modalRef.current?.present()

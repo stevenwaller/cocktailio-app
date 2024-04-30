@@ -10,12 +10,14 @@ import { COLORS } from '@/lib/constants'
 
 const defaultSnapPoints = ['50%']
 
+export interface IModal extends BottomSheetModal {}
+
 export interface IModalProps extends BottomSheetModalProps {
   children: ReactNode
   snapPoints?: string[]
 }
 
-const Modal = forwardRef<BottomSheetModal, IModalProps>(
+const Modal = forwardRef<IModal, IModalProps>(
   ({ children, snapPoints = defaultSnapPoints, ...restProps }, ref) => {
     const renderBackdrop = useCallback(
       (props: BottomSheetBackdropProps) => (

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Path</title>
+    <g id="Bar-Stock" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Cocktails-Copy-19" transform="translate(-85, -543)" fill="#123742" fill-rule="nonzero">
+            <g id="done-btn" transform="translate(12, 524)">
+                <polygon id="Path" transform="translate(82, 28) rotate(-45) translate(-82, -28)" points="88 23.4133333 86.5866667 22 82 26.5866667 77.4133333 22 76 23.4133333 80.5866667 28 76 32.5866667 77.4133333 34 82 29.4133333 86.5866667 34 88 32.5866667 83.4133333 28"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>
