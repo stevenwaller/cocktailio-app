@@ -23,8 +23,8 @@ export default function BarStockScreen() {
           <BarList />
         ) : (
           <>
-            <BodyText>Create and account or sign in to manage your bar stock</BodyText>
-            <Button label="Sign In / Create Account" onPress={() => openAuthModal()} />
+            <BodyText>Create a free account or sign in to manage your bar stock</BodyText>
+            <Button label="Create a free account / Sign in" onPress={() => openAuthModal()} />
           </>
         )}
       </PageContainer>

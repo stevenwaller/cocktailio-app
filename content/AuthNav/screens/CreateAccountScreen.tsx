@@ -1,9 +1,11 @@
 import { BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet'
 import { useNavigation } from '@react-navigation/native'
 import { useState } from 'react'
-import { Text, StyleSheet, View, Alert, TextInput, TouchableWithoutFeedback } from 'react-native'
+import { Text, StyleSheet, View, Alert, TouchableWithoutFeedback } from 'react-native'
 
+import FormField from '@/components/_forms/FormField'
 import Button from '@/components/_inputs/Button'
+import TextInput from '@/components/_inputs/TextInput'
 import { COLORS, FONTS } from '@/lib/constants'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
@@ -18,6 +20,8 @@ const CreateAccountScreen = ({ onComplete }: ICreateAccountScreenProps) => {
   const [loading, setLoading] = useState(false)
 
   async function signUpWithEmail() {
+    if (!email || !password) return Alert.alert('Please enter your email and password')
+
     setLoading(true)
     const { data, error } = await supabaseClient.auth.signUp({
       email,
@@ -52,30 +56,24 @@ const CreateAccountScreen = ({ onComplete }: ICreateAccountScreenProps) => {
             </TouchableWithoutFeedback>
           </Text>
         </View>
-        <View style={styles.formRow}>
-          <Text style={styles.label}>Email</Text>
+        <FormField label="Email">
           <TextInput
-            style={styles.input}
             onChangeText={(text) => setEmail(text)}
             value={email}
             autoCapitalize="none"
             readOnly={loading}
           />
-        </View>
-        <View style={styles.formRow}>
-          <Text style={styles.label}>Password</Text>
+        </FormField>
+        <FormField label="Password">
           <TextInput
-            style={styles.input}
             onChangeText={(text) => setPassword(text)}
             value={password}
             secureTextEntry
             autoCapitalize="none"
             readOnly={loading}
           />
-        </View>
-        <View style={styles.formRow}>
-          <Button label="Create Account" loading={loading} onPress={() => signUpWithEmail()} />
-        </View>
+        </FormField>
+        <Button label="Create Account" loading={loading} onPress={() => signUpWithEmail()} />
       </BottomSheetView>
     </BottomSheetScrollView>
   )
@@ -102,24 +100,6 @@ const styles = StyleSheet.create({
   descriptionLink: {
     color: COLORS.text.link,
     fontFamily: FONTS.hells.sans.bold,
-  },
-  formRow: {
-    marginBottom: 20,
-  },
-  label: {
-    fontSize: 16,
-    marginBottom: 5,
-    fontFamily: FONTS.hells.sans.bold,
-    color: COLORS.text.body,
-  },
-  input: {
-    padding: 8,
-    borderWidth: 1,
-    borderColor: COLORS.bg.level2,
-    backgroundColor: COLORS.bg.level2,
-    borderRadius: 6,
-    fontSize: 16,
-    color: COLORS.text.body,
   },
 })
 

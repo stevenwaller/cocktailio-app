@@ -31,7 +31,7 @@ export default function SettingsScreen() {
         {user ? (
           <Button label="Log Out" onPress={handleSignOut} />
         ) : (
-          <Button label="Log In / Create Account" onPress={() => openAuthModal()} />
+          <Button label="Create a free account / Sign in" onPress={() => openAuthModal()} />
         )}
       </PageContainer>
     </ScrollView>

@@ -73,4 +73,8 @@ export const SIZE = {
     paddingY: 15,
   },
   marginY: 20,
+  form: {
+    rowMargin: 20,
+    labelMargin: 4,
+  },
 }
