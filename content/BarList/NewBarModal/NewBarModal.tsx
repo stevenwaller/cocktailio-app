@@ -24,6 +24,13 @@ const NewBarModal = forwardRef<IModal, NewBarModalProps>(({ onComplete = () => {
   const [value, setValue] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
 
+  const handleChange = (index: number) => {
+    if (index === -1) {
+      setValue('')
+      setIsSubmitting(false)
+    }
+  }
+
   const handleSave = async () => {
     if (!value) {
       Alert.alert('Please enter a name')
@@ -62,7 +69,7 @@ const NewBarModal = forwardRef<IModal, NewBarModalProps>(({ onComplete = () => {
   }
 
   return (
-    <Modal ref={ref} snapPoints={snapPoints}>
+    <Modal ref={ref} snapPoints={snapPoints} onChange={handleChange}>
       <ModalHeader title="Create new bar" />
       <ModalBody>
         <FormField label="Bar Name">

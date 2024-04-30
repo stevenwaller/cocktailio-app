@@ -3,7 +3,7 @@ import {
   StackNavigationOptions,
   TransitionPresets,
 } from '@react-navigation/stack'
-import { forwardRef } from 'react'
+import { forwardRef, useState } from 'react'
 
 import BarHomeScreen from './screens/BarHomeScreen'
 import EditBarScreen from './screens/EditBarScreen'
@@ -48,14 +48,22 @@ const screenOptions: StackNavigationOptions = {
 
 const MoreBarModal = forwardRef<IStackNavModal, MoreBarModalProps>(
   ({ bar, onComplete = () => {} }, ref) => {
+    const [isOpen, setIsOpen] = useState(false)
+
+    const handleChange = (index: number) => {
+      setIsOpen(index !== -1)
+    }
+
     return (
-      <StackNavModal ref={ref} snapPoints={snapPoints}>
+      <StackNavModal ref={ref} snapPoints={snapPoints} onChange={handleChange}>
         <Stack.Navigator screenOptions={screenOptions}>
           <Stack.Screen name={bar ? bar.name : 'Bar Info'}>
             {(props) => <BarHomeScreen {...props} bar={bar} onComplete={onComplete} />}
           </Stack.Screen>
           <Stack.Screen name="Edit Bar">
-            {(props) => <EditBarScreen {...props} bar={bar} onComplete={onComplete} />}
+            {(props) => (
+              <EditBarScreen {...props} bar={bar} onComplete={onComplete} isOpen={isOpen} />
+            )}
           </Stack.Screen>
         </Stack.Navigator>
       </StackNavModal>

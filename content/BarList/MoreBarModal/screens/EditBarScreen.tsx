@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Alert } from 'react-native'
 
 import FormField from '@/components/_forms/FormField'
@@ -12,12 +12,19 @@ import supabaseClient from '@/lib/utils/supabaseClient'
 interface IEditBarScreen {
   bar?: TBar | null
   onComplete?: () => void
+  isOpen?: boolean
 }
 
-const EditBarScreen = ({ bar, onComplete = () => {} }: IEditBarScreen) => {
+const EditBarScreen = ({ bar, onComplete = () => {}, isOpen }: IEditBarScreen) => {
   const { bars, setBars } = useBars()
   const [value, setValue] = useState(bar ? bar.name : '')
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  useEffect(() => {
+    if (!isOpen) {
+      setValue('')
+    }
+  }, [isOpen])
 
   const handleSave = async () => {
     if (!value) {
