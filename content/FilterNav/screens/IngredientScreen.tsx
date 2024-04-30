@@ -110,15 +110,17 @@ const IngredientScreen = ({ filter, onChange }: IngredientsScreenProps) => {
     <BottomSheetScrollView style={styles.container} enableFooterMarginAdjustment>
       <BottomSheetView style={styles.scrollContent}>
         {ingredients.map((ingredient) => (
-          <AccordionCard
+          <SelectableAccordion
             key={ingredient.id}
-            title={ingredient.name}
+            label={ingredient.name}
+            style={styles.accordion}
+            noSelect
             isOpen={openAccordions[ingredient.id]}
             onToggle={() => handleToggle(ingredient)}
             count={getSelectedCount(ingredient)}
           >
             {renderIngredients(ingredient.ingredients, 0)}
-          </AccordionCard>
+          </SelectableAccordion>
         ))}
       </BottomSheetView>
     </BottomSheetScrollView>

@@ -7,6 +7,7 @@ import AddInput from '@/components/_inputs/AddInput'
 import { COLORS, FONTS } from '@/lib/constants'
 
 interface SelectableAccordionProps extends ViewProps {
+  noSelect?: boolean
   isSelected?: boolean
   label: string
   isOpen: boolean
@@ -20,18 +21,22 @@ const SelectableAccordion = ({
   label,
   isOpen,
   children,
+  noSelect,
   style,
   count,
   headerLabelStyle,
   isSelected,
   onSelect,
   onToggle,
+  ...restProps
 }: SelectableAccordionProps) => {
   return (
-    <View style={[styles.accordion, style]}>
+    <View style={[styles.accordion, style]} {...restProps}>
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <AddInput style={styles.addInput} onPress={onSelect} checked={isSelected} />
+          {!noSelect && (
+            <AddInput style={styles.addInput} onPress={onSelect} checked={isSelected} />
+          )}
           <Text style={[styles.headerLabel, headerLabelStyle]}>{label}</Text>
         </View>
         {children && (
@@ -76,7 +81,7 @@ const styles = StyleSheet.create({
   headerLabel: {
     fontSize: 18,
     color: COLORS.text.body,
-    fontFamily: FONTS.hells.sans.bold,
+    fontFamily: FONTS.hells.sans.medium,
   },
   body: {
     marginTop: 12,

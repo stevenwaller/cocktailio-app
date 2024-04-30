@@ -85,8 +85,6 @@ export default function CocktailsScreen() {
         ingredientFilter[item.id] = item.name
       })
 
-    console.log('ingredientFilter', ingredientFilter)
-
     const query = supabaseClient.rpc('query_cocktails', {
       bar_id: barId,
       filter_ingredients: ingredientFilter,
