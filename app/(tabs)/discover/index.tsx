@@ -8,7 +8,7 @@ export default function TabOneScreen() {
     <ScrollView>
       <Stack.Screen
         options={{
-          title: 'DISCOVER',
+          title: 'Discover',
           headerTitleAlign: 'center',
         }}
       />

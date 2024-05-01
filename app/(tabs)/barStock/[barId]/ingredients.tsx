@@ -156,7 +156,7 @@ export default function Ingredients() {
     <ScrollView>
       <Stack.Screen
         options={{
-          title: `INGREDIENTS`,
+          title: `Ingredients`,
         }}
       />
       <PageContainer>{renderContent()}</PageContainer>

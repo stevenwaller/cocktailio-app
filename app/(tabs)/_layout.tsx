@@ -1,5 +1,4 @@
-import { Link, Tabs } from 'expo-router'
-import { Pressable } from 'react-native'
+import { Tabs } from 'expo-router'
 
 import BarStockIcon from '@/components/_icons/BarStock'
 import CocktailsIcon from '@/components/_icons/Cocktails'

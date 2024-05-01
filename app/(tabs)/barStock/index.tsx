@@ -14,7 +14,7 @@ export default function BarStockScreen() {
     <ScrollView>
       <Stack.Screen
         options={{
-          title: 'BAR STOCK',
+          title: 'Bar Stock',
           headerTitleAlign: 'center',
         }}
       />

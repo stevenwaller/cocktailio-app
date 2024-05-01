@@ -22,7 +22,7 @@ export default function SettingsScreen() {
     <ScrollView>
       <Stack.Screen
         options={{
-          title: 'SETTINGS',
+          title: 'Settings',
           headerTitleAlign: 'center',
         }}
       />
