@@ -39,7 +39,7 @@ const CocktailCard = ({ cocktail, ...restProps }: CocktailCardProps) => {
         <Link
           style={styles.name}
           href={{
-            pathname: `/cocktails/${cocktail.id}`,
+            pathname: `./${cocktail.id}`,
             params: { name: cocktail.name },
           }}
           asChild
