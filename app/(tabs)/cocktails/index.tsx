@@ -1,12 +1,13 @@
 import { PostgrestError } from '@supabase/supabase-js'
-import { Stack } from 'expo-router'
-import { useEffect, useState, useCallback } from 'react'
-import { StyleSheet, ScrollView, Text, View } from 'react-native'
+import { Stack, Link } from 'expo-router'
+import { useEffect, useState, useCallback, useRef } from 'react'
+import { StyleSheet, ScrollView, Text, View, Pressable } from 'react-native'
 
 import CocktailCard from '@/components/CocktailCard'
 import ErrorAlert from '@/components/ErrorAlert'
 import FiltersBar from '@/components/FiltersBar'
 import PageContainer from '@/components/PageContainer'
+import SearchIcon from '@/components/_icons/Search'
 import { COLORS, FONTS, SIZE } from '@/lib/constants'
 import { IFilter } from '@/lib/types'
 import { TCocktail } from '@/lib/types/supabase'
@@ -163,21 +164,35 @@ export default function CocktailsScreen() {
   }
 
   return (
-    <View>
-      <FiltersBar filters={filters} onApply={handleApply} />
-      <ScrollView>
-        <Stack.Screen
-          options={{
-            title: 'COCKTAILS',
-            headerTitleAlign: 'center',
-          }}
-        />
-        <PageContainer style={styles.pageContainer}>
-          <ErrorAlert message={error?.message} />
-          {renderContent()}
-        </PageContainer>
-      </ScrollView>
-    </View>
+    <>
+      <View>
+        <FiltersBar filters={filters} onApply={handleApply} />
+        <ScrollView>
+          <Stack.Screen
+            options={{
+              title: 'Cocktails',
+              headerTitleAlign: 'center',
+              headerRight: () => (
+                <Link
+                  href={{
+                    pathname: `/cocktails/search`,
+                  }}
+                  asChild
+                >
+                  <Pressable>
+                    <SearchIcon color={COLORS.nav.text} />
+                  </Pressable>
+                </Link>
+              ),
+            }}
+          />
+          <PageContainer style={styles.pageContainer}>
+            <ErrorAlert message={error?.message} />
+            {renderContent()}
+          </PageContainer>
+        </ScrollView>
+      </View>
+    </>
   )
 }
 
