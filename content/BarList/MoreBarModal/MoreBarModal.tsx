@@ -47,15 +47,16 @@ const screenOptions: StackNavigationOptions = {
 }
 
 const MoreBarModal = forwardRef<IStackNavModal, MoreBarModalProps>(
-  ({ bar, onComplete = () => {} }, ref) => {
+  ({ bar, onComplete = () => {}, onChange, ...restProps }, ref) => {
     const [isOpen, setIsOpen] = useState(false)
 
     const handleChange = (index: number) => {
       setIsOpen(index !== -1)
+      onChange?.(index)
     }
 
     return (
-      <StackNavModal ref={ref} snapPoints={snapPoints} onChange={handleChange}>
+      <StackNavModal ref={ref} snapPoints={snapPoints} onChange={handleChange} {...restProps}>
         <Stack.Navigator screenOptions={screenOptions}>
           <Stack.Screen name={bar ? bar.name : 'Bar Info'}>
             {(props) => <BarHomeScreen {...props} bar={bar} onComplete={onComplete} />}

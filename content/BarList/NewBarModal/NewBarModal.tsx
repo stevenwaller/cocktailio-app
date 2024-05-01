@@ -18,68 +18,75 @@ interface NewBarModalProps extends Omit<IModalProps, 'children'> {
 
 const snapPoints = ['32%']
 
-const NewBarModal = forwardRef<IModal, NewBarModalProps>(({ onComplete = () => {} }, ref) => {
-  const { user } = useAuth()
-  const { bars, setBars } = useBars()
-  const [value, setValue] = useState('')
-  const [isSubmitting, setIsSubmitting] = useState(false)
+const NewBarModal = forwardRef<IModal, NewBarModalProps>(
+  ({ onComplete = () => {}, onChange, ...restProps }, ref) => {
+    const { user } = useAuth()
+    const { bars, setBars } = useBars()
+    const [value, setValue] = useState('')
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleChange = (index: number) => {
-    if (index === -1) {
-      setValue('')
+    const handleChange = (index: number) => {
+      if (index === -1) {
+        setValue('')
+        setIsSubmitting(false)
+      }
+      onChange?.(index)
+    }
+
+    const handleSave = async () => {
+      if (!value) {
+        Alert.alert('Please enter a name')
+        return
+      }
+
+      setIsSubmitting(true)
+
+      const barVariables = {
+        name: value,
+        user_id: user ? user.id : null,
+      }
+
+      const response = await supabaseClient
+        .from('bars')
+        .insert(barVariables)
+        .select()
+        .single<TBar>()
+
+      console.log('response', response)
+
       setIsSubmitting(false)
-    }
-  }
 
-  const handleSave = async () => {
-    if (!value) {
-      Alert.alert('Please enter a name')
-      return
-    }
+      if (response.error) {
+        Alert.alert(response.error.message)
+        return
+      }
 
-    setIsSubmitting(true)
+      setBars([
+        ...bars,
+        {
+          ...response.data,
+          bar_ingredients: [],
+          ingredientsById: {},
+        },
+      ])
+      setValue('')
 
-    const barVariables = {
-      name: value,
-      user_id: user ? user.id : null,
-    }
-
-    const response = await supabaseClient.from('bars').insert(barVariables).select().single<TBar>()
-
-    console.log('response', response)
-
-    setIsSubmitting(false)
-
-    if (response.error) {
-      Alert.alert(response.error.message)
-      return
+      onComplete()
     }
 
-    setBars([
-      ...bars,
-      {
-        ...response.data,
-        bar_ingredients: [],
-        ingredientsById: {},
-      },
-    ])
-    setValue('')
-
-    onComplete()
-  }
-
-  return (
-    <Modal ref={ref} snapPoints={snapPoints} onChange={handleChange}>
-      <ModalHeader title="Create new bar" />
-      <ModalBody>
-        <FormField label="Bar Name">
-          <BottomSheetTextInput editable={!isSubmitting} value={value} onChangeText={setValue} />
-        </FormField>
-        <Button loading={isSubmitting} label="Save" onPress={handleSave} />
-      </ModalBody>
-    </Modal>
-  )
-})
+    return (
+      <Modal ref={ref} snapPoints={snapPoints} onChange={handleChange} {...restProps}>
+        <ModalHeader title="Create new bar" />
+        <ModalBody>
+          <FormField label="Bar Name">
+            <BottomSheetTextInput editable={!isSubmitting} value={value} onChangeText={setValue} />
+          </FormField>
+          <Button loading={isSubmitting} label="Save" onPress={handleSave} />
+        </ModalBody>
+      </Modal>
+    )
+  },
+)
 
 NewBarModal.displayName = 'NewBarModal'
 
