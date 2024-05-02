@@ -485,19 +485,19 @@ export type Database = {
         Row: {
           created_at: string
           id: string
-          name: string | null
+          name: string
           user_id: string | null
         }
         Insert: {
           created_at?: string
           id?: string
-          name?: string | null
+          name: string
           user_id?: string | null
         }
         Update: {
           created_at?: string
           id?: string
-          name?: string | null
+          name?: string
           user_id?: string | null
         }
         Relationships: [
@@ -733,6 +733,36 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: string[]
       }
+      gtrgm_compress: {
+        Args: {
+          "": unknown
+        }
+        Returns: unknown
+      }
+      gtrgm_decompress: {
+        Args: {
+          "": unknown
+        }
+        Returns: unknown
+      }
+      gtrgm_in: {
+        Args: {
+          "": unknown
+        }
+        Returns: unknown
+      }
+      gtrgm_options: {
+        Args: {
+          "": unknown
+        }
+        Returns: undefined
+      }
+      gtrgm_out: {
+        Args: {
+          "": unknown
+        }
+        Returns: unknown
+      }
       logging_example: {
         Args: {
           log_message: string
@@ -779,6 +809,41 @@ export type Database = {
           components: Json
           related_cocktails: Json
         }[]
+      }
+      search_cocktails: {
+        Args: {
+          search_value: string
+        }
+        Returns: {
+          base_ingredient_id: string | null
+          created_at: string | null
+          description: string | null
+          era_id: string | null
+          glass_id: string | null
+          history: string | null
+          id: string
+          invention_date: string | null
+          method_id: string | null
+          name: string
+          note: string | null
+          slug: string
+        }[]
+      }
+      set_limit: {
+        Args: {
+          "": number
+        }
+        Returns: number
+      }
+      show_limit: {
+        Args: Record<PropertyKey, never>
+        Returns: number
+      }
+      show_trgm: {
+        Args: {
+          "": string
+        }
+        Returns: string[]
       }
     }
     Enums: {

@@ -1,5 +1,5 @@
 import { PostgrestError } from '@supabase/supabase-js'
-import { Stack, Link } from 'expo-router'
+import { Stack, Link, useLocalSearchParams } from 'expo-router'
 import { useEffect, useState, useCallback } from 'react'
 import { StyleSheet, ScrollView, Text, View, Pressable } from 'react-native'
 
@@ -23,48 +23,66 @@ export default function Cocktails() {
   const [error, setError] = useState<PostgrestError | null>(null)
   const [count, setCount] = useState<number | null>(0)
   const [currentPage, setCurrentPage] = useState<number>(1)
+  const { barId, collectionId, name } = useLocalSearchParams()
+
+  console.log('barId', barId)
+
   // TODO: use enum for consistent names
   const [filters, setFilters] = useState<IFilter[]>([
     {
       index: 0,
       name: 'With Bar Stock',
-      value: [],
+      value: barId
+        ? [
+            {
+              id: barId as string,
+              name: name as string,
+            },
+          ]
+        : [],
     },
     {
       index: 1,
+      name: 'Collection',
+      value: collectionId
+        ? [
+            {
+              id: collectionId as string,
+              name: name as string,
+            },
+          ]
+        : [],
+    },
+    {
+      index: 2,
       name: 'Base Spirit',
       value: [],
     },
     {
-      index: 2,
+      index: 3,
       name: 'Ingredient',
       value: [],
     },
     {
-      index: 3,
+      index: 4,
       name: 'Source',
       value: [],
     },
     {
-      index: 4,
+      index: 5,
       name: 'Method',
       value: [],
     },
     {
-      index: 5,
+      index: 6,
       name: 'Era',
       value: [],
     },
     {
-      index: 6,
+      index: 7,
       name: 'Glassware',
       value: [],
     },
-    // {
-    //   name: 'Collections',
-    //   screen: 'COLLECTIONS',
-    //   value: []
-    // },
   ])
 
   const fetchData = useCallback(async () => {
@@ -97,6 +115,7 @@ export default function Cocktails() {
     filters.forEach((filter) => {
       const values = filter.value.map((item) => item.id)
 
+      // TODO: use row name to consolidate these
       switch (filter.name) {
         case 'Base Spirit':
           if (values.length > 0) {
@@ -151,6 +170,10 @@ export default function Cocktails() {
     setFilters([...newFilters])
   }
 
+  const handleBookmark = async (cocktail: TCocktail) => {
+    console.log('bookmark', cocktail.name)
+  }
+
   const renderContent = () => {
     if (isFetching) {
       return <Text style={styles.title}>Loading...</Text>
@@ -160,7 +183,9 @@ export default function Cocktails() {
       return <Text style={styles.title}>No data found</Text>
     }
 
-    return data.map((cocktail) => <CocktailCard key={cocktail.id} cocktail={cocktail} />)
+    return data.map((cocktail) => (
+      <CocktailCard key={cocktail.id} cocktail={cocktail} onBookmarkPress={handleBookmark} />
+    ))
   }
 
   return (

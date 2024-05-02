@@ -5,6 +5,7 @@ import {
 } from '@react-navigation/stack'
 
 import BaseSpiritScreen from './screens/BaseSpiritScreen'
+import CollectionScreen from './screens/CollectionScreen'
 import EraScreen from './screens/EraScreen'
 import FiltersScreen from './screens/FiltersScreen'
 import GlasswareScreen from './screens/GlasswareScreen'
@@ -64,6 +65,15 @@ const FilterNav = ({ currentFilterIndex, filters, onChange }: FilterNavProps) =>
               <WithBarStockScreen
                 {...props}
                 filter={filters.find((item) => item.name === 'With Bar Stock')}
+                onChange={onChange}
+              />
+            )}
+          </Stack.Screen>
+          <Stack.Screen name="Collection">
+            {(props) => (
+              <CollectionScreen
+                {...props}
+                filter={filters.find((item) => item.name === 'Collection')}
                 onChange={onChange}
               />
             )}
@@ -130,6 +140,14 @@ const FilterNav = ({ currentFilterIndex, filters, onChange }: FilterNavProps) =>
       return (
         <Stack.Screen name="With Bar Stock">
           {(props) => <WithBarStockScreen {...props} filter={currentFilter} onChange={onChange} />}
+        </Stack.Screen>
+      )
+    }
+
+    if (currentFilter?.name === 'Collection') {
+      return (
+        <Stack.Screen name="Collection">
+          {(props) => <CollectionScreen {...props} filter={currentFilter} onChange={onChange} />}
         </Stack.Screen>
       )
     }

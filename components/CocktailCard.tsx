@@ -1,14 +1,16 @@
-import { Link } from 'expo-router'
-import { StyleSheet, Text, View } from 'react-native'
+import { Link, usePathname, useSegments } from 'expo-router'
+import { StyleSheet, Text, View, Pressable } from 'react-native'
 
 import { BodyText } from './_elements/Text'
 
 import Card from '@/components/Card'
+import BookmarkIcon from '@/components/_icons/Bookmark'
 import { FONTS, COLORS } from '@/lib/constants'
 import { TCocktail } from '@/lib/types/supabase'
 
 interface CocktailCardProps {
   cocktail: TCocktail
+  onBookmarkPress?: (cocktail: TCocktail) => void
 }
 
 const renderIngredients = (cocktail: TCocktail) => {
@@ -30,22 +32,40 @@ const renderIngredients = (cocktail: TCocktail) => {
   return <Text style={styles.ingredients}>{returnString}</Text>
 }
 
-const CocktailCard = ({ cocktail, ...restProps }: CocktailCardProps) => {
+const CocktailCard = ({
+  cocktail,
+  onBookmarkPress = () => {},
+  ...restProps
+}: CocktailCardProps) => {
   const { name } = cocktail
+  const segments = useSegments()
+
+  // Doing this because relative path doesn't currently work from an index file in expo-router
+  // https://github.com/expo/router/issues/793
+  // https://github.com/expo/router/issues/567
+  const useRelativePath = segments[1] === 'collections'
+
+  console.log('segments', segments)
 
   return (
     <Card {...restProps}>
       <Card.Header>
         <Link
           style={styles.name}
-          href={{
-            pathname: `./${cocktail.id}`,
-            params: { name: cocktail.name },
-          }}
+          href={
+            {
+              pathname: useRelativePath ? `./${cocktail.id}` : `/cocktails/${cocktail.id}`,
+              // pathname: `./detail/${cocktail.id}`,
+              params: { name: cocktail.name },
+            } as never
+          }
           asChild
         >
           <Card.HeaderText isLink>{name}</Card.HeaderText>
         </Link>
+        <Pressable onPress={() => onBookmarkPress(cocktail)}>
+          <BookmarkIcon color={COLORS.text.link} />
+        </Pressable>
       </Card.Header>
       <Card.Body>
         {renderIngredients(cocktail)}

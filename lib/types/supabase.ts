@@ -51,3 +51,5 @@ export type TBarIngredient = Tables<'bar_ingredients'> & {
 }
 
 export type TMethod = Tables<'methods'>
+
+export type TCollection = Tables<'collections'>
