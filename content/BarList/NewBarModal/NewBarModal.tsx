@@ -7,8 +7,8 @@ import Button from '@/components/_inputs/Button'
 import Modal, { IModal, IModalProps } from '@/components/_overlays/Modal'
 import ModalBody from '@/components/_overlays/ModalBody'
 import ModalHeader from '@/components/_overlays/ModalHeader'
-import { useAuth } from '@/lib/contexts/AuthContextProvider'
 import useBars from '@/lib/hooks/useBars'
+import useUserStore from '@/lib/stores/useUserStore'
 import { TBar } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
@@ -20,7 +20,7 @@ const snapPoints = ['32%']
 
 const NewBarModal = forwardRef<IModal, NewBarModalProps>(
   ({ onComplete = () => {}, onChange, ...restProps }, ref) => {
-    const { user } = useAuth()
+    const { user } = useUserStore()
     const { bars, setBars } = useBars()
     const [value, setValue] = useState('')
     const [isSubmitting, setIsSubmitting] = useState(false)

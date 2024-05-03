@@ -3,17 +3,16 @@ import { createContext, useState, useEffect, useRef, ReactNode, useContext } fro
 
 import StackNavModal, { IStackNavModal } from '@/components/_overlays/StackNavModal'
 import AuthNav from '@/content/AuthNav'
+import useUserStore from '@/lib/stores/useUserStore'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
 const snapPoints = ['92%']
 
 interface IAuthContext {
-  user: User | null
   openAuthModal: () => void
 }
 
 export const AuthContext = createContext<IAuthContext>({
-  user: null,
   openAuthModal: () => {},
 })
 
@@ -24,7 +23,7 @@ interface AuthContextProviderProps {
 }
 
 const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
-  const [user, setUser] = useState<User | null>(null)
+  const { setUser } = useUserStore()
   const modalRef = useRef<IStackNavModal>(null)
 
   const openAuthModal = () => {
@@ -50,7 +49,7 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   }, [])
 
   return (
-    <AuthContext.Provider value={{ user, openAuthModal }}>
+    <AuthContext.Provider value={{ openAuthModal }}>
       {children}
       <StackNavModal ref={modalRef} snapPoints={snapPoints}>
         <AuthNav onComplete={handleComplete} />

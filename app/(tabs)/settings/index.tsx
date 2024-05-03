@@ -5,10 +5,12 @@ import PageContainer from '@/components/PageContainer'
 import Button from '@/components/_inputs/Button'
 import { COLORS, FONTS } from '@/lib/constants'
 import { useAuth } from '@/lib/contexts/AuthContextProvider'
+import useUserStore from '@/lib/stores/useUserStore'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
 export default function SettingsScreen() {
-  const { user, openAuthModal } = useAuth()
+  const { openAuthModal } = useAuth()
+  const { user } = useUserStore()
 
   const handleSignOut = async () => {
     const { error } = await supabaseClient.auth.signOut()

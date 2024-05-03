@@ -6,9 +6,11 @@ import { BodyText } from '@/components/_elements/Text'
 import Button from '@/components/_inputs/Button'
 import BarList from '@/content/BarList'
 import { useAuth } from '@/lib/contexts/AuthContextProvider'
+import useUserStore from '@/lib/stores/useUserStore'
 
 export default function BarStockScreen() {
-  const { user, openAuthModal } = useAuth()
+  const { openAuthModal } = useAuth()
+  const { user } = useUserStore()
 
   return (
     <ScrollView>
