@@ -1,8 +1,4 @@
-import {
-  createStackNavigator,
-  StackNavigationOptions,
-  TransitionPresets,
-} from '@react-navigation/stack'
+import { createStackNavigator } from '@react-navigation/stack'
 
 import BaseSpiritScreen from './screens/BaseSpiritScreen'
 import CollectionScreen from './screens/CollectionScreen'
@@ -14,8 +10,8 @@ import MethodScreen from './screens/MethodScreen'
 import SourceScreen from './screens/SourceScreen'
 import WithBarStockScreen from './screens/WithBarStockScreen'
 
-import { COLORS, FONTS } from '@/lib/constants'
 import { IFilter } from '@/lib/types'
+import { modalScreenOptions } from '@/lib/utils/options'
 
 interface FilterNavProps {
   currentFilterIndex?: number
@@ -24,28 +20,6 @@ interface FilterNavProps {
 }
 
 const Stack = createStackNavigator()
-
-const screenOptions: StackNavigationOptions = {
-  ...TransitionPresets.SlideFromRightIOS,
-  headerMode: 'screen',
-  headerShown: true,
-  headerTintColor: COLORS.text.body,
-  headerTitleAlign: 'center',
-  headerStyle: {
-    backgroundColor: COLORS.bg.level2,
-  },
-  headerTitleStyle: {
-    fontFamily: FONTS.schotis.bold,
-    fontSize: 20,
-  },
-  headerShadowVisible: false,
-  headerStatusBarHeight: 0,
-  headerBackTitleVisible: false,
-  cardStyle: {
-    backgroundColor: COLORS.bg.level3,
-    overflow: 'visible',
-  },
-}
 
 const filtersScreenOptions = { headerLeft: () => null }
 
@@ -201,7 +175,7 @@ const FilterNav = ({ currentFilterIndex, filters, onChange }: FilterNavProps) =>
     }
   }
 
-  return <Stack.Navigator screenOptions={screenOptions}>{renderScreens()}</Stack.Navigator>
+  return <Stack.Navigator screenOptions={modalScreenOptions}>{renderScreens()}</Stack.Navigator>
 }
 
 FilterNav.displayName = 'FilterNav'

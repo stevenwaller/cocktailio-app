@@ -31,8 +31,14 @@ const Modal = forwardRef<IModal, IModalProps>(
         ref={ref}
         snapPoints={snapPoints}
         backdropComponent={renderBackdrop}
-        backgroundStyle={{ backgroundColor: COLORS.bg.level2 }}
-        handleIndicatorStyle={{ backgroundColor: COLORS.text.link }}
+        backgroundStyle={{
+          backgroundColor: COLORS.bg.level2,
+          // backgroundColor: 'red',
+          borderTopStartRadius: 10,
+          borderTopEndRadius: 10,
+        }}
+        handleStyle={{ padding: 5 }}
+        handleIndicatorStyle={{ backgroundColor: COLORS.text.link, top: -20 }}
         style={{
           shadowColor: '#000',
           shadowOffset: {

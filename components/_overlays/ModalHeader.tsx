@@ -18,15 +18,15 @@ const ModalHeader = ({ title }: IModalHeaderProps) => {
 const styles = StyleSheet.create({
   modalHeader: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'center',
+    height: 35,
   },
   modalHeaderText: {
     fontSize: 20,
     color: COLORS.text.body,
     fontFamily: FONTS.schotis.bold,
-    paddingTop: 5,
-    paddingBottom: 10,
+    top: -5,
   },
 })
 
