@@ -1,5 +1,7 @@
-import type { User } from '@supabase/supabase-js'
-import { createContext, useState, useEffect, useRef, ReactNode, useContext } from 'react'
+import { createContext, useEffect, useRef, ReactNode, useContext } from 'react'
+
+import useBarStore from '../stores/useBarStore'
+import useCollectionStore from '../stores/useCollectionStore'
 
 import StackNavModal, { IStackNavModal } from '@/components/_overlays/StackNavModal'
 import AuthNav from '@/content/AuthNav'
@@ -24,6 +26,8 @@ interface AuthContextProviderProps {
 
 const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const { setUser } = useUserStore()
+  const { setCollections } = useCollectionStore()
+  const { setBars } = useBarStore()
   const modalRef = useRef<IStackNavModal>(null)
 
   const openAuthModal = () => {
@@ -38,6 +42,8 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     const { data } = supabaseClient.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_OUT') {
         setUser(null)
+        setCollections([])
+        setBars([])
       } else if (session) {
         setUser(session.user)
       }
