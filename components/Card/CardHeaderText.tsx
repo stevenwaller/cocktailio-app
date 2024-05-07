@@ -22,6 +22,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: COLORS.text.body,
     fontFamily: FONTS.schotis.bold,
+    lineHeight: 24,
+    paddingTop: 5,
   },
   isLink: {
     color: COLORS.text.link,

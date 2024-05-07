@@ -52,4 +52,12 @@ export type TBarIngredient = Tables<'bar_ingredients'> & {
 
 export type TMethod = Tables<'methods'>
 
-export type TCollection = Tables<'collections'>
+export type TCollectionCocktail = Tables<'collection_cocktails'>
+
+export type TCocktailIdsById = Record<string, string>
+
+export type TCollection = Tables<'collections'> & {
+  collection_cocktails: TCollectionCocktail[]
+  cocktail_ids_by_id: TCocktailIdsById
+  cocktail_ids: string[]
+}

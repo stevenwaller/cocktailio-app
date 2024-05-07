@@ -1,16 +1,18 @@
-import { Link, usePathname, useSegments } from 'expo-router'
+import { Link, useSegments } from 'expo-router'
 import { StyleSheet, Text, View, Pressable } from 'react-native'
 
 import { BodyText } from './_elements/Text'
 
 import Card from '@/components/Card'
 import BookmarkIcon from '@/components/_icons/Bookmark'
+import BookmarkSolidIcon from '@/components/_icons/BookmarkSolid'
 import { FONTS, COLORS } from '@/lib/constants'
 import { TCocktail } from '@/lib/types/supabase'
 
 interface CocktailCardProps {
   cocktail: TCocktail
   onBookmarkPress?: (cocktail: TCocktail) => void
+  isBookmarked?: boolean
 }
 
 const renderIngredients = (cocktail: TCocktail) => {
@@ -35,6 +37,7 @@ const renderIngredients = (cocktail: TCocktail) => {
 const CocktailCard = ({
   cocktail,
   onBookmarkPress = () => {},
+  isBookmarked,
   ...restProps
 }: CocktailCardProps) => {
   const { name } = cocktail
@@ -45,8 +48,6 @@ const CocktailCard = ({
   // https://github.com/expo/router/issues/567
   const useRelativePath = segments[1] === 'collections'
 
-  console.log('segments', segments)
-
   return (
     <Card {...restProps}>
       <Card.Header>
@@ -55,7 +56,6 @@ const CocktailCard = ({
           href={
             {
               pathname: useRelativePath ? `./${cocktail.id}` : `/cocktails/${cocktail.id}`,
-              // pathname: `./detail/${cocktail.id}`,
               params: { name: cocktail.name },
             } as never
           }
@@ -64,7 +64,11 @@ const CocktailCard = ({
           <Card.HeaderText isLink>{name}</Card.HeaderText>
         </Link>
         <Pressable onPress={() => onBookmarkPress(cocktail)}>
-          <BookmarkIcon color={COLORS.text.link} />
+          {isBookmarked ? (
+            <BookmarkSolidIcon color={COLORS.text.link} />
+          ) : (
+            <BookmarkIcon color={COLORS.text.link} />
+          )}
         </Pressable>
       </Card.Header>
       <Card.Body>

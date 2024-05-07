@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 
 import useCollectionStore from '@/lib/stores/useCollectionStore'
 import { TCollection } from '@/lib/types/supabase'
+import { collectionNormalizer } from '@/lib/utils/dataNormalizers'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
 const useCollections = (collectionId?: string) => {
@@ -18,12 +19,24 @@ const useCollections = (collectionId?: string) => {
   const fetchData = async () => {
     setIsFetching(true)
 
-    const response = await supabaseClient.from('collections').select(`*`).returns<TCollection[]>()
+    const response = await supabaseClient
+      .from('collections')
+      .select(
+        `
+        *,
+        collection_cocktails(*)
+        `,
+      )
+      .returns<TCollection[]>()
 
     setIsFetching(false)
 
     if (response.data) {
-      setCollections(response.data)
+      const newCollections = response.data.map((collection) => {
+        return collectionNormalizer(collection)
+      })
+
+      setCollections(newCollections)
     }
     setError(response.error)
   }

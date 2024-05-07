@@ -33,7 +33,6 @@ const Modal = forwardRef<IModal, IModalProps>(
         backdropComponent={renderBackdrop}
         backgroundStyle={{
           backgroundColor: COLORS.bg.level2,
-          // backgroundColor: 'red',
           borderTopStartRadius: 10,
           borderTopEndRadius: 10,
         }}

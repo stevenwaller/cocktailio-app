@@ -1,6 +1,6 @@
 import { PostgrestError } from '@supabase/supabase-js'
 import { Stack, Link, useLocalSearchParams } from 'expo-router'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { StyleSheet, ScrollView, Text, View, Pressable } from 'react-native'
 
 import CocktailCard from '@/components/CocktailCard'
@@ -8,7 +8,9 @@ import ErrorAlert from '@/components/ErrorAlert'
 import FiltersBar from '@/components/FiltersBar'
 import PageContainer from '@/components/PageContainer'
 import SearchIcon from '@/components/_icons/Search'
+import AddToCollectionModal, { IAddToCollectionModal } from '@/content/AddToCollectionModal'
 import { COLORS, FONTS, SIZE } from '@/lib/constants'
+import useCollections from '@/lib/hooks/useCollections'
 import { IFilter } from '@/lib/types'
 import { TCocktail } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
@@ -16,16 +18,17 @@ import supabaseClient from '@/lib/utils/supabaseClient'
 const itemsToLoad = 100
 
 export default function Cocktails() {
+  const addToCollectionModalRef = useRef<IAddToCollectionModal | null>(null)
   const [minRange, setMinRange] = useState<number>(0)
   const [maxRange, setMaxRange] = useState<number>(itemsToLoad - 1)
   const [isFetching, setIsFetching] = useState(false)
   const [data, setData] = useState<TCocktail[] | null>(null)
   const [error, setError] = useState<PostgrestError | null>(null)
+  const [cocktailToBookmark, setCocktailToBookmark] = useState<TCocktail | null>(null)
   const [count, setCount] = useState<number | null>(0)
   const [currentPage, setCurrentPage] = useState<number>(1)
+  const { collections } = useCollections()
   const { barId, collectionId, name } = useLocalSearchParams()
-
-  console.log('barId', barId)
 
   // TODO: use enum for consistent names
   const [filters, setFilters] = useState<IFilter[]>([
@@ -171,7 +174,23 @@ export default function Cocktails() {
   }
 
   const handleBookmark = async (cocktail: TCocktail) => {
-    console.log('bookmark', cocktail.name)
+    setCocktailToBookmark(cocktail)
+
+    addToCollectionModalRef.current?.present()
+  }
+
+  const checkIfBookmarked = (cocktailId: string): boolean => {
+    let isBookmarked = false
+
+    if (!collections) return isBookmarked
+
+    collections.forEach((collection) => {
+      if (collection.cocktail_ids_by_id[cocktailId]) {
+        isBookmarked = true
+      }
+    })
+
+    return isBookmarked
   }
 
   const renderContent = () => {
@@ -184,7 +203,12 @@ export default function Cocktails() {
     }
 
     return data.map((cocktail) => (
-      <CocktailCard key={cocktail.id} cocktail={cocktail} onBookmarkPress={handleBookmark} />
+      <CocktailCard
+        key={cocktail.id}
+        cocktail={cocktail}
+        onBookmarkPress={handleBookmark}
+        isBookmarked={checkIfBookmarked(cocktail.id)}
+      />
     ))
   }
 
@@ -217,6 +241,7 @@ export default function Cocktails() {
           </PageContainer>
         </ScrollView>
       </View>
+      <AddToCollectionModal ref={addToCollectionModalRef} cocktail={cocktailToBookmark} />
     </>
   )
 }
