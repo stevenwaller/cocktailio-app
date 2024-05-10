@@ -5,7 +5,9 @@ export interface IFilter {
     id: string
     name: string
   }[]
-  // value: {
-  //   [key: string]: string
-  // }
+}
+
+export type HomeStackParamList = {
+  Home: undefined
+  Details: undefined
 }

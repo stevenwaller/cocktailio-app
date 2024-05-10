@@ -1,27 +1,25 @@
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { NavigationContainer } from '@react-navigation/native'
+import { registerRootComponent } from 'expo'
 import { useFonts } from 'expo-font'
-import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
+import { View, Text } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
+import HomeStackScreen from './Home/HomeStackScreen'
+
+import DiscoverIcon from '@/components/_icons/Discover'
 import { COLORS } from '@/lib/constants'
 import AuthContextProvider from '@/lib/contexts/AuthContextProvider'
 
-export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from 'expo-router'
-
-export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)',
-}
+const Tab = createBottomTabNavigator()
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
 
-export default function RootLayout() {
+function App() {
   const [fontsLoaded, fontError] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     SchotisBlack: require('../assets/fonts/schotis/SchotisText-Black.otf'),
@@ -71,15 +69,32 @@ export default function RootLayout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <BottomSheetModalProvider>
         <AuthContextProvider>
-          <Stack
-            screenOptions={{
-              contentStyle: { backgroundColor: COLORS.bg.level1 },
-            }}
-          >
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          </Stack>
+          <NavigationContainer>
+            <Tab.Navigator
+              screenOptions={{
+                tabBarInactiveTintColor: COLORS.nav.inactive,
+                tabBarActiveTintColor: '#3B1200',
+                headerShown: false,
+                tabBarStyle: {
+                  backgroundColor: COLORS.nav.bg,
+                  borderTopWidth: 0,
+                },
+              }}
+            >
+              <Tab.Screen
+                options={{
+                  tabBarLabel: 'Home',
+                  tabBarIcon: ({ color }) => <DiscoverIcon color={color} />,
+                }}
+                name="HomeStack"
+                component={HomeStackScreen}
+              />
+            </Tab.Navigator>
+          </NavigationContainer>
         </AuthContextProvider>
       </BottomSheetModalProvider>
     </GestureHandlerRootView>
   )
 }
+
+registerRootComponent(App)
