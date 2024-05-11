@@ -1,13 +1,13 @@
 import { Text, View } from 'react-native'
 
-const DetailsScreen = () => {
+const SharedScreen = () => {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Detail Screen</Text>
+      <Text>Shared Screen</Text>
     </View>
   )
 }
 
-DetailsScreen.displayName = 'DetailsScreen'
+SharedScreen.displayName = 'SharedScreen'
 
-export default DetailsScreen
+export default SharedScreen

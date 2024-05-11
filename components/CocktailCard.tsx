@@ -1,4 +1,4 @@
-import { Link, useSegments } from 'expo-router'
+import { useNavigation, ParamListBase, NavigationProp } from '@react-navigation/native'
 import { StyleSheet, Text, View, Pressable } from 'react-native'
 
 import { BodyText } from './_elements/Text'
@@ -7,6 +7,7 @@ import Card from '@/components/Card'
 import BookmarkIcon from '@/components/_icons/Bookmark'
 import BookmarkSolidIcon from '@/components/_icons/BookmarkSolid'
 import { FONTS, COLORS } from '@/lib/constants'
+import { CocktailsStackParamList } from '@/lib/types'
 import { TCocktail } from '@/lib/types/supabase'
 
 interface CocktailCardProps {
@@ -40,29 +41,22 @@ const CocktailCard = ({
   isBookmarked,
   ...restProps
 }: CocktailCardProps) => {
+  const navigation = useNavigation<NavigationProp<CocktailsStackParamList>>()
   const { name } = cocktail
-  const segments = useSegments()
-
-  // Doing this because relative path doesn't currently work from an index file in expo-router
-  // https://github.com/expo/router/issues/793
-  // https://github.com/expo/router/issues/567
-  const useRelativePath = segments[1] === 'collections'
 
   return (
     <Card {...restProps}>
       <Card.Header>
-        <Link
-          style={styles.name}
-          href={
-            {
-              pathname: useRelativePath ? `./${cocktail.id}` : `/cocktails/${cocktail.id}`,
-              params: { name: cocktail.name },
-            } as never
+        <Pressable
+          onPress={() =>
+            navigation.navigate('Cocktail Detail', {
+              cocktailId: cocktail.id,
+              name,
+            })
           }
-          asChild
         >
           <Card.HeaderText isLink>{name}</Card.HeaderText>
-        </Link>
+        </Pressable>
         <Pressable onPress={() => onBookmarkPress(cocktail)}>
           {isBookmarked ? (
             <BookmarkSolidIcon color={COLORS.text.link} />

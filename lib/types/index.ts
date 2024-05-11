@@ -9,5 +9,9 @@ export interface IFilter {
 
 export type HomeStackParamList = {
   Home: undefined
-  Details: undefined
+}
+
+export type CocktailsStackParamList = {
+  Cocktails: undefined
+  'Cocktail Detail': { cocktailId: string; name: string }
 }

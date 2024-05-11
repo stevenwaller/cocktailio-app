@@ -1,20 +1,14 @@
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
 import { registerRootComponent } from 'expo'
 import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
-import { View, Text } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
-import HomeStackScreen from './Home/HomeStackScreen'
+import TabNav from './TabNav'
 
-import DiscoverIcon from '@/components/_icons/Discover'
-import { COLORS } from '@/lib/constants'
 import AuthContextProvider from '@/lib/contexts/AuthContextProvider'
-
-const Tab = createBottomTabNavigator()
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
@@ -70,26 +64,7 @@ function App() {
       <BottomSheetModalProvider>
         <AuthContextProvider>
           <NavigationContainer>
-            <Tab.Navigator
-              screenOptions={{
-                tabBarInactiveTintColor: COLORS.nav.inactive,
-                tabBarActiveTintColor: '#3B1200',
-                headerShown: false,
-                tabBarStyle: {
-                  backgroundColor: COLORS.nav.bg,
-                  borderTopWidth: 0,
-                },
-              }}
-            >
-              <Tab.Screen
-                options={{
-                  tabBarLabel: 'Home',
-                  tabBarIcon: ({ color }) => <DiscoverIcon color={color} />,
-                }}
-                name="HomeStack"
-                component={HomeStackScreen}
-              />
-            </Tab.Navigator>
+            <TabNav />
           </NavigationContainer>
         </AuthContextProvider>
       </BottomSheetModalProvider>

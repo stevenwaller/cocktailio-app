@@ -1,6 +1,5 @@
-import { Link } from 'expo-router'
 import { Fragment } from 'react'
-import { StyleSheet, Text, View, StyleProp, ViewStyle } from 'react-native'
+import { StyleSheet, Text, View, StyleProp, ViewStyle, Pressable } from 'react-native'
 
 import Card from '@/components/Card'
 import { BodyText, BodyLinkText } from '@/components/_elements/Text'
@@ -47,15 +46,15 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
             {ingredients?.map((ingredient, index) => (
               <Fragment key={ingredient.id}>
                 {index !== 0 && ' or '}
-                <Link
-                  style={styles.ingredientTitleLink}
-                  href={{
-                    pathname: `/cocktails/ingredients/${ingredient.ingredient.id}`,
-                    params: { name: ingredient.ingredient.name },
-                  }}
+                <Pressable
+                // style={styles.ingredientTitleLink}
+                // href={{
+                //   pathname: `/cocktails/ingredients/${ingredient.ingredient.id}`,
+                //   params: { name: ingredient.ingredient.name },
+                // }}
                 >
-                  {ingredient.ingredient.name}
-                </Link>
+                  <BodyText>{ingredient.ingredient.name}</BodyText>
+                </Pressable>
               </Fragment>
             ))}
             {or_ingredients?.length > 0 &&
@@ -63,15 +62,15 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
                 <Text key={ingredient.id} style={styles.orIngredients}>
                   {index === 0 && ' ('}
                   {index !== 0 && ' or '}
-                  <Link
-                    style={styles.ingredientTitleLink}
-                    href={{
-                      pathname: `/cocktails/ingredients/${ingredient.ingredient.id}`,
-                      params: { name: ingredient.ingredient.name },
-                    }}
+                  <Pressable
+                  // style={styles.ingredientTitleLink}
+                  // href={{
+                  //   pathname: `/cocktails/ingredients/${ingredient.ingredient.id}`,
+                  //   params: { name: ingredient.ingredient.name },
+                  // }}
                   >
-                    {ingredient.ingredient.name}
-                  </Link>
+                    <BodyText>{ingredient.ingredient.name}</BodyText>
+                  </Pressable>
                   {index === or_ingredients.length - 1 && ')'}
                 </Text>
               ))}
@@ -92,15 +91,15 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
                   <Fragment key={ingredient.id}>
                     {index !== 0 && `, `}
                     {pref_ingredients.length > 1 && index === pref_ingredients.length - 1 && ' or '}
-                    <Link
-                      style={styles.ingredientTitleLink}
-                      href={{
-                        pathname: `/cocktails/ingredients/${ingredient.ingredient.id}`,
-                        params: { name: ingredient.ingredient.name },
-                      }}
+                    <Pressable
+                    // style={styles.ingredientTitleLink}
+                    // href={{
+                    //   pathname: `/cocktails/ingredients/${ingredient.ingredient.id}`,
+                    //   params: { name: ingredient.ingredient.name },
+                    // }}
                     >
-                      {ingredient.ingredient.name}
-                    </Link>
+                      <BodyText>{ingredient.ingredient.name}</BodyText>
+                    </Pressable>
                   </Fragment>
                 ))}
               </Text>
@@ -188,15 +187,15 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
         </Card.Header>
         <Card.Body>
           {sources.map((source, index) => (
-            <Link
-              key={source.id}
-              href={{
-                pathname: `/cocktails/sources/${source.source.id}`,
-                params: { name: source.source.name },
-              }}
+            <Pressable
+            // key={source.id}
+            // href={{
+            //   pathname: `/cocktails/sources/${source.source.id}`,
+            //   params: { name: source.source.name },
+            // }}
             >
               <BodyLinkText>{source.source.name}</BodyLinkText>
-            </Link>
+            </Pressable>
           ))}
         </Card.Body>
       </>
