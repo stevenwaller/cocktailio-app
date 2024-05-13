@@ -14,6 +14,7 @@ export type HomeStackParamList = {
 export type CocktailsStackParamList = {
   Cocktails: { barId?: string; collectionId?: string; name?: string } | undefined
   'Cocktail Detail': { cocktailId: string; name: string } | undefined
-  'Search Cocktails': undefined
   'Ingredient Detail': { ingredientId: string; name: string } | undefined
+  'Source Detail': { sourceId: string; name: string } | undefined
+  'Search Cocktails': undefined
 }

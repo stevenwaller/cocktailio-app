@@ -224,15 +224,17 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
         </Card.Header>
         <Card.Body>
           {sources.map((source, index) => (
-            <Pressable
-            // key={source.id}
-            // href={{
-            //   pathname: `/cocktails/sources/${source.source.id}`,
-            //   params: { name: source.source.name },
-            // }}
+            <TouchableWithoutFeedback
+              key={source.id}
+              onPress={() =>
+                navigation.navigate('Source Detail', {
+                  sourceId: source.source.id,
+                  name: source.source.name,
+                })
+              }
             >
               <BodyLinkText>{source.source.name}</BodyLinkText>
-            </Pressable>
+            </TouchableWithoutFeedback>
           ))}
         </Card.Body>
       </>

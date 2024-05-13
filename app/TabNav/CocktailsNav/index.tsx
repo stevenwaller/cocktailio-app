@@ -5,6 +5,7 @@ import CocktailDetailScreen from '../_sharedScreens/CocktailDetailScreen'
 import CocktailsScreen from '../_sharedScreens/CocktailsScreen'
 import IngredientDetailScreen from '../_sharedScreens/IngredientDetailScreen'
 import SearchCocktailsScreen from '../_sharedScreens/SearchCocktailsScreen'
+import SourceDetailScreen from '../_sharedScreens/SourceDetailScreen'
 
 import SearchIcon from '@/components/_icons/Search'
 import { COLORS } from '@/lib/constants'
@@ -32,6 +33,11 @@ const CocktailsNav = () => {
       <CocktailsStack.Screen
         name="Ingredient Detail"
         component={IngredientDetailScreen}
+        options={{ title: '' }}
+      />
+      <CocktailsStack.Screen
+        name="Source Detail"
+        component={SourceDetailScreen}
         options={{ title: '' }}
       />
     </CocktailsStack.Navigator>
