@@ -5,14 +5,10 @@ import { HomeStackParamList } from '@/lib/types'
 
 type Props = NativeStackScreenProps<HomeStackParamList, 'Home'>
 
-const HomeScreen = ({ navigation }: Props) => {
+export default function HomeScreen({ navigation }: Props) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Home Screen</Text>
     </View>
   )
 }
-
-HomeScreen.displayName = 'HomeScreen'
-
-export default HomeScreen

@@ -20,9 +20,6 @@ export default function CocktailDetailScreen({ route }: Props) {
   const cocktailId = route.params?.cocktailId
   const name = route.params?.name
 
-  console.log('cocktailId', cocktailId)
-  console.log('name', name)
-
   const fetchData = useCallback(async () => {
     setIsFetching(true)
 
@@ -66,8 +63,6 @@ export default function CocktailDetailScreen({ route }: Props) {
       .order('order', { referencedTable: 'cocktail_components' })
       .returns<TCocktail>()
       .single()
-
-    console.log('response', response)
 
     setIsFetching(false)
     setCocktail(response.data)

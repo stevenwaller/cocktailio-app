@@ -18,3 +18,13 @@ export type CocktailsStackParamList = {
   'Source Detail': { sourceId: string; name: string } | undefined
   'Search Cocktails': undefined
 }
+
+export type BarStockStackParamList = {
+  'Bar Stock': undefined
+  'Bar Ingredients': { barId: string }
+  Cocktails: { barId?: string; collectionId?: string; name?: string } | undefined
+  'Cocktail Detail': { cocktailId: string; name: string }
+  'Ingredient Detail': { ingredientId: string; name: string }
+  'Source Detail': { sourceId: string; name: string } | undefined
+  'Search Cocktails': undefined
+}

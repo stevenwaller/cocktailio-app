@@ -7,14 +7,10 @@ import { tabScreenOptions } from '@/lib/utils/options'
 
 const HomeStack = createNativeStackNavigator<HomeStackParamList>()
 
-const HomeNav = () => {
+export default function HomeNav() {
   return (
     <HomeStack.Navigator screenOptions={tabScreenOptions}>
       <HomeStack.Screen name="Home" component={HomeScreen} />
     </HomeStack.Navigator>
   )
 }
-
-HomeNav.displayName = 'HomeNav'
-
-export default HomeNav

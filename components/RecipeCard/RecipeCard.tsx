@@ -6,7 +6,6 @@ import {
   View,
   StyleProp,
   ViewStyle,
-  Pressable,
   TouchableWithoutFeedback,
 } from 'react-native'
 
@@ -15,7 +14,7 @@ import { BodyText, BodyLinkText } from '@/components/_elements/Text'
 import AddInput from '@/components/_inputs/AddInput'
 import { FONTS, COLORS } from '@/lib/constants'
 import { CocktailsStackParamList } from '@/lib/types'
-import { TCocktail, IComponent, TComponentIngredient } from '@/lib/types/supabase'
+import { TCocktail, IComponent } from '@/lib/types/supabase'
 
 interface RecipeCardProps {
   style?: StyleProp<ViewStyle>
@@ -39,21 +38,6 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
       note,
       substitute,
     } = component
-
-    console.log('ingredients', ingredients)
-    // const componentIngredients: TComponentIngredient[] = []
-    // const componentOrIngredients: TComponentIngredient[] = []
-    // const componentRecommendedIngredients: TComponentIngredient[] = []
-
-    // ingredients?.forEach((componentIngredient) => {
-    //   if (componentIngredient.type === 'Default') {
-    //     componentIngredients.push(componentIngredient)
-    //   } else if (componentIngredient.type === 'Or') {
-    //     componentOrIngredients.push(componentIngredient)
-    //   } else if (componentIngredient.type === 'Recommended') {
-    //     componentRecommendedIngredients.push(componentIngredient)
-    //   }
-    // })
 
     return (
       <View style={styles.ingredient}>

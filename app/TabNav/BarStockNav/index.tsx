@@ -1,6 +1,8 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { Pressable } from 'react-native'
 
+import BarIngredientsScreen from './BarIngredientsScreen'
+import BarStockScreen from './BarStockScreen'
 import CocktailDetailScreen from '../_sharedScreens/CocktailDetailScreen'
 import CocktailsScreen from '../_sharedScreens/CocktailsScreen'
 import IngredientDetailScreen from '../_sharedScreens/IngredientDetailScreen'
@@ -9,14 +11,16 @@ import SourceDetailScreen from '../_sharedScreens/SourceDetailScreen'
 
 import SearchIcon from '@/components/_icons/Search'
 import { COLORS } from '@/lib/constants'
-import { CocktailsStackParamList } from '@/lib/types'
+import { BarStockStackParamList } from '@/lib/types'
 import { tabScreenOptions } from '@/lib/utils/options'
 
-const CocktailsStack = createNativeStackNavigator<CocktailsStackParamList>()
+const CocktailsStack = createNativeStackNavigator<BarStockStackParamList>()
 
-export default function CocktailsNav() {
+export default function BarStockNav() {
   return (
     <CocktailsStack.Navigator screenOptions={tabScreenOptions}>
+      <CocktailsStack.Screen name="Bar Stock" component={BarStockScreen} />
+      <CocktailsStack.Screen name="Bar Ingredients" component={BarIngredientsScreen} />
       <CocktailsStack.Screen
         name="Cocktails"
         options={({ navigation }) => ({

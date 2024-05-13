@@ -1,4 +1,4 @@
-import { Link } from 'expo-router'
+import { useNavigation, NavigationProp } from '@react-navigation/native'
 import { StyleSheet, Text, View, Pressable } from 'react-native'
 
 import Badge from '@/components/Badge'
@@ -6,6 +6,7 @@ import Card, { CardProps } from '@/components/Card'
 import ChevronRightIcon from '@/components/_icons/ChevronRight'
 import MoreIcon from '@/components/_icons/More'
 import { FONTS, COLORS } from '@/lib/constants'
+import { BarStockStackParamList } from '@/lib/types'
 import { TBar } from '@/lib/types/supabase'
 
 interface BarCardProps extends CardProps {
@@ -14,6 +15,7 @@ interface BarCardProps extends CardProps {
 }
 
 const BarCard = ({ bar, onMorePress = () => {}, ...restProps }: BarCardProps) => {
+  const navigation = useNavigation<NavigationProp<BarStockStackParamList>>()
   const { name } = bar
 
   return (
@@ -25,12 +27,14 @@ const BarCard = ({ bar, onMorePress = () => {}, ...restProps }: BarCardProps) =>
         </Pressable>
       </Card.Header>
       <Card.Body>
-        <Link
-          style={[styles.action, { marginBottom: 20 }]}
-          href={`/barStock/${bar.id}/ingredients`}
-          asChild
+        <Pressable
+          onPress={() => {
+            navigation.navigate('Bar Ingredients', {
+              barId: bar.id,
+            })
+          }}
         >
-          <Pressable>
+          <View style={[styles.action, { marginBottom: 20 }]}>
             <Text style={styles.actionText}>Add/Remove Ingredients</Text>
             <View style={styles.actionRight}>
               {bar.bar_ingredients.length > 0 && (
@@ -38,23 +42,21 @@ const BarCard = ({ bar, onMorePress = () => {}, ...restProps }: BarCardProps) =>
               )}
               <ChevronRightIcon color={COLORS.text.link} />
             </View>
-          </Pressable>
-        </Link>
-        <Link
-          style={[styles.action, { marginBottom: 10 }]}
-          href={
-            {
-              pathname: `/barStock/${bar.id}/cocktails`,
-              params: { name: bar.name },
-            } as never
-          }
-          asChild
+          </View>
+        </Pressable>
+        <Pressable
+          onPress={() => {
+            navigation.navigate('Cocktails', {
+              barId: bar.id,
+              name: bar.name,
+            })
+          }}
         >
-          <Pressable>
+          <View style={[styles.action, { marginBottom: 10 }]}>
             <Text style={styles.actionText}>View cocktails you can make</Text>
             <ChevronRightIcon color={COLORS.text.link} />
-          </Pressable>
-        </Link>
+          </View>
+        </Pressable>
       </Card.Body>
     </Card>
   )

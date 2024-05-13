@@ -1,8 +1,10 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
+import BarStockNav from './BarStockNav'
 import CocktailsNav from './CocktailsNav'
 import HomeNav from './HomeNav'
 
+import BarStockIcon from '@/components/_icons/BarStock'
 import CocktailsIcon from '@/components/_icons/Cocktails'
 import DiscoverIcon from '@/components/_icons/Discover'
 import { COLORS } from '@/lib/constants'
@@ -37,6 +39,14 @@ const TabNav = () => {
         }}
         name="CocktailsNav"
         component={CocktailsNav}
+      />
+      <Tab.Screen
+        options={{
+          tabBarLabel: 'Bar Stock',
+          tabBarIcon: ({ color }) => <BarStockIcon color={color} />,
+        }}
+        name="BarStockNav"
+        component={BarStockNav}
       />
     </Tab.Navigator>
   )
