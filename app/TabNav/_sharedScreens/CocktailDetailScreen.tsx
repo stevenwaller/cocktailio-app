@@ -17,8 +17,8 @@ export default function CocktailDetailScreen({ route }: Props) {
   const [isFetching, setIsFetching] = useState(false)
   const [cocktail, setCocktail] = useState<TCocktail | null>(null)
   const [error, setError] = useState<PostgrestError | null>(null)
-  // const { cocktailId, name } = useLocalSearchParams()
-  const { cocktailId, name } = route.params
+  const cocktailId = route.params?.cocktailId
+  const name = route.params?.name
 
   console.log('cocktailId', cocktailId)
   console.log('name', name)
@@ -47,11 +47,11 @@ export default function CocktailDetailScreen({ route }: Props) {
             *,
             ingredient:ingredients(*)
           ),
-          or_ingredients:cocktail_component_or_ingredients(
+          or_ingredients:cocktail_component_ingredients(
             *,
             ingredient:ingredients(*)
           ),
-          pref_ingredients:cocktail_component_pref_ingredients(
+          recommended_ingredients:cocktail_component_ingredients(
             *,
             ingredient:ingredients(*)
           )
@@ -59,12 +59,15 @@ export default function CocktailDetailScreen({ route }: Props) {
         `,
       )
       .eq('id', cocktailId)
+      .eq('components.ingredients.type', 'Default')
+      .eq('components.or_ingredients.type', 'Or')
+      .eq('components.recommended_ingredients.type', 'Recommended')
       .order('order', { referencedTable: 'steps' })
       .order('order', { referencedTable: 'cocktail_components' })
       .returns<TCocktail>()
       .single()
 
-    // console.log('response', response)
+    console.log('response', response)
 
     setIsFetching(false)
     setCocktail(response.data)

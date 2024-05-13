@@ -1,11 +1,21 @@
+import { useNavigation, NavigationProp } from '@react-navigation/native'
 import { Fragment } from 'react'
-import { StyleSheet, Text, View, StyleProp, ViewStyle, Pressable } from 'react-native'
+import {
+  StyleSheet,
+  Text,
+  View,
+  StyleProp,
+  ViewStyle,
+  Pressable,
+  TouchableWithoutFeedback,
+} from 'react-native'
 
 import Card from '@/components/Card'
 import { BodyText, BodyLinkText } from '@/components/_elements/Text'
 import AddInput from '@/components/_inputs/AddInput'
 import { FONTS, COLORS } from '@/lib/constants'
-import { TCocktail, IComponent } from '@/lib/types/supabase'
+import { CocktailsStackParamList } from '@/lib/types'
+import { TCocktail, IComponent, TComponentIngredient } from '@/lib/types/supabase'
 
 interface RecipeCardProps {
   style?: StyleProp<ViewStyle>
@@ -13,6 +23,7 @@ interface RecipeCardProps {
 }
 
 const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
+  const navigation = useNavigation<NavigationProp<CocktailsStackParamList>>()
   const { steps, components, note, sources } = cocktail
 
   const renderIngredients = (component: IComponent) => {
@@ -24,10 +35,25 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
       measurement,
       ingredients,
       or_ingredients,
-      pref_ingredients,
+      recommended_ingredients,
       note,
       substitute,
     } = component
+
+    console.log('ingredients', ingredients)
+    // const componentIngredients: TComponentIngredient[] = []
+    // const componentOrIngredients: TComponentIngredient[] = []
+    // const componentRecommendedIngredients: TComponentIngredient[] = []
+
+    // ingredients?.forEach((componentIngredient) => {
+    //   if (componentIngredient.type === 'Default') {
+    //     componentIngredients.push(componentIngredient)
+    //   } else if (componentIngredient.type === 'Or') {
+    //     componentOrIngredients.push(componentIngredient)
+    //   } else if (componentIngredient.type === 'Recommended') {
+    //     componentRecommendedIngredients.push(componentIngredient)
+    //   }
+    // })
 
     return (
       <View style={styles.ingredient}>
@@ -43,34 +69,40 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
             </Text>
           </View>
           <Text style={styles.ingredientTitle}>
-            {ingredients?.map((ingredient, index) => (
-              <Fragment key={ingredient.id}>
+            {ingredients?.map((componentIngredient, index) => (
+              <Fragment key={componentIngredient.id}>
                 {index !== 0 && ' or '}
-                <Pressable
-                // style={styles.ingredientTitleLink}
-                // href={{
-                //   pathname: `/cocktails/ingredients/${ingredient.ingredient.id}`,
-                //   params: { name: ingredient.ingredient.name },
-                // }}
+                <TouchableWithoutFeedback
+                  onPress={() =>
+                    navigation.navigate('Ingredient Detail', {
+                      ingredientId: componentIngredient.ingredient.id,
+                      name: componentIngredient.ingredient.name,
+                    })
+                  }
                 >
-                  <BodyText>{ingredient.ingredient.name}</BodyText>
-                </Pressable>
+                  <Text style={styles.ingredientTitleLink}>
+                    {componentIngredient.ingredient.name}
+                  </Text>
+                </TouchableWithoutFeedback>
               </Fragment>
             ))}
             {or_ingredients?.length > 0 &&
-              or_ingredients?.map((ingredient, index) => (
-                <Text key={ingredient.id} style={styles.orIngredients}>
+              or_ingredients?.map((componentIngredient, index) => (
+                <Text key={componentIngredient.id} style={styles.orIngredients}>
                   {index === 0 && ' ('}
                   {index !== 0 && ' or '}
-                  <Pressable
-                  // style={styles.ingredientTitleLink}
-                  // href={{
-                  //   pathname: `/cocktails/ingredients/${ingredient.ingredient.id}`,
-                  //   params: { name: ingredient.ingredient.name },
-                  // }}
+                  <TouchableWithoutFeedback
+                    onPress={() =>
+                      navigation.navigate('Ingredient Detail', {
+                        ingredientId: componentIngredient.ingredient.id,
+                        name: componentIngredient.ingredient.name,
+                      })
+                    }
                   >
-                    <BodyText>{ingredient.ingredient.name}</BodyText>
-                  </Pressable>
+                    <Text style={styles.ingredientTitleLink}>
+                      {componentIngredient.ingredient.name}
+                    </Text>
+                  </TouchableWithoutFeedback>
                   {index === or_ingredients.length - 1 && ')'}
                 </Text>
               ))}
@@ -83,23 +115,28 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
             </View>
           )}
 
-          {pref_ingredients?.length > 0 && (
+          {recommended_ingredients?.length > 0 && (
             <View style={styles.ingredientNote}>
               <Text style={styles.ingredientNoteTitle}>RECOMMENDED</Text>
               <Text style={styles.ingredientNoteDescription}>
-                {pref_ingredients?.map((ingredient, index) => (
-                  <Fragment key={ingredient.id}>
+                {recommended_ingredients?.map((componentIngredient, index) => (
+                  <Fragment key={componentIngredient.id}>
                     {index !== 0 && `, `}
-                    {pref_ingredients.length > 1 && index === pref_ingredients.length - 1 && ' or '}
-                    <Pressable
-                    // style={styles.ingredientTitleLink}
-                    // href={{
-                    //   pathname: `/cocktails/ingredients/${ingredient.ingredient.id}`,
-                    //   params: { name: ingredient.ingredient.name },
-                    // }}
+                    {recommended_ingredients.length > 1 &&
+                      index === recommended_ingredients.length - 1 &&
+                      ' or '}
+                    <TouchableWithoutFeedback
+                      onPress={() =>
+                        navigation.navigate('Ingredient Detail', {
+                          ingredientId: componentIngredient.ingredient.id,
+                          name: componentIngredient.ingredient.name,
+                        })
+                      }
                     >
-                      <BodyText>{ingredient.ingredient.name}</BodyText>
-                    </Pressable>
+                      <Text style={styles.ingredientTitleLink}>
+                        {componentIngredient.ingredient.name}
+                      </Text>
+                    </TouchableWithoutFeedback>
                   </Fragment>
                 ))}
               </Text>
@@ -257,6 +294,8 @@ const styles = StyleSheet.create({
     color: COLORS.text.body,
   },
   ingredientTitleLink: {
+    fontSize: 20,
+    fontFamily: FONTS.hells.sans.bold,
     color: COLORS.text.link,
   },
   orIngredients: { fontFamily: FONTS.hells.sans.medium, fontSize: 18 },

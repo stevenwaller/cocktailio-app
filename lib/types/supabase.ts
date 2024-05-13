@@ -25,7 +25,7 @@ export type IComponent = Tables<'cocktail_components'> & {
   measurement: Tables<'measurements'>
   ingredients: TComponentIngredient[]
   or_ingredients: TComponentIngredient[]
-  pref_ingredients: TComponentIngredient[]
+  recommended_ingredients: TComponentIngredient[]
 }
 
 export type TComponentIngredient = Tables<'cocktail_component_ingredients'> & {

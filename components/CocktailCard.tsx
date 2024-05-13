@@ -1,4 +1,4 @@
-import { useNavigation, ParamListBase, NavigationProp } from '@react-navigation/native'
+import { useNavigation, NavigationProp } from '@react-navigation/native'
 import { StyleSheet, Text, View, Pressable } from 'react-native'
 
 import { BodyText } from './_elements/Text'

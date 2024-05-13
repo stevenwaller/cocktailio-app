@@ -1,7 +1,6 @@
 import { PostgrestError } from '@supabase/supabase-js'
-import { Stack, Link } from 'expo-router'
 import { useState, useEffect, useCallback } from 'react'
-import { View, StyleSheet, TextInput, ActivityIndicator, Text } from 'react-native'
+import { View, StyleSheet, TextInput, ActivityIndicator, Text, Pressable } from 'react-native'
 
 import PageContainer from '@/components/PageContainer'
 import { BodyText } from '@/components/_elements/Text'
@@ -16,7 +15,7 @@ interface ISearchResult {
   note: string
 }
 
-const CocktailSearch = () => {
+export default function SearchCocktails() {
   const [searchValue, setSearchValue] = useState('')
   const [data, setData] = useState<ISearchResult[] | null>(null)
   const [isFetching, setIsFetching] = useState(false)
@@ -52,14 +51,14 @@ const CocktailSearch = () => {
     if (data) {
       return data.map((item) => (
         <View style={styles.result} key={item.id}>
-          <Link
-            href={{
-              pathname: `./${item.id}`,
-              params: { name: item.name },
-            }}
+          <Pressable
+          // href={{
+          //   pathname: `./${item.id}`,
+          //   params: { name: item.name },
+          // }}
           >
             <Text style={styles.resultName}>{item.name}</Text>
-          </Link>
+          </Pressable>
         </View>
       ))
     }
@@ -67,12 +66,6 @@ const CocktailSearch = () => {
 
   return (
     <>
-      <Stack.Screen
-        options={{
-          title: 'Search',
-          headerTitleAlign: 'center',
-        }}
-      />
       <View>
         <TextInput
           style={styles.input}
@@ -122,7 +115,3 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.hells.sans.medium,
   },
 })
-
-CocktailSearch.displayName = 'CocktailSearch'
-
-export default CocktailSearch

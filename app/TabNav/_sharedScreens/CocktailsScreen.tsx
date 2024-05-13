@@ -18,7 +18,7 @@ const itemsToLoad = 100
 
 type Props = NativeStackScreenProps<CocktailsStackParamList, 'Cocktails'>
 
-const CocktailsScreen = ({}: Props) => {
+export default function CocktailsScreen({ route }: Props) {
   const addToCollectionModalRef = useRef<IAddToCollectionModal | null>(null)
   const [minRange, setMinRange] = useState<number>(0)
   const [maxRange, setMaxRange] = useState<number>(itemsToLoad - 1)
@@ -29,10 +29,10 @@ const CocktailsScreen = ({}: Props) => {
   const [count, setCount] = useState<number | null>(0)
   const [currentPage, setCurrentPage] = useState<number>(1)
   const { collections } = useCollections()
-  // const { barId, collectionId, name } = useLocalSearchParams()
-  const barId = null
-  const collectionId = null
-  const name = ''
+
+  const barId = route.params?.barId
+  const collectionId = route.params?.collectionId
+  const name = route.params?.name
 
   // TODO: use enum for consistent names
   const [filters, setFilters] = useState<IFilter[]>([
@@ -231,10 +231,6 @@ const CocktailsScreen = ({}: Props) => {
     </>
   )
 }
-
-CocktailsScreen.displayName = 'CocktailsScreen'
-
-export default CocktailsScreen
 
 const styles = StyleSheet.create({
   pageContainer: {
