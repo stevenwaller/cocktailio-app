@@ -1,8 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { Pressable } from 'react-native'
 
-import BarIngredientsScreen from './BarIngredientsScreen'
-import BarStockScreen from './BarStockScreen'
+import CollectionsScreen from './CollectionsScreen'
 import CocktailDetailScreen from '../_sharedScreens/CocktailDetailScreen'
 import CocktailsScreen from '../_sharedScreens/CocktailsScreen'
 import IngredientDetailScreen from '../_sharedScreens/IngredientDetailScreen'
@@ -11,17 +10,16 @@ import SourceDetailScreen from '../_sharedScreens/SourceDetailScreen'
 
 import SearchIcon from '@/components/_icons/Search'
 import { COLORS } from '@/lib/constants'
-import { BarStockStackParamList } from '@/lib/types'
+import { CollectionsStackParamList } from '@/lib/types'
 import { tabScreenOptions } from '@/lib/utils/options'
 
-const BarStockStack = createNativeStackNavigator<BarStockStackParamList>()
+const CollectionsStack = createNativeStackNavigator<CollectionsStackParamList>()
 
-export default function BarStockNav() {
+export default function CollectionsNav() {
   return (
-    <BarStockStack.Navigator screenOptions={tabScreenOptions}>
-      <BarStockStack.Screen name="Bar Stock" component={BarStockScreen} />
-      <BarStockStack.Screen name="Bar Ingredients" component={BarIngredientsScreen} />
-      <BarStockStack.Screen
+    <CollectionsStack.Navigator screenOptions={tabScreenOptions}>
+      <CollectionsStack.Screen name="Collections" component={CollectionsScreen} />
+      <CollectionsStack.Screen
         name="Cocktails"
         options={({ navigation }) => ({
           headerRight: () => (
@@ -32,18 +30,18 @@ export default function BarStockNav() {
         })}
         component={CocktailsScreen}
       />
-      <BarStockStack.Screen name="Cocktail Detail" component={CocktailDetailScreen} />
-      <BarStockStack.Screen name="Search Cocktails" component={SearchCocktailsScreen} />
-      <BarStockStack.Screen
+      <CollectionsStack.Screen name="Cocktail Detail" component={CocktailDetailScreen} />
+      <CollectionsStack.Screen name="Search Cocktails" component={SearchCocktailsScreen} />
+      <CollectionsStack.Screen
         name="Ingredient Detail"
         component={IngredientDetailScreen}
         options={{ title: '' }}
       />
-      <BarStockStack.Screen
+      <CollectionsStack.Screen
         name="Source Detail"
         component={SourceDetailScreen}
         options={{ title: '' }}
       />
-    </BarStockStack.Navigator>
+    </CollectionsStack.Navigator>
   )
 }

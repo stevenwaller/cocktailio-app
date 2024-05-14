@@ -1,11 +1,11 @@
-import { Link } from 'expo-router'
+import { useNavigation, NavigationProp } from '@react-navigation/native'
 import { StyleSheet, Text, View, Pressable } from 'react-native'
 
-import Badge from '@/components/Badge'
 import Card, { CardProps } from '@/components/Card'
 import ChevronRightIcon from '@/components/_icons/ChevronRight'
 import MoreIcon from '@/components/_icons/More'
 import { FONTS, COLORS } from '@/lib/constants'
+import { CollectionsStackParamList } from '@/lib/types'
 import { TCollection } from '@/lib/types/supabase'
 
 interface CollectionCardProps extends CardProps {
@@ -18,6 +18,7 @@ const CollectionCard = ({
   onMorePress = () => {},
   ...restProps
 }: CollectionCardProps) => {
+  const navigation = useNavigation<NavigationProp<CollectionsStackParamList>>()
   const { name } = collection
 
   return (
@@ -29,21 +30,19 @@ const CollectionCard = ({
         </Pressable>
       </Card.Header>
       <Card.Body>
-        <Link
-          style={[styles.action, { marginBottom: 10 }]}
-          href={
-            {
-              pathname: `/collections/${collection.id}/cocktails`,
-              params: { name: collection.name },
-            } as never
-          }
-          asChild
+        <Pressable
+          onPress={() => {
+            navigation.navigate('Cocktails', {
+              collectionId: collection.id,
+              name: collection.name,
+            })
+          }}
         >
-          <Pressable>
+          <View style={[styles.action, { marginBottom: 10 }]}>
             <Text style={styles.actionText}>View cocktails</Text>
             <ChevronRightIcon color={COLORS.text.link} />
-          </Pressable>
-        </Link>
+          </View>
+        </Pressable>
       </Card.Body>
     </Card>
   )
