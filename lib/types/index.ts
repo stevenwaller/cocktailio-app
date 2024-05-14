@@ -37,3 +37,7 @@ export type CollectionsStackParamList = {
   'Source Detail': { sourceId: string; name: string } | undefined
   'Search Cocktails': undefined
 }
+
+export type SettingsStackParamList = {
+  Settings: undefined
+}

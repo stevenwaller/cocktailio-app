@@ -4,11 +4,13 @@ import BarStockNav from './BarStockNav'
 import CocktailsNav from './CocktailsNav'
 import CollectionsNav from './CollectionsNav'
 import HomeNav from './HomeNav'
+import SettingsNav from './SettingsNav'
 
 import BarStockIcon from '@/components/_icons/BarStock'
 import CocktailsIcon from '@/components/_icons/Cocktails'
 import CollectionsIcon from '@/components/_icons/Collections'
 import DiscoverIcon from '@/components/_icons/Discover'
+import SettingsIcon from '@/components/_icons/Settings'
 import { COLORS } from '@/lib/constants'
 
 const Tab = createBottomTabNavigator()
@@ -57,6 +59,14 @@ const TabNav = () => {
         }}
         name="CollectionsNav"
         component={CollectionsNav}
+      />
+      <Tab.Screen
+        options={{
+          tabBarLabel: 'Settings',
+          tabBarIcon: ({ color }) => <SettingsIcon color={color} />,
+        }}
+        name="SettingsNav"
+        component={SettingsNav}
       />
     </Tab.Navigator>
   )
