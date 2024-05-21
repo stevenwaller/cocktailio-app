@@ -17,7 +17,7 @@ interface IToastProvider {
 
 export const ToastProvider = ({ children: parentChildren }: IToastProvider) => (
   <ToastProviderPrimitive
-    duration={10000}
+    duration={2000}
     renderToast={({ message, data }) => {
       return (
         <View style={styles.container}>

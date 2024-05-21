@@ -9,6 +9,7 @@ import SourceDetailScreen from '../_sharedScreens/SourceDetailScreen'
 
 import SearchIcon from '@/components/_icons/Search'
 import { COLORS } from '@/lib/constants'
+import { ToastProvider } from '@/lib/contexts/ToastContext'
 import { CocktailsStackParamList } from '@/lib/types'
 import { tabScreenOptions } from '@/lib/utils/options'
 
@@ -16,30 +17,32 @@ const CocktailsStack = createNativeStackNavigator<CocktailsStackParamList>()
 
 export default function CocktailsNav() {
   return (
-    <CocktailsStack.Navigator screenOptions={tabScreenOptions}>
-      <CocktailsStack.Screen
-        name="Cocktails"
-        options={({ navigation }) => ({
-          headerRight: () => (
-            <Pressable onPress={() => navigation.navigate('Search Cocktails')}>
-              <SearchIcon color={COLORS.nav.text} />
-            </Pressable>
-          ),
-        })}
-        component={CocktailsScreen}
-      />
-      <CocktailsStack.Screen name="Cocktail Detail" component={CocktailDetailScreen} />
-      <CocktailsStack.Screen name="Search Cocktails" component={SearchCocktailsScreen} />
-      <CocktailsStack.Screen
-        name="Ingredient Detail"
-        component={IngredientDetailScreen}
-        options={{ title: '' }}
-      />
-      <CocktailsStack.Screen
-        name="Source Detail"
-        component={SourceDetailScreen}
-        options={{ title: '' }}
-      />
-    </CocktailsStack.Navigator>
+    <ToastProvider>
+      <CocktailsStack.Navigator screenOptions={tabScreenOptions}>
+        <CocktailsStack.Screen
+          name="Cocktails"
+          options={({ navigation }) => ({
+            headerRight: () => (
+              <Pressable onPress={() => navigation.navigate('Search Cocktails')}>
+                <SearchIcon color={COLORS.nav.text} />
+              </Pressable>
+            ),
+          })}
+          component={CocktailsScreen}
+        />
+        <CocktailsStack.Screen name="Cocktail Detail" component={CocktailDetailScreen} />
+        <CocktailsStack.Screen name="Search Cocktails" component={SearchCocktailsScreen} />
+        <CocktailsStack.Screen
+          name="Ingredient Detail"
+          component={IngredientDetailScreen}
+          options={{ title: '' }}
+        />
+        <CocktailsStack.Screen
+          name="Source Detail"
+          component={SourceDetailScreen}
+          options={{ title: '' }}
+        />
+      </CocktailsStack.Navigator>
+    </ToastProvider>
   )
 }
