@@ -111,13 +111,17 @@ export default function CocktailsScreen({ route }: Props) {
         ingredientFilter[item.id] = item.name
       })
 
-    const query = supabaseClient.rpc('query_cocktails', {
-      bar_id: barId,
-      filter_ingredients: ingredientFilter,
-      filter_sources: filters
-        .find((filter) => filter.name === 'Source')
-        ?.value.map((item) => item.id),
-    })
+    const query = supabaseClient.rpc(
+      'query_cocktails',
+      {
+        bar_id: barId,
+        filter_ingredients: ingredientFilter,
+        filter_sources: filters
+          .find((filter) => filter.name === 'Source')
+          ?.value.map((item) => item.id),
+      },
+      { count: 'exact' },
+    )
 
     filters.forEach((filter) => {
       const values = filter.value.map((item) => item.id)
@@ -206,14 +210,19 @@ export default function CocktailsScreen({ route }: Props) {
       return <Text style={styles.title}>No data found</Text>
     }
 
-    return data.map((cocktail) => (
-      <CocktailCard
-        key={cocktail.id}
-        cocktail={cocktail}
-        onBookmarkPress={handleBookmark}
-        isBookmarked={checkIfBookmarked(cocktail.id)}
-      />
-    ))
+    return (
+      <>
+        <Text style={styles.count}>{count} cocktails</Text>
+        {data.map((cocktail) => (
+          <CocktailCard
+            key={cocktail.id}
+            cocktail={cocktail}
+            onBookmarkPress={handleBookmark}
+            isBookmarked={checkIfBookmarked(cocktail.id)}
+          />
+        ))}
+      </>
+    )
   }
 
   return (
@@ -240,7 +249,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     color: COLORS.text.body,
-    fontFamily: FONTS.hells.serif.medium,
-    fontWeight: 'bold',
+    fontFamily: FONTS.hells.sans.medium,
+  },
+  count: {
+    fontSize: 16,
+    color: COLORS.text.body,
+    fontFamily: FONTS.hells.sans.mediumItalic,
+    marginBottom: 20,
   },
 })
