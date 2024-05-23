@@ -1,7 +1,7 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { PostgrestError } from '@supabase/supabase-js'
 import { useEffect, useState, useCallback, useRef } from 'react'
-import { StyleSheet, ScrollView, Text, View } from 'react-native'
+import { StyleSheet, FlatList, Text, View, RefreshControl, SafeAreaView } from 'react-native'
 
 import CocktailCard from '@/components/CocktailCard'
 import ErrorAlert from '@/components/ErrorAlert'
@@ -14,7 +14,7 @@ import { CocktailsStackParamList, IFilter } from '@/lib/types'
 import { TCocktail } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
-const itemsToLoad = 100
+const itemsToLoad = 4
 
 type Props = NativeStackScreenProps<CocktailsStackParamList, 'Cocktails'>
 
@@ -23,6 +23,7 @@ export default function CocktailsScreen({ route }: Props) {
   const [minRange, setMinRange] = useState<number>(0)
   const [maxRange, setMaxRange] = useState<number>(itemsToLoad - 1)
   const [isFetching, setIsFetching] = useState(false)
+  const [isRefreshing, setIsRefreshing] = useState(false)
   const [data, setData] = useState<TCocktail[] | null>(null)
   const [error, setError] = useState<PostgrestError | null>(null)
   const [cocktailToBookmark, setCocktailToBookmark] = useState<TCocktail | null>(null)
@@ -93,7 +94,7 @@ export default function CocktailsScreen({ route }: Props) {
   ])
 
   const fetchData = useCallback(async () => {
-    setIsFetching(true)
+    setIsRefreshing(true)
 
     let barId = null
     const barStockFilter = filters.find((filter) => filter.name === 'With Bar Stock')
@@ -111,17 +112,19 @@ export default function CocktailsScreen({ route }: Props) {
         ingredientFilter[item.id] = item.name
       })
 
-    const query = supabaseClient.rpc(
-      'query_cocktails',
-      {
-        bar_id: barId,
-        filter_ingredients: ingredientFilter,
-        filter_sources: filters
-          .find((filter) => filter.name === 'Source')
-          ?.value.map((item) => item.id),
-      },
-      { count: 'exact' },
-    )
+    const query = supabaseClient
+      .rpc(
+        'query_cocktails',
+        {
+          bar_id: barId,
+          filter_ingredients: ingredientFilter,
+          filter_sources: filters
+            .find((filter) => filter.name === 'Source')
+            ?.value.map((item) => item.id),
+        },
+        { count: 'exact' },
+      )
+      .range(minRange, maxRange)
 
     filters.forEach((filter) => {
       const values = filter.value.map((item) => item.id)
@@ -167,14 +170,20 @@ export default function CocktailsScreen({ route }: Props) {
 
     const response = await query.returns<TCocktail[]>()
 
-    setIsFetching(false)
+    setIsRefreshing(false)
     setData(response.data)
     setError(response.error)
     setCount(response.count)
   }, [minRange, maxRange, filters])
 
   useEffect(() => {
-    fetchData()
+    const firstFetch = async () => {
+      setIsFetching(true)
+      await fetchData()
+      setIsFetching(false)
+    }
+
+    firstFetch()
   }, [fetchData])
 
   const handleApply = (newFilters: IFilter[]) => {
@@ -203,38 +212,70 @@ export default function CocktailsScreen({ route }: Props) {
 
   const renderContent = () => {
     if (isFetching) {
-      return <Text style={styles.title}>Loading...</Text>
+      return (
+        <PageContainer style={styles.pageContainer}>
+          <Text style={styles.title}>Loading...</Text>
+        </PageContainer>
+      )
     }
 
     if (!data || data.length === 0) {
-      return <Text style={styles.title}>No data found</Text>
+      return (
+        <PageContainer style={styles.pageContainer}>
+          <Text style={styles.title}>No data found</Text>
+        </PageContainer>
+      )
+    }
+
+    if (error) {
+      return (
+        <PageContainer style={styles.pageContainer}>
+          <ErrorAlert message={error.message} />
+        </PageContainer>
+      )
     }
 
     return (
-      <>
-        <Text style={styles.count}>{count} cocktails</Text>
-        {data.map((cocktail) => (
-          <CocktailCard
-            key={cocktail.id}
-            cocktail={cocktail}
-            onBookmarkPress={handleBookmark}
-            isBookmarked={checkIfBookmarked(cocktail.id)}
-          />
-        ))}
-      </>
+      <SafeAreaView style={{ marginTop: 54 }}>
+        <FlatList
+          ListHeaderComponent={
+            <View style={styles.header}>
+              <Text style={styles.count}>{count} cocktails</Text>
+            </View>
+          }
+          data={data}
+          renderItem={({ item }) => (
+            <CocktailCard
+              style={styles.card}
+              key={item.id}
+              cocktail={item}
+              onBookmarkPress={handleBookmark}
+              isBookmarked={checkIfBookmarked(item.id)}
+            />
+          )}
+          keyExtractor={(cocktail) => cocktail.id}
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={fetchData}
+              tintColor={COLORS.text.body}
+              // colors={[COLORS.text.body]}
+            />
+          }
+        />
+      </SafeAreaView>
     )
   }
 
   return (
     <>
       <View>
-        <FiltersBar filters={filters} onApply={handleApply} />
-        <ScrollView>
-          <PageContainer style={styles.pageContainer}>
-            <ErrorAlert message={error?.message} />
-            {renderContent()}
-          </PageContainer>
-        </ScrollView>
+        <FiltersBar
+          style={{ position: 'absolute', zIndex: 100 }}
+          filters={filters}
+          onApply={handleApply}
+        />
+        {renderContent()}
       </View>
       <AddToCollectionModal ref={addToCollectionModalRef} cocktail={cocktailToBookmark} />
     </>
@@ -243,8 +284,12 @@ export default function CocktailsScreen({ route }: Props) {
 
 const styles = StyleSheet.create({
   pageContainer: {
+    paddingTop: 54 + SIZE.marginY,
+  },
+  header: {
     paddingTop: SIZE.marginY,
-    paddingBottom: 60,
+    paddingLeft: SIZE.app.paddingX,
+    paddingRight: SIZE.app.paddingX,
   },
   title: {
     fontSize: 20,
@@ -255,6 +300,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: COLORS.text.body,
     fontFamily: FONTS.hells.sans.mediumItalic,
+    marginBottom: 20,
+  },
+  card: {
+    marginLeft: SIZE.app.paddingX,
+    marginRight: SIZE.app.paddingX,
     marginBottom: 20,
   },
 })

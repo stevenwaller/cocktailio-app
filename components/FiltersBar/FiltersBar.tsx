@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { StyleSheet, ScrollView, View, Pressable } from 'react-native'
+import { StyleSheet, ScrollView, View, Pressable, ViewProps } from 'react-native'
 
 import Badge from '@/components/Badge'
 import ChevronDown from '@/components/_icons/ChevronDown'
@@ -11,12 +11,12 @@ import FilterNav from '@/content/FilterNav'
 import { COLORS, FONTS, SIZE } from '@/lib/constants'
 import { IFilter } from '@/lib/types'
 
-interface FiltersBarProps {
+interface FiltersBarProps extends ViewProps {
   filters: IFilter[]
   onApply: (filters: IFilter[]) => void
 }
 
-const FiltersBar = ({ filters: filtersProp, onApply }: FiltersBarProps) => {
+const FiltersBar = ({ filters: filtersProp, onApply, style }: FiltersBarProps) => {
   const [filters, setFilters] = useState<IFilter[]>(filtersProp)
   const [currentFilterIndex, setCurrentFilterIndex] = useState<number>()
   const modalRef = useRef<IStackNavModal>(null)
@@ -59,7 +59,7 @@ const FiltersBar = ({ filters: filtersProp, onApply }: FiltersBarProps) => {
   }
 
   return (
-    <View>
+    <View style={style}>
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={{ paddingRight: 20 }}

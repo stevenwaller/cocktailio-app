@@ -7,34 +7,49 @@ export interface IFilter {
   }[]
 }
 
+type CocktailsParams =
+  | {
+      type?: 'Bar' | 'Collection'
+      barId?: string
+      collectionId?: string
+      name?: string
+    }
+  | undefined
+
+type CocktailDetailParams = { cocktailId: string; name: string }
+
+type IngredientDetailParams = { ingredientId: string; name: string }
+
+type SourceDetailParams = { sourceId: string; name: string }
+
 export type HomeStackParamList = {
   Home: undefined
 }
 
 export type CocktailsStackParamList = {
-  Cocktails: { barId?: string; collectionId?: string; name?: string } | undefined
-  'Cocktail Detail': { cocktailId: string; name: string } | undefined
-  'Ingredient Detail': { ingredientId: string; name: string } | undefined
-  'Source Detail': { sourceId: string; name: string } | undefined
+  Cocktails: CocktailsParams
+  'Cocktail Detail': CocktailDetailParams
+  'Ingredient Detail': IngredientDetailParams
+  'Source Detail': SourceDetailParams
   'Search Cocktails': undefined
 }
 
 export type BarStockStackParamList = {
   'Bar Stock': undefined
   'Bar Ingredients': { barId: string }
-  Cocktails: { barId?: string; collectionId?: string; name?: string } | undefined
-  'Cocktail Detail': { cocktailId: string; name: string }
-  'Ingredient Detail': { ingredientId: string; name: string }
-  'Source Detail': { sourceId: string; name: string } | undefined
+  Cocktails: CocktailsParams
+  'Cocktail Detail': CocktailDetailParams
+  'Ingredient Detail': IngredientDetailParams
+  'Source Detail': SourceDetailParams
   'Search Cocktails': undefined
 }
 
 export type CollectionsStackParamList = {
   Collections: undefined
-  Cocktails: { barId?: string; collectionId?: string; name?: string } | undefined
-  'Cocktail Detail': { cocktailId: string; name: string }
-  'Ingredient Detail': { ingredientId: string; name: string }
-  'Source Detail': { sourceId: string; name: string } | undefined
+  Cocktails: CocktailsParams
+  'Cocktail Detail': CocktailDetailParams
+  'Ingredient Detail': IngredientDetailParams
+  'Source Detail': SourceDetailParams
   'Search Cocktails': undefined
 }
 

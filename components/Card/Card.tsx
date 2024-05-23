@@ -14,8 +14,6 @@ const Card = ({ children, style, ...restProps }: CardProps) => {
 
 const styles = StyleSheet.create({
   card: {
-    // width: '100%',
-    marginBottom: 20,
     backgroundColor: COLORS.bg.level3,
     borderRadius: SIZE.border.radius,
     shadowColor: COLORS.shadow,

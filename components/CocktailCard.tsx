@@ -1,5 +1,5 @@
 import { useNavigation, NavigationProp } from '@react-navigation/native'
-import { StyleSheet, Text, View, Pressable } from 'react-native'
+import { StyleSheet, Text, View, Pressable, ViewProps } from 'react-native'
 
 import { BodyText } from './_elements/Text'
 
@@ -10,7 +10,7 @@ import { FONTS, COLORS } from '@/lib/constants'
 import { CocktailsStackParamList } from '@/lib/types'
 import { TCocktail } from '@/lib/types/supabase'
 
-interface CocktailCardProps {
+interface CocktailCardProps extends ViewProps {
   cocktail: TCocktail
   onBookmarkPress?: (cocktail: TCocktail) => void
   isBookmarked?: boolean
