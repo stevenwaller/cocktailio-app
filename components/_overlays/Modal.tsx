@@ -36,8 +36,8 @@ const Modal = forwardRef<IModal, IModalProps>(
           borderTopStartRadius: 10,
           borderTopEndRadius: 10,
         }}
-        handleStyle={{ padding: 5 }}
-        handleIndicatorStyle={{ backgroundColor: COLORS.text.link, top: -20 }}
+        handleStyle={{ paddingBottom: 15 }}
+        handleIndicatorStyle={{ backgroundColor: '#4B7382' }}
         style={{
           shadowColor: '#000',
           shadowOffset: {
