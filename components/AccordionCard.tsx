@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { Pressable, StyleSheet, View } from 'react-native'
+import { Pressable, StyleSheet, View, ViewProps } from 'react-native'
 
 import Badge from '@/components/Badge'
 import Card from '@/components/Card'
@@ -7,7 +7,7 @@ import ChevronDownIcon from '@/components/_icons/ChevronDown'
 import ChevronUpIcon from '@/components/_icons/ChevronUp'
 import { SIZE, COLORS } from '@/lib/constants'
 
-interface AccordionCardProps {
+interface AccordionCardProps extends ViewProps {
   title: string
   children: ReactNode
   isOpen?: boolean
