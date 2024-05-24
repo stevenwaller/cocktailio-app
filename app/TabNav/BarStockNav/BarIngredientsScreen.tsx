@@ -128,6 +128,7 @@ export default function BarIngredients({ route }: Props) {
   const renderCategories = () => {
     return ingredients?.map((ingredient) => (
       <AccordionCard
+        style={{ marginBottom: 20 }}
         key={ingredient.id}
         title={ingredient.name}
         isOpen={openAccordions[ingredient.id]}
