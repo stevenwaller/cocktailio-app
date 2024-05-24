@@ -35,6 +35,7 @@ const BarList = () => {
     <>
       {bars.map((bar: any) => (
         <BarCard
+          style={{ marginBottom: 20 }}
           key={bar.id}
           bar={bar}
           onMorePress={() => {

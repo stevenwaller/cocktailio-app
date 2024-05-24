@@ -35,6 +35,7 @@ const CollectionList = () => {
     <>
       {collections.map((collection: any) => (
         <CollectionCard
+          style={{ marginBottom: 20 }}
           key={collection.id}
           collection={collection}
           onMorePress={() => {
