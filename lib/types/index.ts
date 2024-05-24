@@ -1,5 +1,15 @@
+export type TFilterName =
+  | 'With Bar Stock'
+  | 'Collection'
+  | 'Base Spirit'
+  | 'Ingredient'
+  | 'Source'
+  | 'Method'
+  | 'Era'
+  | 'Glassware'
+
 export interface IFilter {
-  name: string
+  name: TFilterName
   rowName?: string
   value: {
     id: string

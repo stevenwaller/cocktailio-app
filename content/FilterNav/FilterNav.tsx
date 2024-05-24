@@ -19,6 +19,17 @@ interface FilterNavProps {
   onChange: (filter: IFilter) => void
 }
 
+const Components = {
+  'With Bar Stock': WithBarStockScreen,
+  Collection: CollectionScreen,
+  'Base Spirit': BaseSpiritScreen,
+  Ingredient: IngredientScreen,
+  Source: SourceScreen,
+  Method: MethodScreen,
+  Era: EraScreen,
+  Glassware: GlasswareScreen,
+}
+
 const Stack = createStackNavigator()
 
 const filtersScreenOptions = { headerLeft: () => null }
@@ -26,7 +37,6 @@ const filtersScreenOptions = { headerLeft: () => null }
 const FilterNav = ({ currentFilterIndex, filters, onChange }: FilterNavProps) => {
   const currentFilter = currentFilterIndex !== undefined ? filters[currentFilterIndex] : undefined
 
-  // TODO: render the screens dynamically instead of hard coding them
   const renderScreens = () => {
     if (currentFilter === undefined) {
       return (
@@ -34,145 +44,32 @@ const FilterNav = ({ currentFilterIndex, filters, onChange }: FilterNavProps) =>
           <Stack.Screen name="Filters" options={filtersScreenOptions}>
             {(props) => <FiltersScreen {...props} filters={filters} />}
           </Stack.Screen>
-          <Stack.Screen name="With Bar Stock">
-            {(props) => (
-              <WithBarStockScreen
-                {...props}
-                filter={filters.find((item) => item.name === 'With Bar Stock')}
-                onChange={onChange}
-              />
-            )}
-          </Stack.Screen>
-          <Stack.Screen name="Collection">
-            {(props) => (
-              <CollectionScreen
-                {...props}
-                filter={filters.find((item) => item.name === 'Collection')}
-                onChange={onChange}
-              />
-            )}
-          </Stack.Screen>
-          <Stack.Screen name="Base Spirit">
-            {(props) => (
-              <BaseSpiritScreen
-                {...props}
-                filter={filters.find((item) => item.name === 'Base Spirit')}
-                onChange={onChange}
-              />
-            )}
-          </Stack.Screen>
-          <Stack.Screen name="Ingredient">
-            {(props) => (
-              <IngredientScreen
-                {...props}
-                filter={filters.find((item) => item.name === 'Ingredient')}
-                onChange={onChange}
-              />
-            )}
-          </Stack.Screen>
-          <Stack.Screen name="Sources">
-            {(props) => (
-              <SourceScreen
-                {...props}
-                filter={filters.find((item) => item.name === 'Source')}
-                onChange={onChange}
-              />
-            )}
-          </Stack.Screen>
-          <Stack.Screen name="Method">
-            {(props) => (
-              <MethodScreen
-                {...props}
-                filter={filters.find((item) => item.name === 'Method')}
-                onChange={onChange}
-              />
-            )}
-          </Stack.Screen>
-          <Stack.Screen name="Era">
-            {(props) => (
-              <EraScreen
-                {...props}
-                filter={filters.find((item) => item.name === 'Era')}
-                onChange={onChange}
-              />
-            )}
-          </Stack.Screen>
-          <Stack.Screen name="Glassware">
-            {(props) => (
-              <GlasswareScreen
-                {...props}
-                filter={filters.find((item) => item.name === 'Glassware')}
-                onChange={onChange}
-              />
-            )}
-          </Stack.Screen>
+          {filters.map((filter) => {
+            const ScreenComponent = Components[filter.name]
+
+            return (
+              <Stack.Screen key={filter.name} name={filter.name}>
+                {(props) => (
+                  <ScreenComponent
+                    {...props}
+                    filter={filters.find((item) => item.name === 'With Bar Stock')}
+                    onChange={onChange}
+                  />
+                )}
+              </Stack.Screen>
+            )
+          })}
         </>
       )
     }
 
-    if (currentFilter?.name === 'With Bar Stock') {
-      return (
-        <Stack.Screen name="With Bar Stock">
-          {(props) => <WithBarStockScreen {...props} filter={currentFilter} onChange={onChange} />}
-        </Stack.Screen>
-      )
-    }
+    const ScreenComponent = Components[currentFilter.name]
 
-    if (currentFilter?.name === 'Collection') {
-      return (
-        <Stack.Screen name="Collection">
-          {(props) => <CollectionScreen {...props} filter={currentFilter} onChange={onChange} />}
-        </Stack.Screen>
-      )
-    }
-
-    if (currentFilter?.name === 'Base Spirit') {
-      return (
-        <Stack.Screen name="Base Spirit">
-          {(props) => <BaseSpiritScreen {...props} filter={currentFilter} onChange={onChange} />}
-        </Stack.Screen>
-      )
-    }
-
-    if (currentFilter?.name === 'Ingredient') {
-      return (
-        <Stack.Screen name="Ingredient">
-          {(props) => <IngredientScreen {...props} filter={currentFilter} onChange={onChange} />}
-        </Stack.Screen>
-      )
-    }
-
-    if (currentFilter?.name === 'Source') {
-      return (
-        <Stack.Screen name="Source">
-          {(props) => <SourceScreen {...props} filter={currentFilter} onChange={onChange} />}
-        </Stack.Screen>
-      )
-    }
-
-    if (currentFilter?.name === 'Method') {
-      return (
-        <Stack.Screen name="Method">
-          {(props) => <MethodScreen {...props} filter={currentFilter} onChange={onChange} />}
-        </Stack.Screen>
-      )
-    }
-
-    if (currentFilter?.name === 'Era') {
-      return (
-        <Stack.Screen name="Era">
-          {(props) => <EraScreen {...props} filter={currentFilter} onChange={onChange} />}
-        </Stack.Screen>
-      )
-    }
-
-    if (currentFilter?.name === 'Glassware') {
-      return (
-        <Stack.Screen name="Glassware">
-          {(props) => <GlasswareScreen {...props} filter={currentFilter} onChange={onChange} />}
-        </Stack.Screen>
-      )
-    }
+    return (
+      <Stack.Screen name={currentFilter.name}>
+        {(props) => <ScreenComponent {...props} filter={currentFilter} onChange={onChange} />}
+      </Stack.Screen>
+    )
   }
 
   return <Stack.Navigator screenOptions={modalScreenOptions}>{renderScreens()}</Stack.Navigator>

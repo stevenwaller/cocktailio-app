@@ -15,7 +15,11 @@ interface ModalBodyProps extends BottomSheetScrollableProps {
 
 const ModalBody = ({ children, style, ...restProps }: ModalBodyProps) => {
   return (
-    <BottomSheetScrollView style={[styles.container, style]} {...restProps}>
+    <BottomSheetScrollView
+      style={[styles.container, style]}
+      enableFooterMarginAdjustment
+      {...restProps}
+    >
       <BottomSheetView style={styles.scrollContent}>{children}</BottomSheetView>
     </BottomSheetScrollView>
   )

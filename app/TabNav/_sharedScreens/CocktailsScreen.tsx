@@ -38,30 +38,30 @@ export default function CocktailsScreen({ route }: Props) {
   const { collections } = useCollections()
   const [isFirstPageReceived, setIsFirstPageReceived] = useState(false)
 
-  const barId = route.params?.barId
-  const collectionId = route.params?.collectionId
-  const name = route.params?.name
+  const barIdParam = route.params?.barId
+  const collectionIdParam = route.params?.collectionId
+  const nameParam = route.params?.name
 
   // TODO: use enum for consistent names
   const [filters, setFilters] = useState<IFilter[]>([
     {
       name: 'With Bar Stock',
-      value: barId
+      value: barIdParam
         ? [
             {
-              id: barId as string,
-              name: name as string,
+              id: barIdParam as string,
+              name: nameParam as string,
             },
           ]
         : [],
     },
     {
       name: 'Collection',
-      value: collectionId
+      value: collectionIdParam
         ? [
             {
-              id: collectionId as string,
-              name: name as string,
+              id: collectionIdParam as string,
+              name: nameParam as string,
             },
           ]
         : [],
@@ -136,7 +136,6 @@ export default function CocktailsScreen({ route }: Props) {
     filters.forEach((filter) => {
       const values = filter.value.map((item) => item.id)
 
-      // TODO: use row name to consolidate these
       switch (filter.name) {
         case 'Base Spirit':
         case 'Method':
