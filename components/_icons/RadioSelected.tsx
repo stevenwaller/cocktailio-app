@@ -1,13 +1,19 @@
 import * as React from 'react'
-import Svg, { SvgProps, Path } from 'react-native-svg'
+import Svg, { SvgProps, G, Path } from 'react-native-svg'
 
 const SvgComponent = ({ color, ...props }: SvgProps) => (
   <Svg viewBox="0 0 27 26" width={27} height={26} {...props}>
-    <Path
-      fill={color}
-      fillRule="nonzero"
-      d="M13.025 0c3.467 0 6.717 1.3 9.208 3.792a13.012 13.012 0 0 1 0 18.416C19.742 24.7 16.492 26 13.025 26c-3.467 0-6.717-1.3-9.208-3.792a13.012 13.012 0 0 1 0-18.416C6.308 1.3 9.558 0 13.025 0Zm0 8c-1.33 0-2.578.5-3.534 1.458a5.012 5.012 0 0 0 0 7.084A4.93 4.93 0 0 0 13.025 18c1.33 0 2.578-.5 3.534-1.458a5.012 5.012 0 0 0 0-7.084A4.93 4.93 0 0 0 13.025 8Z"
-    />
+    <G fill="none" fillRule="nonzero">
+      <Path
+        stroke={color}
+        strokeWidth={2}
+        d="M13.025 25c-3.2 0-6.2-1.2-8.5-3.5-4.7-4.7-4.7-12.3 0-17 2.3-2.3 5.3-3.5 8.5-3.5s6.2 1.2 8.5 3.5c4.7 4.7 4.7 12.3 0 17-2.3 2.3-5.3 3.5-8.5 3.5Z"
+      />
+      <Path
+        fill={color}
+        d="M13.025 21c-2.133 0-4.133-.8-5.667-2.333a8.007 8.007 0 0 1 0-11.334C8.892 5.8 10.892 5 13.025 5s4.133.8 5.667 2.333a8.007 8.007 0 0 1 0 11.334C17.158 20.2 15.158 21 13.025 21Z"
+      />
+    </G>
   </Svg>
 )
 export default SvgComponent
