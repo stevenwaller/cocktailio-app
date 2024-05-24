@@ -5,7 +5,7 @@ import { StyleSheet, Text, View } from 'react-native'
 
 import PageContainer from '@/components/PageContainer'
 import { BodyText, PageTitleText } from '@/components/_elements/Text'
-import { FONTS, COLORS, SIZE } from '@/lib/constants'
+import { FONTS, COLORS } from '@/lib/constants'
 import { CocktailsStackParamList } from '@/lib/types'
 import { TIngredient } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
