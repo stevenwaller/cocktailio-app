@@ -1,7 +1,15 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { PostgrestError } from '@supabase/supabase-js'
 import { useEffect, useState, useCallback, useRef } from 'react'
-import { StyleSheet, FlatList, Text, View, RefreshControl, SafeAreaView } from 'react-native'
+import {
+  StyleSheet,
+  FlatList,
+  Text,
+  View,
+  RefreshControl,
+  SafeAreaView,
+  ActivityIndicator,
+} from 'react-native'
 
 import CocktailCard from '@/components/CocktailCard'
 import ErrorAlert from '@/components/ErrorAlert'
@@ -14,7 +22,7 @@ import { CocktailsStackParamList, IFilter } from '@/lib/types'
 import { TCocktail } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
-const itemsToLoad = 4
+const itemsToLoad = 10
 
 type Props = NativeStackScreenProps<CocktailsStackParamList, 'Cocktails'>
 
@@ -23,13 +31,12 @@ export default function CocktailsScreen({ route }: Props) {
   const [minRange, setMinRange] = useState<number>(0)
   const [maxRange, setMaxRange] = useState<number>(itemsToLoad - 1)
   const [isFetching, setIsFetching] = useState(false)
-  const [isRefreshing, setIsRefreshing] = useState(false)
-  const [data, setData] = useState<TCocktail[] | null>(null)
+  const [data, setData] = useState<TCocktail[]>([])
   const [error, setError] = useState<PostgrestError | null>(null)
   const [cocktailToBookmark, setCocktailToBookmark] = useState<TCocktail | null>(null)
-  const [count, setCount] = useState<number | null>(0)
-  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [count, setCount] = useState<number>(0)
   const { collections } = useCollections()
+  const [isFirstPageReceived, setIsFirstPageReceived] = useState(false)
 
   const barId = route.params?.barId
   const collectionId = route.params?.collectionId
@@ -94,7 +101,7 @@ export default function CocktailsScreen({ route }: Props) {
   ])
 
   const fetchData = useCallback(async () => {
-    setIsRefreshing(true)
+    setIsFetching(true)
 
     let barId = null
     const barStockFilter = filters.find((filter) => filter.name === 'With Bar Stock')
@@ -124,6 +131,7 @@ export default function CocktailsScreen({ route }: Props) {
         },
         { count: 'exact' },
       )
+      .order('name')
       .range(minRange, maxRange)
 
     filters.forEach((filter) => {
@@ -170,24 +178,32 @@ export default function CocktailsScreen({ route }: Props) {
 
     const response = await query.returns<TCocktail[]>()
 
-    setIsRefreshing(false)
-    setData(response.data)
+    setIsFetching(false)
+    setData((prevData) => {
+      return response.data ? [...prevData, ...response.data] : prevData
+    })
     setError(response.error)
-    setCount(response.count)
+    setCount(response.count ? response.count : 0)
+    setIsFirstPageReceived(true)
   }, [minRange, maxRange, filters])
 
   useEffect(() => {
-    const firstFetch = async () => {
-      setIsFetching(true)
-      await fetchData()
-      setIsFetching(false)
-    }
-
-    firstFetch()
+    fetchData()
   }, [fetchData])
 
-  const handleApply = (newFilters: IFilter[]) => {
+  const fetchNextPage = () => {
+    if (maxRange + itemsToLoad >= count) return
+
+    setMinRange(minRange + itemsToLoad)
+    setMaxRange(maxRange + itemsToLoad)
+  }
+
+  const handleFilterApply = (newFilters: IFilter[]) => {
     setFilters([...newFilters])
+    setIsFirstPageReceived(false)
+    setMinRange(0)
+    setMaxRange(itemsToLoad - 1)
+    setData([])
   }
 
   const handleBookmark = async (cocktail: TCocktail) => {
@@ -211,26 +227,18 @@ export default function CocktailsScreen({ route }: Props) {
   }
 
   const renderContent = () => {
-    if (isFetching) {
+    if (isFirstPageReceived === false && isFetching) {
       return (
         <PageContainer style={styles.pageContainer}>
-          <Text style={styles.title}>Loading...</Text>
+          <ActivityIndicator size="small" />
         </PageContainer>
       )
     }
 
-    if (!data || data.length === 0) {
+    if (data.length === 0) {
       return (
         <PageContainer style={styles.pageContainer}>
           <Text style={styles.title}>No data found</Text>
-        </PageContainer>
-      )
-    }
-
-    if (error) {
-      return (
-        <PageContainer style={styles.pageContainer}>
-          <ErrorAlert message={error.message} />
         </PageContainer>
       )
     }
@@ -240,6 +248,7 @@ export default function CocktailsScreen({ route }: Props) {
         <FlatList
           ListHeaderComponent={
             <View style={styles.header}>
+              <ErrorAlert message={error?.message} />
               <Text style={styles.count}>{count} cocktails</Text>
             </View>
           }
@@ -256,12 +265,18 @@ export default function CocktailsScreen({ route }: Props) {
           keyExtractor={(cocktail) => cocktail.id}
           refreshControl={
             <RefreshControl
-              refreshing={isRefreshing}
+              refreshing={isFetching}
               onRefresh={fetchData}
               tintColor={COLORS.text.body}
-              // colors={[COLORS.text.body]}
             />
           }
+          onEndReached={fetchNextPage}
+          onEndReachedThreshold={0.8}
+          ListFooterComponent={() => (
+            <View style={styles.footer}>
+              <ActivityIndicator animating={isFirstPageReceived && isFetching} />
+            </View>
+          )}
         />
       </SafeAreaView>
     )
@@ -273,7 +288,7 @@ export default function CocktailsScreen({ route }: Props) {
         <FiltersBar
           style={{ position: 'absolute', zIndex: 100 }}
           filters={filters}
-          onApply={handleApply}
+          onApply={handleFilterApply}
         />
         {renderContent()}
       </View>
@@ -306,5 +321,8 @@ const styles = StyleSheet.create({
     marginLeft: SIZE.app.paddingX,
     marginRight: SIZE.app.paddingX,
     marginBottom: 20,
+  },
+  footer: {
+    height: 40,
   },
 })
