@@ -1,5 +1,5 @@
 import { PostgrestError } from '@supabase/supabase-js'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 
 import useEraStore from '@/lib/stores/useEraStore'
 import { TEra } from '@/lib/types/supabase'
@@ -11,7 +11,7 @@ const useEras = () => {
   const eras = useEraStore((state) => state.eras)
   const setEras = useEraStore((state) => state.setEras)
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setIsFetching(true)
 
     const response = await supabaseClient
@@ -26,13 +26,13 @@ const useEras = () => {
       setEras(response.data)
     }
     setError(response.error)
-  }
+  }, [setEras])
 
   useEffect(() => {
     if (!eras || eras.length === 0) {
       fetchData()
     }
-  }, [])
+  }, [fetchData, eras])
 
   return { isFetching, fetchData, error, eras, setEras }
 }

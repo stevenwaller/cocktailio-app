@@ -1,5 +1,5 @@
 import { PostgrestError } from '@supabase/supabase-js'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 
 import useSourceStore from '@/lib/stores/useSourceStore'
 import { TSource } from '@/lib/types/supabase'
@@ -11,7 +11,7 @@ const useSources = () => {
   const sources = useSourceStore((state) => state.sources)
   const setSources = useSourceStore((state) => state.setSources)
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setIsFetching(true)
 
     const response = await supabaseClient.from('sources').select(`*`).returns<TSource[]>()
@@ -22,13 +22,13 @@ const useSources = () => {
       setSources(response.data)
     }
     setError(response.error)
-  }
+  }, [setSources])
 
   useEffect(() => {
     if (!sources || sources.length === 0) {
       fetchData()
     }
-  }, [])
+  }, [fetchData, sources])
 
   return { isFetching, fetchData, error, sources, setSources }
 }

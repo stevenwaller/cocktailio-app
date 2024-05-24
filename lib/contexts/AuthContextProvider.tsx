@@ -39,6 +39,7 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   }
 
   useEffect(() => {
+    console.log('auth context change')
     const { data } = supabaseClient.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_OUT') {
         setUser(null)
@@ -52,7 +53,7 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     return () => {
       data.subscription.unsubscribe()
     }
-  }, [])
+  }, [setBars, setCollections, setUser])
 
   return (
     <AuthContext.Provider value={{ openAuthModal }}>

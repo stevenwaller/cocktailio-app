@@ -1,5 +1,5 @@
 import { PostgrestError } from '@supabase/supabase-js'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 
 import useGlassStore from '@/lib/stores/useGlassStore'
 import { TGlass } from '@/lib/types/supabase'
@@ -11,7 +11,7 @@ const useGlasses = () => {
   const glasses = useGlassStore((state) => state.glasses)
   const setGlasses = useGlassStore((state) => state.setGlasses)
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setIsFetching(true)
 
     const response = await supabaseClient.from('glasses').select(`*`).returns<TGlass[]>()
@@ -22,13 +22,13 @@ const useGlasses = () => {
       setGlasses(response.data)
     }
     setError(response.error)
-  }
+  }, [setGlasses])
 
   useEffect(() => {
     if (!glasses || glasses.length === 0) {
       fetchData()
     }
-  }, [])
+  }, [fetchData, glasses])
 
   return { isFetching, fetchData, error, glasses, setGlasses }
 }

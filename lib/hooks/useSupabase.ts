@@ -51,11 +51,11 @@ const useSupabase = <ItemType>({ tableName, select = '*', filters, orders }: IUs
     setData(response.data)
     setError(response.error)
     setCount(response.count)
-  }, [filters])
+  }, [filters, orders, select, tableName])
 
   useEffect(() => {
     fetchData()
-  }, [])
+  }, [fetchData])
 
   return { data, error, isFetching, count, refetch: fetchData }
 }
@@ -84,11 +84,11 @@ export const useSupabaseSingle = <ItemType>({ tableName, select = '*', filters }
     setData(response.data)
     setError(response.error)
     setCount(response.count)
-  }, [filters])
+  }, [filters, select, tableName])
 
   useEffect(() => {
     fetchData()
-  }, [])
+  }, [fetchData])
 
   return { data, error, isFetching, count, refetch: fetchData }
 }

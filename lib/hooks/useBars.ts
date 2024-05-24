@@ -1,5 +1,5 @@
 import { PostgrestError } from '@supabase/supabase-js'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 
 import useBarStore from '@/lib/stores/useBarStore'
 import { TBar, TIngredientsById } from '@/lib/types/supabase'
@@ -13,7 +13,7 @@ const useBars = (barId?: string) => {
   const setBars = useBarStore((state) => state.setBars)
   const setBar = useBarStore((state) => state.setBar)
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setIsFetching(true)
 
     const response = await supabaseClient
@@ -46,13 +46,13 @@ const useBars = (barId?: string) => {
       setBars(response.data)
     }
     setError(response.error)
-  }
+  }, [setBars])
 
   useEffect(() => {
     if (!bars || bars.length === 0) {
       fetchData()
     }
-  }, [])
+  }, [bars, fetchData])
 
   return { isFetching, fetchData, error, bar, bars, setBars, setBar }
 }
