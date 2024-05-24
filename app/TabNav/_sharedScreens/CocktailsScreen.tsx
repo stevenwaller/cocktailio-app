@@ -45,7 +45,6 @@ export default function CocktailsScreen({ route }: Props) {
   // TODO: use enum for consistent names
   const [filters, setFilters] = useState<IFilter[]>([
     {
-      index: 0,
       name: 'With Bar Stock',
       value: barId
         ? [
@@ -57,7 +56,6 @@ export default function CocktailsScreen({ route }: Props) {
         : [],
     },
     {
-      index: 1,
       name: 'Collection',
       value: collectionId
         ? [
@@ -69,33 +67,31 @@ export default function CocktailsScreen({ route }: Props) {
         : [],
     },
     {
-      index: 2,
       name: 'Base Spirit',
+      rowName: 'base_ingredient_id',
       value: [],
     },
     {
-      index: 3,
       name: 'Ingredient',
       value: [],
     },
     {
-      index: 4,
       name: 'Source',
       value: [],
     },
     {
-      index: 5,
       name: 'Method',
+      rowName: 'method_id',
       value: [],
     },
     {
-      index: 6,
       name: 'Era',
+      rowName: 'era_id',
       value: [],
     },
     {
-      index: 7,
       name: 'Glassware',
+      rowName: 'glass_id',
       value: [],
     },
   ])
@@ -103,14 +99,17 @@ export default function CocktailsScreen({ route }: Props) {
   const fetchData = useCallback(async () => {
     setIsFetching(true)
 
+    // To filter by Bar we need to provide the bar_id
     let barId = null
     const barStockFilter = filters.find((filter) => filter.name === 'With Bar Stock')
+
     if (barStockFilter) {
       if (barStockFilter.value.length > 0) {
         barId = barStockFilter.value[0].id
       }
     }
 
+    // To filter by Ingredients we need an object where the key is the ingredient id
     const ingredientFilter: Record<string, string> = {}
 
     filters
@@ -140,35 +139,11 @@ export default function CocktailsScreen({ route }: Props) {
       // TODO: use row name to consolidate these
       switch (filter.name) {
         case 'Base Spirit':
-          if (values.length > 0) {
-            query.in(
-              'base_ingredient_id',
-              filter.value.map((item) => item.id),
-            )
-          }
-          break
         case 'Method':
-          if (values.length > 0) {
-            query.in(
-              'method_id',
-              filter.value.map((item) => item.id),
-            )
-          }
-          break
         case 'Era':
-          if (values.length > 0) {
-            query.in(
-              'era_id',
-              filter.value.map((item) => item.id),
-            )
-          }
-          break
         case 'Glassware':
           if (values.length > 0) {
-            query.in(
-              'glass_id',
-              filter.value.map((item) => item.id),
-            )
+            query.in(filter.rowName ? filter.rowName : '', values)
           }
           break
         default:

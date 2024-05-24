@@ -24,7 +24,8 @@ const FiltersBar = ({ filters: filtersProp, onApply, style }: FiltersBarProps) =
 
   const handleFilterChange = (filter: IFilter) => {
     const newFilters = [...filters]
-    newFilters[filter.index] = filter
+    const index = newFilters.findIndex((item) => item.name === filter.name)
+    newFilters[index] = filter
 
     setFilters(newFilters)
   }
@@ -36,7 +37,9 @@ const FiltersBar = ({ filters: filtersProp, onApply, style }: FiltersBarProps) =
       setSnapPoints(['50%', '90%'])
     }
 
-    setCurrentFilterIndex(filter?.index)
+    const index = filters.findIndex((item) => item.name === filter?.name)
+
+    setCurrentFilterIndex(index)
 
     modalRef.current?.present()
   }

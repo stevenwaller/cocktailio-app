@@ -1,6 +1,6 @@
 export interface IFilter {
-  index: number
   name: string
+  rowName?: string
   value: {
     id: string
     name: string
