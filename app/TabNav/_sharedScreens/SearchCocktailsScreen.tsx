@@ -1,3 +1,4 @@
+import { useNavigation, NavigationProp } from '@react-navigation/native'
 import { PostgrestError } from '@supabase/supabase-js'
 import { useState, useEffect, useCallback } from 'react'
 import { View, StyleSheet, TextInput, ActivityIndicator, Text, Pressable } from 'react-native'
@@ -6,6 +7,7 @@ import PageContainer from '@/components/PageContainer'
 import { BodyText } from '@/components/_elements/Text'
 import SearchIcon from '@/components/_icons/Search'
 import { COLORS, FONTS } from '@/lib/constants'
+import { CocktailsStackParamList } from '@/lib/types'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
 interface ISearchResult {
@@ -20,6 +22,7 @@ export default function SearchCocktails() {
   const [data, setData] = useState<ISearchResult[] | null>(null)
   const [isFetching, setIsFetching] = useState(false)
   const [error, setError] = useState<PostgrestError | null>(null)
+  const navigation = useNavigation<NavigationProp<CocktailsStackParamList>>()
 
   const fetchData = useCallback(async () => {
     if (searchValue) {
@@ -52,10 +55,12 @@ export default function SearchCocktails() {
       return data.map((item) => (
         <View style={styles.result} key={item.id}>
           <Pressable
-          // href={{
-          //   pathname: `./${item.id}`,
-          //   params: { name: item.name },
-          // }}
+            onPress={() =>
+              navigation.navigate('Cocktail Detail', {
+                cocktailId: item.id,
+                name: item.name,
+              })
+            }
           >
             <Text style={styles.resultName}>{item.name}</Text>
           </Pressable>
