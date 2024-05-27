@@ -27,6 +27,7 @@ const TabNav = () => {
           borderTopWidth: 0,
         },
       }}
+      sceneContainerStyle={{ backgroundColor: COLORS.bg.level1 }}
     >
       <Tab.Screen
         options={{
