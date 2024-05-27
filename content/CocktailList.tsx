@@ -14,6 +14,7 @@ import CocktailCard from '@/components/CocktailCard'
 import ErrorAlert from '@/components/ErrorAlert'
 import FiltersBar from '@/components/FiltersBar'
 import PageContainer from '@/components/PageContainer'
+import { BodyText } from '@/components/_elements/Text'
 import AddToCollectionModal, { IAddToCollectionModal } from '@/content/AddToCollectionModal'
 import { COLORS, FONTS, SIZE } from '@/lib/constants'
 import useCollections from '@/lib/hooks/useCollections'
@@ -208,7 +209,12 @@ const CocktailList = ({
     if (data.length === 0) {
       return (
         <PageContainer style={styles.pageContainer}>
-          <Text style={styles.title}>No data found</Text>
+          <Text style={styles.title}>No cocktails found</Text>
+          <BodyText>
+            {barIdProp
+              ? 'Add more ingredients to your bar stock or try changing the filters'
+              : 'Try changing the filters'}
+          </BodyText>
         </PageContainer>
       )
     }
