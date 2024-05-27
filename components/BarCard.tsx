@@ -48,7 +48,6 @@ const BarCard = ({ bar, onMorePress = () => {}, ...restProps }: BarCardProps) =>
           onPress={() => {
             navigation.navigate('Bar', {
               barId: bar.id,
-              name: bar.name,
             })
           }}
         >

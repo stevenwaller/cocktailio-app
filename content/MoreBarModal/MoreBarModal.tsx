@@ -16,6 +16,7 @@ export interface IMoreBarModal extends IStackNavModal {}
 export interface IMoreBarModalProps extends Omit<StackNavModalProps, 'children'> {
   bar?: TBar | null
   onComplete?: () => void
+  onDelete?: () => void
 }
 
 const snapPoints = ['32%']
@@ -23,7 +24,7 @@ const snapPoints = ['32%']
 const Stack = createStackNavigator()
 
 const MoreBarModal = forwardRef<IMoreBarModal, IMoreBarModalProps>(
-  ({ bar, onComplete = () => {}, onChange, ...restProps }, ref) => {
+  ({ bar, onComplete = () => {}, onDelete = () => {}, onChange, ...restProps }, ref) => {
     const [isOpen, setIsOpen] = useState(false)
 
     const handleChange = (index: number) => {
@@ -35,7 +36,9 @@ const MoreBarModal = forwardRef<IMoreBarModal, IMoreBarModalProps>(
       <StackNavModal ref={ref} snapPoints={snapPoints} onChange={handleChange} {...restProps}>
         <Stack.Navigator screenOptions={modalScreenOptions}>
           <Stack.Screen name={bar ? bar.name : 'Bar Info'}>
-            {(props) => <BarHomeScreen {...props} bar={bar} onComplete={onComplete} />}
+            {(props) => (
+              <BarHomeScreen {...props} bar={bar} onComplete={onComplete} onDelete={onDelete} />
+            )}
           </Stack.Screen>
           <Stack.Screen name="Edit Bar">
             {(props) => (

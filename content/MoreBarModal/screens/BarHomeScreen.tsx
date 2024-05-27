@@ -13,9 +13,10 @@ import supabaseClient from '@/lib/utils/supabaseClient'
 interface IBarHomeScreen {
   bar?: TBar | null
   onComplete?: () => void
+  onDelete?: () => void
 }
 
-const BarHomeScreen = ({ bar, onComplete = () => {} }: IBarHomeScreen) => {
+const BarHomeScreen = ({ bar, onComplete = () => {}, onDelete = () => {} }: IBarHomeScreen) => {
   const { navigate } = useNavigation()
   const { bars, setBars } = useBars()
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -47,6 +48,7 @@ const BarHomeScreen = ({ bar, onComplete = () => {} }: IBarHomeScreen) => {
     setBars(newBars)
     setIsSubmitting(false)
     onComplete()
+    onDelete()
   }
 
   return (
