@@ -4,13 +4,12 @@ import { Pressable } from 'react-native'
 import BarDetailScreen from './BarDetailScreen'
 import BarIngredientsScreen from './BarIngredientsScreen'
 import BarStockScreen from './BarStockScreen'
+import BarHeaderBtns from '../_sharedHeaderBtns/BarHeaderBtns'
 import CocktailDetailScreen from '../_sharedScreens/CocktailDetailScreen'
 import IngredientDetailScreen from '../_sharedScreens/IngredientDetailScreen'
 import SearchCocktailsScreen from '../_sharedScreens/SearchCocktailsScreen'
 import SourceDetailScreen from '../_sharedScreens/SourceDetailScreen'
 
-import SearchIcon from '@/components/_icons/Search'
-import { COLORS } from '@/lib/constants'
 import { ToastProvider } from '@/lib/contexts/ToastContext'
 import { BarStockStackParamList } from '@/lib/types'
 import { tabScreenOptions } from '@/lib/utils/options'
@@ -25,12 +24,8 @@ export default function BarStockNav() {
         <BarStockStack.Screen name="Bar Ingredients" component={BarIngredientsScreen} />
         <BarStockStack.Screen
           name="Bar"
-          options={({ navigation }) => ({
-            headerRight: () => (
-              <Pressable onPress={() => navigation.navigate('Search Cocktails')}>
-                <SearchIcon color={COLORS.nav.text} />
-              </Pressable>
-            ),
+          options={() => ({
+            headerRight: () => <BarHeaderBtns />,
           })}
           component={BarDetailScreen}
         />

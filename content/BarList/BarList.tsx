@@ -1,14 +1,13 @@
 import { useRef, useState } from 'react'
 
-import MoreBarModal from './MoreBarModal'
 import NewBarModal from './NewBarModal'
+import MoreBarModal, { IMoreBarModal } from '../MoreBarModal'
 
 import BarCard from '@/components/BarCard'
 import { BodyText } from '@/components/_elements/Text'
 import PlusIcon from '@/components/_icons/Plus'
 import Button from '@/components/_inputs/Button'
 import { IModal } from '@/components/_overlays/Modal'
-import { IStackNavModal } from '@/components/_overlays/StackNavModal'
 import { COLORS } from '@/lib/constants'
 import useBars from '@/lib/hooks/useBars'
 import { TBar } from '@/lib/types/supabase'
@@ -16,7 +15,7 @@ import { TBar } from '@/lib/types/supabase'
 const BarList = () => {
   const { isFetching, error, bars } = useBars()
   const newModalRef = useRef<IModal>(null)
-  const moreModalRef = useRef<IStackNavModal>(null)
+  const moreModalRef = useRef<IMoreBarModal>(null)
   const [currentBar, setCurrentBar] = useState<TBar | null>(null)
 
   if (error) {

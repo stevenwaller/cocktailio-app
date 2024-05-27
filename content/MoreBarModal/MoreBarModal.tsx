@@ -11,7 +11,9 @@ import StackNavModal, {
 import { TBar } from '@/lib/types/supabase'
 import { modalScreenOptions } from '@/lib/utils/options'
 
-interface MoreBarModalProps extends Omit<StackNavModalProps, 'children'> {
+export interface IMoreBarModal extends IStackNavModal {}
+
+export interface IMoreBarModalProps extends Omit<StackNavModalProps, 'children'> {
   bar?: TBar | null
   onComplete?: () => void
 }
@@ -20,7 +22,7 @@ const snapPoints = ['32%']
 
 const Stack = createStackNavigator()
 
-const MoreBarModal = forwardRef<IStackNavModal, MoreBarModalProps>(
+const MoreBarModal = forwardRef<IMoreBarModal, IMoreBarModalProps>(
   ({ bar, onComplete = () => {}, onChange, ...restProps }, ref) => {
     const [isOpen, setIsOpen] = useState(false)
 
