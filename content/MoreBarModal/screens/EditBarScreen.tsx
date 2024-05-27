@@ -40,8 +40,6 @@ const EditBarScreen = ({ bar, onComplete = () => {}, isOpen }: IEditBarScreen) =
       .eq('id', bar?.id)
       .single<TBar>()
 
-    console.log('response', response)
-
     setIsSubmitting(false)
 
     if (response.error) {

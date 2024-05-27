@@ -52,8 +52,6 @@ const NewBarModal = forwardRef<IModal, NewBarModalProps>(
         .select()
         .single<TBar>()
 
-      console.log('response', response)
-
       setIsSubmitting(false)
 
       if (response.error) {
