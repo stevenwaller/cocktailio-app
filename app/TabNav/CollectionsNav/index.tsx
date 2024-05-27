@@ -1,9 +1,9 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { Pressable } from 'react-native'
 
+import CollectionDetailScreen from './CollectionDetailScreen'
 import CollectionsScreen from './CollectionsScreen'
 import CocktailDetailScreen from '../_sharedScreens/CocktailDetailScreen'
-import CocktailsScreen from '../_sharedScreens/CocktailsScreen'
 import IngredientDetailScreen from '../_sharedScreens/IngredientDetailScreen'
 import SearchCocktailsScreen from '../_sharedScreens/SearchCocktailsScreen'
 import SourceDetailScreen from '../_sharedScreens/SourceDetailScreen'
@@ -22,7 +22,7 @@ export default function CollectionsNav() {
       <CollectionsStack.Navigator screenOptions={tabScreenOptions}>
         <CollectionsStack.Screen name="Collections" component={CollectionsScreen} />
         <CollectionsStack.Screen
-          name="Cocktails"
+          name="Collection"
           options={({ navigation }) => ({
             headerRight: () => (
               <Pressable onPress={() => navigation.navigate('Search Cocktails')}>
@@ -30,7 +30,7 @@ export default function CollectionsNav() {
               </Pressable>
             ),
           })}
-          component={CocktailsScreen}
+          component={CollectionDetailScreen}
         />
         <CollectionsStack.Screen name="Cocktail Detail" component={CocktailDetailScreen} />
         <CollectionsStack.Screen name="Search Cocktails" component={SearchCocktailsScreen} />

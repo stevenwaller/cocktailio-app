@@ -1,8 +1,8 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { Pressable } from 'react-native'
 
+import CocktailsScreen from './CocktailsScreen'
 import CocktailDetailScreen from '../_sharedScreens/CocktailDetailScreen'
-import CocktailsScreen from '../_sharedScreens/CocktailsScreen'
 import IngredientDetailScreen from '../_sharedScreens/IngredientDetailScreen'
 import SearchCocktailsScreen from '../_sharedScreens/SearchCocktailsScreen'
 import SourceDetailScreen from '../_sharedScreens/SourceDetailScreen'

@@ -1,10 +1,10 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { Pressable } from 'react-native'
 
+import BarDetailScreen from './BarDetailScreen'
 import BarIngredientsScreen from './BarIngredientsScreen'
 import BarStockScreen from './BarStockScreen'
 import CocktailDetailScreen from '../_sharedScreens/CocktailDetailScreen'
-import CocktailsScreen from '../_sharedScreens/CocktailsScreen'
 import IngredientDetailScreen from '../_sharedScreens/IngredientDetailScreen'
 import SearchCocktailsScreen from '../_sharedScreens/SearchCocktailsScreen'
 import SourceDetailScreen from '../_sharedScreens/SourceDetailScreen'
@@ -24,7 +24,7 @@ export default function BarStockNav() {
         <BarStockStack.Screen name="Bar Stock" component={BarStockScreen} />
         <BarStockStack.Screen name="Bar Ingredients" component={BarIngredientsScreen} />
         <BarStockStack.Screen
-          name="Cocktails"
+          name="Bar"
           options={({ navigation }) => ({
             headerRight: () => (
               <Pressable onPress={() => navigation.navigate('Search Cocktails')}>
@@ -32,7 +32,7 @@ export default function BarStockNav() {
               </Pressable>
             ),
           })}
-          component={CocktailsScreen}
+          component={BarDetailScreen}
         />
         <BarStockStack.Screen name="Cocktail Detail" component={CocktailDetailScreen} />
         <BarStockStack.Screen name="Search Cocktails" component={SearchCocktailsScreen} />

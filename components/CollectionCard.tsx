@@ -32,7 +32,7 @@ const CollectionCard = ({
       <Card.Body>
         <Pressable
           onPress={() => {
-            navigation.navigate('Cocktails', {
+            navigation.navigate('Collection', {
               collectionId: collection.id,
               name: collection.name,
             })

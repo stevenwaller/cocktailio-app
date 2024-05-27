@@ -46,7 +46,7 @@ export type CocktailsStackParamList = {
 export type BarStockStackParamList = {
   'Bar Stock': undefined
   'Bar Ingredients': { barId: string }
-  Cocktails: CocktailsParams
+  Bar: CocktailsParams
   'Cocktail Detail': CocktailDetailParams
   'Ingredient Detail': IngredientDetailParams
   'Source Detail': SourceDetailParams
@@ -55,7 +55,7 @@ export type BarStockStackParamList = {
 
 export type CollectionsStackParamList = {
   Collections: undefined
-  Cocktails: CocktailsParams
+  Collection: CocktailsParams
   'Cocktail Detail': CocktailDetailParams
   'Ingredient Detail': IngredientDetailParams
   'Source Detail': SourceDetailParams

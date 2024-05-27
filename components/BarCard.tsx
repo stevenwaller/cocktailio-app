@@ -46,7 +46,7 @@ const BarCard = ({ bar, onMorePress = () => {}, ...restProps }: BarCardProps) =>
         </Pressable>
         <Pressable
           onPress={() => {
-            navigation.navigate('Cocktails', {
+            navigation.navigate('Bar', {
               barId: bar.id,
               name: bar.name,
             })

@@ -1,4 +1,3 @@
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { PostgrestError } from '@supabase/supabase-js'
 import { useEffect, useState, useCallback, useRef } from 'react'
 import {
@@ -18,15 +17,23 @@ import PageContainer from '@/components/PageContainer'
 import AddToCollectionModal, { IAddToCollectionModal } from '@/content/AddToCollectionModal'
 import { COLORS, FONTS, SIZE } from '@/lib/constants'
 import useCollections from '@/lib/hooks/useCollections'
-import { CocktailsStackParamList, IFilter } from '@/lib/types'
+import { IFilter } from '@/lib/types'
 import { TCocktail } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
 const itemsToLoad = 10
 
-type Props = NativeStackScreenProps<CocktailsStackParamList, 'Cocktails'>
+type Props = {
+  barId?: string
+  collectionId?: string
+  name?: string
+}
 
-export default function CocktailsScreen({ route }: Props) {
+const CocktailList = ({
+  barId: barIdProp,
+  collectionId: collectionIdProp,
+  name: nameProp,
+}: Props) => {
   const addToCollectionModalRef = useRef<IAddToCollectionModal | null>(null)
   const [minRange, setMinRange] = useState<number>(0)
   const [maxRange, setMaxRange] = useState<number>(itemsToLoad - 1)
@@ -38,12 +45,8 @@ export default function CocktailsScreen({ route }: Props) {
   const { collections } = useCollections()
   const [isFirstPageReceived, setIsFirstPageReceived] = useState(false)
 
-  const barIdParam = route.params?.barId
-  const collectionIdParam = route.params?.collectionId
-  const nameParam = route.params?.name
-
   const [filters, setFilters] = useState<IFilter[]>([
-    ...(barIdParam
+    ...(barIdProp
       ? []
       : [
           {
@@ -60,7 +63,7 @@ export default function CocktailsScreen({ route }: Props) {
       name: 'Ingredient',
       value: [],
     },
-    ...(collectionIdParam
+    ...(collectionIdProp
       ? []
       : [
           {
@@ -93,7 +96,7 @@ export default function CocktailsScreen({ route }: Props) {
     setIsFetching(true)
 
     // To filter by Bar we need to provide the bar_id
-    let barId = barIdParam ? barIdParam : null
+    let barId = barIdProp ? barIdProp : null
     const barStockFilter = filters.find((filter) => filter.name === 'With Bar Stock')
 
     if (barStockFilter) {
@@ -152,7 +155,7 @@ export default function CocktailsScreen({ route }: Props) {
     setError(response.error)
     setCount(response.count ? response.count : 0)
     setIsFirstPageReceived(true)
-  }, [minRange, maxRange, filters, barIdParam])
+  }, [minRange, maxRange, filters, barIdProp])
 
   useEffect(() => {
     fetchData()
@@ -216,7 +219,7 @@ export default function CocktailsScreen({ route }: Props) {
           ListHeaderComponent={
             <View style={styles.header}>
               <ErrorAlert message={error?.message} />
-              {nameParam && <Text style={styles.title}>{nameParam}</Text>}
+              {nameProp && <Text style={styles.title}>{nameProp}</Text>}
               <Text style={styles.count}>{count} cocktails</Text>
             </View>
           }
@@ -294,3 +297,7 @@ const styles = StyleSheet.create({
     height: 40,
   },
 })
+
+CocktailList.displayName = 'CocktailList'
+
+export default CocktailList
