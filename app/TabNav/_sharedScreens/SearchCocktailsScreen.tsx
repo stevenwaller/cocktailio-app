@@ -76,7 +76,7 @@ export default function SearchCocktails() {
           style={styles.input}
           value={searchValue}
           onChangeText={setSearchValue}
-          placeholder="Search by keyword, ingredient, etc..."
+          placeholder="Search by cocktail name"
           placeholderTextColor="#AAAEB0"
           autoFocus
         />
