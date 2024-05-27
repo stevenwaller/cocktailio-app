@@ -67,7 +67,7 @@ const CocktailCard = ({
       </Card.Header>
       <Card.Body>
         {renderIngredients(cocktail)}
-        <View style={{ marginTop: 20 }}>
+        {/* <View style={{ marginTop: 20 }}>
           <BodyText style={{ marginBottom: 5 }}>SOURCES:</BodyText>
           {cocktail.sources?.map((source) => (
             <Text key={source.id} style={styles.ingredients}>
@@ -86,7 +86,7 @@ const CocktailCard = ({
         <View style={{ marginTop: 20 }}>
           <BodyText style={{ marginBottom: 5 }}>GLASSWARE:</BodyText>
           <BodyText>{cocktail.glass?.name}</BodyText>
-        </View>
+        </View> */}
       </Card.Body>
     </Card>
   )
