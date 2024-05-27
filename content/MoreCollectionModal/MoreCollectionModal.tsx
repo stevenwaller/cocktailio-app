@@ -11,9 +11,12 @@ import StackNavModal, {
 import { TCollection } from '@/lib/types/supabase'
 import { modalScreenOptions } from '@/lib/utils/options'
 
+export interface IMoreCollectionModal extends IStackNavModal {}
+
 interface MoreCollectionModalProps extends Omit<StackNavModalProps, 'children'> {
   collection?: TCollection | null
   onComplete?: () => void
+  onDelete?: () => void
 }
 
 const snapPoints = ['32%']
@@ -21,7 +24,7 @@ const snapPoints = ['32%']
 const Stack = createStackNavigator()
 
 const MoreCollectionModal = forwardRef<IStackNavModal, MoreCollectionModalProps>(
-  ({ collection, onComplete = () => {}, onChange, ...restProps }, ref) => {
+  ({ collection, onComplete = () => {}, onDelete = () => {}, onChange, ...restProps }, ref) => {
     const [isOpen, setIsOpen] = useState(false)
 
     const handleChange = (index: number) => {
@@ -34,7 +37,12 @@ const MoreCollectionModal = forwardRef<IStackNavModal, MoreCollectionModalProps>
         <Stack.Navigator screenOptions={modalScreenOptions}>
           <Stack.Screen name={collection ? collection.name : 'Collection Info'}>
             {(props) => (
-              <CollectionHomeScreen {...props} collection={collection} onComplete={onComplete} />
+              <CollectionHomeScreen
+                {...props}
+                collection={collection}
+                onComplete={onComplete}
+                onDelete={onDelete}
+              />
             )}
           </Stack.Screen>
           <Stack.Screen name="Edit Collection">

@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 
-import MoreCollectionModal from './MoreCollectionModal'
 import NewCollectionModal from './NewCollectionModal'
+import MoreCollectionModal from '../MoreCollectionModal'
 
 import CollectionCard from '@/components/CollectionCard'
 import { BodyText } from '@/components/_elements/Text'

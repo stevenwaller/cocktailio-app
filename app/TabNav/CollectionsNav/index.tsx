@@ -3,6 +3,7 @@ import { Pressable } from 'react-native'
 
 import CollectionDetailScreen from './CollectionDetailScreen'
 import CollectionsScreen from './CollectionsScreen'
+import CollectionHeaderBtns from '../_sharedHeaderBtns/CollectionHeaderBtns'
 import CocktailDetailScreen from '../_sharedScreens/CocktailDetailScreen'
 import IngredientDetailScreen from '../_sharedScreens/IngredientDetailScreen'
 import SearchCocktailsScreen from '../_sharedScreens/SearchCocktailsScreen'
@@ -23,12 +24,8 @@ export default function CollectionsNav() {
         <CollectionsStack.Screen name="Collections" component={CollectionsScreen} />
         <CollectionsStack.Screen
           name="Collection"
-          options={({ navigation }) => ({
-            headerRight: () => (
-              <Pressable onPress={() => navigation.navigate('Search Cocktails')}>
-                <SearchIcon color={COLORS.nav.text} />
-              </Pressable>
-            ),
+          options={() => ({
+            headerRight: () => <CollectionHeaderBtns />,
           })}
           component={CollectionDetailScreen}
         />

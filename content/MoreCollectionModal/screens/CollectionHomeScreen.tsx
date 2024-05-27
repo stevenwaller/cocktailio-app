@@ -13,9 +13,14 @@ import supabaseClient from '@/lib/utils/supabaseClient'
 interface ICollectionHomeScreen {
   collection?: TCollection | null
   onComplete?: () => void
+  onDelete?: () => void
 }
 
-const CollectionHomeScreen = ({ collection, onComplete = () => {} }: ICollectionHomeScreen) => {
+const CollectionHomeScreen = ({
+  collection,
+  onComplete = () => {},
+  onDelete = () => {},
+}: ICollectionHomeScreen) => {
   const { navigate } = useNavigation()
   const { collections, setCollections } = useCollections()
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -53,6 +58,7 @@ const CollectionHomeScreen = ({ collection, onComplete = () => {} }: ICollection
     setCollections(newCollections)
     setIsSubmitting(false)
     onComplete()
+    onDelete()
   }
 
   return (
