@@ -42,30 +42,15 @@ export default function CocktailsScreen({ route }: Props) {
   const collectionIdParam = route.params?.collectionId
   const nameParam = route.params?.name
 
-  // TODO: use enum for consistent names
   const [filters, setFilters] = useState<IFilter[]>([
-    {
-      name: 'With Bar Stock',
-      value: barIdParam
-        ? [
-            {
-              id: barIdParam as string,
-              name: nameParam as string,
-            },
-          ]
-        : [],
-    },
-    {
-      name: 'Collection',
-      value: collectionIdParam
-        ? [
-            {
-              id: collectionIdParam as string,
-              name: nameParam as string,
-            },
-          ]
-        : [],
-    },
+    ...(barIdParam
+      ? []
+      : [
+          {
+            name: 'With Bar Stock',
+            value: [],
+          } as IFilter,
+        ]),
     {
       name: 'Base Spirit',
       rowName: 'base_ingredient_id',
@@ -75,6 +60,14 @@ export default function CocktailsScreen({ route }: Props) {
       name: 'Ingredient',
       value: [],
     },
+    ...(collectionIdParam
+      ? []
+      : [
+          {
+            name: 'Collection',
+            value: [],
+          } as IFilter,
+        ]),
     {
       name: 'Source',
       value: [],
@@ -100,7 +93,7 @@ export default function CocktailsScreen({ route }: Props) {
     setIsFetching(true)
 
     // To filter by Bar we need to provide the bar_id
-    let barId = null
+    let barId = barIdParam ? barIdParam : null
     const barStockFilter = filters.find((filter) => filter.name === 'With Bar Stock')
 
     if (barStockFilter) {
@@ -159,7 +152,7 @@ export default function CocktailsScreen({ route }: Props) {
     setError(response.error)
     setCount(response.count ? response.count : 0)
     setIsFirstPageReceived(true)
-  }, [minRange, maxRange, filters])
+  }, [minRange, maxRange, filters, barIdParam])
 
   useEffect(() => {
     fetchData()
@@ -223,6 +216,7 @@ export default function CocktailsScreen({ route }: Props) {
           ListHeaderComponent={
             <View style={styles.header}>
               <ErrorAlert message={error?.message} />
+              {nameParam && <Text style={styles.title}>{nameParam}</Text>}
               <Text style={styles.count}>{count} cocktails</Text>
             </View>
           }
@@ -281,9 +275,9 @@ const styles = StyleSheet.create({
     paddingRight: SIZE.app.paddingX,
   },
   title: {
-    fontSize: 20,
+    fontSize: 32,
     color: COLORS.text.body,
-    fontFamily: FONTS.hells.sans.medium,
+    fontFamily: FONTS.schotis.bold,
   },
   count: {
     fontSize: 16,

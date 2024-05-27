@@ -19,7 +19,6 @@ export interface IFilter {
 
 type CocktailsParams =
   | {
-      type?: 'Bar' | 'Collection'
       barId?: string
       collectionId?: string
       name?: string
