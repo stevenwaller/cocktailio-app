@@ -46,7 +46,6 @@ const CocktailList = ({
   const { collections } = useCollections()
   const [isFirstPageReceived, setIsFirstPageReceived] = useState(false)
   const isRefetch = useRef(false)
-
   const [filters, setFilters] = useState<IFilter[]>([
     ...(barIdProp
       ? []
@@ -163,7 +162,7 @@ const CocktailList = ({
 
     setIsFetching(false)
     setData((prevData) => {
-      if (isRefetch) {
+      if (isRefetch.current) {
         return response.data ? response.data : []
       } else {
         return response.data ? [...prevData, ...response.data] : prevData
@@ -177,10 +176,6 @@ const CocktailList = ({
 
   useEffect(() => {
     fetchData()
-
-    return () => {
-      setData([])
-    }
   }, [fetchData])
 
   const fetchNextPage = () => {
