@@ -20,6 +20,8 @@ export interface IAddToCollectionModal extends IStackNavModal {}
 interface AddToCollectionModalProps extends Omit<StackNavModalProps, 'children'> {
   collection?: TCollection | null
   onComplete?: () => void
+  onAdd?: (selectedCollection: TCollection) => void
+  onRemove?: (selectedCollection: TCollection, cocktail: TCocktail) => void
   cocktail?: TCocktail | null
 }
 
@@ -28,7 +30,18 @@ const snapPoints = ['32%']
 const Stack = createStackNavigator()
 
 const AddToCollectionModal = forwardRef<IStackNavModal, AddToCollectionModalProps>(
-  ({ collection, onComplete = () => {}, cocktail, onChange, ...restProps }, ref) => {
+  (
+    {
+      collection,
+      onComplete = () => {},
+      onAdd = () => {},
+      onRemove = () => {},
+      cocktail,
+      onChange,
+      ...restProps
+    },
+    ref,
+  ) => {
     const [isOpen, setIsOpen] = useState(false)
     const modalRef = useRef<IStackNavModal>(null)
     const toast = useToast()
@@ -95,6 +108,10 @@ const AddToCollectionModal = forwardRef<IStackNavModal, AddToCollectionModalProp
       })
 
       setCollection(normalizedCollection)
+
+      if (selectedCollection && cocktail) {
+        onRemove(selectedCollection, cocktail)
+      }
 
       toast.show(`Removed from `, {
         data: {

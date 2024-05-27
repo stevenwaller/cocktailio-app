@@ -11,7 +11,7 @@ const useCollections = (collectionId?: string) => {
   const [error, setError] = useState<PostgrestError | null>(null)
   const collections = useCollectionStore((state) => state.collections)
   const collection = useCollectionStore((state) =>
-    state.collections.find((collection) => collection.id === collectionId),
+    state.collections.find((item) => item.id === collectionId),
   )
   const setCollections = useCollectionStore((state) => state.setCollections)
   const setCollection = useCollectionStore((state) => state.setCollection)
@@ -32,8 +32,8 @@ const useCollections = (collectionId?: string) => {
     setIsFetching(false)
 
     if (response.data) {
-      const newCollections = response.data.map((collection) => {
-        return collectionNormalizer(collection)
+      const newCollections = response.data.map((newCollection) => {
+        return collectionNormalizer(newCollection)
       })
 
       setCollections(newCollections)

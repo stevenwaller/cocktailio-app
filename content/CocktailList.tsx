@@ -19,7 +19,7 @@ import AddToCollectionModal, { IAddToCollectionModal } from '@/content/AddToColl
 import { COLORS, FONTS, SIZE } from '@/lib/constants'
 import useCollections from '@/lib/hooks/useCollections'
 import { IFilter } from '@/lib/types'
-import { TCocktail } from '@/lib/types/supabase'
+import { TCollection, TCocktail } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
 const itemsToLoad = 10
@@ -45,6 +45,7 @@ const CocktailList = ({
   const [count, setCount] = useState<number>(0)
   const { collections } = useCollections()
   const [isFirstPageReceived, setIsFirstPageReceived] = useState(false)
+  const isRefetch = useRef(false)
 
   const [filters, setFilters] = useState<IFilter[]>([
     ...(barIdProp
@@ -106,6 +107,16 @@ const CocktailList = ({
       }
     }
 
+    // To filter by collection we need to provide the collection_id
+    let collectionId = collectionIdProp ? collectionIdProp : null
+    const collectionFilter = filters.find((filter) => filter.name === 'Collection')
+
+    if (collectionFilter) {
+      if (collectionFilter.value.length > 0) {
+        collectionId = collectionFilter.value[0].id
+      }
+    }
+
     // To filter by Ingredients we need an object where the key is the ingredient id
     const ingredientFilter: Record<string, string> = {}
 
@@ -120,6 +131,7 @@ const CocktailList = ({
         'query_cocktails',
         {
           bar_id: barId,
+          collection_id: collectionId,
           filter_ingredients: ingredientFilter,
           filter_sources: filters
             .find((filter) => filter.name === 'Source')
@@ -151,15 +163,24 @@ const CocktailList = ({
 
     setIsFetching(false)
     setData((prevData) => {
-      return response.data ? [...prevData, ...response.data] : prevData
+      if (isRefetch) {
+        return response.data ? response.data : []
+      } else {
+        return response.data ? [...prevData, ...response.data] : prevData
+      }
     })
     setError(response.error)
     setCount(response.count ? response.count : 0)
     setIsFirstPageReceived(true)
-  }, [minRange, maxRange, filters, barIdProp])
+    isRefetch.current = false
+  }, [minRange, maxRange, filters, barIdProp, collectionIdProp, isRefetch])
 
   useEffect(() => {
     fetchData()
+
+    return () => {
+      setData([])
+    }
   }, [fetchData])
 
   const fetchNextPage = () => {
@@ -167,6 +188,11 @@ const CocktailList = ({
 
     setMinRange(minRange + itemsToLoad)
     setMaxRange(maxRange + itemsToLoad)
+  }
+
+  const reFetchData = () => {
+    isRefetch.current = true
+    fetchData()
   }
 
   const handleFilterApply = (newFilters: IFilter[]) => {
@@ -181,6 +207,13 @@ const CocktailList = ({
     setCocktailToBookmark(cocktail)
 
     addToCollectionModalRef.current?.present()
+  }
+
+  const handleBookmarkRemove = (selectedCollection: TCollection, cocktail: TCocktail) => {
+    if (selectedCollection.id === collectionIdProp) {
+      const newCocktails = data.filter((item) => item.id !== cocktail.id)
+      setData(newCocktails)
+    }
   }
 
   const checkIfBookmarked = (cocktailId: string): boolean => {
@@ -202,19 +235,6 @@ const CocktailList = ({
       return (
         <PageContainer style={styles.pageContainer}>
           <ActivityIndicator size="small" />
-        </PageContainer>
-      )
-    }
-
-    if (data.length === 0) {
-      return (
-        <PageContainer style={styles.pageContainer}>
-          <Text style={styles.title}>No cocktails found</Text>
-          <BodyText>
-            {barIdProp
-              ? 'Add more ingredients to your bar stock or try changing the filters'
-              : 'Try changing the filters'}
-          </BodyText>
         </PageContainer>
       )
     }
@@ -243,12 +263,22 @@ const CocktailList = ({
           refreshControl={
             <RefreshControl
               refreshing={isFetching}
-              onRefresh={fetchData}
+              onRefresh={reFetchData}
               tintColor={COLORS.text.body}
             />
           }
           onEndReached={fetchNextPage}
           onEndReachedThreshold={0.8}
+          ListEmptyComponent={() => (
+            <View style={styles.emptyList}>
+              <Text style={styles.emptyListTitle}>No cocktails found</Text>
+              <BodyText style={styles.emptyListBody}>
+                {collectionIdProp && 'Try adding more cocktails to this collection. '}
+                {barIdProp && 'Add more ingredients to your bar stock. '}
+              </BodyText>
+              <BodyText style={styles.emptyListBody}>Try changing the filters</BodyText>
+            </View>
+          )}
           ListFooterComponent={() => (
             <View style={styles.footer}>
               <ActivityIndicator animating={isFirstPageReceived && isFetching} />
@@ -269,7 +299,11 @@ const CocktailList = ({
         />
         {renderContent()}
       </View>
-      <AddToCollectionModal ref={addToCollectionModalRef} cocktail={cocktailToBookmark} />
+      <AddToCollectionModal
+        ref={addToCollectionModalRef}
+        cocktail={cocktailToBookmark}
+        onRemove={handleBookmarkRemove}
+      />
     </>
   )
 }
@@ -287,6 +321,24 @@ const styles = StyleSheet.create({
     fontSize: 32,
     color: COLORS.text.body,
     fontFamily: FONTS.schotis.bold,
+  },
+  emptyList: {
+    borderWidth: 1,
+    borderColor: COLORS.bg.level3,
+    paddingTop: 15,
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+    marginLeft: SIZE.app.paddingX,
+    marginRight: SIZE.app.paddingX,
+  },
+  emptyListTitle: {
+    textAlign: 'center',
+    fontSize: 18,
+    color: COLORS.text.body,
+    fontFamily: FONTS.schotis.bold,
+  },
+  emptyListBody: {
+    textAlign: 'center',
   },
   count: {
     fontSize: 16,
