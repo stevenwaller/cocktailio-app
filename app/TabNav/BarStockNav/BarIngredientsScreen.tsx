@@ -1,8 +1,7 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { useState } from 'react'
-import { StyleSheet, ScrollView } from 'react-native'
+import { StyleSheet, ScrollView, KeyboardAvoidingView } from 'react-native'
 
-import AccordionCard from '@/components/AccordionCard'
 import PageContainer from '@/components/PageContainer'
 import SearchInput from '@/components/SearchInput'
 import SelectableAccordion from '@/components/SelectableAccordion'
@@ -200,9 +199,16 @@ export default function BarIngredients({ route }: Props) {
         onChange={handleSearchChange}
         placeholder="Search by ingredient name"
       />
-      <ScrollView>
-        <PageContainer style={{ paddingTop: 5 }}>{renderContent()}</PageContainer>
-      </ScrollView>
+      <KeyboardAvoidingView
+        behavior="padding"
+        style={{ flex: 1 }}
+        enabled
+        keyboardVerticalOffset={100}
+      >
+        <ScrollView>
+          <PageContainer style={{ paddingTop: 5 }}>{renderContent()}</PageContainer>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </>
   )
 }
