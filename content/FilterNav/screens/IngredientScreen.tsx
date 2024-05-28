@@ -4,6 +4,7 @@ import { StyleSheet } from 'react-native'
 import SelectableAccordion from '@/components/SelectableAccordion'
 import { BodyText } from '@/components/_elements/Text'
 import ModalBody from '@/components/_overlays/ModalBody'
+import IngredientList from '@/content/IngredientList'
 import { COLORS, FONTS } from '@/lib/constants'
 import useIngredients from '@/lib/hooks/useIngredients'
 import { IFilter } from '@/lib/types'
@@ -15,49 +16,12 @@ interface IngredientsScreenProps {
 }
 
 const IngredientScreen = ({ filter, onChange }: IngredientsScreenProps) => {
-  const [openAccordions, setOpenAccordions] = useState<{ [key: string]: boolean }>({})
-  const { isFetching, error, ingredients } = useIngredients()
-
-  const getSelectedCount = (ingredient: TIngredient) => {
-    let count = 0
-
-    const getSubCount = (subIngredients: TIngredient[]) => {
-      subIngredients.forEach((subIngredient) => {
-        if (filter?.value.some((item) => item.id === subIngredient.id)) {
-          count++
-        }
-        if (subIngredient.ingredients) {
-          getSubCount(subIngredient.ingredients)
-        }
-      })
-    }
-
-    if (ingredient.ingredients) {
-      getSubCount(ingredient.ingredients)
-    }
-
-    return count
-  }
-
-  const handleToggle = (ingredient: TIngredient) => {
-    const newOpenAccordions = { ...openAccordions }
-
-    if (openAccordions[ingredient.id]) {
-      delete newOpenAccordions[ingredient.id]
-
-      const closeChildren = (parentIngredient: TIngredient) => {
-        parentIngredient.ingredients?.forEach((child) => {
-          delete newOpenAccordions[child.id]
-          closeChildren(child)
-        })
-      }
-
-      closeChildren(ingredient)
+  const checkIfSelected = (ingredient: TIngredient) => {
+    if (filter) {
+      return filter.value.some((item) => item.id === ingredient.id)
     } else {
-      newOpenAccordions[ingredient.id] = true
+      return false
     }
-
-    setOpenAccordions(newOpenAccordions)
   }
 
   const handleSelect = (ingredient: TIngredient) => {
@@ -74,72 +38,12 @@ const IngredientScreen = ({ filter, onChange }: IngredientsScreenProps) => {
     onChange(newFilter)
   }
 
-  const renderIngredients = (parentIngredients: TIngredient[] | undefined, depth: number) => {
-    if (!parentIngredients || parentIngredients.length === 0) return
-
-    return parentIngredients.map((ingredient, index) => {
-      return (
-        <SelectableAccordion
-          key={ingredient.id}
-          label={ingredient.name}
-          style={[styles.accordion, depth > 0 && { paddingLeft: 34 }]}
-          isSelected={filter?.value.some((item) => item.id === ingredient.id)}
-          isOpen={openAccordions[ingredient.id]}
-          onToggle={() => handleToggle(ingredient)}
-          onSelect={() => handleSelect(ingredient)}
-          headerLabelStyle={
-            ingredient.is_brand ? { fontFamily: FONTS.hells.sans.mediumItalic } : null
-          }
-          count={getSelectedCount(ingredient)}
-        >
-          {renderIngredients(ingredient.ingredients, depth + 1)}
-        </SelectableAccordion>
-      )
-    })
-  }
-
-  if (isFetching) return <BodyText>Loading...</BodyText>
-
-  if (error) return <BodyText>Error: {error.message}</BodyText>
-
-  if (!ingredients) return <BodyText>No data</BodyText>
-
   return (
     <ModalBody>
-      {ingredients.map((ingredient) => (
-        <SelectableAccordion
-          key={ingredient.id}
-          label={ingredient.name}
-          style={styles.accordion}
-          noSelect
-          isOpen={openAccordions[ingredient.id]}
-          onToggle={() => handleToggle(ingredient)}
-          count={getSelectedCount(ingredient)}
-        >
-          {renderIngredients(ingredient.ingredients, 0)}
-        </SelectableAccordion>
-      ))}
+      <IngredientList onSelect={handleSelect} checkIfSelected={checkIfSelected} />
     </ModalBody>
   )
 }
-
-const styles = StyleSheet.create({
-  ingredient: {
-    flexDirection: 'row',
-    alignContent: 'center',
-    marginBottom: 15,
-  },
-  ingredientText: {
-    fontSize: 18,
-    color: COLORS.text.body,
-    fontFamily: FONTS.hells.sans.medium,
-    marginLeft: 10,
-    paddingTop: 2,
-  },
-  accordion: {
-    marginBottom: 12,
-  },
-})
 
 IngredientScreen.displayName = 'IngredientScreen'
 
