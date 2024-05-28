@@ -1,11 +1,11 @@
 import { useNavigation, NavigationProp } from '@react-navigation/native'
 import { PostgrestError } from '@supabase/supabase-js'
 import { useState, useEffect, useCallback } from 'react'
-import { View, StyleSheet, TextInput, ActivityIndicator, Text, Pressable } from 'react-native'
+import { View, StyleSheet, Text, Pressable } from 'react-native'
 
 import PageContainer from '@/components/PageContainer'
+import SearchInput from '@/components/SearchInput'
 import { BodyText } from '@/components/_elements/Text'
-import SearchIcon from '@/components/_icons/Search'
 import { COLORS, FONTS } from '@/lib/constants'
 import { CocktailsStackParamList } from '@/lib/types'
 import supabaseClient from '@/lib/utils/supabaseClient'
@@ -71,46 +71,19 @@ export default function SearchCocktails() {
 
   return (
     <>
-      <View>
-        <TextInput
-          style={styles.input}
-          value={searchValue}
-          onChangeText={setSearchValue}
-          placeholder="Search by cocktail name"
-          placeholderTextColor="#AAAEB0"
-          autoFocus
-        />
-        {isFetching ? (
-          <ActivityIndicator style={styles.spinner} color={COLORS.text.body} />
-        ) : (
-          <SearchIcon style={styles.searchIcon} color={COLORS.text.body} pointerEvents="box-none" />
-        )}
-      </View>
+      <SearchInput
+        value={searchValue}
+        isFetching={isFetching}
+        onChange={setSearchValue}
+        autoFocus
+        placeholder="Search by cocktail name"
+      />
       <PageContainer>{renderContent()}</PageContainer>
     </>
   )
 }
 
 const styles = StyleSheet.create({
-  input: {
-    backgroundColor: COLORS.bg.level2,
-    color: COLORS.text.body,
-    height: 48,
-    fontFamily: FONTS.hells.sans.medium,
-    fontSize: 16,
-    paddingStart: 40,
-    paddingEnd: 20,
-  },
-  spinner: {
-    position: 'absolute',
-    top: 15,
-    left: 8,
-  },
-  searchIcon: {
-    position: 'absolute',
-    top: 13,
-    left: 8,
-  },
   result: {
     marginBottom: 5,
   },

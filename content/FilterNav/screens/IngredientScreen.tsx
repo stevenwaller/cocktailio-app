@@ -15,7 +15,7 @@ interface IngredientsScreenProps {
 }
 
 const IngredientScreen = ({ filter, onChange }: IngredientsScreenProps) => {
-  const [openAccordions, setOpenAccordions] = useState<any>({})
+  const [openAccordions, setOpenAccordions] = useState<{ [key: string]: boolean }>({})
   const { isFetching, error, ingredients } = useIngredients()
 
   const getSelectedCount = (ingredient: TIngredient) => {
@@ -45,8 +45,8 @@ const IngredientScreen = ({ filter, onChange }: IngredientsScreenProps) => {
     if (openAccordions[ingredient.id]) {
       delete newOpenAccordions[ingredient.id]
 
-      const closeChildren = (ingredient: TIngredient) => {
-        ingredient.ingredients?.forEach((child) => {
+      const closeChildren = (parentIngredient: TIngredient) => {
+        parentIngredient.ingredients?.forEach((child) => {
           delete newOpenAccordions[child.id]
           closeChildren(child)
         })
@@ -54,7 +54,7 @@ const IngredientScreen = ({ filter, onChange }: IngredientsScreenProps) => {
 
       closeChildren(ingredient)
     } else {
-      newOpenAccordions[ingredient.id] = {}
+      newOpenAccordions[ingredient.id] = true
     }
 
     setOpenAccordions(newOpenAccordions)
@@ -74,10 +74,10 @@ const IngredientScreen = ({ filter, onChange }: IngredientsScreenProps) => {
     onChange(newFilter)
   }
 
-  const renderIngredients = (ingredients: TIngredient[] | undefined, depth: number) => {
-    if (!ingredients || ingredients.length === 0) return
+  const renderIngredients = (parentIngredients: TIngredient[] | undefined, depth: number) => {
+    if (!parentIngredients || parentIngredients.length === 0) return
 
-    return ingredients.map((ingredient, index) => {
+    return parentIngredients.map((ingredient, index) => {
       return (
         <SelectableAccordion
           key={ingredient.id}
@@ -88,7 +88,7 @@ const IngredientScreen = ({ filter, onChange }: IngredientsScreenProps) => {
           onToggle={() => handleToggle(ingredient)}
           onSelect={() => handleSelect(ingredient)}
           headerLabelStyle={
-            ingredient.is_brand ? { fontFamily: FONTS.hells.sans.boldItalic } : null
+            ingredient.is_brand ? { fontFamily: FONTS.hells.sans.mediumItalic } : null
           }
           count={getSelectedCount(ingredient)}
         >

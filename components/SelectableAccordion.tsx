@@ -8,6 +8,7 @@ import { COLORS, FONTS } from '@/lib/constants'
 
 interface SelectableAccordionProps extends ViewProps {
   noSelect?: boolean
+  noExpand?: boolean
   isSelected?: boolean
   label: string
   isOpen: boolean
@@ -22,6 +23,7 @@ const SelectableAccordion = ({
   isOpen,
   children,
   noSelect,
+  noExpand,
   style,
   count,
   headerLabelStyle,
@@ -30,6 +32,20 @@ const SelectableAccordion = ({
   onToggle,
   ...restProps
 }: SelectableAccordionProps) => {
+  const renderChevron = () => {
+    if (noExpand) return null
+
+    return (
+      <Pressable onPress={onToggle}>
+        {isOpen ? (
+          <ChevronUpIcon color={COLORS.text.link} />
+        ) : (
+          <ChevronDownIcon color={COLORS.text.link} />
+        )}
+      </Pressable>
+    )
+  }
+
   return (
     <View style={[styles.accordion, style]} {...restProps}>
       <View style={styles.header}>
@@ -42,17 +58,11 @@ const SelectableAccordion = ({
         {children && (
           <View style={styles.headerRight}>
             {!isOpen && count ? <Badge style={styles.badge}>{count}</Badge> : null}
-            <Pressable onPress={onToggle}>
-              {isOpen ? (
-                <ChevronUpIcon color={COLORS.text.link} />
-              ) : (
-                <ChevronDownIcon color={COLORS.text.link} />
-              )}
-            </Pressable>
+            {renderChevron()}
           </View>
         )}
       </View>
-      {isOpen && <View style={styles.body}>{children}</View>}
+      {isOpen && children && <View style={styles.body}>{children}</View>}
     </View>
   )
 }
@@ -84,7 +94,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.hells.sans.medium,
   },
   body: {
-    marginTop: 12,
+    // marginTop: 12,
   },
 })
 

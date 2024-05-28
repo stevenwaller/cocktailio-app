@@ -4,6 +4,7 @@ import { StyleSheet, ScrollView } from 'react-native'
 
 import AccordionCard from '@/components/AccordionCard'
 import PageContainer from '@/components/PageContainer'
+import SearchInput from '@/components/SearchInput'
 import SelectableAccordion from '@/components/SelectableAccordion'
 import { BodyText } from '@/components/_elements/Text'
 import { FONTS } from '@/lib/constants'
@@ -17,8 +18,10 @@ import uuid from '@/lib/utils/uuid'
 type Props = NativeStackScreenProps<BarStockStackParamList, 'Bar Ingredients'>
 
 export default function BarIngredients({ route }: Props) {
+  const [searchValue, setSearchValue] = useState('')
   const barId = route.params.barId
-  const [openAccordions, setOpenAccordions] = useState<any>({})
+  const [openAccordions, setOpenAccordions] = useState<{ [key: string]: boolean }>({})
+  const [foundIngredients, setFoundIngredients] = useState<{ [key: string]: boolean }>({})
   const { bar, setBar } = useBars(barId as string)
   const { ingredients, error, isFetching } = useIngredients()
 
@@ -51,8 +54,8 @@ export default function BarIngredients({ route }: Props) {
     if (openAccordions[ingredient.id]) {
       delete newOpenAccordions[ingredient.id]
 
-      const closeChildren = (ingredient: TIngredient) => {
-        ingredient.ingredients?.forEach((child) => {
+      const closeChildren = (parentIngredient: TIngredient) => {
+        parentIngredient.ingredients?.forEach((child) => {
           delete newOpenAccordions[child.id]
           closeChildren(child)
         })
@@ -60,7 +63,7 @@ export default function BarIngredients({ route }: Props) {
 
       closeChildren(ingredient)
     } else {
-      newOpenAccordions[ingredient.id] = {}
+      newOpenAccordions[ingredient.id] = true
     }
 
     setOpenAccordions(newOpenAccordions)
@@ -101,43 +104,73 @@ export default function BarIngredients({ route }: Props) {
     }
   }
 
-  const renderIngredients = (ingredients: TIngredient[] | undefined, depth: number) => {
-    if (!ingredients || ingredients.length === 0) return
+  const handleSearchChange = (value: string) => {
+    const lowerCaseSearchValue = value.toLowerCase()
+    const newFoundIngredients: { [key: string]: boolean } = {}
 
-    return ingredients.map((ingredient, index) => {
+    if (value === '') {
+      setFoundIngredients(newFoundIngredients)
+      setSearchValue(value)
+      setOpenAccordions({})
+      return
+    }
+
+    const findIngredients = (parentIngredients: TIngredient[]) => {
+      parentIngredients.forEach((ingredient) => {
+        if (ingredient.name.toLowerCase().includes(lowerCaseSearchValue)) {
+          newFoundIngredients[ingredient.name] = true
+
+          if (ingredient.hierarchy) {
+            ingredient.hierarchy.forEach((parentIngredient) => {
+              newFoundIngredients[parentIngredient] = true
+            })
+          }
+        }
+
+        if (ingredient.ingredients) {
+          findIngredients(ingredient.ingredients)
+        }
+      })
+    }
+
+    // don't search the top level categories
+    ingredients?.forEach((ingredient) => {
+      if (ingredient.ingredients) {
+        findIngredients(ingredient.ingredients)
+      }
+    })
+
+    setSearchValue(value)
+    setFoundIngredients(newFoundIngredients)
+  }
+
+  const renderIngredients = (parentIngredients: TIngredient[] | undefined, depth: number) => {
+    if (!parentIngredients || parentIngredients.length === 0) return null
+
+    return parentIngredients.map((ingredient, index) => {
+      if (searchValue && !foundIngredients[ingredient.name]) return null
+
       return (
         <SelectableAccordion
           key={ingredient.id}
           label={ingredient.name}
-          style={[styles.accordion, depth > 0 && { paddingLeft: 34 }]}
+          style={[depth > 1 && { paddingLeft: 34 }, { marginTop: 12 }]}
           isSelected={!!bar.ingredientsById[ingredient.id]}
-          isOpen={openAccordions[ingredient.id]}
+          isOpen={openAccordions[ingredient.id] || searchValue !== ''}
           onToggle={() => handleToggle(ingredient)}
           onSelect={() => handleSelect(ingredient)}
-          headerLabelStyle={
-            ingredient.is_brand ? { fontFamily: FONTS.hells.sans.boldItalic } : null
-          }
+          headerLabelStyle={[
+            ingredient.is_brand && { fontFamily: FONTS.hells.sans.mediumItalic },
+            depth === 0 && { fontFamily: FONTS.hells.sans.bold },
+          ]}
           count={getSelectedCount(ingredient)}
+          noSelect={depth === 0}
+          noExpand={searchValue !== ''}
         >
           {renderIngredients(ingredient.ingredients, depth + 1)}
         </SelectableAccordion>
       )
     })
-  }
-
-  const renderCategories = () => {
-    return ingredients?.map((ingredient) => (
-      <AccordionCard
-        style={{ marginBottom: 20 }}
-        key={ingredient.id}
-        title={ingredient.name}
-        isOpen={openAccordions[ingredient.id]}
-        onToggle={() => handleToggle(ingredient)}
-        count={getSelectedCount(ingredient)}
-      >
-        {renderIngredients(ingredient.ingredients, 0)}
-      </AccordionCard>
-    ))
   }
 
   const renderContent = () => {
@@ -153,18 +186,25 @@ export default function BarIngredients({ route }: Props) {
       return <BodyText>No data</BodyText>
     }
 
-    return renderCategories()
+    if (searchValue !== '' && Object.keys(foundIngredients).length === 0) {
+      return <BodyText>No results found</BodyText>
+    }
+
+    return renderIngredients(ingredients, 0)
   }
 
   return (
-    <ScrollView>
-      <PageContainer>{renderContent()}</PageContainer>
-    </ScrollView>
+    <>
+      <SearchInput
+        value={searchValue}
+        onChange={handleSearchChange}
+        placeholder="Search by ingredient name"
+      />
+      <ScrollView>
+        <PageContainer style={{ paddingTop: 5 }}>{renderContent()}</PageContainer>
+      </ScrollView>
+    </>
   )
 }
 
-const styles = StyleSheet.create({
-  accordion: {
-    marginBottom: 12,
-  },
-})
+const styles = StyleSheet.create({})
