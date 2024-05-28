@@ -49,6 +49,7 @@ const Modal = forwardRef<IModal, IModalProps>(
 
           elevation: 13,
         }}
+        keyboardBlurBehavior="restore"
         {...restProps}
       >
         {children}
