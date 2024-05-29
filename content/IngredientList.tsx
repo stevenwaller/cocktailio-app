@@ -1,8 +1,5 @@
-import { useState } from 'react'
-import { ScrollView, KeyboardAvoidingView } from 'react-native'
+import { useState, useEffect } from 'react'
 
-import PageContainer from '@/components/PageContainer'
-import SearchInput from '@/components/SearchInput'
 import SelectableAccordion from '@/components/SelectableAccordion'
 import { BodyText } from '@/components/_elements/Text'
 import { FONTS } from '@/lib/constants'
@@ -12,13 +9,46 @@ import { TIngredient } from '@/lib/types/supabase'
 interface Props {
   checkIfSelected: (item: TIngredient) => boolean
   onSelect: (item: TIngredient) => void
+  searchValue?: string
 }
 
-const BarIngredients = ({ checkIfSelected, onSelect }: Props) => {
-  const [searchValue, setSearchValue] = useState('')
+const BarIngredients = ({ checkIfSelected, onSelect, searchValue = '' }: Props) => {
   const [openAccordions, setOpenAccordions] = useState<{ [key: string]: boolean }>({})
-  const [foundIngredients, setFoundIngredients] = useState<{ [key: string]: boolean }>({})
   const { ingredients, error, isFetching } = useIngredients()
+
+  const lowerCaseSearchValue = searchValue.toLowerCase()
+  const foundIngredients: { [key: string]: boolean } = {}
+
+  useEffect(() => {
+    if (searchValue === '') {
+      setOpenAccordions({})
+    }
+  }, [searchValue])
+
+  const findIngredients = (parentIngredients: TIngredient[]) => {
+    parentIngredients.forEach((ingredient) => {
+      if (ingredient.name.toLowerCase().includes(lowerCaseSearchValue)) {
+        foundIngredients[ingredient.name] = true
+
+        if (ingredient.hierarchy) {
+          ingredient.hierarchy.forEach((parentIngredient) => {
+            foundIngredients[parentIngredient] = true
+          })
+        }
+      }
+
+      if (ingredient.ingredients) {
+        findIngredients(ingredient.ingredients)
+      }
+    })
+  }
+
+  // don't search the top level categories
+  ingredients?.forEach((ingredient) => {
+    if (ingredient.ingredients) {
+      findIngredients(ingredient.ingredients)
+    }
+  })
 
   const getSelectedCount = (ingredient: TIngredient) => {
     let count = 0
@@ -62,46 +92,6 @@ const BarIngredients = ({ checkIfSelected, onSelect }: Props) => {
     setOpenAccordions(newOpenAccordions)
   }
 
-  const handleSearchChange = (value: string) => {
-    const lowerCaseSearchValue = value.toLowerCase()
-    const newFoundIngredients: { [key: string]: boolean } = {}
-
-    if (value === '') {
-      setFoundIngredients(newFoundIngredients)
-      setSearchValue(value)
-      setOpenAccordions({})
-      return
-    }
-
-    const findIngredients = (parentIngredients: TIngredient[]) => {
-      parentIngredients.forEach((ingredient) => {
-        if (ingredient.name.toLowerCase().includes(lowerCaseSearchValue)) {
-          newFoundIngredients[ingredient.name] = true
-
-          if (ingredient.hierarchy) {
-            ingredient.hierarchy.forEach((parentIngredient) => {
-              newFoundIngredients[parentIngredient] = true
-            })
-          }
-        }
-
-        if (ingredient.ingredients) {
-          findIngredients(ingredient.ingredients)
-        }
-      })
-    }
-
-    // don't search the top level categories
-    ingredients?.forEach((ingredient) => {
-      if (ingredient.ingredients) {
-        findIngredients(ingredient.ingredients)
-      }
-    })
-
-    setSearchValue(value)
-    setFoundIngredients(newFoundIngredients)
-  }
-
   const renderIngredients = (parentIngredients: TIngredient[] | undefined, depth: number) => {
     if (!parentIngredients || parentIngredients.length === 0) return null
 
@@ -131,45 +121,23 @@ const BarIngredients = ({ checkIfSelected, onSelect }: Props) => {
     })
   }
 
-  const renderContent = () => {
-    if (isFetching) {
-      return <BodyText>Loading...</BodyText>
-    }
-
-    if (error) {
-      return <BodyText>Error: {error.message}</BodyText>
-    }
-
-    if (!ingredients) {
-      return <BodyText>No data</BodyText>
-    }
-
-    if (searchValue !== '' && Object.keys(foundIngredients).length === 0) {
-      return <BodyText>No results found</BodyText>
-    }
-
-    return renderIngredients(ingredients, 0)
+  if (isFetching) {
+    return <BodyText>Loading...</BodyText>
   }
 
-  return (
-    <>
-      <SearchInput
-        value={searchValue}
-        onChange={handleSearchChange}
-        placeholder="Search by ingredient name"
-      />
-      <KeyboardAvoidingView
-        behavior="padding"
-        style={{ flex: 1 }}
-        enabled
-        keyboardVerticalOffset={100}
-      >
-        <ScrollView>
-          <PageContainer style={{ paddingTop: 5 }}>{renderContent()}</PageContainer>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </>
-  )
+  if (error) {
+    return <BodyText>Error: {error.message}</BodyText>
+  }
+
+  if (!ingredients) {
+    return <BodyText>No data</BodyText>
+  }
+
+  if (searchValue !== '' && Object.keys(foundIngredients).length === 0) {
+    return <BodyText>No results found</BodyText>
+  }
+
+  return renderIngredients(ingredients, 0)
 }
 
 BarIngredients.displayName = 'BarIngredients'

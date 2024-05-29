@@ -1,12 +1,9 @@
 import { useState } from 'react'
-import { StyleSheet } from 'react-native'
 
-import SelectableAccordion from '@/components/SelectableAccordion'
-import { BodyText } from '@/components/_elements/Text'
+import SearchInput from '@/components/SearchInput'
 import ModalBody from '@/components/_overlays/ModalBody'
 import IngredientList from '@/content/IngredientList'
-import { COLORS, FONTS } from '@/lib/constants'
-import useIngredients from '@/lib/hooks/useIngredients'
+import { COLORS } from '@/lib/constants'
 import { IFilter } from '@/lib/types'
 import { TIngredient } from '@/lib/types/supabase'
 
@@ -16,6 +13,8 @@ interface IngredientsScreenProps {
 }
 
 const IngredientScreen = ({ filter, onChange }: IngredientsScreenProps) => {
+  const [searchValue, setSearchValue] = useState('')
+
   const checkIfSelected = (ingredient: TIngredient) => {
     if (filter) {
       return filter.value.some((item) => item.id === ingredient.id)
@@ -39,9 +38,21 @@ const IngredientScreen = ({ filter, onChange }: IngredientsScreenProps) => {
   }
 
   return (
-    <ModalBody>
-      <IngredientList onSelect={handleSelect} checkIfSelected={checkIfSelected} />
-    </ModalBody>
+    <>
+      <SearchInput
+        value={searchValue}
+        onChange={setSearchValue}
+        placeholder="Search by ingredient name"
+        inputStyle={{ backgroundColor: COLORS.bg.level1 }}
+      />
+      <ModalBody contentStyle={{ paddingTop: 10 }}>
+        <IngredientList
+          onSelect={handleSelect}
+          checkIfSelected={checkIfSelected}
+          searchValue={searchValue}
+        />
+      </ModalBody>
+    </>
   )
 }
 

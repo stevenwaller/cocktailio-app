@@ -4,24 +4,32 @@ import {
   BottomSheetScrollableProps,
 } from '@gorhom/bottom-sheet'
 import { ReactNode } from 'react'
-import { StyleSheet, ViewStyle } from 'react-native'
+import { StyleSheet, ViewStyle, KeyboardAvoidingView } from 'react-native'
 
 import { COLORS } from '@/lib/constants'
 
 interface ModalBodyProps extends BottomSheetScrollableProps {
   children: ReactNode
-  style?: ViewStyle
+  scrollViewStyle?: ViewStyle
+  contentStyle?: ViewStyle
 }
 
-const ModalBody = ({ children, style, ...restProps }: ModalBodyProps) => {
+const ModalBody = ({ children, scrollViewStyle, contentStyle, ...restProps }: ModalBodyProps) => {
   return (
-    <BottomSheetScrollView
-      style={[styles.container, style]}
-      enableFooterMarginAdjustment
-      {...restProps}
+    <KeyboardAvoidingView
+      behavior="padding"
+      style={{ flex: 1 }}
+      enabled
+      keyboardVerticalOffset={60}
     >
-      <BottomSheetView style={styles.scrollContent}>{children}</BottomSheetView>
-    </BottomSheetScrollView>
+      <BottomSheetScrollView
+        style={[styles.container, scrollViewStyle]}
+        enableFooterMarginAdjustment
+        {...restProps}
+      >
+        <BottomSheetView style={[styles.scrollContent, contentStyle]}>{children}</BottomSheetView>
+      </BottomSheetScrollView>
+    </KeyboardAvoidingView>
   )
 }
 

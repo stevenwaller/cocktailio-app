@@ -1,5 +1,9 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { useState } from 'react'
+import { ScrollView, KeyboardAvoidingView } from 'react-native'
 
+import PageContainer from '@/components/PageContainer'
+import SearchInput from '@/components/SearchInput'
 import IngredientList from '@/content/IngredientList'
 import useBars from '@/lib/hooks/useBars'
 import { BarStockStackParamList } from '@/lib/types'
@@ -10,6 +14,7 @@ import uuid from '@/lib/utils/uuid'
 type Props = NativeStackScreenProps<BarStockStackParamList, 'Bar Ingredients'>
 
 export default function BarIngredients({ route }: Props) {
+  const [searchValue, setSearchValue] = useState('')
   const barId = route.params.barId
   const { bar, setBar } = useBars(barId as string)
 
@@ -52,5 +57,29 @@ export default function BarIngredients({ route }: Props) {
     }
   }
 
-  return <IngredientList onSelect={handleSelect} checkIfSelected={checkIfSelected} />
+  return (
+    <>
+      <SearchInput
+        value={searchValue}
+        onChange={setSearchValue}
+        placeholder="Search by ingredient name"
+      />
+      <KeyboardAvoidingView
+        behavior="padding"
+        style={{ flex: 1 }}
+        enabled
+        keyboardVerticalOffset={100}
+      >
+        <ScrollView>
+          <PageContainer style={{ paddingTop: 5 }}>
+            <IngredientList
+              onSelect={handleSelect}
+              checkIfSelected={checkIfSelected}
+              searchValue={searchValue}
+            />
+          </PageContainer>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </>
+  )
 }

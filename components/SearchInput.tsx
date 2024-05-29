@@ -1,4 +1,4 @@
-import { ActivityIndicator, TextInput, View, StyleSheet } from 'react-native'
+import { ActivityIndicator, TextInput, View, ViewStyle, StyleSheet } from 'react-native'
 
 import SearchIcon from '@/components/_icons/Search'
 import { COLORS, FONTS } from '@/lib/constants'
@@ -9,6 +9,7 @@ interface Props {
   onChange?: (value: string) => void
   autoFocus?: boolean
   placeholder?: string
+  inputStyle?: ViewStyle
 }
 
 const SearchInput = ({
@@ -17,11 +18,12 @@ const SearchInput = ({
   onChange = () => {},
   autoFocus = false,
   placeholder,
+  inputStyle,
 }: Props) => {
   return (
     <View>
       <TextInput
-        style={styles.input}
+        style={[styles.input, inputStyle]}
         value={value}
         onChangeText={onChange}
         placeholder={placeholder}
