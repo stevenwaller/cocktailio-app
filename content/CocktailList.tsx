@@ -138,8 +138,8 @@ const CocktailList = ({
         },
         { count: 'exact' },
       )
-      .order('name')
       .range(minRange, maxRange)
+      .order('created_at', { ascending: false })
 
     filters.forEach((filter) => {
       const values = filter.value.map((item) => item.id)
