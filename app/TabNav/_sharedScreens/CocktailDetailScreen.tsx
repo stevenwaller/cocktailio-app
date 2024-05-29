@@ -1,24 +1,57 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { PostgrestError } from '@supabase/supabase-js'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { StyleSheet, Text, View, ScrollView } from 'react-native'
+
+import CocktailHeaderBtns from '../_sharedHeaderBtns/CocktailHeaderBtns'
 
 import PageContainer from '@/components/PageContainer'
 import RecipeCard from '@/components/RecipeCard'
 import { BodyText, PageTitleText } from '@/components/_elements/Text'
+import AddToCollectionModal, { IAddToCollectionModal } from '@/content/AddToCollectionModal'
 import { FONTS, COLORS, SIZE } from '@/lib/constants'
+import useCollections from '@/lib/hooks/useCollections'
 import { CocktailsStackParamList } from '@/lib/types'
 import { TCocktail } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
 type Props = NativeStackScreenProps<CocktailsStackParamList, 'Cocktail'>
 
-export default function CocktailDetailScreen({ route }: Props) {
+export default function CocktailDetailScreen({ route, navigation }: Props) {
   const [isFetching, setIsFetching] = useState(false)
   const [cocktail, setCocktail] = useState<TCocktail | null>(null)
   const [error, setError] = useState<PostgrestError | null>(null)
+  const { collections } = useCollections()
+  const addToCollectionModalRef = useRef<IAddToCollectionModal | null>(null)
   const cocktailId = route.params?.cocktailId
   const name = route.params?.name
+
+  const checkIfBookmarked = useCallback(() => {
+    let isBookmarked = false
+
+    if (!collections) return isBookmarked
+
+    collections.forEach((collection) => {
+      if (collection.cocktail_ids_by_id[cocktailId]) {
+        isBookmarked = true
+      }
+    })
+
+    return isBookmarked
+  }, [collections, cocktailId])
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <CocktailHeaderBtns
+          isBookmarked={checkIfBookmarked()}
+          onBookmarkPress={() => {
+            addToCollectionModalRef.current?.present()
+          }}
+        />
+      ),
+    })
+  }, [navigation, checkIfBookmarked])
 
   const fetchData = useCallback(async () => {
     setIsFetching(true)
@@ -105,14 +138,17 @@ export default function CocktailDetailScreen({ route }: Props) {
   }
 
   return (
-    <ScrollView>
-      <PageContainer>
-        <View style={styles.header}>
-          <PageTitleText>{name}</PageTitleText>
-        </View>
-        {renderContent()}
-      </PageContainer>
-    </ScrollView>
+    <>
+      <ScrollView>
+        <PageContainer>
+          <View style={styles.header}>
+            <PageTitleText>{name}</PageTitleText>
+          </View>
+          {renderContent()}
+        </PageContainer>
+      </ScrollView>
+      <AddToCollectionModal ref={addToCollectionModalRef} cocktail={cocktail} />
+    </>
   )
 }
 

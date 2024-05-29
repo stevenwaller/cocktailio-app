@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { Pressable } from 'react-native'
 
 import CocktailsScreen from './CocktailsScreen'
+import CocktailHeaderBtns from '../_sharedHeaderBtns/CocktailHeaderBtns'
 import CocktailDetailScreen from '../_sharedScreens/CocktailDetailScreen'
 import IngredientDetailScreen from '../_sharedScreens/IngredientDetailScreen'
 import SearchCocktailsScreen from '../_sharedScreens/SearchCocktailsScreen'
@@ -30,7 +31,13 @@ export default function CocktailsNav() {
           })}
           component={CocktailsScreen}
         />
-        <CocktailsStack.Screen name="Cocktail" component={CocktailDetailScreen} />
+        <CocktailsStack.Screen
+          name="Cocktail"
+          component={CocktailDetailScreen}
+          options={() => ({
+            headerRight: () => <CocktailHeaderBtns />,
+          })}
+        />
         <CocktailsStack.Screen name="Search Cocktails" component={SearchCocktailsScreen} />
         <CocktailsStack.Screen
           name="Ingredient Detail"
