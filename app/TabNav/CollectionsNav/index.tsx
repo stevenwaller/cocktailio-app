@@ -29,7 +29,7 @@ export default function CollectionsNav() {
           })}
           component={CollectionDetailScreen}
         />
-        <CollectionsStack.Screen name="Cocktail Detail" component={CocktailDetailScreen} />
+        <CollectionsStack.Screen name="Cocktail" component={CocktailDetailScreen} />
         <CollectionsStack.Screen name="Search Cocktails" component={SearchCocktailsScreen} />
         <CollectionsStack.Screen
           name="Ingredient Detail"

@@ -30,7 +30,7 @@ const CocktailCard = ({
       <Card.Header>
         <Pressable
           onPress={() =>
-            navigation.navigate('Cocktail Detail', {
+            navigation.navigate('Cocktail', {
               cocktailId: cocktail.id,
               name,
             })

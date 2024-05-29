@@ -30,7 +30,7 @@ export default function CocktailsNav() {
           })}
           component={CocktailsScreen}
         />
-        <CocktailsStack.Screen name="Cocktail Detail" component={CocktailDetailScreen} />
+        <CocktailsStack.Screen name="Cocktail" component={CocktailDetailScreen} />
         <CocktailsStack.Screen name="Search Cocktails" component={SearchCocktailsScreen} />
         <CocktailsStack.Screen
           name="Ingredient Detail"

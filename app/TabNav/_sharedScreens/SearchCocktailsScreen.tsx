@@ -70,7 +70,7 @@ export default function SearchCocktails() {
               <View style={styles.result} key={item.id}>
                 <Pressable
                   onPress={() =>
-                    navigation.navigate('Cocktail Detail', {
+                    navigation.navigate('Cocktail', {
                       cocktailId: item.id,
                       name: item.name,
                     })

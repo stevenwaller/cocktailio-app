@@ -29,7 +29,7 @@ export default function BarStockNav() {
           })}
           component={BarDetailScreen}
         />
-        <BarStockStack.Screen name="Cocktail Detail" component={CocktailDetailScreen} />
+        <BarStockStack.Screen name="Cocktail" component={CocktailDetailScreen} />
         <BarStockStack.Screen name="Search Cocktails" component={SearchCocktailsScreen} />
         <BarStockStack.Screen
           name="Ingredient Detail"
