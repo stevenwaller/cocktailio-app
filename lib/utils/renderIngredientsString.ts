@@ -5,15 +5,25 @@ export default function renderIngredientsString(cocktail: TCocktail) {
 
   if (!cocktail.components) return null
 
-  cocktail.components.forEach((component, index) => {
+  cocktail.components.sort((a, b) => {
+    if (a.order === null || b.order === null) {
+      return 0
+    }
+
+    return a.order - b.order
+  })
+
+  cocktail.components.forEach((component, componentIndex) => {
     if (!cocktail.components) return null
 
-    const isLastComponent = index === cocktail.components.length - 1
-    component.ingredients.forEach((ingredient) => {
-      returnString += ingredient.ingredient.name
+    const length = component.ingredients.length
+    const isLastComponent = componentIndex === cocktail.components.length - 1
 
-      if (!isLastComponent) returnString += ', '
-    })
+    if (length === 0) return null
+
+    returnString += component.ingredients[0].ingredient.name
+
+    if (!isLastComponent) returnString += ' · '
   })
 
   return returnString
