@@ -1,7 +1,7 @@
 import { ActivityIndicator, TextInput, View, ViewStyle, StyleSheet } from 'react-native'
 
 import SearchIcon from '@/components/_icons/Search'
-import { COLORS, FONTS } from '@/lib/constants'
+import { COLORS, FONTS, SEARCH_HEIGHT } from '@/lib/constants'
 
 interface Props {
   value: string
@@ -9,10 +9,12 @@ interface Props {
   onChange?: (value: string) => void
   autoFocus?: boolean
   placeholder?: string
+  style?: ViewStyle
   inputStyle?: ViewStyle
 }
 
 const SearchInput = ({
+  style,
   value,
   isFetching,
   onChange = () => {},
@@ -21,7 +23,7 @@ const SearchInput = ({
   inputStyle,
 }: Props) => {
   return (
-    <View>
+    <View style={style}>
       <TextInput
         style={[styles.input, inputStyle]}
         value={value}
@@ -43,7 +45,7 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: COLORS.bg.level2,
     color: COLORS.text.body,
-    height: 48,
+    height: SEARCH_HEIGHT,
     fontFamily: FONTS.hells.sans.medium,
     fontSize: 16,
     paddingStart: 40,

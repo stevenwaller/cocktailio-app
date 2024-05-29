@@ -16,12 +16,7 @@ interface ModalBodyProps extends BottomSheetScrollableProps {
 
 const ModalBody = ({ children, scrollViewStyle, contentStyle, ...restProps }: ModalBodyProps) => {
   return (
-    <KeyboardAvoidingView
-      behavior="padding"
-      style={{ flex: 1 }}
-      enabled
-      keyboardVerticalOffset={60}
-    >
+    <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }} keyboardVerticalOffset={60}>
       <BottomSheetScrollView
         style={[styles.container, scrollViewStyle]}
         enableFooterMarginAdjustment

@@ -1,3 +1,4 @@
+import { useHeaderHeight } from '@react-navigation/elements'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { useState } from 'react'
 import { ScrollView, KeyboardAvoidingView } from 'react-native'
@@ -17,6 +18,7 @@ export default function BarIngredients({ route }: Props) {
   const [searchValue, setSearchValue] = useState('')
   const barId = route.params.barId
   const { bar, setBar } = useBars(barId as string)
+  const headerHeight = useHeaderHeight()
 
   if (!bar) return null
 
@@ -59,17 +61,16 @@ export default function BarIngredients({ route }: Props) {
 
   return (
     <>
-      <SearchInput
-        value={searchValue}
-        onChange={setSearchValue}
-        placeholder="Search by ingredient name"
-      />
       <KeyboardAvoidingView
         behavior="padding"
         style={{ flex: 1 }}
-        enabled
-        keyboardVerticalOffset={100}
+        keyboardVerticalOffset={headerHeight}
       >
+        <SearchInput
+          value={searchValue}
+          onChange={setSearchValue}
+          placeholder="Search by ingredient name"
+        />
         <ScrollView>
           <PageContainer style={{ paddingTop: 5 }}>
             <IngredientList

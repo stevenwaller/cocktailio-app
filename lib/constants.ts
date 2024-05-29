@@ -78,3 +78,5 @@ export const SIZE = {
     labelMargin: 4,
   },
 }
+
+export const SEARCH_HEIGHT = 48
