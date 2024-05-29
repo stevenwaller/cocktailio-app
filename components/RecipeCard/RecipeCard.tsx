@@ -117,7 +117,7 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
                         })
                       }
                     >
-                      <Text style={styles.ingredientTitleLink}>
+                      <Text style={styles.ingredientNoteDescriptionLink}>
                         {componentIngredient.ingredient.name}
                       </Text>
                     </TouchableWithoutFeedback>
@@ -300,6 +300,9 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.hells.sans.medium,
     color: COLORS.text.body,
     lineHeight: 18,
+  },
+  ingredientNoteDescriptionLink: {
+    color: COLORS.text.link,
   },
   step: {
     flexDirection: 'row',
