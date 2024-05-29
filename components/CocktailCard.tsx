@@ -1,7 +1,5 @@
 import { useNavigation, NavigationProp } from '@react-navigation/native'
-import { StyleSheet, Text, View, Pressable, ViewProps } from 'react-native'
-
-import { BodyText } from './_elements/Text'
+import { StyleSheet, Text, Pressable, ViewProps } from 'react-native'
 
 import Card from '@/components/Card'
 import BookmarkIcon from '@/components/_icons/Bookmark'
@@ -9,30 +7,12 @@ import BookmarkSolidIcon from '@/components/_icons/BookmarkSolid'
 import { FONTS, COLORS } from '@/lib/constants'
 import { CocktailsStackParamList } from '@/lib/types'
 import { TCocktail } from '@/lib/types/supabase'
+import renderIngredientsString from '@/lib/utils/renderIngredientsString'
 
 interface CocktailCardProps extends ViewProps {
   cocktail: TCocktail
   onBookmarkPress?: (cocktail: TCocktail) => void
   isBookmarked?: boolean
-}
-
-const renderIngredients = (cocktail: TCocktail) => {
-  let returnString = ''
-
-  if (!cocktail.components) return null
-
-  cocktail.components.forEach((component, index) => {
-    if (!cocktail.components) return null
-
-    const isLastComponent = index === cocktail.components.length - 1
-    component.ingredients.forEach((ingredient) => {
-      returnString += ingredient.ingredient.name
-
-      if (!isLastComponent) returnString += ' • '
-    })
-  })
-
-  return <Text style={styles.ingredients}>{returnString}</Text>
 }
 
 const CocktailCard = ({
@@ -43,6 +23,7 @@ const CocktailCard = ({
 }: CocktailCardProps) => {
   const navigation = useNavigation<NavigationProp<CocktailsStackParamList>>()
   const { name } = cocktail
+  const ingredients = renderIngredientsString(cocktail)
 
   return (
     <Card {...restProps}>
@@ -66,7 +47,7 @@ const CocktailCard = ({
         </Pressable>
       </Card.Header>
       <Card.Body>
-        {renderIngredients(cocktail)}
+        {ingredients && <Text style={styles.ingredients}>{ingredients}</Text>}
         {/* <View style={{ marginTop: 20 }}>
           <BodyText style={{ marginBottom: 5 }}>SOURCES:</BodyText>
           {cocktail.sources?.map((source) => (
