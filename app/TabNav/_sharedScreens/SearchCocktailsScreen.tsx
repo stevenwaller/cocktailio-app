@@ -33,8 +33,6 @@ export default function SearchCocktails() {
       setIsFetching(true)
       const response = await supabaseClient.rpc('search_cocktails', { search_value: searchValue })
 
-      console.log('response.data', response.data)
-
       setIsFetching(false)
       setData(response.data)
       setError(response.error)
