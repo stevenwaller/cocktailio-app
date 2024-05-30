@@ -9,7 +9,7 @@ const useBars = (barId?: string) => {
   const [isFetching, setIsFetching] = useState(false)
   const [error, setError] = useState<PostgrestError | null>(null)
   const bars = useBarStore((state) => state.bars)
-  const bar = useBarStore((state) => state.bars.find((bar) => bar.id === barId))
+  const bar = useBarStore((state) => state.bars.find((barItem) => barItem.id === barId))
   const setBars = useBarStore((state) => state.setBars)
   const setBar = useBarStore((state) => state.setBar)
 
@@ -33,14 +33,14 @@ const useBars = (barId?: string) => {
 
     if (response.data) {
       // for each bar create a new object with the ingredients by id
-      response.data.forEach((bar) => {
+      response.data.forEach((barItem) => {
         const ingredientsById: TIngredientsById = {}
 
-        bar.bar_ingredients.forEach((barIngredient) => {
+        barItem.bar_ingredients.forEach((barIngredient) => {
           ingredientsById[barIngredient.ingredient.id] = barIngredient.ingredient
         })
 
-        bar.ingredientsById = ingredientsById
+        barItem.ingredientsById = ingredientsById
       })
 
       setBars(response.data)
