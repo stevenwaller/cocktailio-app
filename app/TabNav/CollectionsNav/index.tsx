@@ -1,5 +1,4 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { Pressable } from 'react-native'
 
 import CollectionDetailScreen from './CollectionDetailScreen'
 import CollectionsScreen from './CollectionsScreen'
@@ -9,8 +8,6 @@ import IngredientDetailScreen from '../_sharedScreens/IngredientDetailScreen'
 import SearchCocktailsScreen from '../_sharedScreens/SearchCocktailsScreen'
 import SourceDetailScreen from '../_sharedScreens/SourceDetailScreen'
 
-import SearchIcon from '@/components/_icons/Search'
-import { COLORS } from '@/lib/constants'
 import { ToastProvider } from '@/lib/contexts/ToastContext'
 import { CollectionsStackParamList } from '@/lib/types'
 import { tabScreenOptions } from '@/lib/utils/options'
@@ -31,11 +28,7 @@ export default function CollectionsNav() {
         />
         <CollectionsStack.Screen name="Cocktail" component={CocktailDetailScreen} />
         <CollectionsStack.Screen name="Search Cocktails" component={SearchCocktailsScreen} />
-        <CollectionsStack.Screen
-          name="Ingredient Detail"
-          component={IngredientDetailScreen}
-          options={{ title: '' }}
-        />
+        <CollectionsStack.Screen name="Ingredient" component={IngredientDetailScreen} />
         <CollectionsStack.Screen
           name="Source Detail"
           component={SourceDetailScreen}
