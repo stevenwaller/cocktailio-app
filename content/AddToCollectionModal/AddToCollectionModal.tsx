@@ -18,7 +18,6 @@ import supabaseClient from '@/lib/utils/supabaseClient'
 export interface IAddToCollectionModal extends IStackNavModal {}
 
 interface AddToCollectionModalProps extends Omit<StackNavModalProps, 'children'> {
-  collection?: TCollection | null
   onComplete?: () => void
   onAdd?: (selectedCollection: TCollection) => void
   onRemove?: (selectedCollection: TCollection, cocktail: TCocktail) => void
@@ -32,7 +31,6 @@ const Stack = createStackNavigator()
 const AddToCollectionModal = forwardRef<IStackNavModal, AddToCollectionModalProps>(
   (
     {
-      collection,
       onComplete = () => {},
       onAdd = () => {},
       onRemove = () => {},
@@ -128,7 +126,6 @@ const AddToCollectionModal = forwardRef<IStackNavModal, AddToCollectionModalProp
             {(props) => (
               <AddToCollectionHomeScreen
                 {...props}
-                collection={collection}
                 cocktail={cocktail}
                 onAdd={handleAddToCollection}
                 onRemove={handleRemoveFromCollection}

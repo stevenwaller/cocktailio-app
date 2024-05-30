@@ -9,7 +9,6 @@ import useCollections from '@/lib/hooks/useCollections'
 import { TCollection, TCocktail } from '@/lib/types/supabase'
 
 interface IAddToCollectionHomeScreen {
-  collection?: TCollection | null
   cocktail?: TCocktail | null
   onComplete?: () => void
   onAdd?: (collection: TCollection) => void
@@ -17,7 +16,6 @@ interface IAddToCollectionHomeScreen {
 }
 
 const AddToCollectionHomeScreen = ({
-  collection,
   cocktail,
   onComplete = () => {},
   onAdd = () => {},
