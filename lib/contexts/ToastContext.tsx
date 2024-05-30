@@ -15,6 +15,7 @@ interface IToastProvider {
   children: ReactNode
 }
 
+// TODO: make bar and collection names links
 export const ToastProvider = ({ children: parentChildren }: IToastProvider) => (
   <ToastProviderPrimitive
     duration={2000}
@@ -31,6 +32,7 @@ export const ToastProvider = ({ children: parentChildren }: IToastProvider) => (
               <Text>
                 <Text style={styles.message}>{message}</Text>
                 {data.collection && <Text style={styles.collection}>{data.collection.name}</Text>}
+                {data.bar && <Text style={styles.collection}>{data.bar.name}</Text>}
               </Text>
             </View>
           </View>
