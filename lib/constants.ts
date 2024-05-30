@@ -56,6 +56,7 @@ export const COLORS = {
     muted: '#A1C4CE',
     dark: '#123742',
     action: '#E28C67',
+    good: '#9CD05D',
   },
   shadow: '#000',
 }

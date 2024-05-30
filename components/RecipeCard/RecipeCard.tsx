@@ -11,8 +11,8 @@ import {
 
 import Card from '@/components/Card'
 import { BodyText, BodyLinkText } from '@/components/_elements/Text'
-import AddInput from '@/components/_inputs/AddInput'
 import { FONTS, COLORS } from '@/lib/constants'
+import useBars from '@/lib/hooks/useBars'
 import { CocktailsStackParamList } from '@/lib/types'
 import { TCocktail, IComponent } from '@/lib/types/supabase'
 
@@ -24,6 +24,19 @@ interface RecipeCardProps {
 const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
   const navigation = useNavigation<NavigationProp<CocktailsStackParamList>>()
   const { steps, components, note, sources } = cocktail
+  const { bars } = useBars()
+
+  const checkIfInBar = (ingredientId: string) => {
+    let isInBar = false
+
+    bars.forEach((bar) => {
+      if (bar.ingredientsById[ingredientId]) {
+        isInBar = true
+      }
+    })
+
+    return isInBar
+  }
 
   const renderIngredients = (component: IComponent) => {
     if (!component) return null
@@ -35,15 +48,12 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
       ingredients,
       or_ingredients,
       recommended_ingredients,
-      note,
+      note: ingredientNote,
       substitute,
     } = component
 
     return (
       <View style={styles.ingredient}>
-        <View style={styles.ingredientAction}>
-          <AddInput />
-        </View>
         <View style={styles.ingredientText}>
           <View style={styles.pill}>
             <Text style={styles.pillText}>
@@ -58,13 +68,20 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
                 {index !== 0 && ' or '}
                 <TouchableWithoutFeedback
                   onPress={() =>
-                    navigation.navigate('Ingredient Detail', {
+                    navigation.navigate('Ingredient', {
                       ingredientId: componentIngredient.ingredient.id,
                       name: componentIngredient.ingredient.name,
                     })
                   }
                 >
-                  <Text style={styles.ingredientTitleLink}>
+                  <Text
+                    style={[
+                      styles.ingredientTitleLink,
+                      checkIfInBar(componentIngredient.ingredient.id) && {
+                        color: COLORS.text.good,
+                      },
+                    ]}
+                  >
                     {componentIngredient.ingredient.name}
                   </Text>
                 </TouchableWithoutFeedback>
@@ -77,7 +94,7 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
                   {index !== 0 && ' or '}
                   <TouchableWithoutFeedback
                     onPress={() =>
-                      navigation.navigate('Ingredient Detail', {
+                      navigation.navigate('Ingredient', {
                         ingredientId: componentIngredient.ingredient.id,
                         name: componentIngredient.ingredient.name,
                       })
@@ -92,10 +109,10 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
               ))}
           </Text>
 
-          {note && (
+          {ingredientNote && (
             <View style={styles.ingredientNote}>
               <Text style={styles.ingredientNoteTitle}>NOTE</Text>
-              <Text style={styles.ingredientNoteDescription}>{note}</Text>
+              <Text style={styles.ingredientNoteDescription}>{ingredientNote}</Text>
             </View>
           )}
 
@@ -111,7 +128,7 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
                       ' or '}
                     <TouchableWithoutFeedback
                       onPress={() =>
-                        navigation.navigate('Ingredient Detail', {
+                        navigation.navigate('Ingredient', {
                           ingredientId: componentIngredient.ingredient.id,
                           name: componentIngredient.ingredient.name,
                         })
@@ -226,12 +243,14 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
   }
 
   return (
-    <Card style={style} {...restProps}>
-      {renderComponents()}
-      {renderSteps()}
-      {renderNote()}
-      {renderSources()}
-    </Card>
+    <>
+      <Card style={style} {...restProps}>
+        {renderComponents()}
+        {renderSteps()}
+        {renderNote()}
+        {renderSources()}
+      </Card>
+    </>
   )
 }
 
@@ -256,11 +275,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 15,
   },
-  ingredientAction: {},
-  ingredientText: {
-    flex: 1,
-    paddingTop: 2,
-  },
+  ingredientText: {},
   pill: {
     borderRadius: 20,
     backgroundColor: COLORS.bg.highlight,
