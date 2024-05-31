@@ -9,7 +9,7 @@
     "web": "expo start --web",
     "test": "jest --watchAll",
     "prettyify": "prettier --write \"./**/*.{js,jsx,mjs,cjs,ts,tsx,json}\"",
-    "check-types": "tsc --noEmit",
+    "types": "tsc --noEmit",
     "lint": "eslint . --ext .ts,.tsx"
   },
   "jest": {
