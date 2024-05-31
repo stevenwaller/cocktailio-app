@@ -12,12 +12,13 @@ import {
   KeyboardAvoidingView,
 } from 'react-native'
 
+import IngredientsText from '@/components/IngredientsText'
 import SearchInput from '@/components/SearchInput'
 import { BodyText } from '@/components/_elements/Text'
 import { COLORS, FONTS, SEARCH_HEIGHT } from '@/lib/constants'
+import useBars from '@/lib/hooks/useBars'
 import { CocktailsStackParamList } from '@/lib/types'
 import { TCocktail } from '@/lib/types/supabase'
-import renderIngredientsString from '@/lib/utils/renderIngredientsString'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
 export default function SearchCocktails() {
@@ -27,6 +28,7 @@ export default function SearchCocktails() {
   const [error, setError] = useState<PostgrestError | null>(null)
   const navigation = useNavigation<NavigationProp<CocktailsStackParamList>>()
   const headerHeight = useHeaderHeight()
+  const { defaultBar } = useBars()
 
   const fetchData = useCallback(async () => {
     if (searchValue) {
@@ -77,7 +79,13 @@ export default function SearchCocktails() {
                   }
                 >
                   <Text style={styles.resultName}>{item.name}</Text>
-                  <Text style={styles.resultIngredient}>{renderIngredientsString(item)}</Text>
+                  {/* <Text style={styles.resultIngredient}>{renderIngredients(item, defaultBar)}</Text> */}
+                  <IngredientsText
+                    style={styles.resultIngredient}
+                    isInBarStyle={{ color: '#90B761' }}
+                    cocktail={item}
+                    bar={defaultBar}
+                  />
                 </Pressable>
               </View>
             )}
@@ -99,13 +107,13 @@ export default function SearchCocktails() {
 
 const styles = StyleSheet.create({
   result: {
-    marginBottom: 12,
+    marginBottom: 14,
   },
   resultName: {
     fontSize: 20,
     color: COLORS.text.link,
     fontFamily: FONTS.hells.sans.bold,
-    marginBottom: 5,
+    marginBottom: 4,
   },
   resultIngredient: {
     fontSize: 14,

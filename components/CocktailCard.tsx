@@ -1,29 +1,30 @@
 import { useNavigation, NavigationProp } from '@react-navigation/native'
-import { StyleSheet, Text, Pressable, ViewProps } from 'react-native'
+import { Pressable, ViewProps } from 'react-native'
 
 import Card from '@/components/Card'
+import IngredientsText from '@/components/IngredientsText'
 import BookmarkIcon from '@/components/_icons/Bookmark'
 import BookmarkSolidIcon from '@/components/_icons/BookmarkSolid'
-import { FONTS, COLORS } from '@/lib/constants'
+import { COLORS } from '@/lib/constants'
 import { CocktailsStackParamList } from '@/lib/types'
-import { TCocktail } from '@/lib/types/supabase'
-import renderIngredientsString from '@/lib/utils/renderIngredientsString'
+import { TCocktail, TBar } from '@/lib/types/supabase'
 
 interface CocktailCardProps extends ViewProps {
   cocktail: TCocktail
   onBookmarkPress?: (cocktail: TCocktail) => void
   isBookmarked?: boolean
+  bar?: TBar
 }
 
 const CocktailCard = ({
   cocktail,
   onBookmarkPress = () => {},
   isBookmarked,
+  bar,
   ...restProps
 }: CocktailCardProps) => {
   const navigation = useNavigation<NavigationProp<CocktailsStackParamList>>()
   const { name } = cocktail
-  const ingredients = renderIngredientsString(cocktail)
 
   return (
     <Card {...restProps}>
@@ -47,7 +48,7 @@ const CocktailCard = ({
         </Pressable>
       </Card.Header>
       <Card.Body>
-        {ingredients && <Text style={styles.ingredients}>{ingredients}</Text>}
+        <IngredientsText cocktail={cocktail} bar={bar} />
         {/* <View style={{ marginTop: 20 }}>
           <BodyText style={{ marginBottom: 5 }}>SOURCES:</BodyText>
           {cocktail.sources?.map((source) => (
@@ -72,19 +73,6 @@ const CocktailCard = ({
     </Card>
   )
 }
-
-const styles = StyleSheet.create({
-  name: {
-    fontSize: 20,
-    color: COLORS.text.link,
-    fontFamily: FONTS.schotis.bold,
-  },
-  ingredients: {
-    fontSize: 14,
-    color: COLORS.text.body,
-    fontFamily: FONTS.hells.sans.medium,
-  },
-})
 
 CocktailCard.displayName = 'CocktailCard'
 

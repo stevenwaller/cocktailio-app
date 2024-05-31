@@ -10,6 +10,7 @@ const useBars = (barId?: string) => {
   const [error, setError] = useState<PostgrestError | null>(null)
   const bars = useBarStore((state) => state.bars)
   const bar = useBarStore((state) => state.bars.find((barItem) => barItem.id === barId))
+  const defaultBar = useBarStore((state) => state.bars.find((barItem) => barItem.is_default))
   const setBars = useBarStore((state) => state.setBars)
   const setBar = useBarStore((state) => state.setBar)
 
@@ -27,6 +28,7 @@ const useBars = (barId?: string) => {
         )
         `,
       )
+      .order('created_at', { ascending: true })
       .returns<TBar[]>()
 
     setIsFetching(false)
@@ -54,7 +56,7 @@ const useBars = (barId?: string) => {
     }
   }, [bars, fetchData])
 
-  return { isFetching, fetchData, error, bar, bars, setBars, setBar }
+  return { isFetching, fetchData, error, bar, defaultBar, bars, setBars, setBar }
 }
 
 export default useBars

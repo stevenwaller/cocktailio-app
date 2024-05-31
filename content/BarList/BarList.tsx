@@ -10,13 +10,12 @@ import Button from '@/components/_inputs/Button'
 import { IModal } from '@/components/_overlays/Modal'
 import { COLORS } from '@/lib/constants'
 import useBars from '@/lib/hooks/useBars'
-import { TBar } from '@/lib/types/supabase'
 
 const BarList = () => {
   const { isFetching, error, bars } = useBars()
   const newModalRef = useRef<IModal>(null)
   const moreModalRef = useRef<IMoreBarModal>(null)
-  const [currentBar, setCurrentBar] = useState<TBar | null>(null)
+  const [currentBarId, setCurrentBarId] = useState<string>()
 
   if (error) {
     return <BodyText>Error: {error.message}</BodyText>
@@ -37,8 +36,9 @@ const BarList = () => {
           style={{ marginBottom: 20 }}
           key={bar.id}
           bar={bar}
+          multipleBars={bars.length > 1}
           onMorePress={() => {
-            setCurrentBar(bar)
+            setCurrentBarId(bar.id)
             moreModalRef.current?.present()
           }}
         />
@@ -51,7 +51,7 @@ const BarList = () => {
       <NewBarModal ref={newModalRef} onComplete={() => newModalRef.current?.dismiss()} />
       <MoreBarModal
         ref={moreModalRef}
-        bar={currentBar}
+        barId={currentBarId}
         onComplete={() => moreModalRef.current?.dismiss()}
       />
     </>

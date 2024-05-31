@@ -12,9 +12,10 @@ import { TBar } from '@/lib/types/supabase'
 interface BarCardProps extends CardProps {
   bar: TBar
   onMorePress?: (bar: TBar) => void
+  multipleBars?: boolean
 }
 
-const BarCard = ({ bar, onMorePress = () => {}, ...restProps }: BarCardProps) => {
+const BarCard = ({ bar, onMorePress = () => {}, multipleBars, ...restProps }: BarCardProps) => {
   const navigation = useNavigation<NavigationProp<BarStockStackParamList>>()
   const { name } = bar
 
@@ -22,9 +23,12 @@ const BarCard = ({ bar, onMorePress = () => {}, ...restProps }: BarCardProps) =>
     <Card {...restProps}>
       <Card.Header>
         <Card.HeaderText>{name}</Card.HeaderText>
-        <Pressable style={styles.more} onPress={() => onMorePress(bar)}>
-          <MoreIcon color={COLORS.text.link} />
-        </Pressable>
+        <View style={styles.headerRight}>
+          {multipleBars && bar.is_default && <Text style={styles.defaultLabel}>Default Bar</Text>}
+          <Pressable style={styles.more} onPress={() => onMorePress(bar)}>
+            <MoreIcon color={COLORS.text.link} />
+          </Pressable>
+        </View>
       </Card.Header>
       <Card.Body>
         <Pressable
@@ -66,6 +70,16 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: COLORS.text.link,
     fontFamily: FONTS.schotis.bold,
+  },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  defaultLabel: {
+    fontSize: 13,
+    fontFamily: FONTS.hells.sans.bold,
+    marginRight: 15,
+    color: COLORS.text.muted,
   },
   action: {
     flexDirection: 'row',

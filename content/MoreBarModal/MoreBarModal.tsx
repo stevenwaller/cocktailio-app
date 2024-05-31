@@ -8,24 +8,25 @@ import StackNavModal, {
   IStackNavModal,
   StackNavModalProps,
 } from '@/components/_overlays/StackNavModal'
-import { TBar } from '@/lib/types/supabase'
+import useBars from '@/lib/hooks/useBars'
 import { modalScreenOptions } from '@/lib/utils/options'
 
 export interface IMoreBarModal extends IStackNavModal {}
 
 export interface IMoreBarModalProps extends Omit<StackNavModalProps, 'children'> {
-  bar?: TBar | null
+  barId?: string
   onComplete?: () => void
   onDelete?: () => void
 }
 
-const snapPoints = ['32%']
+const snapPoints = ['38%']
 
 const Stack = createStackNavigator()
 
 const MoreBarModal = forwardRef<IMoreBarModal, IMoreBarModalProps>(
-  ({ bar, onComplete = () => {}, onDelete = () => {}, onChange, ...restProps }, ref) => {
+  ({ barId, onComplete = () => {}, onDelete = () => {}, onChange, ...restProps }, ref) => {
     const [isOpen, setIsOpen] = useState(false)
+    const { bar } = useBars(barId)
 
     const handleChange = (index: number) => {
       setIsOpen(index !== -1)

@@ -50,6 +50,7 @@ export type Database = {
           created_at: string
           id: string
           ingredients_by_id: Json | null
+          is_default: boolean | null
           name: string
           user_id: string | null
         }
@@ -57,6 +58,7 @@ export type Database = {
           created_at?: string
           id?: string
           ingredients_by_id?: Json | null
+          is_default?: boolean | null
           name: string
           user_id?: string | null
         }
@@ -64,6 +66,7 @@ export type Database = {
           created_at?: string
           id?: string
           ingredients_by_id?: Json | null
+          is_default?: boolean | null
           name?: string
           user_id?: string | null
         }
@@ -674,6 +677,63 @@ export type Database = {
         }
         Relationships: []
       }
+      public_collection_cocktails: {
+        Row: {
+          cocktail_id: string | null
+          collection_id: string | null
+          created_at: string
+          id: string
+        }
+        Insert: {
+          cocktail_id?: string | null
+          collection_id?: string | null
+          created_at?: string
+          id?: string
+        }
+        Update: {
+          cocktail_id?: string | null
+          collection_id?: string | null
+          created_at?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_collection_cocktails_cocktail_id_fkey"
+            columns: ["cocktail_id"]
+            isOneToOne: false
+            referencedRelation: "cocktails"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_collection_cocktails_collection_id_fkey"
+            columns: ["collection_id"]
+            isOneToOne: false
+            referencedRelation: "public_collections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      public_collections: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string | null
+        }
+        Relationships: []
+      }
       sources: {
         Row: {
           created_at: string | null
@@ -784,52 +844,76 @@ export type Database = {
         }
         Returns: Json
       }
-      query_cocktails: {
-        Args: {
-          bar_id: string
-          filter_ingredients: Json
-          filter_sources: string[]
-        }
-        Returns: {
-          created_at: string
-          id: string
-          method_id: string
-          note: string
-          description: string
-          history: string
-          name: string
-          slug: string
-          era_id: string
-          invention_date: string
-          base_ingredient_id: string
-          glass_id: string
-          base_ingredient: Json
-          glass: Json
-          era: Json
-          method: Json
-          steps: Json
-          sources: Json
-          components: Json
-          related_cocktails: Json
-        }[]
-      }
+      query_cocktails:
+        | {
+            Args: {
+              bar_id: string
+              collection_id: string
+              filter_ingredients: Json
+              filter_sources: string[]
+            }
+            Returns: {
+              created_at: string
+              id: string
+              method_id: string
+              note: string
+              description: string
+              history: string
+              name: string
+              slug: string
+              era_id: string
+              invention_date: string
+              base_ingredient_id: string
+              glass_id: string
+              base_ingredient: Json
+              glass: Json
+              era: Json
+              method: Json
+              steps: Json
+              sources: Json
+              components: Json
+              related_cocktails: Json
+            }[]
+          }
+        | {
+            Args: {
+              bar_id: string
+              filter_ingredients: Json
+              filter_sources: string[]
+            }
+            Returns: {
+              created_at: string
+              id: string
+              method_id: string
+              note: string
+              description: string
+              history: string
+              name: string
+              slug: string
+              era_id: string
+              invention_date: string
+              base_ingredient_id: string
+              glass_id: string
+              base_ingredient: Json
+              glass: Json
+              era: Json
+              method: Json
+              steps: Json
+              sources: Json
+              components: Json
+              related_cocktails: Json
+            }[]
+          }
       search_cocktails: {
         Args: {
           search_value: string
         }
         Returns: {
-          base_ingredient_id: string | null
-          created_at: string | null
-          description: string | null
-          era_id: string | null
-          glass_id: string | null
-          history: string | null
           id: string
-          invention_date: string | null
-          method_id: string | null
           name: string
-          note: string | null
-          slug: string
+          description: string
+          history: string
+          components: Json
         }[]
       }
       set_limit: {

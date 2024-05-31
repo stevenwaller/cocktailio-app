@@ -17,6 +17,7 @@ import PageContainer from '@/components/PageContainer'
 import { BodyText } from '@/components/_elements/Text'
 import AddToCollectionModal, { IAddToCollectionModal } from '@/content/AddToCollectionModal'
 import { COLORS, FONTS, SIZE } from '@/lib/constants'
+import useBars from '@/lib/hooks/useBars'
 import useCollections from '@/lib/hooks/useCollections'
 import { IFilter } from '@/lib/types'
 import { TCollection, TCocktail } from '@/lib/types/supabase'
@@ -44,6 +45,7 @@ const CocktailList = ({
   const [cocktailToBookmark, setCocktailToBookmark] = useState<TCocktail | null>(null)
   const [count, setCount] = useState<number>(0)
   const { collections } = useCollections()
+  const { defaultBar } = useBars()
   const [isFirstPageReceived, setIsFirstPageReceived] = useState(false)
   const isRefetch = useRef(false)
   const [filters, setFilters] = useState<IFilter[]>([
@@ -252,6 +254,7 @@ const CocktailList = ({
               cocktail={item}
               onBookmarkPress={handleBookmark}
               isBookmarked={checkIfBookmarked(item.id)}
+              bar={defaultBar}
             />
           )}
           keyExtractor={(cocktail) => cocktail.id}

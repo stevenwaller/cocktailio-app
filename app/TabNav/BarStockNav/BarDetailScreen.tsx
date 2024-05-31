@@ -31,7 +31,7 @@ export default function BarDetailScreen({ route, navigation }: Props) {
       <CocktailList barId={bar?.id} name={bar?.name} />
       <MoreBarModal
         ref={moreModalRef}
-        bar={bar}
+        barId={bar?.id}
         onComplete={() => {
           moreModalRef.current?.dismiss()
         }}
