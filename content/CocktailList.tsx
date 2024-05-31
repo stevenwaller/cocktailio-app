@@ -1,3 +1,4 @@
+import { useNavigation, NavigationProp } from '@react-navigation/native'
 import { PostgrestError } from '@supabase/supabase-js'
 import { useEffect, useState, useCallback, useRef } from 'react'
 import {
@@ -10,16 +11,18 @@ import {
   ActivityIndicator,
 } from 'react-native'
 
+import CocktailsHeaderBtns from '@/app/TabNav/_sharedHeaderBtns/CocktailsHeaderBtns'
 import CocktailCard from '@/components/CocktailCard'
 import ErrorAlert from '@/components/ErrorAlert'
 import FiltersBar from '@/components/FiltersBar'
 import PageContainer from '@/components/PageContainer'
 import { BodyText } from '@/components/_elements/Text'
 import AddToCollectionModal, { IAddToCollectionModal } from '@/content/AddToCollectionModal'
+import DefaultBarModal, { IDefaultBarModal } from '@/content/DefaultBarModal'
 import { COLORS, FONTS, SIZE } from '@/lib/constants'
 import useBars from '@/lib/hooks/useBars'
 import useCollections from '@/lib/hooks/useCollections'
-import { IFilter } from '@/lib/types'
+import { IFilter, CocktailsStackParamList } from '@/lib/types'
 import { TCollection, TCocktail } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
@@ -45,9 +48,11 @@ const CocktailList = ({
   const [cocktailToBookmark, setCocktailToBookmark] = useState<TCocktail | null>(null)
   const [count, setCount] = useState<number>(0)
   const { collections } = useCollections()
-  const { defaultBar } = useBars()
+  const { bars, defaultBar } = useBars()
   const [isFirstPageReceived, setIsFirstPageReceived] = useState(false)
   const isRefetch = useRef(false)
+  const defaultBarModalRef = useRef<IDefaultBarModal>(null)
+  const navigation = useNavigation<NavigationProp<CocktailsStackParamList>>()
   const [filters, setFilters] = useState<IFilter[]>([
     ...(barIdProp
       ? []
@@ -94,6 +99,22 @@ const CocktailList = ({
       value: [],
     },
   ])
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <CocktailsHeaderBtns
+          showBarStock={bars.length > 1}
+          onBarStockPress={() => {
+            defaultBarModalRef.current?.present()
+          }}
+          onSearchPress={() => {
+            navigation.navigate('Search Cocktails')
+          }}
+        />
+      ),
+    })
+  }, [navigation, bars])
 
   const fetchData = useCallback(async () => {
     setIsFetching(true)
@@ -302,6 +323,7 @@ const CocktailList = ({
         cocktail={cocktailToBookmark}
         onRemove={handleBookmarkRemove}
       />
+      <DefaultBarModal ref={defaultBarModalRef} />
     </>
   )
 }

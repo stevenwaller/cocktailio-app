@@ -4,12 +4,12 @@ import BookmarkIcon from '@/components/_icons/Bookmark'
 import BookmarkSolidIcon from '@/components/_icons/BookmarkSolid'
 import { COLORS } from '@/lib/constants'
 
-interface BarHeaderBtnsProps {
+interface Props {
   isBookmarked?: boolean
   onBookmarkPress?: () => void
 }
 
-const BarHeaderBtns = ({ onBookmarkPress, isBookmarked }: BarHeaderBtnsProps) => {
+const CocktailHeaderBtns = ({ onBookmarkPress, isBookmarked }: Props) => {
   return (
     <>
       <Pressable onPress={onBookmarkPress}>
@@ -23,6 +23,6 @@ const BarHeaderBtns = ({ onBookmarkPress, isBookmarked }: BarHeaderBtnsProps) =>
   )
 }
 
-BarHeaderBtns.displayName = 'BarHeaderBtns'
+CocktailHeaderBtns.displayName = 'CocktailHeaderBtns'
 
-export default BarHeaderBtns
+export default CocktailHeaderBtns

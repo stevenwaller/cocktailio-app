@@ -149,6 +149,10 @@ const styles = StyleSheet.create({
   icon: {
     marginRight: 10,
   },
+  switch: {
+    marginLeft: 15,
+    height: 30,
+  },
   itemName: {
     fontSize: 18,
     color: COLORS.text.body,

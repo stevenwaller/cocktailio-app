@@ -3,6 +3,7 @@ import { Pressable } from 'react-native'
 
 import CocktailsScreen from './CocktailsScreen'
 import CocktailHeaderBtns from '../_sharedHeaderBtns/CocktailHeaderBtns'
+import CocktailsHeaderBtns from '../_sharedHeaderBtns/CocktailsHeaderBtns'
 import CocktailDetailScreen from '../_sharedScreens/CocktailDetailScreen'
 import IngredientDetailScreen from '../_sharedScreens/IngredientDetailScreen'
 import SearchCocktailsScreen from '../_sharedScreens/SearchCocktailsScreen'
@@ -23,11 +24,7 @@ export default function CocktailsNav() {
         <CocktailsStack.Screen
           name="Cocktails"
           options={({ navigation }) => ({
-            headerRight: () => (
-              <Pressable onPress={() => navigation.navigate('Search Cocktails')}>
-                <SearchIcon color={COLORS.nav.text} />
-              </Pressable>
-            ),
+            headerRight: () => <CocktailsHeaderBtns />,
           })}
           component={CocktailsScreen}
         />
