@@ -19,10 +19,11 @@ import PageContainer from '@/components/PageContainer'
 import { BodyText } from '@/components/_elements/Text'
 import AddToCollectionModal, { IAddToCollectionModal } from '@/content/AddToCollectionModal'
 import DefaultBarModal, { IDefaultBarModal } from '@/content/DefaultBarModal'
+import SortModal, { ISortModal } from '@/content/SortModal'
 import { COLORS, FONTS, SIZE } from '@/lib/constants'
 import useBars from '@/lib/hooks/useBars'
 import useCollections from '@/lib/hooks/useCollections'
-import { IFilter, CocktailsStackParamList } from '@/lib/types'
+import { IFilter, CocktailsStackParamList, SortableColumns } from '@/lib/types'
 import { TCollection, TCocktail } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
@@ -39,7 +40,6 @@ const CocktailList = ({
   collectionId: collectionIdProp,
   name: nameProp,
 }: Props) => {
-  const addToCollectionModalRef = useRef<IAddToCollectionModal | null>(null)
   const [minRange, setMinRange] = useState<number>(0)
   const [maxRange, setMaxRange] = useState<number>(itemsToLoad - 1)
   const [isFetching, setIsFetching] = useState(false)
@@ -47,11 +47,15 @@ const CocktailList = ({
   const [error, setError] = useState<PostgrestError | null>(null)
   const [cocktailToBookmark, setCocktailToBookmark] = useState<TCocktail | null>(null)
   const [count, setCount] = useState<number>(0)
+  const [sortColumn, setSortColumn] = useState<SortableColumns>('created_at')
+  const [isAscending, setIsAscending] = useState<boolean>(false)
   const { collections } = useCollections()
   const { bars, defaultBar } = useBars()
   const [isFirstPageReceived, setIsFirstPageReceived] = useState(false)
   const isRefetch = useRef(false)
+  const addToCollectionModalRef = useRef<IAddToCollectionModal | null>(null)
   const defaultBarModalRef = useRef<IDefaultBarModal>(null)
+  const sortModalRef = useRef<ISortModal>(null)
   const navigation = useNavigation<NavigationProp<CocktailsStackParamList>>()
   const [filters, setFilters] = useState<IFilter[]>([
     ...(barIdProp
@@ -104,7 +108,12 @@ const CocktailList = ({
     navigation.setOptions({
       headerRight: () => (
         <CocktailsHeaderBtns
+          sortColumn={sortColumn}
+          isAscending={isAscending}
           showBarStock={bars.length > 1}
+          onSortPress={() => {
+            sortModalRef.current?.present()
+          }}
           onBarStockPress={() => {
             defaultBarModalRef.current?.present()
           }}
@@ -114,7 +123,7 @@ const CocktailList = ({
         />
       ),
     })
-  }, [navigation, bars])
+  }, [navigation, bars, sortColumn, isAscending])
 
   const fetchData = useCallback(async () => {
     setIsFetching(true)
@@ -162,7 +171,7 @@ const CocktailList = ({
         { count: 'exact' },
       )
       .range(minRange, maxRange)
-      .order('created_at', { ascending: false })
+      .order(sortColumn, { ascending: isAscending })
 
     filters.forEach((filter) => {
       const values = filter.value.map((item) => item.id)
@@ -195,7 +204,7 @@ const CocktailList = ({
     setCount(response.count ? response.count : 0)
     setIsFirstPageReceived(true)
     isRefetch.current = false
-  }, [minRange, maxRange, filters, barIdProp, collectionIdProp, isRefetch])
+  }, [minRange, maxRange, filters, barIdProp, collectionIdProp, isRefetch, sortColumn, isAscending])
 
   useEffect(() => {
     fetchData()
@@ -232,6 +241,12 @@ const CocktailList = ({
       const newCocktails = data.filter((item) => item.id !== cocktail.id)
       setData(newCocktails)
     }
+  }
+
+  const handleSortChange = (column: SortableColumns, newIsAscending: boolean) => {
+    isRefetch.current = true
+    setSortColumn(column)
+    setIsAscending(newIsAscending)
   }
 
   const checkIfBookmarked = (cocktailId: string): boolean => {
@@ -324,6 +339,12 @@ const CocktailList = ({
         onRemove={handleBookmarkRemove}
       />
       <DefaultBarModal ref={defaultBarModalRef} />
+      <SortModal
+        ref={sortModalRef}
+        sortColumn={sortColumn}
+        isAscending={isAscending}
+        onSortChange={handleSortChange}
+      />
     </>
   )
 }

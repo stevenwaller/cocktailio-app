@@ -1,4 +1,4 @@
-import { forwardRef, useState, useImperativeHandle, useRef } from 'react'
+import { forwardRef, useImperativeHandle, useRef } from 'react'
 import { View, Text, StyleSheet, Switch, Alert } from 'react-native'
 
 import Modal, { IModal, IModalProps } from '@/components/_overlays/Modal'
@@ -6,42 +6,23 @@ import ModalBody from '@/components/_overlays/ModalBody'
 import ModalHeader from '@/components/_overlays/ModalHeader'
 import { FONTS, COLORS } from '@/lib/constants'
 import useBars from '@/lib/hooks/useBars'
-import { TCollection, TCocktail, TBar } from '@/lib/types/supabase'
+import { TBar } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
 export interface IDefaultBarModal extends IModal {}
 
 interface Props extends Omit<IModalProps, 'children'> {
   onComplete?: () => void
-  onAdd?: (selectedCollection: TCollection) => void
-  onRemove?: (selectedCollection: TCollection, cocktail: TCocktail) => void
-  cocktail?: TCocktail | null
 }
 
 const snapPoints = ['35%']
 
 const DefaultBarModal = forwardRef<IDefaultBarModal, Props>(
-  (
-    {
-      onComplete = () => {},
-      onAdd = () => {},
-      onRemove = () => {},
-      cocktail,
-      onChange,
-      ...restProps
-    },
-    ref,
-  ) => {
-    const [isOpen, setIsOpen] = useState(false)
+  ({ onComplete = () => {}, ...restProps }, ref) => {
     const modalRef = useRef<IDefaultBarModal>(null)
     const { bars, setBar, setBars } = useBars()
 
     useImperativeHandle(ref, () => modalRef.current as IDefaultBarModal)
-
-    const handleChange = (index: number) => {
-      setIsOpen(index !== -1)
-      onChange?.(index)
-    }
 
     const handleMakeBarDefault = async (bar: TBar) => {
       if (bar.is_default) {
@@ -81,7 +62,7 @@ const DefaultBarModal = forwardRef<IDefaultBarModal, Props>(
     }
 
     return (
-      <Modal ref={modalRef} snapPoints={snapPoints} onChange={handleChange} {...restProps}>
+      <Modal ref={modalRef} snapPoints={snapPoints} {...restProps}>
         <ModalHeader title="Default Bar" />
         <ModalBody>
           <Text style={styles.description}>
@@ -118,7 +99,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 15,
+    marginBottom: 10,
   },
   barName: {
     fontFamily: FONTS.hells.sans.medium,

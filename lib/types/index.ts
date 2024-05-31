@@ -65,3 +65,5 @@ export type CollectionsStackParamList = {
 export type SettingsStackParamList = {
   Settings: undefined
 }
+
+export type SortableColumns = 'name' | 'created_at'
