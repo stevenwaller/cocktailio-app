@@ -75,6 +75,7 @@ export default function SearchCocktails({ barId, collectionId }: Props) {
           value={searchValue}
           isFetching={isFetching}
           onChange={setSearchValue}
+          onClear={() => setSearchValue('')}
           autoFocus
           placeholder="Search by cocktail name"
           style={{ position: 'absolute', top: 0, zIndex: 1, width: '100%' }}

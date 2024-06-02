@@ -42,6 +42,7 @@ const IngredientScreen = ({ filter, onChange }: IngredientsScreenProps) => {
       <SearchInput
         value={searchValue}
         onChange={setSearchValue}
+        onClear={() => setSearchValue('')}
         placeholder="Search by ingredient name"
         inputStyle={{ backgroundColor: COLORS.bg.level1 }}
       />

@@ -69,6 +69,7 @@ export default function BarIngredients({ route }: Props) {
         <SearchInput
           value={searchValue}
           onChange={setSearchValue}
+          onClear={() => setSearchValue('')}
           placeholder="Search by ingredient name"
         />
         <ScrollView>

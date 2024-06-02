@@ -1,4 +1,5 @@
-import { ActivityIndicator, TextInput, View, ViewStyle, StyleSheet } from 'react-native'
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import { ActivityIndicator, TextInput, View, ViewStyle, StyleSheet, Pressable } from 'react-native'
 
 import SearchIcon from '@/components/_icons/Search'
 import { COLORS, FONTS, SEARCH_HEIGHT } from '@/lib/constants'
@@ -7,6 +8,7 @@ interface Props {
   value: string
   isFetching?: boolean
   onChange?: (value: string) => void
+  onClear?: () => void
   autoFocus?: boolean
   placeholder?: string
   style?: ViewStyle
@@ -18,6 +20,7 @@ const SearchInput = ({
   value,
   isFetching,
   onChange = () => {},
+  onClear = () => {},
   autoFocus = false,
   placeholder,
   inputStyle,
@@ -37,6 +40,11 @@ const SearchInput = ({
       ) : (
         <SearchIcon style={styles.searchIcon} color={COLORS.text.body} pointerEvents="box-none" />
       )}
+      {value && (
+        <Pressable style={styles.clearBtn} onPress={onClear}>
+          <MaterialCommunityIcons name="close" size={28} color={COLORS.text.link} />
+        </Pressable>
+      )}
     </View>
   )
 }
@@ -49,7 +57,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.hells.sans.medium,
     fontSize: 16,
     paddingStart: 40,
-    paddingEnd: 20,
+    paddingEnd: 40,
   },
   spinner: {
     position: 'absolute',
@@ -60,6 +68,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 13,
     left: 8,
+  },
+  clearBtn: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
   },
 })
 
