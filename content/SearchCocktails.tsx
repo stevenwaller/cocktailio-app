@@ -111,7 +111,7 @@ export default function SearchCocktails({ barId, collectionId }: Props) {
               if (error) {
                 return <BodyText>Error: {error.message}</BodyText>
               }
-              if (searchValue !== '') {
+              if (searchValue !== '' && !isFetching) {
                 return <BodyText>No results found</BodyText>
               }
             }}
