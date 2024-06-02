@@ -34,8 +34,6 @@ const NewBarForm = ({ onComplete = () => {} }: INewBarFormProps) => {
 
     const response = await supabaseClient.from('bars').insert(barValues).select().single<TBar>()
 
-    console.log('response', response)
-
     setIsSubmitting(false)
 
     if (response.error) {

@@ -44,8 +44,6 @@ const EditCollectionScreen = ({
       .eq('id', collection?.id)
       .single<TCollection>()
 
-    console.log('response', response)
-
     setIsSubmitting(false)
 
     if (response.error) {

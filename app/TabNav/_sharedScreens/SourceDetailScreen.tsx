@@ -33,8 +33,6 @@ export default function SourceDetailScreen({ route }: Props) {
       .returns<TSource>()
       .single()
 
-    // console.log('response', response)
-
     setIsFetching(false)
     setSource(response.data)
     setError(response.error)

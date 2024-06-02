@@ -33,12 +33,18 @@ type Props = {
   barId?: string
   collectionId?: string
   name?: string
+  showBarStock?: boolean
+  onSearchPress?: () => void
+  onMorePress?: () => void
 }
 
 const CocktailList = ({
   barId: barIdProp,
   collectionId: collectionIdProp,
   name: nameProp,
+  onSearchPress = () => {},
+  onMorePress,
+  showBarStock,
 }: Props) => {
   const [minRange, setMinRange] = useState<number>(0)
   const [maxRange, setMaxRange] = useState<number>(itemsToLoad - 1)
@@ -110,20 +116,19 @@ const CocktailList = ({
         <CocktailsHeaderBtns
           sortColumn={sortColumn}
           isAscending={isAscending}
-          showBarStock={bars.length > 1}
+          showBarStock={showBarStock && bars.length > 1}
           onSortPress={() => {
             sortModalRef.current?.present()
           }}
           onBarStockPress={() => {
             defaultBarModalRef.current?.present()
           }}
-          onSearchPress={() => {
-            navigation.navigate('Search Cocktails')
-          }}
+          onSearchPress={onSearchPress}
+          onMorePress={onMorePress}
         />
       ),
     })
-  }, [navigation, bars, sortColumn, isAscending])
+  }, [navigation, bars, sortColumn, isAscending, onMorePress, showBarStock, onSearchPress])
 
   const fetchData = useCallback(async () => {
     setIsFetching(true)
@@ -163,6 +168,7 @@ const CocktailList = ({
         {
           bar_id: barId,
           collection_id: collectionId,
+          search_value: null,
           filter_ingredients: ingredientFilter,
           filter_sources: filters
             .find((filter) => filter.name === 'Source')

@@ -39,8 +39,6 @@ export default function IngredientDetailPage({ route }: Props) {
       .returns<TIngredient>()
       .single()
 
-    // console.log('response', response)
-
     setIsFetching(false)
     setIngredient(response.data)
     setError(response.error)

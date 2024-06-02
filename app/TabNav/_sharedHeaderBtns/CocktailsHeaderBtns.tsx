@@ -2,6 +2,7 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import { Pressable } from 'react-native'
 
 import BarStockIcon from '@/components/_icons/BarStock'
+import MoreIcon from '@/components/_icons/More'
 import SearchIcon from '@/components/_icons/Search'
 import { COLORS } from '@/lib/constants'
 import { SortableColumns } from '@/lib/types'
@@ -13,6 +14,7 @@ interface Props {
   onBarStockPress?: () => void
   onSortPress?: () => void
   onSearchPress?: () => void
+  onMorePress?: () => void
 }
 
 const CocktailsHeaderBtns = ({
@@ -22,6 +24,7 @@ const CocktailsHeaderBtns = ({
   onBarStockPress,
   onSortPress,
   showBarStock,
+  onMorePress,
 }: Props) => {
   const iconName = () => {
     if (sortColumn === 'created_at') {
@@ -34,16 +37,21 @@ const CocktailsHeaderBtns = ({
   return (
     <>
       {showBarStock && (
-        <Pressable onPress={onBarStockPress} style={{ marginRight: 15 }}>
+        <Pressable onPress={onBarStockPress} style={{ marginLeft: 15 }}>
           <BarStockIcon color={COLORS.nav.text} />
         </Pressable>
       )}
-      <Pressable onPress={onSortPress} style={{ marginRight: 15 }}>
+      <Pressable onPress={onSortPress} style={{ marginLeft: 15 }}>
         <MaterialCommunityIcons name={iconName()} size={27} color={COLORS.nav.text} />
       </Pressable>
-      <Pressable onPress={onSearchPress}>
+      <Pressable onPress={onSearchPress} style={{ marginLeft: 15 }}>
         <SearchIcon color={COLORS.nav.text} />
       </Pressable>
+      {onMorePress && (
+        <Pressable onPress={onMorePress} style={{ marginLeft: 15 }}>
+          <MoreIcon color={COLORS.nav.text} />
+        </Pressable>
+      )}
     </>
   )
 }

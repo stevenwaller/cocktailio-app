@@ -68,13 +68,6 @@ const AddToBarModal = forwardRef<IStackNavModal, AddToBarModalProps>(
         return
       }
 
-      // const normalizedCollection = collectionNormalizer({
-      //   ...selectedBar,
-      //   collection_cocktails: [...selectedBar.collection_cocktails, response.data],
-      // })
-
-      console.log('addToBarModal response.data', response.data)
-
       const normalizedBar = {
         ...selectedBar,
         bar_ingredients: [...selectedBar.bar_ingredients, response.data],
@@ -108,15 +101,6 @@ const AddToBarModal = forwardRef<IStackNavModal, AddToBarModalProps>(
         return
       }
 
-      // const normalizedCollection = collectionNormalizer({
-      //   ...selectedBar,
-      //   collection_cocktails: selectedBar.collection_cocktails.filter(
-      //     (collectionCocktail) => collectionCocktail.cocktail_id !== cocktail?.id,
-      //   ),
-      // })
-
-      // setCollection(normalizedCollection)
-
       const normalizedBar = {
         ...selectedBar,
         bar_ingredients: selectedBar.bar_ingredients.filter(
@@ -130,10 +114,6 @@ const AddToBarModal = forwardRef<IStackNavModal, AddToBarModalProps>(
       delete normalizedBar.ingredientsById[ingredient?.id as string]
 
       setBar(normalizedBar)
-
-      // if (selectedBar && cocktail) {
-      //   onRemove(selectedBar, cocktail)
-      // }
 
       toast.show(`Removed from `, {
         data: {

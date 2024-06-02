@@ -5,6 +5,6 @@ import { CocktailsStackParamList } from '@/lib/types'
 
 type Props = NativeStackScreenProps<CocktailsStackParamList, 'Cocktails'>
 
-export default function CocktailsScreen(props: Props) {
-  return <CocktailList />
+export default function CocktailsScreen({ navigation }: Props) {
+  return <CocktailList showBarStock onSearchPress={() => navigation.navigate('Search Cocktails')} />
 }

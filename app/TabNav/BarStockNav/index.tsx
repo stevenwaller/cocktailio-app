@@ -2,11 +2,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import BarDetailScreen from './BarDetailScreen'
 import BarIngredientsScreen from './BarIngredientsScreen'
+import BarSearchCocktailsScreen from './BarSearchCocktailsScreen'
 import BarStockScreen from './BarStockScreen'
-import BarHeaderBtns from '../_sharedHeaderBtns/BarHeaderBtns'
+import CocktailsHeaderBtns from '../_sharedHeaderBtns/CocktailsHeaderBtns'
 import CocktailDetailScreen from '../_sharedScreens/CocktailDetailScreen'
 import IngredientDetailScreen from '../_sharedScreens/IngredientDetailScreen'
-import SearchCocktailsScreen from '../_sharedScreens/SearchCocktailsScreen'
 import SourceDetailScreen from '../_sharedScreens/SourceDetailScreen'
 
 import { ToastProvider } from '@/lib/contexts/ToastContext'
@@ -24,12 +24,12 @@ export default function BarStockNav() {
         <BarStockStack.Screen
           name="Bar"
           options={() => ({
-            headerRight: () => <BarHeaderBtns />,
+            headerRight: () => <CocktailsHeaderBtns onMorePress={() => {}} />,
           })}
           component={BarDetailScreen}
         />
         <BarStockStack.Screen name="Cocktail" component={CocktailDetailScreen} />
-        <BarStockStack.Screen name="Search Cocktails" component={SearchCocktailsScreen} />
+        <BarStockStack.Screen name="Search Bar Cocktails" component={BarSearchCocktailsScreen} />
         <BarStockStack.Screen name="Ingredient" component={IngredientDetailScreen} />
         <BarStockStack.Screen
           name="Source Detail"

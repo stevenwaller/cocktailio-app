@@ -1,7 +1,5 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { useEffect, useRef } from 'react'
-
-import CollectionHeaderBtns from '../_sharedHeaderBtns/CollectionHeaderBtns'
+import { useRef } from 'react'
 
 import CocktailList from '@/content/CocktailList'
 import MoreCollectionModal, { IMoreCollectionModal } from '@/content/MoreCollectionModal'
@@ -15,20 +13,18 @@ export default function CollectionDetailScreen({ route, navigation }: Props) {
   const { collection } = useCollections(collectionId)
   const moreModalRef = useRef<IMoreCollectionModal>(null)
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <CollectionHeaderBtns
-          onSearchPress={() => navigation.navigate('Search Cocktails')}
-          onMorePress={() => moreModalRef.current?.present()}
-        />
-      ),
-    })
-  }, [navigation])
-
   return (
     <>
-      <CocktailList collectionId={collection?.id} name={collection?.name} />
+      <CocktailList
+        collectionId={collection?.id}
+        name={collection?.name}
+        onSearchPress={() =>
+          navigation.navigate('Search Collection Cocktails', {
+            collectionId: collection ? collection.id : undefined,
+          })
+        }
+        onMorePress={() => moreModalRef.current?.present()}
+      />
       <MoreCollectionModal
         ref={moreModalRef}
         collection={collection}

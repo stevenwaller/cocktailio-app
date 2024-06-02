@@ -21,19 +21,35 @@ import { CocktailsStackParamList } from '@/lib/types'
 import { TCocktail } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
-export default function SearchCocktails() {
+interface Props {
+  barId?: string
+  collectionId?: string
+}
+
+export default function SearchCocktails({ barId, collectionId }: Props) {
   const [searchValue, setSearchValue] = useState('')
   const [data, setData] = useState<TCocktail[] | null>(null)
   const [isFetching, setIsFetching] = useState(false)
   const [error, setError] = useState<PostgrestError | null>(null)
   const navigation = useNavigation<NavigationProp<CocktailsStackParamList>>()
   const headerHeight = useHeaderHeight()
-  const { defaultBar } = useBars()
+  const { defaultBar, bar } = useBars(barId)
 
   const fetchData = useCallback(async () => {
     if (searchValue) {
       setIsFetching(true)
-      const response = await supabaseClient.rpc('search_cocktails', { search_value: searchValue })
+
+      const response = await supabaseClient.rpc(
+        'query_cocktails',
+        {
+          bar_id: barId ? barId : null,
+          collection_id: collectionId ? collectionId : null,
+          search_value: searchValue,
+          filter_ingredients: null,
+          filter_sources: null,
+        },
+        { count: 'exact' },
+      )
 
       setIsFetching(false)
       setData(response.data)
@@ -42,7 +58,7 @@ export default function SearchCocktails() {
       setData(null)
       setError(null)
     }
-  }, [searchValue])
+  }, [searchValue, barId, collectionId])
 
   useEffect(() => {
     fetchData()
@@ -84,7 +100,7 @@ export default function SearchCocktails() {
                     style={styles.resultIngredient}
                     isInBarStyle={{ color: '#90B761' }}
                     cocktail={item}
-                    bar={defaultBar}
+                    bar={bar ? bar : defaultBar}
                   />
                 </Pressable>
               </View>
