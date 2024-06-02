@@ -96,7 +96,6 @@ export default function SearchCocktails({ barId, collectionId }: Props) {
                   }
                 >
                   <Text style={styles.resultName}>{item.name}</Text>
-                  {/* <Text style={styles.resultIngredient}>{renderIngredients(item, defaultBar)}</Text> */}
                   <IngredientsText
                     style={styles.resultIngredient}
                     isInBarStyle={{ color: '#90B761' }}
