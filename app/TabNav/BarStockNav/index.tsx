@@ -4,6 +4,7 @@ import BarDetailScreen from './BarDetailScreen'
 import BarIngredientsScreen from './BarIngredientsScreen'
 import BarSearchCocktailsScreen from './BarSearchCocktailsScreen'
 import BarStockScreen from './BarStockScreen'
+import BarIngredientsHeaderBtns from '../_sharedHeaderBtns/BarIngredientsHeaderBtns'
 import CocktailsHeaderBtns from '../_sharedHeaderBtns/CocktailsHeaderBtns'
 import CocktailDetailScreen from '../_sharedScreens/CocktailDetailScreen'
 import IngredientDetailScreen from '../_sharedScreens/IngredientDetailScreen'
@@ -20,7 +21,13 @@ export default function BarStockNav() {
     <ToastProvider>
       <BarStockStack.Navigator screenOptions={tabScreenOptions}>
         <BarStockStack.Screen name="Bar Stock" component={BarStockScreen} />
-        <BarStockStack.Screen name="Bar Ingredients" component={BarIngredientsScreen} />
+        <BarStockStack.Screen
+          name="Bar Ingredients"
+          component={BarIngredientsScreen}
+          options={() => ({
+            headerRight: () => <BarIngredientsHeaderBtns />,
+          })}
+        />
         <BarStockStack.Screen
           name="Bar"
           options={() => ({

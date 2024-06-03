@@ -1,7 +1,9 @@
 import { useHeaderHeight } from '@react-navigation/elements'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { ScrollView, KeyboardAvoidingView } from 'react-native'
+
+import BarIngredientsHeaderBtns from '../_sharedHeaderBtns/BarIngredientsHeaderBtns'
 
 import PageContainer from '@/components/PageContainer'
 import SearchInput from '@/components/SearchInput'
@@ -14,11 +16,19 @@ import uuid from '@/lib/utils/uuid'
 
 type Props = NativeStackScreenProps<BarStockStackParamList, 'Bar Ingredients'>
 
-export default function BarIngredients({ route }: Props) {
+export default function BarIngredients({ route, navigation }: Props) {
   const [searchValue, setSearchValue] = useState('')
   const barId = route.params.barId
   const { bar, setBar } = useBars(barId as string)
   const headerHeight = useHeaderHeight()
+
+  const clearAll = useCallback(async () => {}, [bar, setBar])
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <BarIngredientsHeaderBtns onDeselectPress={clearAll} />,
+    })
+  }, [navigation, clearAll])
 
   if (!bar) return null
 
