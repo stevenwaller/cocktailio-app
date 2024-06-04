@@ -37,6 +37,8 @@ export default function BarIngredients({ route, navigation }: Props) {
   const handleSelect = async (ingredient: TIngredient) => {
     const alreadySelected = !!bar.ingredientsById[ingredient.id]
 
+    const ogBar = { ...bar }
+
     const newBar = {
       ...bar,
       ingredientsById: { ...bar.ingredientsById },
@@ -62,10 +64,14 @@ export default function BarIngredients({ route, navigation }: Props) {
 
     setBar(newBar)
 
-    if (alreadySelected) {
-      await supabaseClient.from('bar_ingredients').delete().eq('ingredient_id', ingredient.id)
-    } else {
-      await supabaseClient.from('bar_ingredients').insert(newBarVariables).select().single()
+    const result = await supabaseClient.rpc('update_bar_stock', {
+      bar_id: bar.id,
+      ingredient_id: ingredient.id,
+    })
+
+    if (result.error) {
+      // TODO: show error in toast
+      setBar(ogBar)
     }
   }
 
