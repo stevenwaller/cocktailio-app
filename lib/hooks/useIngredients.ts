@@ -32,7 +32,7 @@ const useIngredients = () => {
       )
       .order('order')
       .order('name', { referencedTable: 'ingredients' })
-      .is('hierarchy', null)
+      .is('parent_ingredient_id', null)
       .returns<TIngredient[]>()
 
     setIsFetching(false)

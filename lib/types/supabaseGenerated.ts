@@ -47,6 +47,7 @@ export type Database = {
       }
       bars: {
         Row: {
+          all_ingredients_by_id: Json | null
           created_at: string
           id: string
           ingredients_by_id: Json | null
@@ -55,6 +56,7 @@ export type Database = {
           user_id: string | null
         }
         Insert: {
+          all_ingredients_by_id?: Json | null
           created_at?: string
           id?: string
           ingredients_by_id?: Json | null
@@ -63,6 +65,7 @@ export type Database = {
           user_id?: string | null
         }
         Update: {
+          all_ingredients_by_id?: Json | null
           created_at?: string
           id?: string
           ingredients_by_id?: Json | null
@@ -575,7 +578,7 @@ export type Database = {
           aka: string | null
           created_at: string | null
           description: string | null
-          hierarchy: string[] | null
+          hierarchy: Json | null
           history: string | null
           id: string
           is_base: boolean | null
@@ -591,7 +594,7 @@ export type Database = {
           aka?: string | null
           created_at?: string | null
           description?: string | null
-          hierarchy?: string[] | null
+          hierarchy?: Json | null
           history?: string | null
           id?: string
           is_base?: boolean | null
@@ -607,7 +610,7 @@ export type Database = {
           aka?: string | null
           created_at?: string | null
           description?: string | null
-          hierarchy?: string[] | null
+          hierarchy?: Json | null
           history?: string | null
           id?: string
           is_base?: boolean | null
@@ -760,6 +763,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      add_ingredient_to_bar_stock: {
+        Args: {
+          bar_id: string
+          ingredient_id: string
+        }
+        Returns: Json
+      }
       delete_cocktail:
         | {
             Args: {
@@ -844,66 +854,37 @@ export type Database = {
         }
         Returns: Json
       }
-      query_cocktails:
-        | {
-            Args: {
-              bar_id: string
-              collection_id: string
-              filter_ingredients: Json
-              filter_sources: string[]
-            }
-            Returns: {
-              created_at: string
-              id: string
-              method_id: string
-              note: string
-              description: string
-              history: string
-              name: string
-              slug: string
-              era_id: string
-              invention_date: string
-              base_ingredient_id: string
-              glass_id: string
-              base_ingredient: Json
-              glass: Json
-              era: Json
-              method: Json
-              steps: Json
-              sources: Json
-              components: Json
-              related_cocktails: Json
-            }[]
-          }
-        | {
-            Args: {
-              bar_id: string
-              filter_ingredients: Json
-              filter_sources: string[]
-            }
-            Returns: {
-              created_at: string
-              id: string
-              method_id: string
-              note: string
-              description: string
-              history: string
-              name: string
-              slug: string
-              era_id: string
-              invention_date: string
-              base_ingredient_id: string
-              glass_id: string
-              base_ingredient: Json
-              glass: Json
-              era: Json
-              method: Json
-              steps: Json
-              sources: Json
-              components: Json
-              related_cocktails: Json
-            }[]
-          }
+      query_cocktails: {
+        Args: {
+          bar_id: string
+          collection_id: string
+          filter_ingredients: Json
+          filter_sources: string[]
+          search_value: string
+        }
+        Returns: {
+          created_at: string
+          id: string
+          method_id: string
+          note: string
+          description: string
+          history: string
+          name: string
+          slug: string
+          era_id: string
+          invention_date: string
+          base_ingredient_id: string
+          glass_id: string
+          base_ingredient: Json
+          glass: Json
+          era: Json
+          method: Json
+          steps: Json
+          sources: Json
+          components: Json
+          related_cocktails: Json
+        }[]
+      }
       search_cocktails: {
         Args: {
           search_value: string

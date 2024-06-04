@@ -33,7 +33,8 @@ export type TComponentIngredient = Tables<'cocktail_component_ingredients'> & {
   ingredient: TIngredient
 }
 
-export type TIngredient = Tables<'ingredients'> & {
+export type TIngredient = Omit<Tables<'ingredients'>, 'hierarchy'> & {
+  hierarchy: { id: string; name: string }[] | null
   ingredients?: TIngredient[]
 }
 

@@ -12,12 +12,12 @@ interface Props {
   searchValue?: string
 }
 
-const BarIngredients = ({ checkIfSelected, onSelect, searchValue = '' }: Props) => {
+const IngredientList = ({ checkIfSelected, onSelect, searchValue = '' }: Props) => {
   const [openAccordions, setOpenAccordions] = useState<{ [key: string]: boolean }>({})
   const { ingredients, error, isFetching } = useIngredients()
 
   const lowerCaseSearchValue = searchValue.toLowerCase()
-  const foundIngredients: { [key: string]: boolean } = {}
+  const foundIngredients: { [key: string]: string } = {}
 
   useEffect(() => {
     if (searchValue === '') {
@@ -28,11 +28,11 @@ const BarIngredients = ({ checkIfSelected, onSelect, searchValue = '' }: Props) 
   const findIngredients = (parentIngredients: TIngredient[]) => {
     parentIngredients.forEach((ingredient) => {
       if (ingredient.name.toLowerCase().includes(lowerCaseSearchValue)) {
-        foundIngredients[ingredient.name] = true
+        foundIngredients[ingredient.name] = ingredient.id
 
         if (ingredient.hierarchy) {
           ingredient.hierarchy.forEach((parentIngredient) => {
-            foundIngredients[parentIngredient] = true
+            foundIngredients[parentIngredient?.name] = parentIngredient?.id
           })
         }
       }
@@ -140,6 +140,6 @@ const BarIngredients = ({ checkIfSelected, onSelect, searchValue = '' }: Props) 
   return renderIngredients(ingredients, 0)
 }
 
-BarIngredients.displayName = 'BarIngredients'
+IngredientList.displayName = 'IngredientList'
 
-export default BarIngredients
+export default IngredientList
