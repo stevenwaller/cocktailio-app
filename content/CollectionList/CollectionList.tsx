@@ -27,10 +27,6 @@ const CollectionList = () => {
     return <BodyText>Loading...</BodyText>
   }
 
-  if (collections.length === 0) {
-    return <BodyText>No collections found</BodyText>
-  }
-
   return (
     <>
       {collections.map((collection: any) => (

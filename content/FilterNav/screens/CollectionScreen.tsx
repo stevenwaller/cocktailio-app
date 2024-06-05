@@ -39,7 +39,9 @@ const CollectionScreen = ({ filter, onChange }: CollectionScreenProps) => {
   return (
     <ModalBody>
       <BodyText style={{ marginBottom: 20 }}>
-        Filter cocktails by what you have in a collection
+        {collections.length === 0
+          ? 'You have not added a collection yet. Go to the "Collections" tab to do so.'
+          : 'Filter cocktails by what you have in a collection'}
       </BodyText>
       {collections.map((collection) => (
         <View key={collection.id} style={styles.item}>
