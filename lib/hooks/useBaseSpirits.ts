@@ -1,5 +1,5 @@
 import { PostgrestError } from '@supabase/supabase-js'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 
 import useBaseSpiritStore from '@/lib/stores/useBaseSpiritStore'
 import { TIngredient } from '@/lib/types/supabase'
@@ -10,8 +10,10 @@ const useBaseSpirits = () => {
   const [error, setError] = useState<PostgrestError | null>(null)
   const spirits = useBaseSpiritStore((state) => state.spirits)
   const setSpirits = useBaseSpiritStore((state) => state.setSpirits)
+  const isFirstFetch = useRef(true)
 
   const fetchData = useCallback(async () => {
+    isFirstFetch.current = false
     setIsFetching(true)
 
     const response = await supabaseClient
@@ -29,10 +31,10 @@ const useBaseSpirits = () => {
   }, [setSpirits])
 
   useEffect(() => {
-    if (!spirits || spirits.length === 0) {
+    if (isFirstFetch.current) {
       fetchData()
     }
-  }, [spirits, fetchData])
+  }, [fetchData])
 
   return { isFetching, fetchData, error, spirits, setSpirits }
 }

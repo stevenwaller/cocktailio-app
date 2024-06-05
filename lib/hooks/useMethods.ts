@@ -1,5 +1,5 @@
 import { PostgrestError } from '@supabase/supabase-js'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 
 import useMethodStore from '@/lib/stores/useMethodStore'
 import { TMethod } from '@/lib/types/supabase'
@@ -10,8 +10,10 @@ const useMethods = () => {
   const [error, setError] = useState<PostgrestError | null>(null)
   const methods = useMethodStore((state) => state.methods)
   const setMethods = useMethodStore((state) => state.setMethods)
+  const isFirstFetch = useRef(true)
 
   const fetchData = useCallback(async () => {
+    isFirstFetch.current = false
     setIsFetching(true)
 
     const response = await supabaseClient.from('methods').select(`*`).returns<TMethod[]>()
@@ -25,10 +27,10 @@ const useMethods = () => {
   }, [setMethods])
 
   useEffect(() => {
-    if (!methods || methods.length === 0) {
+    if (isFirstFetch.current) {
       fetchData()
     }
-  }, [fetchData, methods])
+  }, [fetchData])
 
   return { isFetching, fetchData, error, methods, setMethods }
 }
