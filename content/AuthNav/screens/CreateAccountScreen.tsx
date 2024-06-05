@@ -31,7 +31,11 @@ const CreateAccountScreen = ({ onComplete }: ICreateAccountScreenProps) => {
     // create initial bar and collection
     await supabaseClient
       .from('bars')
-      .insert({ name: 'Home Bar', user_id: data.user?.id, is_default: true })
+      .insert({
+        name: 'Home Bar',
+        user_id: data.user?.id,
+        is_default: true,
+      })
       .single()
 
     await supabaseClient

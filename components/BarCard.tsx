@@ -12,10 +12,9 @@ import { TBar } from '@/lib/types/supabase'
 interface BarCardProps extends CardProps {
   bar: TBar
   onMorePress?: (bar: TBar) => void
-  multipleBars?: boolean
 }
 
-const BarCard = ({ bar, onMorePress = () => {}, multipleBars, ...restProps }: BarCardProps) => {
+const BarCard = ({ bar, onMorePress = () => {}, ...restProps }: BarCardProps) => {
   const navigation = useNavigation<NavigationProp<BarStockStackParamList>>()
   const { name } = bar
 
@@ -24,7 +23,7 @@ const BarCard = ({ bar, onMorePress = () => {}, multipleBars, ...restProps }: Ba
       <Card.Header>
         <Card.HeaderText>{name}</Card.HeaderText>
         <View style={styles.headerRight}>
-          {multipleBars && bar.is_default && <Text style={styles.defaultLabel}>Default Bar</Text>}
+          {bar.is_default && <Text style={styles.defaultLabel}>Default Bar</Text>}
           <Pressable style={styles.more} onPress={() => onMorePress(bar)}>
             <MoreIcon color={COLORS.text.link} />
           </Pressable>

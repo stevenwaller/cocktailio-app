@@ -38,7 +38,7 @@ const AddToBarHomeScreen = ({
                 onAdd(barItem)
               }
             }}
-            checked={barItem.ingredientsById[ingredient?.id as string] !== undefined}
+            checked={barItem.ingredients_by_id[ingredient?.id as string] !== undefined}
           />
           <Text style={styles.itemName}>{barItem.name}</Text>
         </View>

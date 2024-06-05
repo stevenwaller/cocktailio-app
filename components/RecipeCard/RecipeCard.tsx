@@ -30,7 +30,7 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
     let isInBar = false
 
     bars.forEach((bar) => {
-      if (bar.ingredientsById[ingredientId]) {
+      if (bar.ingredients_by_id[ingredientId]) {
         isInBar = true
       }
     })

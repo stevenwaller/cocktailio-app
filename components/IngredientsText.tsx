@@ -30,7 +30,7 @@ const IngredientsText = ({ cocktail, bar, style, isInBarStyle }: Props) => {
 
         const isLastComponent = componentIndex === cocktail.components.length - 1
         const ingredient = component.ingredients[0].ingredient
-        const isInBar = !!bar?.ingredientsById[ingredient.id]
+        const isInBar = !!bar?.all_ingredients_by_id[ingredient.id]
 
         return (
           <Fragment key={component.id}>

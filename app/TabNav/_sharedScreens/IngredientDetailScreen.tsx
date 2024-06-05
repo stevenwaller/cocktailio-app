@@ -49,7 +49,7 @@ export default function IngredientDetailPage({ route }: Props) {
   }, [fetchData])
 
   bars.forEach((bar) => {
-    if (bar.ingredientsById[ingredientId]) {
+    if (bar.ingredients_by_id[ingredientId]) {
       isInBar = true
     }
   })

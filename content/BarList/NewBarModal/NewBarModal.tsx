@@ -64,7 +64,8 @@ const NewBarModal = forwardRef<IModal, NewBarModalProps>(
         {
           ...response.data,
           bar_ingredients: [],
-          ingredientsById: {},
+          all_ingredients_by_id: {},
+          ingredients_by_id: {},
         },
       ])
       setValue('')

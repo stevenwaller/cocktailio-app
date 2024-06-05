@@ -25,10 +25,6 @@ const BarList = () => {
     return <BodyText>Loading...</BodyText>
   }
 
-  if (bars.length === 0) {
-    return <BodyText>No bars found</BodyText>
-  }
-
   return (
     <>
       {bars.map((bar: any) => (
@@ -36,7 +32,6 @@ const BarList = () => {
           style={{ marginBottom: 20 }}
           key={bar.id}
           bar={bar}
-          multipleBars={bars.length > 1}
           onMorePress={() => {
             setCurrentBarId(bar.id)
             moreModalRef.current?.present()

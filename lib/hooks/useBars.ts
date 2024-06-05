@@ -1,8 +1,8 @@
 import { PostgrestError } from '@supabase/supabase-js'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 
 import useBarStore from '@/lib/stores/useBarStore'
-import { TBar, TIngredientsById } from '@/lib/types/supabase'
+import { TBar } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
 const useBars = (barId?: string) => {
@@ -13,8 +13,10 @@ const useBars = (barId?: string) => {
   const defaultBar = useBarStore((state) => state.bars.find((barItem) => barItem.is_default))
   const setBars = useBarStore((state) => state.setBars)
   const setBar = useBarStore((state) => state.setBar)
+  const isFirstFetch = useRef(true)
 
   const fetchData = useCallback(async () => {
+    isFirstFetch.current = false
     setIsFetching(true)
 
     const response = await supabaseClient
@@ -34,27 +36,16 @@ const useBars = (barId?: string) => {
     setIsFetching(false)
 
     if (response.data) {
-      // for each bar create a new object with the ingredients by id
-      response.data.forEach((barItem) => {
-        const ingredientsById: TIngredientsById = {}
-
-        barItem.bar_ingredients.forEach((barIngredient) => {
-          ingredientsById[barIngredient.ingredient.id] = barIngredient.ingredient
-        })
-
-        barItem.ingredientsById = ingredientsById
-      })
-
       setBars(response.data)
     }
     setError(response.error)
   }, [setBars])
 
   useEffect(() => {
-    if (!bars || bars.length === 0) {
+    if (isFirstFetch.current) {
       fetchData()
     }
-  }, [bars, fetchData])
+  }, [fetchData])
 
   return { isFetching, fetchData, error, bar, defaultBar, bars, setBars, setBar }
 }

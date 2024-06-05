@@ -39,7 +39,9 @@ const WithBarStockScreen = ({ filter, onChange }: WithBarStockScreenProps) => {
   return (
     <ModalBody>
       <BodyText style={{ marginBottom: 20 }}>
-        Filter cocktails by ingredients you have stocked in your bar
+        {bars.length === 0
+          ? 'You have not added a bar yet. Go to the "Bar Stock" tab to do so.'
+          : 'Filter cocktails by ingredients you have stocked in your bar'}
       </BodyText>
       {bars.map((bar) => (
         <View key={bar.id} style={styles.item}>

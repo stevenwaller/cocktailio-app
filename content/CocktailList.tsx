@@ -63,6 +63,7 @@ const CocktailList = ({
   const defaultBarModalRef = useRef<IDefaultBarModal>(null)
   const sortModalRef = useRef<ISortModal>(null)
   const navigation = useNavigation<NavigationProp<CocktailsStackParamList>>()
+
   const [filters, setFilters] = useState<IFilter[]>([
     ...(barIdProp
       ? []

@@ -47,28 +47,28 @@ export type Database = {
       }
       bars: {
         Row: {
-          all_ingredients_by_id: Json | null
+          all_ingredients_by_id: Json
           created_at: string
           id: string
-          ingredients_by_id: Json | null
+          ingredients_by_id: Json
           is_default: boolean | null
           name: string
           user_id: string | null
         }
         Insert: {
-          all_ingredients_by_id?: Json | null
+          all_ingredients_by_id?: Json
           created_at?: string
           id?: string
-          ingredients_by_id?: Json | null
+          ingredients_by_id?: Json
           is_default?: boolean | null
           name: string
           user_id?: string | null
         }
         Update: {
-          all_ingredients_by_id?: Json | null
+          all_ingredients_by_id?: Json
           created_at?: string
           id?: string
-          ingredients_by_id?: Json | null
+          ingredients_by_id?: Json
           is_default?: boolean | null
           name?: string
           user_id?: string | null
@@ -763,13 +763,6 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      add_ingredient_to_bar_stock: {
-        Args: {
-          bar_id: string
-          ingredient_id: string
-        }
-        Returns: Json
-      }
       delete_cocktail:
         | {
             Args: {
@@ -912,6 +905,21 @@ export type Database = {
           "": string
         }
         Returns: string[]
+      }
+      update_bar_stock: {
+        Args: {
+          bar_id: string
+          ingredient_id: string
+        }
+        Returns: {
+          all_ingredients_by_id: Json
+          created_at: string
+          id: string
+          ingredients_by_id: Json
+          is_default: boolean | null
+          name: string
+          user_id: string | null
+        }[]
       }
     }
     Enums: {

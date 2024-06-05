@@ -12,7 +12,7 @@ import { useToast } from '@/lib/contexts/ToastContext'
 import useBars from '@/lib/hooks/useBars'
 import { TBar, TIngredient } from '@/lib/types/supabase'
 import { modalScreenOptions } from '@/lib/utils/options'
-import supabaseClient from '@/lib/utils/supabaseClient'
+import updateBarStock from '@/lib/utils/updateBarStock'
 
 export interface IAddToBarModal extends IStackNavModal {}
 
@@ -51,74 +51,48 @@ const AddToBarModal = forwardRef<IStackNavModal, AddToBarModalProps>(
       onChange?.(index)
     }
 
-    const handleAddToBar = async (selectedBar: TBar) => {
+    const handleAddToBar = (selectedBar: TBar) => {
       modalRef.current?.dismiss()
 
-      const response = await supabaseClient
-        .from('bar_ingredients')
-        .insert({
-          bar_id: selectedBar.id,
-          ingredient_id: ingredient?.id,
-        })
-        .select()
-        .single()
+      if (!ingredient) return
 
-      if (response.error) {
-        toast.show(response.error.message)
-        return
-      }
-
-      const normalizedBar = {
-        ...selectedBar,
-        bar_ingredients: [...selectedBar.bar_ingredients, response.data],
-        ingredientsById: {
-          ...selectedBar.ingredientsById,
-          [ingredient?.id as string]: ingredient as TIngredient,
+      updateBarStock({
+        bar: selectedBar,
+        ingredient,
+        setBar,
+        onError: (error) => {
+          toast.show(error.message)
         },
-      }
-
-      setBar(normalizedBar)
-
-      toast.show(`Saved to `, {
-        data: {
-          add: true,
-          bar: selectedBar,
+        onSuccess: (bar: TBar) => {
+          toast.show(`Saved to `, {
+            data: {
+              add: true,
+              bar,
+            },
+          })
         },
       })
     }
 
-    const handleRemoveFromBar = async (selectedBar: TBar) => {
+    const handleRemoveFromBar = (selectedBar: TBar) => {
       modalRef.current?.dismiss()
 
-      const response = await supabaseClient
-        .from('bar_ingredients')
-        .delete()
-        .eq('bar_id', selectedBar.id)
-        .eq('ingredient_id', ingredient?.id)
+      if (!ingredient) return
 
-      if (response.error) {
-        toast.show(response.error.message)
-        return
-      }
-
-      const normalizedBar = {
-        ...selectedBar,
-        bar_ingredients: selectedBar.bar_ingredients.filter(
-          (barIngredient) => barIngredient.ingredient_id !== ingredient?.id,
-        ),
-        ingredientsById: {
-          ...selectedBar.ingredientsById,
+      updateBarStock({
+        bar: selectedBar,
+        ingredient,
+        setBar,
+        onError: (error) => {
+          toast.show(error.message)
         },
-      }
-
-      delete normalizedBar.ingredientsById[ingredient?.id as string]
-
-      setBar(normalizedBar)
-
-      toast.show(`Removed from `, {
-        data: {
-          add: false,
-          bar: selectedBar,
+        onSuccess: (bar: TBar) => {
+          toast.show(`Removed from `, {
+            data: {
+              add: false,
+              bar,
+            },
+          })
         },
       })
     }

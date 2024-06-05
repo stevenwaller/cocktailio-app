@@ -40,11 +40,12 @@ export type TIngredient = Omit<Tables<'ingredients'>, 'hierarchy'> & {
 
 export type TSource = Tables<'sources'>
 
-export type TIngredientsById = Record<string, TIngredient>
+export type TIngredientsById = Record<string, string>
 
-export type TBar = Tables<'bars'> & {
+export type TBar = Omit<Tables<'bars'>, 'ingredients_by_id' | 'all_ingredients_by_id'> & {
   bar_ingredients: TBarIngredient[]
-  ingredientsById: TIngredientsById
+  all_ingredients_by_id: TIngredientsById
+  ingredients_by_id: TIngredientsById
 }
 
 export type TBarIngredient = Tables<'bar_ingredients'> & {

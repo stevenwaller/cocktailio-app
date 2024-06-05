@@ -44,7 +44,8 @@ const NewBarForm = ({ onComplete = () => {} }: INewBarFormProps) => {
     const newBar = {
       ...response.data,
       bar_ingredients: [],
-      ingredientsById: {},
+      all_ingredients_by_id: {},
+      ingredients_by_id: {},
     }
 
     setBars([...bars, newBar])

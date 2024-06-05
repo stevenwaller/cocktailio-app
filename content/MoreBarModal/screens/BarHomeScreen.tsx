@@ -20,7 +20,6 @@ const BarHomeScreen = ({ bar, onComplete = () => {}, onDelete = () => {} }: IBar
   const { navigate } = useNavigation()
   const { bars, setBars, setBar } = useBars()
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const multipleBars = bars.length > 1
 
   if (!bar) {
     return null
@@ -108,29 +107,24 @@ const BarHomeScreen = ({ bar, onComplete = () => {}, onDelete = () => {} }: IBar
         <TrashIcon style={styles.icon} width="20" height="20" color={COLORS.text.link} />
         <Text style={styles.itemName}>{isSubmitting ? 'Deleting...' : 'Delete Bar'}</Text>
       </Pressable>
-
-      {multipleBars && (
-        <>
-          <View style={styles.divider} />
-          <View>
-            <View style={styles.defaultContainer}>
-              <Text style={styles.itemName}>Make this the default bar</Text>
-              <Switch
-                style={styles.icon}
-                ios_backgroundColor={COLORS.bg.level1}
-                trackColor={{ false: COLORS.bg.level1, true: COLORS.text.good }}
-                onValueChange={handleMakeBarDefault}
-                thumbColor={COLORS.text.body}
-                value={!!bar.is_default}
-              />
-            </View>
-            <Text style={styles.itemDescription}>
-              This bar's stock of ingredients will be used to highlight which cocktails you can make
-              when browsing recipes
-            </Text>
-          </View>
-        </>
-      )}
+      <View style={styles.divider} />
+      <View>
+        <View style={styles.defaultContainer}>
+          <Text style={styles.itemName}>Make this the default bar</Text>
+          <Switch
+            style={styles.icon}
+            ios_backgroundColor={COLORS.bg.level1}
+            trackColor={{ false: COLORS.bg.level1, true: COLORS.text.good }}
+            onValueChange={handleMakeBarDefault}
+            thumbColor={COLORS.text.body}
+            value={!!bar.is_default}
+          />
+        </View>
+        <Text style={styles.itemDescription}>
+          This bar's stock of ingredients will be used to highlight which cocktails you can make
+          when browsing recipes
+        </Text>
+      </View>
     </ModalBody>
   )
 }
