@@ -24,19 +24,7 @@ interface RecipeCardProps {
 const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
   const navigation = useNavigation<NavigationProp<CocktailsStackParamList>>()
   const { steps, components, note, sources } = cocktail
-  const { bars } = useBars()
-
-  const checkIfInBar = (ingredientId: string) => {
-    let isInBar = false
-
-    bars.forEach((bar) => {
-      if (bar.ingredients_by_id[ingredientId]) {
-        isInBar = true
-      }
-    })
-
-    return isInBar
-  }
+  const { defaultBar } = useBars()
 
   const renderIngredients = (component: IComponent) => {
     if (!component) return null
@@ -77,7 +65,7 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
                   <Text
                     style={[
                       styles.ingredientTitleLink,
-                      checkIfInBar(componentIngredient.ingredient.id) && {
+                      !!defaultBar?.ingredients_by_id[componentIngredient.ingredient.id] && {
                         color: COLORS.text.good,
                       },
                     ]}
@@ -100,7 +88,14 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
                       })
                     }
                   >
-                    <Text style={styles.ingredientTitleLink}>
+                    <Text
+                      style={[
+                        styles.ingredientTitleLink,
+                        !!defaultBar?.ingredients_by_id[componentIngredient.ingredient.id] && {
+                          color: COLORS.text.good,
+                        },
+                      ]}
+                    >
                       {componentIngredient.ingredient.name}
                     </Text>
                   </TouchableWithoutFeedback>
@@ -134,7 +129,14 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
                         })
                       }
                     >
-                      <Text style={styles.ingredientNoteDescriptionLink}>
+                      <Text
+                        style={[
+                          styles.ingredientNoteDescriptionLink,
+                          !!defaultBar?.ingredients_by_id[componentIngredient.ingredient.id] && {
+                            color: COLORS.text.good,
+                          },
+                        ]}
+                      >
                         {componentIngredient.ingredient.name}
                       </Text>
                     </TouchableWithoutFeedback>
