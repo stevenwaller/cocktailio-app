@@ -3,7 +3,7 @@ import { useRef } from 'react'
 
 import CocktailList from '@/content/CocktailList'
 import MoreBarModal, { IMoreBarModal } from '@/content/MoreBarModal'
-import useBars from '@/lib/hooks/useBars'
+import { useBars } from '@/lib/contexts/BarsContext'
 import { BarStockStackParamList } from '@/lib/types'
 
 type Props = NativeStackScreenProps<BarStockStackParamList, 'Bar'>

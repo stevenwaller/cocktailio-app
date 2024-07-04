@@ -5,7 +5,7 @@ import Modal, { IModal, IModalProps } from '@/components/_overlays/Modal'
 import ModalBody from '@/components/_overlays/ModalBody'
 import ModalHeader from '@/components/_overlays/ModalHeader'
 import { FONTS, COLORS } from '@/lib/constants'
-import useBars from '@/lib/hooks/useBars'
+import { useBars } from '@/lib/contexts/BarsContext'
 import { TBar } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
 

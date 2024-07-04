@@ -9,7 +9,7 @@ import PlusIcon from '@/components/_icons/Plus'
 import Button from '@/components/_inputs/Button'
 import { IModal } from '@/components/_overlays/Modal'
 import { COLORS } from '@/lib/constants'
-import useBars from '@/lib/hooks/useBars'
+import { useBars } from '@/lib/contexts/BarsContext'
 
 const BarList = () => {
   const { isFetching, error, bars } = useBars()

@@ -8,7 +8,7 @@ import StackNavModal, {
   IStackNavModal,
   StackNavModalProps,
 } from '@/components/_overlays/StackNavModal'
-import useBars from '@/lib/hooks/useBars'
+import { useBars } from '@/lib/contexts/BarsContext'
 import { modalScreenOptions } from '@/lib/utils/options'
 
 export interface IMoreBarModal extends IStackNavModal {}

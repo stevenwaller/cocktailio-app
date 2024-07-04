@@ -5,7 +5,7 @@ import PlusIcon from '@/components/_icons/Plus'
 import AddInput from '@/components/_inputs/AddInput'
 import ModalBody from '@/components/_overlays/ModalBody'
 import { COLORS, FONTS } from '@/lib/constants'
-import useBars from '@/lib/hooks/useBars'
+import { useBars } from '@/lib/contexts/BarsContext'
 import { TBar, TIngredient } from '@/lib/types/supabase'
 
 interface IAddToBarHomeScreen {

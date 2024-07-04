@@ -8,7 +8,7 @@ import BarIngredientsHeaderBtns from '../_sharedHeaderBtns/BarIngredientsHeaderB
 import PageContainer from '@/components/PageContainer'
 import SearchInput from '@/components/SearchInput'
 import IngredientList from '@/content/IngredientList'
-import useBars from '@/lib/hooks/useBars'
+import { useBars } from '@/lib/contexts/BarsContext'
 import { BarStockStackParamList } from '@/lib/types'
 import { TIngredient } from '@/lib/types/supabase'
 import updateBarStock from '@/lib/utils/updateBarStock'
@@ -21,7 +21,7 @@ export default function BarIngredients({ route, navigation }: Props) {
   const { bar, setBar } = useBars(barId as string)
   const headerHeight = useHeaderHeight()
 
-  const clearAll = useCallback(async () => {}, [bar, setBar])
+  const clearAll = useCallback(async () => {}, [])
 
   useEffect(() => {
     navigation.setOptions({

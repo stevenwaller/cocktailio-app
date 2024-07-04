@@ -7,8 +7,8 @@ import { BodyText, PageTitleText } from '@/components/_elements/Text'
 import AddInput from '@/components/_inputs/AddInput'
 import AddToBarModal, { IAddToBarModal } from '@/content/AddToBarModal'
 import { FONTS, COLORS } from '@/lib/constants'
+import { useBars } from '@/lib/contexts/BarsContext'
 import { useIngredients } from '@/lib/contexts/IngredientsContext'
-import useBars from '@/lib/hooks/useBars'
 import { CocktailsStackParamList } from '@/lib/types'
 
 type Props = NativeStackScreenProps<CocktailsStackParamList, 'Ingredient'>

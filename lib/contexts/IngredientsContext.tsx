@@ -17,19 +17,19 @@ export type TIngredientById = Record<string, TIngredient>
 interface IIngredientContext {
   isFetching: boolean
   error: PostgrestError | null
-  ingredientsById: TIngredientById
-  ingredientCategoryIds: string[]
   refetch: () => void
   init: () => void
+  ingredientsById: TIngredientById
+  ingredientCategoryIds: string[]
 }
 
 const IngredientsContext = createContext<IIngredientContext>({
   isFetching: false,
   error: null,
-  ingredientsById: {},
-  ingredientCategoryIds: [],
   refetch: () => {},
   init: () => {},
+  ingredientsById: {},
+  ingredientCategoryIds: [],
 })
 
 export const IngredientsProvider = ({ children }: { children: ReactNode }) => {
@@ -81,7 +81,7 @@ export const IngredientsProvider = ({ children }: { children: ReactNode }) => {
     setError(response.error)
 
     setIsFetching(false)
-  }, [setIngredientsById, setIngredientCategoryIds])
+  }, [])
 
   const init = useCallback(() => {
     if (isFirstFetch.current) {

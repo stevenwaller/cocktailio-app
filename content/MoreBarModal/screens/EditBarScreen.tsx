@@ -5,7 +5,7 @@ import FormField from '@/components/_forms/FormField'
 import BottomSheetTextInput from '@/components/_inputs/BottomSheetTextInput'
 import Button from '@/components/_inputs/Button'
 import ModalBody from '@/components/_overlays/ModalBody'
-import useBars from '@/lib/hooks/useBars'
+import { useBars } from '@/lib/contexts/BarsContext'
 import { TBar } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
@@ -57,6 +57,10 @@ const EditBarScreen = ({ bar, onComplete = () => {}, isOpen }: IEditBarScreen) =
 
       return existingBar
     })
+
+    console.log('bar', bar)
+    console.log('bars', bars)
+    console.log('newBars', newBars)
 
     setBars(newBars)
     setValue('')

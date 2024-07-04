@@ -1,10 +1,10 @@
 import { createContext, useEffect, useRef, ReactNode, useContext } from 'react'
 
-import useBarStore from '../stores/useBarStore'
 import useCollectionStore from '../stores/useCollectionStore'
 
 import StackNavModal, { IStackNavModal } from '@/components/_overlays/StackNavModal'
 import AuthNav from '@/content/AuthNav'
+import { useBars } from '@/lib/contexts/BarsContext'
 import useUserStore from '@/lib/stores/useUserStore'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
@@ -27,7 +27,7 @@ interface AuthContextProviderProps {
 const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const { setUser } = useUserStore()
   const { setCollections } = useCollectionStore()
-  const { setBars } = useBarStore()
+  const { reset } = useBars()
   const modalRef = useRef<IStackNavModal>(null)
 
   const openAuthModal = () => {
@@ -44,7 +44,7 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       if (event === 'SIGNED_OUT') {
         setUser(null)
         setCollections([])
-        setBars([])
+        reset()
       } else if (session) {
         setUser(session.user)
       }
@@ -53,7 +53,7 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     return () => {
       data.subscription.unsubscribe()
     }
-  }, [setBars, setCollections, setUser])
+  }, [reset, setCollections, setUser])
 
   return (
     <AuthContext.Provider value={{ openAuthModal }}>

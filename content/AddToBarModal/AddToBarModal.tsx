@@ -8,8 +8,8 @@ import StackNavModal, {
   IStackNavModal,
   StackNavModalProps,
 } from '@/components/_overlays/StackNavModal'
+import { useBars } from '@/lib/contexts/BarsContext'
 import { useToast } from '@/lib/contexts/ToastContext'
-import useBars from '@/lib/hooks/useBars'
 import { TBar, TIngredient } from '@/lib/types/supabase'
 import { modalScreenOptions } from '@/lib/utils/options'
 import updateBarStock from '@/lib/utils/updateBarStock'
