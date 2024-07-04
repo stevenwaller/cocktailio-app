@@ -94,10 +94,6 @@ const CocktailList = ({
           } as IFilter,
         ]),
     {
-      name: 'Source',
-      value: [],
-    },
-    {
       name: 'Method',
       rowName: 'method_id',
       value: [],
@@ -174,9 +170,6 @@ const CocktailList = ({
           collection_id: collectionId,
           search_value: null,
           filter_ingredients: ingredientFilter,
-          filter_sources: filters
-            .find((filter) => filter.name === 'Source')
-            ?.value.map((item) => item.id),
         },
         { count: 'exact' },
       )

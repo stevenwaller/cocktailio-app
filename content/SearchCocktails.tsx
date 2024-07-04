@@ -17,7 +17,7 @@ import IngredientsText from '@/components/IngredientsText'
 import SearchInput from '@/components/SearchInput'
 import { BodyText } from '@/components/_elements/Text'
 import { COLORS, FONTS, SEARCH_HEIGHT } from '@/lib/constants'
-import useBars from '@/lib/hooks/useBars'
+import { useBars } from '@/lib/contexts/BarsContext'
 import { CocktailsStackParamList } from '@/lib/types'
 import { TCocktail } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
@@ -47,7 +47,6 @@ export default function SearchCocktails({ barId, collectionId }: Props) {
           collection_id: collectionId ? collectionId : null,
           search_value: searchValue,
           filter_ingredients: null,
-          filter_sources: null,
         },
         { count: 'exact' },
       )

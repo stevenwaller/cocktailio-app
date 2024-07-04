@@ -3,7 +3,6 @@ export type TFilterName =
   | 'Collection'
   | 'Base Spirit'
   | 'Ingredient'
-  | 'Source'
   | 'Method'
   | 'Era'
   | 'Glassware'

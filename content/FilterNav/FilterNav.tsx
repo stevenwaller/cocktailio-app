@@ -7,7 +7,6 @@ import FiltersScreen from './screens/FiltersScreen'
 import GlasswareScreen from './screens/GlasswareScreen'
 import IngredientScreen from './screens/IngredientScreen'
 import MethodScreen from './screens/MethodScreen'
-import SourceScreen from './screens/SourceScreen'
 import WithBarStockScreen from './screens/WithBarStockScreen'
 
 import { IFilter } from '@/lib/types'
@@ -24,7 +23,6 @@ const Components = {
   Collection: CollectionScreen,
   'Base Spirit': BaseSpiritScreen,
   Ingredient: IngredientScreen,
-  Source: SourceScreen,
   Method: MethodScreen,
   Era: EraScreen,
   Glassware: GlasswareScreen,
