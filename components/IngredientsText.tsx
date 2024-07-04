@@ -11,7 +11,7 @@ interface Props extends TextProps {
   isInBarStyle?: TextStyle
 }
 
-const IngredientsText = ({ cocktail, bar, style, isInBarStyle }: Props) => {
+const IngredientsText = ({ cocktail, bar, style, isInBarStyle = {} }: Props) => {
   const { ingredientsById } = useIngredients()
 
   if (!cocktail.components) return null
@@ -31,17 +31,40 @@ const IngredientsText = ({ cocktail, bar, style, isInBarStyle }: Props) => {
 
         if (component.ingredients.length === 0) return null
 
-        // TODO: if there is more than one ingredients
-        // show the one that is in the bar
+        /**
+         * When there are multiple ingredients:
+         * If the bar has that ingredient selected use that one
+         * If the bar has a child of that ingredient selected use that one
+         *    - And style it differently since it's not directly selected
+         * Otherwise just use the first ingredient
+         */
         const isLastComponent = componentIndex === cocktail.components.length - 1
-        const ingredient = ingredientsById[component.ingredients[0].ingredient_id]
-        const isInBar = !!bar?.all_ingredients_by_id[ingredient.id]
+        let ingredient = ingredientsById[component.ingredients[0].ingredient_id]
+        let textStyle: TextStyle[] = []
+        const idsInBar: string[] = []
+        const idsInAllBar: string[] = []
+
+        component.ingredients.forEach((componentIngredient) => {
+          if (bar?.ingredients_by_id[componentIngredient.ingredient_id]) {
+            idsInBar.push(componentIngredient.ingredient_id)
+          } else if (bar?.all_ingredients_by_id[componentIngredient.ingredient_id]) {
+            idsInAllBar.push(componentIngredient.ingredient_id)
+          }
+        })
+
+        if (idsInBar.length > 0) {
+          ingredient = ingredientsById[idsInBar[0]]
+          textStyle = [styles.isInBar, isInBarStyle]
+        } else if (idsInAllBar.length > 0) {
+          ingredient = ingredientsById[idsInAllBar[0]]
+          textStyle = [styles.isInAllBar, isInBarStyle]
+        }
 
         if (!ingredient) return null
 
         return (
           <Fragment key={component.id}>
-            <Text style={isInBar && [styles.isInBar, isInBarStyle]}>{ingredient.name}</Text>
+            <Text style={textStyle}>{ingredient.name}</Text>
             {!isLastComponent && ' · '}
           </Fragment>
         )
@@ -58,6 +81,10 @@ const styles = StyleSheet.create({
   },
   isInBar: {
     color: COLORS.text.good,
+  },
+  isInAllBar: {
+    color: COLORS.text.good,
+    fontFamily: FONTS.hells.sans.mediumItalic,
   },
 })
 
