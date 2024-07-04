@@ -113,13 +113,26 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
     )
   }
 
+  const renderAmount = (component: IComponent) => {
+    const { amount, amount_max, measurement } = component
+
+    if (!amount && !amount_max) return null
+
+    return (
+      <View style={styles.pill}>
+        <Text style={styles.pillText}>
+          {amount}
+          {amount_max && ` - ${amount_max}`}
+          {measurement && ` ${measurement.abbreviation}`}
+        </Text>
+      </View>
+    )
+  }
+
   const renderIngredients = (component: IComponent) => {
     if (!component) return null
 
     const {
-      amount,
-      amount_max,
-      measurement,
       ingredients,
       or_ingredients,
       recommended_ingredients,
@@ -130,13 +143,7 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
     return (
       <View style={styles.ingredient}>
         <View style={styles.ingredientText}>
-          <View style={styles.pill}>
-            <Text style={styles.pillText}>
-              {amount}
-              {amount_max && ` - ${amount_max}`}
-              {measurement && ` ${measurement.abbreviation}`}
-            </Text>
-          </View>
+          {renderAmount(component)}
           <Text style={styles.ingredientTitle}>
             {ingredients?.map((componentIngredient, index) => {
               const ingredient = ingredientsById[componentIngredient.ingredient_id]
