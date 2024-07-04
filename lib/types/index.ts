@@ -25,7 +25,7 @@ type CocktailsParams =
     }
   | undefined
 
-type CocktailDetailParams = { cocktailId: string; name: string }
+type CocktailDetailParams = { cocktailId: string; barId?: string; name: string }
 
 type IngredientDetailParams = { ingredientId: string; name: string }
 

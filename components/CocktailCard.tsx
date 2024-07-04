@@ -34,6 +34,7 @@ const CocktailCard = ({
           onPress={() =>
             navigation.navigate('Cocktail', {
               cocktailId: cocktail.id,
+              barId: bar?.id,
               name,
             })
           }

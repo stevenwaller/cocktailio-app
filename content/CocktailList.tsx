@@ -57,7 +57,7 @@ const CocktailList = ({
   const [sortColumn, setSortColumn] = useState<SortableColumns>('created_at')
   const [isAscending, setIsAscending] = useState<boolean>(false)
   const { collections } = useCollections()
-  const { bars, defaultBar } = useBars()
+  const { bars, defaultBar, bar } = useBars(barIdProp)
   const { ingredientsById } = useIngredients()
   const [isFirstPageReceived, setIsFirstPageReceived] = useState(false)
   const isRefetch = useRef(false)
@@ -65,6 +65,7 @@ const CocktailList = ({
   const defaultBarModalRef = useRef<IDefaultBarModal>(null)
   const sortModalRef = useRef<ISortModal>(null)
   const navigation = useNavigation<NavigationProp<CocktailsStackParamList>>()
+  const currentBar = bar ? bar : defaultBar
 
   const [filters, setFilters] = useState<IFilter[]>([
     ...(barIdProp
@@ -304,7 +305,7 @@ const CocktailList = ({
               cocktail={item}
               onBookmarkPress={handleBookmark}
               isBookmarked={checkIfBookmarked(item.id)}
-              bar={defaultBar}
+              bar={currentBar}
             />
           )}
           keyExtractor={(cocktail) => cocktail.id}

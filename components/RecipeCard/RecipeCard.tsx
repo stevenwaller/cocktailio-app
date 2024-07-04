@@ -21,13 +21,15 @@ import { TCocktail, IComponent } from '@/lib/types/supabase'
 interface RecipeCardProps {
   style?: StyleProp<ViewStyle>
   cocktail: TCocktail
+  barId?: string
 }
 
-const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
+const RecipeCard = ({ cocktail, style, barId, ...restProps }: RecipeCardProps) => {
   const navigation = useNavigation<NavigationProp<CocktailsStackParamList>>()
   const { steps, components, note, sources } = cocktail
-  const { defaultBar } = useBars()
+  const { defaultBar, bar } = useBars(barId)
   const { ingredientsById } = useIngredients()
+  const currentBar = bar ? bar : defaultBar
 
   const renderIngredientsYouHave = (component: IComponent) => {
     if (!component) return null
@@ -36,19 +38,19 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
     let hasAMatch = false
 
     ingredients?.forEach((componentIngredient) => {
-      if (defaultBar?.ingredients_by_id[componentIngredient.ingredient_id]) {
+      if (currentBar?.ingredients_by_id[componentIngredient.ingredient_id]) {
         hasAMatch = true
       }
     })
 
     or_ingredients?.forEach((componentIngredient) => {
-      if (defaultBar?.ingredients_by_id[componentIngredient.ingredient_id]) {
+      if (currentBar?.ingredients_by_id[componentIngredient.ingredient_id]) {
         hasAMatch = true
       }
     })
 
     recommended_ingredients?.forEach((componentIngredient) => {
-      if (defaultBar?.ingredients_by_id[componentIngredient.ingredient_id]) {
+      if (currentBar?.ingredients_by_id[componentIngredient.ingredient_id]) {
         hasAMatch = true
       }
     })
@@ -61,7 +63,7 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
       ingredientIds.forEach((id) => {
         const ingredient = ingredientsById[id]
 
-        if (defaultBar?.ingredients_by_id[id]) {
+        if (currentBar?.ingredients_by_id[id]) {
           matchedIngredientIds.push(id)
         }
 
@@ -163,7 +165,7 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
                     <Text
                       style={[
                         styles.ingredientTitleLink,
-                        !!defaultBar?.ingredients_by_id[ingredient.id] && {
+                        !!currentBar?.ingredients_by_id[ingredient.id] && {
                           color: COLORS.text.good,
                         },
                       ]}
@@ -192,7 +194,7 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
                       <Text
                         style={[
                           styles.ingredientTitleLink,
-                          !!defaultBar?.ingredients_by_id[ingredient.id] && {
+                          !!currentBar?.ingredients_by_id[ingredient.id] && {
                             color: COLORS.text.good,
                           },
                         ]}
@@ -249,7 +251,7 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
                         <Text
                           style={[
                             styles.ingredientNoteDescriptionLink,
-                            !!defaultBar?.ingredients_by_id[ingredient.id] && {
+                            !!currentBar?.ingredients_by_id[ingredient.id] && {
                               color: COLORS.text.good,
                             },
                           ]}
@@ -286,7 +288,7 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
           <Card.HeaderText>Ingredients</Card.HeaderText>
           <CanMake
             cocktail={cocktail ? cocktail : undefined}
-            bar={defaultBar}
+            bar={currentBar}
             width={15}
             height={15}
             showCount

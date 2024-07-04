@@ -24,6 +24,7 @@ export default function CocktailDetailScreen({ route, navigation }: Props) {
   const { collections } = useCollections()
   const addToCollectionModalRef = useRef<IAddToCollectionModal | null>(null)
   const cocktailId = route.params?.cocktailId
+  const barId = route.params?.barId
   const name = route.params?.name
 
   const checkIfBookmarked = useCallback(() => {
@@ -123,7 +124,7 @@ export default function CocktailDetailScreen({ route, navigation }: Props) {
     return (
       <>
         {renderDescription()}
-        <RecipeCard style={styles.recipeCard} cocktail={cocktail} />
+        <RecipeCard style={styles.recipeCard} cocktail={cocktail} barId={barId} />
       </>
     )
   }
