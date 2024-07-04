@@ -138,6 +138,7 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
       recommended_ingredients,
       note: ingredientNote,
       substitute,
+      optional,
     } = component
 
     return (
@@ -202,6 +203,18 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
                   </Text>
                 )
               })}
+            {optional && (
+              <Text
+                style={{
+                  fontFamily: FONTS.hells.sans.mediumItalic,
+                  fontSize: 16,
+                  color: COLORS.text.muted,
+                }}
+              >
+                {' '}
+                - optional
+              </Text>
+            )}
           </Text>
 
           {ingredientNote && (
