@@ -9,6 +9,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import TabNav from './TabNav'
 
 import AuthContextProvider from '@/lib/contexts/AuthContextProvider'
+import { IngredientsProvider } from '@/lib/contexts/IngredientsContext'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
@@ -63,9 +64,11 @@ function App() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <BottomSheetModalProvider>
         <AuthContextProvider>
-          <NavigationContainer>
-            <TabNav />
-          </NavigationContainer>
+          <IngredientsProvider>
+            <NavigationContainer>
+              <TabNav />
+            </NavigationContainer>
+          </IngredientsProvider>
         </AuthContextProvider>
       </BottomSheetModalProvider>
     </GestureHandlerRootView>
