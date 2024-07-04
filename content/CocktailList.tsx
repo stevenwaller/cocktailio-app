@@ -228,6 +228,8 @@ const CocktailList = ({
 
   const reFetchData = () => {
     isRefetch.current = true
+    setMinRange(0)
+    setMaxRange(itemsToLoad - 1)
     fetchData()
   }
 
