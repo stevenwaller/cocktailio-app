@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native'
 
+import CanMake from '@/components/CanMake'
 import Card from '@/components/Card'
 import { BodyText, BodyLinkText } from '@/components/_elements/Text'
 import { FONTS, COLORS } from '@/lib/constants'
@@ -283,6 +284,13 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
       <>
         <Card.Header>
           <Card.HeaderText>Ingredients</Card.HeaderText>
+          <CanMake
+            cocktail={cocktail ? cocktail : undefined}
+            bar={defaultBar}
+            width={15}
+            height={15}
+            showCount
+          />
         </Card.Header>
         <Card.Body>
           {components.map((component, index) => (
@@ -388,7 +396,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   isLastComponent: {
-    paddingBottom: 0,
     borderBottomWidth: 0,
     marginBottom: 0,
   },

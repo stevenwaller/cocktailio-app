@@ -12,6 +12,7 @@ import {
   KeyboardAvoidingView,
 } from 'react-native'
 
+import CanMake from '@/components/CanMake'
 import IngredientsText from '@/components/IngredientsText'
 import SearchInput from '@/components/SearchInput'
 import { BodyText } from '@/components/_elements/Text'
@@ -96,12 +97,21 @@ export default function SearchCocktails({ barId, collectionId }: Props) {
                   }
                 >
                   <Text style={styles.resultName}>{item.name}</Text>
-                  <IngredientsText
-                    style={styles.resultIngredient}
-                    isInBarStyle={{ color: '#90B761' }}
-                    cocktail={item}
-                    bar={bar ? bar : defaultBar}
-                  />
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <CanMake
+                      cocktail={item}
+                      bar={bar ? bar : defaultBar}
+                      width={15}
+                      height={15}
+                      style={{ marginRight: 8 }}
+                    />
+                    <IngredientsText
+                      style={styles.resultIngredient}
+                      isInBarStyle={{ color: '#90B761' }}
+                      cocktail={item}
+                      bar={bar ? bar : defaultBar}
+                    />
+                  </View>
                 </Pressable>
               </View>
             )}

@@ -1,6 +1,7 @@
 import { useNavigation, NavigationProp } from '@react-navigation/native'
-import { Pressable, ViewProps } from 'react-native'
+import { Pressable, ViewProps, View } from 'react-native'
 
+import CanMake from '@/components/CanMake'
 import Card from '@/components/Card'
 import IngredientsText from '@/components/IngredientsText'
 import BookmarkIcon from '@/components/_icons/Bookmark'
@@ -48,7 +49,16 @@ const CocktailCard = ({
         </Pressable>
       </Card.Header>
       <Card.Body>
-        <IngredientsText cocktail={cocktail} bar={bar} />
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <CanMake
+            cocktail={cocktail}
+            bar={bar}
+            width={15}
+            height={15}
+            style={{ marginRight: 8 }}
+          />
+          <IngredientsText cocktail={cocktail} bar={bar} style={{ marginTop: 1 }} />
+        </View>
         {/* <View style={{ marginTop: 20 }}>
           <BodyText style={{ marginBottom: 5 }}>SOURCES:</BodyText>
           {cocktail.sources?.map((source) => (
