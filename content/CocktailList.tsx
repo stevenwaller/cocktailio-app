@@ -21,6 +21,7 @@ import AddToCollectionModal, { IAddToCollectionModal } from '@/content/AddToColl
 import DefaultBarModal, { IDefaultBarModal } from '@/content/DefaultBarModal'
 import SortModal, { ISortModal } from '@/content/SortModal'
 import { COLORS, FONTS, SIZE } from '@/lib/constants'
+import { useIngredients } from '@/lib/contexts/IngredientsContext'
 import useBars from '@/lib/hooks/useBars'
 import useCollections from '@/lib/hooks/useCollections'
 import { IFilter, CocktailsStackParamList, SortableColumns } from '@/lib/types'
@@ -57,6 +58,7 @@ const CocktailList = ({
   const [isAscending, setIsAscending] = useState<boolean>(false)
   const { collections } = useCollections()
   const { bars, defaultBar } = useBars()
+  const { ingredientsById } = useIngredients()
   const [isFirstPageReceived, setIsFirstPageReceived] = useState(false)
   const isRefetch = useRef(false)
   const addToCollectionModalRef = useRef<IAddToCollectionModal | null>(null)
@@ -271,7 +273,10 @@ const CocktailList = ({
   }
 
   const renderContent = () => {
-    if (isFirstPageReceived === false && isFetching) {
+    if (
+      isFirstPageReceived === false &&
+      (isFetching || Object.keys(ingredientsById).length === 0)
+    ) {
       return (
         <PageContainer style={styles.pageContainer}>
           <ActivityIndicator size="small" />

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import SelectableAccordion from '@/components/SelectableAccordion'
 import { BodyText } from '@/components/_elements/Text'
 import { FONTS } from '@/lib/constants'
-import useIngredients from '@/lib/hooks/useIngredients'
+import { useIngredients } from '@/lib/contexts/IngredientsContext'
 import { TIngredient } from '@/lib/types/supabase'
 
 interface Props {
@@ -14,7 +14,7 @@ interface Props {
 
 const IngredientList = ({ checkIfSelected, onSelect, searchValue = '' }: Props) => {
   const [openAccordions, setOpenAccordions] = useState<{ [key: string]: boolean }>({})
-  const { ingredients, error, isFetching } = useIngredients()
+  const { ingredientsById, ingredientCategoryIds, error, isFetching } = useIngredients()
 
   const lowerCaseSearchValue = searchValue.toLowerCase()
   const foundIngredients: { [key: string]: string } = {}
@@ -25,8 +25,10 @@ const IngredientList = ({ checkIfSelected, onSelect, searchValue = '' }: Props) 
     }
   }, [searchValue])
 
-  const findIngredients = (parentIngredients: TIngredient[]) => {
-    parentIngredients.forEach((ingredient) => {
+  const findIngredients = (parentIngredientIds: string[]) => {
+    parentIngredientIds.forEach((id) => {
+      const ingredient = ingredientsById[id]
+
       if (ingredient.name.toLowerCase().includes(lowerCaseSearchValue)) {
         foundIngredients[ingredient.name] = ingredient.id
 
@@ -37,35 +39,39 @@ const IngredientList = ({ checkIfSelected, onSelect, searchValue = '' }: Props) 
         }
       }
 
-      if (ingredient.ingredients) {
-        findIngredients(ingredient.ingredients)
+      if (ingredient.childIngredientIds) {
+        findIngredients(ingredient.childIngredientIds)
       }
     })
   }
 
   // don't search the top level categories
-  ingredients?.forEach((ingredient) => {
-    if (ingredient.ingredients) {
-      findIngredients(ingredient.ingredients)
+  ingredientCategoryIds?.forEach((id) => {
+    const ingredient = ingredientsById[id]
+
+    if (ingredient.childIngredientIds) {
+      findIngredients(ingredient.childIngredientIds)
     }
   })
 
   const getSelectedCount = (ingredient: TIngredient) => {
     let count = 0
 
-    const getSubCount = (subIngredients: TIngredient[]) => {
-      subIngredients.forEach((subIngredient) => {
-        if (checkIfSelected(subIngredient)) {
+    const getChildCount = (childIngredientIds: string[]) => {
+      childIngredientIds.forEach((childId) => {
+        const child = ingredientsById[childId]
+
+        if (checkIfSelected(child)) {
           count++
         }
-        if (subIngredient.ingredients) {
-          getSubCount(subIngredient.ingredients)
+        if (child.childIngredientIds) {
+          getChildCount(child.childIngredientIds)
         }
       })
     }
 
-    if (ingredient.ingredients) {
-      getSubCount(ingredient.ingredients)
+    if (ingredient.childIngredientIds) {
+      getChildCount(ingredient.childIngredientIds)
     }
 
     return count
@@ -78,9 +84,9 @@ const IngredientList = ({ checkIfSelected, onSelect, searchValue = '' }: Props) 
       delete newOpenAccordions[ingredient.id]
 
       const closeChildren = (parentIngredient: TIngredient) => {
-        parentIngredient.ingredients?.forEach((child) => {
-          delete newOpenAccordions[child.id]
-          closeChildren(child)
+        parentIngredient.childIngredientIds?.forEach((childId) => {
+          delete newOpenAccordions[childId]
+          closeChildren(ingredientsById[childId])
         })
       }
 
@@ -92,10 +98,12 @@ const IngredientList = ({ checkIfSelected, onSelect, searchValue = '' }: Props) 
     setOpenAccordions(newOpenAccordions)
   }
 
-  const renderIngredients = (parentIngredients: TIngredient[] | undefined, depth: number) => {
-    if (!parentIngredients || parentIngredients.length === 0) return null
+  const renderIngredients = (parentIngredientIds: string[] | undefined, depth: number) => {
+    if (!parentIngredientIds || parentIngredientIds.length === 0) return null
 
-    return parentIngredients.map((ingredient, index) => {
+    return parentIngredientIds.map((ingredientId, index) => {
+      const ingredient = ingredientsById[ingredientId]
+
       if (searchValue && !foundIngredients[ingredient.name]) return null
 
       return (
@@ -115,7 +123,7 @@ const IngredientList = ({ checkIfSelected, onSelect, searchValue = '' }: Props) 
           noSelect={depth === 0}
           noExpand={searchValue !== ''}
         >
-          {renderIngredients(ingredient.ingredients, depth + 1)}
+          {renderIngredients(ingredient.childIngredientIds, depth + 1)}
         </SelectableAccordion>
       )
     })
@@ -129,7 +137,7 @@ const IngredientList = ({ checkIfSelected, onSelect, searchValue = '' }: Props) 
     return <BodyText>Error: {error.message}</BodyText>
   }
 
-  if (!ingredients) {
+  if (!ingredientCategoryIds) {
     return <BodyText>No data</BodyText>
   }
 
@@ -137,7 +145,7 @@ const IngredientList = ({ checkIfSelected, onSelect, searchValue = '' }: Props) 
     return <BodyText>No results found</BodyText>
   }
 
-  return renderIngredients(ingredients, 0)
+  return renderIngredients(ingredientCategoryIds, 0)
 }
 
 IngredientList.displayName = 'IngredientList'

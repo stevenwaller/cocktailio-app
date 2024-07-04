@@ -1,6 +1,5 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { PostgrestError } from '@supabase/supabase-js'
-import { useEffect, useState, useCallback, useRef } from 'react'
+import { useRef } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
 import PageContainer from '@/components/PageContainer'
@@ -8,45 +7,21 @@ import { BodyText, PageTitleText } from '@/components/_elements/Text'
 import AddInput from '@/components/_inputs/AddInput'
 import AddToBarModal, { IAddToBarModal } from '@/content/AddToBarModal'
 import { FONTS, COLORS } from '@/lib/constants'
+import { useIngredients } from '@/lib/contexts/IngredientsContext'
 import useBars from '@/lib/hooks/useBars'
 import { CocktailsStackParamList } from '@/lib/types'
-import { TIngredient } from '@/lib/types/supabase'
-import supabaseClient from '@/lib/utils/supabaseClient'
 
 type Props = NativeStackScreenProps<CocktailsStackParamList, 'Ingredient'>
 
 export default function IngredientDetailPage({ route }: Props) {
-  const [isFetching, setIsFetching] = useState(false)
-  const [ingredient, setIngredient] = useState<TIngredient | null>(null)
-  const [error, setError] = useState<PostgrestError | null>(null)
+  const { ingredientsById, error, isFetching } = useIngredients()
+
   const addToBarModalRef = useRef<IAddToBarModal | null>(null)
   const { bars } = useBars()
   const ingredientId = route.params?.ingredientId
   const name = route.params?.name
+  const ingredient = ingredientsById[ingredientId]
   let isInBar = false
-
-  const fetchData = useCallback(async () => {
-    setIsFetching(true)
-
-    const response = await supabaseClient
-      .from('ingredients')
-      .select(
-        `
-        *
-        `,
-      )
-      .eq('id', ingredientId)
-      .returns<TIngredient>()
-      .single()
-
-    setIsFetching(false)
-    setIngredient(response.data)
-    setError(response.error)
-  }, [ingredientId])
-
-  useEffect(() => {
-    fetchData()
-  }, [fetchData])
 
   bars.forEach((bar) => {
     if (bar.ingredients_by_id[ingredientId]) {

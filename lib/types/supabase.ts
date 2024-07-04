@@ -30,12 +30,14 @@ export type IComponent = Tables<'cocktail_components'> & {
 
 export type TComponentIngredient = Tables<'cocktail_component_ingredients'> & {
   id: string
-  ingredient: TIngredient
+  cocktail_component_id: string
+  ingredient_id: string
+  type: 'Default' | 'Or' | 'Recommended'
 }
 
 export type TIngredient = Omit<Tables<'ingredients'>, 'hierarchy'> & {
   hierarchy: { id: string; name: string }[] | null
-  ingredients?: TIngredient[]
+  childIngredientIds?: string[]
 }
 
 export type TSource = Tables<'sources'>

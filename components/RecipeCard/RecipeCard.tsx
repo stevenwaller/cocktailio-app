@@ -12,6 +12,7 @@ import {
 import Card from '@/components/Card'
 import { BodyText, BodyLinkText } from '@/components/_elements/Text'
 import { FONTS, COLORS } from '@/lib/constants'
+import { useIngredients } from '@/lib/contexts/IngredientsContext'
 import useBars from '@/lib/hooks/useBars'
 import { CocktailsStackParamList } from '@/lib/types'
 import { TCocktail, IComponent } from '@/lib/types/supabase'
@@ -25,6 +26,92 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
   const navigation = useNavigation<NavigationProp<CocktailsStackParamList>>()
   const { steps, components, note, sources } = cocktail
   const { defaultBar } = useBars()
+  const { ingredientsById } = useIngredients()
+
+  const renderIngredientsYouHave = (component: IComponent) => {
+    if (!component) return null
+
+    const { ingredients, or_ingredients, recommended_ingredients } = component
+    let hasAMatch = false
+
+    ingredients?.forEach((componentIngredient) => {
+      if (defaultBar?.ingredients_by_id[componentIngredient.ingredient_id]) {
+        hasAMatch = true
+      }
+    })
+
+    or_ingredients?.forEach((componentIngredient) => {
+      if (defaultBar?.ingredients_by_id[componentIngredient.ingredient_id]) {
+        hasAMatch = true
+      }
+    })
+
+    recommended_ingredients?.forEach((componentIngredient) => {
+      if (defaultBar?.ingredients_by_id[componentIngredient.ingredient_id]) {
+        hasAMatch = true
+      }
+    })
+
+    if (hasAMatch) return null
+
+    const matchedIngredientIds: string[] = []
+
+    const drillDown = (ingredientIds: string[]) => {
+      ingredientIds.forEach((id) => {
+        const ingredient = ingredientsById[id]
+
+        if (defaultBar?.ingredients_by_id[id]) {
+          matchedIngredientIds.push(id)
+        }
+
+        if (ingredient.childIngredientIds) {
+          drillDown(ingredient.childIngredientIds)
+        }
+      })
+    }
+
+    ingredients?.forEach((componentIngredient) => {
+      const ingredient = ingredientsById[componentIngredient.ingredient_id]
+
+      if (ingredient.childIngredientIds) {
+        drillDown(ingredient.childIngredientIds)
+      }
+    })
+
+    if (matchedIngredientIds.length <= 0) return null
+
+    return (
+      <View style={styles.ingredientNote}>
+        <Text style={styles.ingredientNoteTitle}>YOU HAVE</Text>
+        <Text style={styles.ingredientNoteDescription}>
+          {matchedIngredientIds.map((id, idIndex) => (
+            <Fragment key={id}>
+              {idIndex !== 0 && ', '}
+              <TouchableWithoutFeedback
+                onPress={() =>
+                  navigation.navigate('Ingredient', {
+                    ingredientId: id,
+                    name: ingredientsById[id].name,
+                  })
+                }
+              >
+                <Text
+                  style={[
+                    styles.ingredientNoteDescriptionLink,
+                    {
+                      color: COLORS.text.good,
+                    },
+                  ]}
+                >
+                  {ingredientsById[id].name}
+                </Text>
+              </TouchableWithoutFeedback>
+            </Fragment>
+          ))}
+        </Text>
+      </View>
+    )
+  }
 
   const renderIngredients = (component: IComponent) => {
     if (!component) return null
@@ -51,57 +138,63 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
             </Text>
           </View>
           <Text style={styles.ingredientTitle}>
-            {ingredients?.map((componentIngredient, index) => (
-              <Fragment key={componentIngredient.id}>
-                {index !== 0 && ' or '}
-                <TouchableWithoutFeedback
-                  onPress={() =>
-                    navigation.navigate('Ingredient', {
-                      ingredientId: componentIngredient.ingredient.id,
-                      name: componentIngredient.ingredient.name,
-                    })
-                  }
-                >
-                  <Text
-                    style={[
-                      styles.ingredientTitleLink,
-                      !!defaultBar?.ingredients_by_id[componentIngredient.ingredient.id] && {
-                        color: COLORS.text.good,
-                      },
-                    ]}
-                  >
-                    {componentIngredient.ingredient.name}
-                  </Text>
-                </TouchableWithoutFeedback>
-              </Fragment>
-            ))}
-            {or_ingredients?.length > 0 &&
-              or_ingredients?.map((componentIngredient, index) => (
-                <Text key={componentIngredient.id} style={styles.orIngredients}>
-                  {index === 0 && ' ('}
+            {ingredients?.map((componentIngredient, index) => {
+              const ingredient = ingredientsById[componentIngredient.ingredient_id]
+              return (
+                <Fragment key={componentIngredient.id}>
                   {index !== 0 && ' or '}
                   <TouchableWithoutFeedback
                     onPress={() =>
                       navigation.navigate('Ingredient', {
-                        ingredientId: componentIngredient.ingredient.id,
-                        name: componentIngredient.ingredient.name,
+                        ingredientId: ingredient.id,
+                        name: ingredient.name,
                       })
                     }
                   >
                     <Text
                       style={[
                         styles.ingredientTitleLink,
-                        !!defaultBar?.ingredients_by_id[componentIngredient.ingredient.id] && {
+                        !!defaultBar?.ingredients_by_id[ingredient.id] && {
                           color: COLORS.text.good,
                         },
                       ]}
                     >
-                      {componentIngredient.ingredient.name}
+                      {ingredient.name}
                     </Text>
                   </TouchableWithoutFeedback>
-                  {index === or_ingredients.length - 1 && ')'}
-                </Text>
-              ))}
+                </Fragment>
+              )
+            })}
+            {or_ingredients?.length > 0 &&
+              or_ingredients?.map((componentIngredient, index) => {
+                const ingredient = ingredientsById[componentIngredient.ingredient_id]
+                return (
+                  <Text key={componentIngredient.id} style={styles.orIngredients}>
+                    {index === 0 && ' ('}
+                    {index !== 0 && ' or '}
+                    <TouchableWithoutFeedback
+                      onPress={() =>
+                        navigation.navigate('Ingredient', {
+                          ingredientId: ingredient.id,
+                          name: ingredient.name,
+                        })
+                      }
+                    >
+                      <Text
+                        style={[
+                          styles.ingredientTitleLink,
+                          !!defaultBar?.ingredients_by_id[ingredient.id] && {
+                            color: COLORS.text.good,
+                          },
+                        ]}
+                      >
+                        {ingredient.name}
+                      </Text>
+                    </TouchableWithoutFeedback>
+                    {index === or_ingredients.length - 1 && ')'}
+                  </Text>
+                )
+              })}
           </Text>
 
           {ingredientNote && (
@@ -115,33 +208,37 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
             <View style={styles.ingredientNote}>
               <Text style={styles.ingredientNoteTitle}>RECOMMENDED</Text>
               <Text style={styles.ingredientNoteDescription}>
-                {recommended_ingredients?.map((componentIngredient, index) => (
-                  <Fragment key={componentIngredient.id}>
-                    {index !== 0 && `, `}
-                    {recommended_ingredients.length > 1 &&
-                      index === recommended_ingredients.length - 1 &&
-                      ' or '}
-                    <TouchableWithoutFeedback
-                      onPress={() =>
-                        navigation.navigate('Ingredient', {
-                          ingredientId: componentIngredient.ingredient.id,
-                          name: componentIngredient.ingredient.name,
-                        })
-                      }
-                    >
-                      <Text
-                        style={[
-                          styles.ingredientNoteDescriptionLink,
-                          !!defaultBar?.ingredients_by_id[componentIngredient.ingredient.id] && {
-                            color: COLORS.text.good,
-                          },
-                        ]}
+                {recommended_ingredients?.map((componentIngredient, index) => {
+                  const ingredient = ingredientsById[componentIngredient.ingredient_id]
+
+                  return (
+                    <Fragment key={componentIngredient.id}>
+                      {index !== 0 && `, `}
+                      {recommended_ingredients.length > 1 &&
+                        index === recommended_ingredients.length - 1 &&
+                        ' or '}
+                      <TouchableWithoutFeedback
+                        onPress={() =>
+                          navigation.navigate('Ingredient', {
+                            ingredientId: ingredient.id,
+                            name: ingredient.name,
+                          })
+                        }
                       >
-                        {componentIngredient.ingredient.name}
-                      </Text>
-                    </TouchableWithoutFeedback>
-                  </Fragment>
-                ))}
+                        <Text
+                          style={[
+                            styles.ingredientNoteDescriptionLink,
+                            !!defaultBar?.ingredients_by_id[ingredient.id] && {
+                              color: COLORS.text.good,
+                            },
+                          ]}
+                        >
+                          {ingredient.name}
+                        </Text>
+                      </TouchableWithoutFeedback>
+                    </Fragment>
+                  )
+                })}
               </Text>
             </View>
           )}
@@ -152,6 +249,8 @@ const RecipeCard = ({ cocktail, style, ...restProps }: RecipeCardProps) => {
               <Text style={styles.ingredientNoteDescription}>{substitute}</Text>
             </View>
           )}
+
+          {renderIngredientsYouHave(component)}
         </View>
       </View>
     )

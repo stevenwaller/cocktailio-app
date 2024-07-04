@@ -73,18 +73,9 @@ export default function CocktailDetailScreen({ route, navigation }: Props) {
         components:cocktail_components(
           *,
           measurement:measurements(*),
-          ingredients:cocktail_component_ingredients(
-            *,
-            ingredient:ingredients(*)
-          ),
-          or_ingredients:cocktail_component_ingredients(
-            *,
-            ingredient:ingredients(*)
-          ),
-          recommended_ingredients:cocktail_component_ingredients(
-            *,
-            ingredient:ingredients(*)
-          )
+          ingredients:cocktail_component_ingredients(*),
+          or_ingredients:cocktail_component_ingredients(*),
+          recommended_ingredients:cocktail_component_ingredients(*)
         )
         `,
       )
