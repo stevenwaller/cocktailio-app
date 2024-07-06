@@ -63,8 +63,6 @@ export const BarsProvider = ({ children }: { children: ReactNode }) => {
       .order('created_at', { ascending: true })
       .returns<TBar[]>()
 
-    console.log('response.data', response.data)
-
     if (response.data) {
       setBars(response.data)
     }

@@ -77,13 +77,25 @@ export default function CocktailDetailScreen({ route, navigation }: Props) {
           ingredients:cocktail_component_ingredients(*),
           or_ingredients:cocktail_component_ingredients(*),
           recommended_ingredients:cocktail_component_ingredients(*)
+        ),
+        optional_components:cocktail_components(
+          *,
+          measurement:measurements(*),
+          ingredients:cocktail_component_ingredients(*),
+          or_ingredients:cocktail_component_ingredients(*),
+          recommended_ingredients:cocktail_component_ingredients(*)
         )
         `,
       )
       .eq('id', cocktailId)
+      .eq('components.optional', false)
       .eq('components.ingredients.type', 'Default')
       .eq('components.or_ingredients.type', 'Or')
       .eq('components.recommended_ingredients.type', 'Recommended')
+      .eq('optional_components.optional', true)
+      .eq('optional_components.ingredients.type', 'Default')
+      .eq('optional_components.or_ingredients.type', 'Or')
+      .eq('optional_components.recommended_ingredients.type', 'Recommended')
       .order('order', { referencedTable: 'steps' })
       .order('order', { referencedTable: 'cocktail_components' })
       .returns<TCocktail>()

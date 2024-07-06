@@ -26,10 +26,12 @@ interface RecipeCardProps {
 
 const RecipeCard = ({ cocktail, style, barId, ...restProps }: RecipeCardProps) => {
   const navigation = useNavigation<NavigationProp<CocktailsStackParamList>>()
-  const { steps, components, note, sources } = cocktail
+  const { steps, components, optional_components, note, sources } = cocktail
   const { defaultBar, bar } = useBars(barId)
   const { ingredientsById } = useIngredients()
   const currentBar = bar ? bar : defaultBar
+
+  console.log('cocktail', cocktail)
 
   const renderIngredientsYouHave = (component: IComponent) => {
     if (!component) return null
@@ -206,18 +208,6 @@ const RecipeCard = ({ cocktail, style, barId, ...restProps }: RecipeCardProps) =
                   </Text>
                 )
               })}
-            {optional && (
-              <Text
-                style={{
-                  fontFamily: FONTS.hells.sans.mediumItalic,
-                  fontSize: 16,
-                  color: COLORS.text.muted,
-                }}
-              >
-                {' '}
-                - optional
-              </Text>
-            )}
           </Text>
 
           {ingredientNote && (
@@ -308,6 +298,39 @@ const RecipeCard = ({ cocktail, style, barId, ...restProps }: RecipeCardProps) =
     )
   }
 
+  const renderOptionalComponents = () => {
+    if (!optional_components || optional_components.length <= 0) return null
+
+    return (
+      <>
+        <Card.Header>
+          <Card.HeaderText>Optional Ingredients</Card.HeaderText>
+          <CanMake
+            cocktail={cocktail ? cocktail : undefined}
+            bar={currentBar}
+            width={15}
+            height={15}
+            showCount
+            optional
+          />
+        </Card.Header>
+        <Card.Body>
+          {optional_components.map((component, index) => (
+            <View
+              key={component.id}
+              style={[
+                styles.component,
+                index === optional_components.length - 1 && styles.isLastComponent,
+              ]}
+            >
+              {renderIngredients(component)}
+            </View>
+          ))}
+        </Card.Body>
+      </>
+    )
+  }
+
   const renderSteps = () => {
     if (!steps || steps.length <= 0) return null
 
@@ -377,6 +400,7 @@ const RecipeCard = ({ cocktail, style, barId, ...restProps }: RecipeCardProps) =
     <>
       <Card style={style} {...restProps}>
         {renderComponents()}
+        {renderOptionalComponents()}
         {renderSteps()}
         {renderNote()}
         {renderSources()}

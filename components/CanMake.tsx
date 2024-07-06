@@ -11,18 +11,31 @@ interface Props {
   width?: number
   height?: number
   showCount?: boolean
+  hideCheck?: boolean
+  optional?: boolean
 }
 
-const CanMake = ({ cocktail, bar, width, height, style, showCount = false }: Props) => {
+const CanMake = ({
+  cocktail,
+  bar,
+  width,
+  height,
+  style,
+  showCount = false,
+  hideCheck,
+  optional,
+}: Props) => {
   const matchedComponents = []
 
   if (!bar || !cocktail) return null
 
-  if (!cocktail.components || cocktail.components.length === 0) {
+  const components = optional ? cocktail['optional_components'] : cocktail['components']
+
+  if (!components || components.length === 0) {
     return null
   }
 
-  cocktail.components.forEach((component) => {
+  components.forEach((component) => {
     let hasMatch = false
 
     if (component.ingredients && component.ingredients.length > 0) {
@@ -54,7 +67,7 @@ const CanMake = ({ cocktail, bar, width, height, style, showCount = false }: Pro
     }
   })
 
-  const showCheck = matchedComponents.length === cocktail.components.length
+  const showCheck = !hideCheck && matchedComponents.length === components.length
 
   if (!showCheck && !showCount) return null
 
@@ -77,7 +90,7 @@ const CanMake = ({ cocktail, bar, width, height, style, showCount = false }: Pro
             ...(showCheck ? { marginRight: 5 } : {}),
           }}
         >
-          {matchedComponents.length}/{cocktail.components.length}
+          {matchedComponents.length}/{components.length}
         </Text>
       )}
       {showCheck && <CircleCheckFilled color={COLORS.text.good} width={width} height={height} />}

@@ -210,7 +210,7 @@ export type Database = {
           ingredients_array: string[] | null
           measurement_id: string | null
           note: string | null
-          optional: boolean | null
+          optional: boolean
           order: number | null
           sub_ingredients_array: string[] | null
           substitute: string | null
@@ -225,7 +225,7 @@ export type Database = {
           ingredients_array?: string[] | null
           measurement_id?: string | null
           note?: string | null
-          optional?: boolean | null
+          optional?: boolean
           order?: number | null
           sub_ingredients_array?: string[] | null
           substitute?: string | null
@@ -240,7 +240,7 @@ export type Database = {
           ingredients_array?: string[] | null
           measurement_id?: string | null
           note?: string | null
-          optional?: boolean | null
+          optional?: boolean
           order?: number | null
           sub_ingredients_array?: string[] | null
           substitute?: string | null
@@ -852,7 +852,6 @@ export type Database = {
           bar_id: string
           collection_id: string
           filter_ingredients: Json
-          filter_sources: string[]
           search_value: string
         }
         Returns: {
@@ -875,6 +874,7 @@ export type Database = {
           steps: Json
           sources: Json
           components: Json
+          optional_components: Json
           related_cocktails: Json
         }[]
       }

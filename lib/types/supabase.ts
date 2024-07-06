@@ -18,6 +18,7 @@ export type TCocktail = Tables<'cocktails'> & {
         }[])
     | null
   components: IComponent[] | null
+  optional_components: IComponent[] | null
 }
 
 export type IComponent = Tables<'cocktail_components'> & {
