@@ -4,7 +4,7 @@ import { BodyText } from '@/components/_elements/Text'
 import AddInput from '@/components/_inputs/AddInput'
 import ModalBody from '@/components/_overlays/ModalBody'
 import { COLORS, FONTS } from '@/lib/constants'
-import useEras from '@/lib/hooks/useEras'
+import { useEras } from '@/lib/contexts/ErasContext'
 import { IFilter } from '@/lib/types'
 import { TEra } from '@/lib/types/supabase'
 

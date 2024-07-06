@@ -20,9 +20,9 @@ interface ICollectionsContext {
   refetch: () => void
   init: () => void
   collections: TCollection[]
-  setCollections: (newCollections: TCollection[]) => void
+  setCollections: (newItems: TCollection[]) => void
   collection?: TCollection
-  setCollection: (newCollection: TCollection) => void
+  setCollection: (newItem: TCollection) => void
 }
 
 const CollectionsContext = createContext<ICollectionsContext>({
