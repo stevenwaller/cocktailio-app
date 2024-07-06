@@ -9,6 +9,7 @@ import {
   useCallback,
 } from 'react'
 
+import { useUser } from '@/lib/contexts/UserContext'
 import { TBar } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
@@ -16,7 +17,6 @@ interface IBarsContext {
   isFetching: boolean
   error: PostgrestError | null
   refetch: () => void
-  reset: () => void
   init: () => void
   bars: TBar[]
   setBars: (newBars: TBar[]) => void
@@ -29,7 +29,6 @@ const BarsContext = createContext<IBarsContext>({
   isFetching: false,
   error: null,
   refetch: () => {},
-  reset: () => {},
   init: () => {},
   bars: [],
   setBars: () => {},
@@ -44,6 +43,8 @@ export const BarsProvider = ({ children }: { children: ReactNode }) => {
   const [bars, setBars] = useState<TBar[]>([])
   const defaultBar = bars.find((barItem) => barItem.is_default)
   const isFirstFetch = useRef(true)
+  const didMount = useRef(false)
+  const { user } = useUser()
 
   const fetchData = useCallback(async () => {
     isFirstFetch.current = false
@@ -77,13 +78,16 @@ export const BarsProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [fetchData])
 
-  const reset = useCallback(() => {
-    isFirstFetch.current = true
-    setBars([])
-  }, [])
+  useEffect(() => {
+    if (didMount.current) {
+      isFirstFetch.current = true
+      setBars([])
+    } else {
+      didMount.current = true
+    }
+  }, [user])
 
   const setBar = useCallback((newBar: TBar) => {
-    console.log('newBar', newBar)
     setBars((state) => {
       return state.map((bar) => {
         if (bar.id === newBar.id) {
@@ -100,7 +104,6 @@ export const BarsProvider = ({ children }: { children: ReactNode }) => {
         isFetching,
         error,
         refetch: fetchData,
-        reset,
         init,
         bars,
         setBars,

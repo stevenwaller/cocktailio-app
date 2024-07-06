@@ -4,12 +4,12 @@ import PageContainer from '@/components/PageContainer'
 import { BodyText } from '@/components/_elements/Text'
 import Button from '@/components/_inputs/Button'
 import BarList from '@/content/BarList'
-import { useAuth } from '@/lib/contexts/AuthContextProvider'
-import useUserStore from '@/lib/stores/useUserStore'
+import { useAuthModal } from '@/lib/contexts/AuthModalContext'
+import { useUser } from '@/lib/contexts/UserContext'
 
 export default function BarStockScreen() {
-  const { openAuthModal } = useAuth()
-  const { user } = useUserStore()
+  const { openAuthModal } = useAuthModal()
+  const { user } = useUser()
 
   return (
     <ScrollView>

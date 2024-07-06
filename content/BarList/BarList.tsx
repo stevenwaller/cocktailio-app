@@ -17,6 +17,8 @@ const BarList = () => {
   const moreModalRef = useRef<IMoreBarModal>(null)
   const [currentBarId, setCurrentBarId] = useState<string>()
 
+  console.log('render BarList')
+
   if (error) {
     return <BodyText>Error: {error.message}</BodyText>
   }

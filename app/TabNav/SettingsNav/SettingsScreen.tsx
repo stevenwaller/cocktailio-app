@@ -3,13 +3,13 @@ import { StyleSheet, ScrollView, Text } from 'react-native'
 import PageContainer from '@/components/PageContainer'
 import Button from '@/components/_inputs/Button'
 import { COLORS, FONTS } from '@/lib/constants'
-import { useAuth } from '@/lib/contexts/AuthContextProvider'
-import useUserStore from '@/lib/stores/useUserStore'
+import { useAuthModal } from '@/lib/contexts/AuthModalContext'
+import { useUser } from '@/lib/contexts/UserContext'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
 export default function SettingsScreen() {
-  const { openAuthModal } = useAuth()
-  const { user } = useUserStore()
+  const { openAuthModal } = useAuthModal()
+  const { user } = useUser()
 
   const handleSignOut = async () => {
     const { error } = await supabaseClient.auth.signOut()
@@ -24,7 +24,7 @@ export default function SettingsScreen() {
       <PageContainer>
         <Text style={[styles.title, { marginBottom: 15 }]}>Account</Text>
         {user ? (
-          <Button label="Log Out" onPress={handleSignOut} />
+          <Button label="Sign Out" onPress={handleSignOut} />
         ) : (
           <Button label="Create a free account / Sign in" onPress={() => openAuthModal()} />
         )}

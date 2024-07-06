@@ -5,7 +5,7 @@ import FormField from '@/components/_forms/FormField'
 import BottomSheetTextInput from '@/components/_inputs/BottomSheetTextInput'
 import Button from '@/components/_inputs/Button'
 import { useBars } from '@/lib/contexts/BarsContext'
-import useUserStore from '@/lib/stores/useUserStore'
+import { useUser } from '@/lib/contexts/UserContext'
 import { TBar } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
@@ -14,7 +14,7 @@ interface INewBarFormProps {
 }
 
 const NewBarForm = ({ onComplete = () => {} }: INewBarFormProps) => {
-  const { user } = useUserStore()
+  const { user } = useUser()
   const { bars, setBars } = useBars()
   const [value, setValue] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
