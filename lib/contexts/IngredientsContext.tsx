@@ -21,6 +21,7 @@ interface IIngredientContext {
   init: () => void
   ingredientsById: TIngredientById
   ingredientCategoryIds: string[]
+  baseSpiritIds: string[]
 }
 
 const IngredientsContext = createContext<IIngredientContext>({
@@ -30,6 +31,7 @@ const IngredientsContext = createContext<IIngredientContext>({
   init: () => {},
   ingredientsById: {},
   ingredientCategoryIds: [],
+  baseSpiritIds: [],
 })
 
 export const IngredientsProvider = ({ children }: { children: ReactNode }) => {
@@ -37,6 +39,7 @@ export const IngredientsProvider = ({ children }: { children: ReactNode }) => {
   const [error, setError] = useState<PostgrestError | null>(null)
   const [ingredientsById, setIngredientsById] = useState<TIngredientById>({})
   const [ingredientCategoryIds, setIngredientCategoryIds] = useState<string[]>([])
+  const [baseSpiritIds, setBaseSpiritIds] = useState<string[]>([])
   const isFirstFetch = useRef(true)
 
   const fetchData = useCallback(async () => {
@@ -57,6 +60,7 @@ export const IngredientsProvider = ({ children }: { children: ReactNode }) => {
     if (response.data) {
       const newIngredientsById: TIngredientById = {}
       const newIngredientCategoryIds: string[] = []
+      const newBaseSpiritIds: string[] = []
 
       // normalize response data
       response.data.forEach((ingredient) => {
@@ -73,10 +77,17 @@ export const IngredientsProvider = ({ children }: { children: ReactNode }) => {
         if (!ingredient.parent_ingredient_id) {
           newIngredientCategoryIds.push(ingredient.id)
         }
+
+        // if the ingredient is a base spirit
+        // save it in the newBaseSpiritIds
+        if (ingredient.is_base) {
+          newBaseSpiritIds.push(ingredient.id)
+        }
       })
 
       setIngredientsById(newIngredientsById)
       setIngredientCategoryIds(newIngredientCategoryIds)
+      setBaseSpiritIds(newBaseSpiritIds)
     }
     setError(response.error)
 
@@ -96,6 +107,7 @@ export const IngredientsProvider = ({ children }: { children: ReactNode }) => {
         error,
         ingredientsById,
         ingredientCategoryIds,
+        baseSpiritIds,
         refetch: fetchData,
         init,
       }}

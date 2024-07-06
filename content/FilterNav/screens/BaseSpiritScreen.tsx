@@ -4,7 +4,7 @@ import { BodyText } from '@/components/_elements/Text'
 import AddInput from '@/components/_inputs/AddInput'
 import ModalBody from '@/components/_overlays/ModalBody'
 import { COLORS, FONTS } from '@/lib/constants'
-import useBaseSpirits from '@/lib/hooks/useBaseSpirits'
+import { useIngredients } from '@/lib/contexts/IngredientsContext'
 import { IFilter } from '@/lib/types'
 import { TIngredient } from '@/lib/types/supabase'
 
@@ -14,7 +14,7 @@ interface BaseSpiritScreenProps {
 }
 
 const BaseSpiritScreen = ({ filter, onChange }: BaseSpiritScreenProps) => {
-  const { isFetching, error, spirits } = useBaseSpirits()
+  const { baseSpiritIds, ingredientsById, isFetching, error } = useIngredients()
 
   const handleIngredientPress = (ingredient: TIngredient) => {
     if (!filter) return
@@ -34,19 +34,23 @@ const BaseSpiritScreen = ({ filter, onChange }: BaseSpiritScreenProps) => {
 
   if (error) return <BodyText>Error: {error.message}</BodyText>
 
-  if (!spirits) return <BodyText>No data</BodyText>
+  if (baseSpiritIds.length <= 0) return <BodyText>No data</BodyText>
 
   return (
     <ModalBody>
-      {spirits.map((ingredient) => (
-        <View key={ingredient.id} style={styles.ingredient}>
-          <AddInput
-            checked={filter?.value.some((item) => item.id === ingredient.id)}
-            onPress={() => handleIngredientPress(ingredient)}
-          />
-          <Text style={styles.ingredientText}>{ingredient.name}</Text>
-        </View>
-      ))}
+      {baseSpiritIds.map((ingredientId) => {
+        const ingredient = ingredientsById[ingredientId]
+
+        return (
+          <View key={ingredient.id} style={styles.ingredient}>
+            <AddInput
+              checked={filter?.value.some((item) => item.id === ingredient.id)}
+              onPress={() => handleIngredientPress(ingredient)}
+            />
+            <Text style={styles.ingredientText}>{ingredient.name}</Text>
+          </View>
+        )
+      })}
     </ModalBody>
   )
 }
