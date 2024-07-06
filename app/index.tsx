@@ -14,6 +14,7 @@ import { CollectionsProvider } from '@/lib/contexts/CollectionsContext'
 import { ErasProvider } from '@/lib/contexts/ErasContext'
 import { GlassesProvider } from '@/lib/contexts/GlassesContext'
 import { IngredientsProvider } from '@/lib/contexts/IngredientsContext'
+import { MethodsProvider } from '@/lib/contexts/MethodsContext'
 import { UserContextProvider } from '@/lib/contexts/UserContext'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -73,13 +74,15 @@ function App() {
             <CollectionsProvider>
               <ErasProvider>
                 <GlassesProvider>
-                  <BottomSheetModalProvider>
-                    <AuthModalContextProvider>
-                      <NavigationContainer>
-                        <TabNav />
-                      </NavigationContainer>
-                    </AuthModalContextProvider>
-                  </BottomSheetModalProvider>
+                  <MethodsProvider>
+                    <BottomSheetModalProvider>
+                      <AuthModalContextProvider>
+                        <NavigationContainer>
+                          <TabNav />
+                        </NavigationContainer>
+                      </AuthModalContextProvider>
+                    </BottomSheetModalProvider>
+                  </MethodsProvider>
                 </GlassesProvider>
               </ErasProvider>
             </CollectionsProvider>

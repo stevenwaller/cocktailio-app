@@ -4,7 +4,7 @@ import { BodyText } from '@/components/_elements/Text'
 import AddInput from '@/components/_inputs/AddInput'
 import ModalBody from '@/components/_overlays/ModalBody'
 import { COLORS, FONTS } from '@/lib/constants'
-import useMethods from '@/lib/hooks/useMethods'
+import { useMethods } from '@/lib/contexts/MethodsContext'
 import { IFilter } from '@/lib/types'
 import { TMethod } from '@/lib/types/supabase'
 
