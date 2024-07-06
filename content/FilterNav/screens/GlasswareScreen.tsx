@@ -4,7 +4,7 @@ import { BodyText } from '@/components/_elements/Text'
 import AddInput from '@/components/_inputs/AddInput'
 import ModalBody from '@/components/_overlays/ModalBody'
 import { COLORS, FONTS } from '@/lib/constants'
-import useGlasses from '@/lib/hooks/useGlasses'
+import { useGlasses } from '@/lib/contexts/GlassesContext'
 import { IFilter } from '@/lib/types'
 import { TGlass } from '@/lib/types/supabase'
 

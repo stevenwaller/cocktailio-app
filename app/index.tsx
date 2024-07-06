@@ -12,6 +12,7 @@ import { AuthModalContextProvider } from '@/lib/contexts/AuthModalContext'
 import { BarsProvider } from '@/lib/contexts/BarsContext'
 import { CollectionsProvider } from '@/lib/contexts/CollectionsContext'
 import { ErasProvider } from '@/lib/contexts/ErasContext'
+import { GlassesProvider } from '@/lib/contexts/GlassesContext'
 import { IngredientsProvider } from '@/lib/contexts/IngredientsContext'
 import { UserContextProvider } from '@/lib/contexts/UserContext'
 
@@ -71,13 +72,15 @@ function App() {
           <BarsProvider>
             <CollectionsProvider>
               <ErasProvider>
-                <BottomSheetModalProvider>
-                  <AuthModalContextProvider>
-                    <NavigationContainer>
-                      <TabNav />
-                    </NavigationContainer>
-                  </AuthModalContextProvider>
-                </BottomSheetModalProvider>
+                <GlassesProvider>
+                  <BottomSheetModalProvider>
+                    <AuthModalContextProvider>
+                      <NavigationContainer>
+                        <TabNav />
+                      </NavigationContainer>
+                    </AuthModalContextProvider>
+                  </BottomSheetModalProvider>
+                </GlassesProvider>
               </ErasProvider>
             </CollectionsProvider>
           </BarsProvider>
