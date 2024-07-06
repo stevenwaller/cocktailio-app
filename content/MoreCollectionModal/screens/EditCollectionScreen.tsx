@@ -5,7 +5,7 @@ import FormField from '@/components/_forms/FormField'
 import BottomSheetTextInput from '@/components/_inputs/BottomSheetTextInput'
 import Button from '@/components/_inputs/Button'
 import ModalBody from '@/components/_overlays/ModalBody'
-import useCollections from '@/lib/hooks/useCollections'
+import { useCollections } from '@/lib/contexts/CollectionsContext'
 import { TCollection } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
 

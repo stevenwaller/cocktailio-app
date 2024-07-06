@@ -10,6 +10,7 @@ import TabNav from './TabNav'
 
 import { AuthModalContextProvider } from '@/lib/contexts/AuthModalContext'
 import { BarsProvider } from '@/lib/contexts/BarsContext'
+import { CollectionsProvider } from '@/lib/contexts/CollectionsContext'
 import { IngredientsProvider } from '@/lib/contexts/IngredientsContext'
 import { UserContextProvider } from '@/lib/contexts/UserContext'
 
@@ -67,13 +68,15 @@ function App() {
       <UserContextProvider>
         <IngredientsProvider>
           <BarsProvider>
-            <BottomSheetModalProvider>
-              <AuthModalContextProvider>
-                <NavigationContainer>
-                  <TabNav />
-                </NavigationContainer>
-              </AuthModalContextProvider>
-            </BottomSheetModalProvider>
+            <CollectionsProvider>
+              <BottomSheetModalProvider>
+                <AuthModalContextProvider>
+                  <NavigationContainer>
+                    <TabNav />
+                  </NavigationContainer>
+                </AuthModalContextProvider>
+              </BottomSheetModalProvider>
+            </CollectionsProvider>
           </BarsProvider>
         </IngredientsProvider>
       </UserContextProvider>

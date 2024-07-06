@@ -6,7 +6,7 @@ import EditIcon from '@/components/_icons/Edit'
 import TrashIcon from '@/components/_icons/Trash'
 import ModalBody from '@/components/_overlays/ModalBody'
 import { COLORS, FONTS } from '@/lib/constants'
-import useCollections from '@/lib/hooks/useCollections'
+import { useCollections } from '@/lib/contexts/CollectionsContext'
 import { TCollection } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
 

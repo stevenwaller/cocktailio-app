@@ -10,7 +10,7 @@ import RecipeCard from '@/components/RecipeCard'
 import { BodyText, PageTitleText } from '@/components/_elements/Text'
 import AddToCollectionModal, { IAddToCollectionModal } from '@/content/AddToCollectionModal'
 import { FONTS, COLORS, SIZE } from '@/lib/constants'
-import useCollections from '@/lib/hooks/useCollections'
+import { useCollections } from '@/lib/contexts/CollectionsContext'
 import { CocktailsStackParamList } from '@/lib/types'
 import { TCocktail } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
@@ -29,8 +29,6 @@ export default function CocktailDetailScreen({ route, navigation }: Props) {
 
   const checkIfBookmarked = useCallback(() => {
     let isBookmarked = false
-
-    if (!collections) return isBookmarked
 
     collections.forEach((collection) => {
       if (collection.cocktail_ids_by_id[cocktailId]) {

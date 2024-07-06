@@ -10,7 +10,7 @@ import Button from '@/components/_inputs/Button'
 import { IModal } from '@/components/_overlays/Modal'
 import { IStackNavModal } from '@/components/_overlays/StackNavModal'
 import { COLORS } from '@/lib/constants'
-import useCollections from '@/lib/hooks/useCollections'
+import { useCollections } from '@/lib/contexts/CollectionsContext'
 import { TCollection } from '@/lib/types/supabase'
 
 const CollectionList = () => {

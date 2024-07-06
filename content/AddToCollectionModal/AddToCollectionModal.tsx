@@ -9,7 +9,7 @@ import StackNavModal, {
   StackNavModalProps,
 } from '@/components/_overlays/StackNavModal'
 import { useToast } from '@/lib/contexts/ToastContext'
-import useCollections from '@/lib/hooks/useCollections'
+import { useCollections } from '@/lib/contexts/CollectionsContext'
 import { TCollection, TCocktail } from '@/lib/types/supabase'
 import { collectionNormalizer } from '@/lib/utils/dataNormalizers'
 import { modalScreenOptions } from '@/lib/utils/options'

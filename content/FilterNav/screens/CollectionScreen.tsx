@@ -4,7 +4,7 @@ import { BodyText } from '@/components/_elements/Text'
 import RadioInput from '@/components/_inputs/RadioInput'
 import ModalBody from '@/components/_overlays/ModalBody'
 import { COLORS, FONTS } from '@/lib/constants'
-import useCollections from '@/lib/hooks/useCollections'
+import { useCollections } from '@/lib/contexts/CollectionsContext'
 import { IFilter } from '@/lib/types'
 import { TCollection } from '@/lib/types/supabase'
 
@@ -33,8 +33,6 @@ const CollectionScreen = ({ filter, onChange }: CollectionScreenProps) => {
   if (isFetching) return <BodyText>Loading...</BodyText>
 
   if (error) return <BodyText>Error: {error.message}</BodyText>
-
-  if (!collections) return <BodyText>No data</BodyText>
 
   return (
     <ModalBody>

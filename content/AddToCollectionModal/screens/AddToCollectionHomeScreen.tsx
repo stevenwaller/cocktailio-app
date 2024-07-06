@@ -5,7 +5,7 @@ import PlusIcon from '@/components/_icons/Plus'
 import AddInput from '@/components/_inputs/AddInput'
 import ModalBody from '@/components/_overlays/ModalBody'
 import { COLORS, FONTS } from '@/lib/constants'
-import useCollections from '@/lib/hooks/useCollections'
+import { useCollections } from '@/lib/contexts/CollectionsContext'
 import { TCollection, TCocktail } from '@/lib/types/supabase'
 
 interface IAddToCollectionHomeScreen {

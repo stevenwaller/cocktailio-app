@@ -10,38 +10,36 @@ import {
 } from 'react'
 
 import { useUser } from '@/lib/contexts/UserContext'
-import { TBar } from '@/lib/types/supabase'
+import { TCollection } from '@/lib/types/supabase'
+import { collectionNormalizer } from '@/lib/utils/dataNormalizers'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
-interface IBarsContext {
+interface ICollectionsContext {
   isFetching: boolean
   error: PostgrestError | null
   refetch: () => void
   init: () => void
-  bars: TBar[]
-  setBars: (newBars: TBar[]) => void
-  bar?: TBar
-  setBar: (newBar: TBar) => void
-  defaultBar?: TBar
+  collections: TCollection[]
+  setCollections: (newCollections: TCollection[]) => void
+  collection?: TCollection
+  setCollection: (newCollection: TCollection) => void
 }
 
-const BarsContext = createContext<IBarsContext>({
+const CollectionsContext = createContext<ICollectionsContext>({
   isFetching: false,
   error: null,
   refetch: () => {},
   init: () => {},
-  bars: [],
-  setBars: () => {},
-  bar: undefined,
-  setBar: () => {},
-  defaultBar: undefined,
+  collections: [],
+  setCollections: () => {},
+  collection: undefined,
+  setCollection: () => {},
 })
 
-export const BarsProvider = ({ children }: { children: ReactNode }) => {
+export const CollectionsProvider = ({ children }: { children: ReactNode }) => {
   const [isFetching, setIsFetching] = useState(true)
   const [error, setError] = useState<PostgrestError | null>(null)
-  const [items, setItems] = useState<TBar[]>([])
-  const defaultBar = items.find((item) => item.is_default)
+  const [items, setItems] = useState<TCollection[]>([])
   const isFirstFetch = useRef(true)
   const didMount = useRef(false)
   const { user } = useUser()
@@ -51,22 +49,23 @@ export const BarsProvider = ({ children }: { children: ReactNode }) => {
     setIsFetching(true)
 
     const response = await supabaseClient
-      .from('bars')
+      .from('collections')
       .select(
         `
         *,
-        bar_ingredients (
-          *,
-          ingredient:ingredients (*)
-        )
+        collection_cocktails(*)
         `,
       )
-      .order('created_at', { ascending: true })
-      .returns<TBar[]>()
+      .returns<TCollection[]>()
 
     if (response.data) {
-      setItems(response.data)
+      const newCollections = response.data.map((newCollection) => {
+        return collectionNormalizer(newCollection)
+      })
+
+      setItems(newCollections)
     }
+
     setError(response.error)
 
     setIsFetching(false)
@@ -87,7 +86,7 @@ export const BarsProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [user])
 
-  const setItem = useCallback((newItem: TBar) => {
+  const setItem = useCallback((newItem: TCollection) => {
     setItems((state) => {
       return state.map((item) => {
         if (item.id === newItem.id) {
@@ -99,25 +98,24 @@ export const BarsProvider = ({ children }: { children: ReactNode }) => {
   }, [])
 
   return (
-    <BarsContext.Provider
+    <CollectionsContext.Provider
       value={{
         isFetching,
         error,
         refetch: fetchData,
         init,
-        bars: items,
-        setBars: setItems,
-        setBar: setItem,
-        defaultBar,
+        collections: items,
+        setCollections: setItems,
+        setCollection: setItem,
       }}
     >
       {children}
-    </BarsContext.Provider>
+    </CollectionsContext.Provider>
   )
 }
 
-export const useBars = (barId?: string) => {
-  const context = useContext(BarsContext)
+export const useCollections = (itemId?: string) => {
+  const context = useContext(CollectionsContext)
 
   useEffect(() => {
     context.init()
@@ -125,8 +123,8 @@ export const useBars = (barId?: string) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  if (barId) {
-    context.bar = context.bars.find((barItem) => barItem.id === barId)
+  if (itemId) {
+    context.collection = context.collections.find((item) => item.id === itemId)
   }
 
   return context

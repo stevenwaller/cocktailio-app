@@ -23,7 +23,7 @@ import SortModal, { ISortModal } from '@/content/SortModal'
 import { COLORS, FONTS, SIZE } from '@/lib/constants'
 import { useBars } from '@/lib/contexts/BarsContext'
 import { useIngredients } from '@/lib/contexts/IngredientsContext'
-import useCollections from '@/lib/hooks/useCollections'
+import { useCollections } from '@/lib/contexts/CollectionsContext'
 import { IFilter, CocktailsStackParamList, SortableColumns } from '@/lib/types'
 import { TCollection, TCocktail } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
@@ -256,8 +256,6 @@ const CocktailList = ({
 
   const checkIfBookmarked = (cocktailId: string): boolean => {
     let isBookmarked = false
-
-    if (!collections) return isBookmarked
 
     collections.forEach((collection) => {
       if (collection.cocktail_ids_by_id[cocktailId]) {

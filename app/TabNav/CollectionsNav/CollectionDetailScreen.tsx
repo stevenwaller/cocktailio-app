@@ -3,7 +3,7 @@ import { useRef } from 'react'
 
 import CocktailList from '@/content/CocktailList'
 import MoreCollectionModal, { IMoreCollectionModal } from '@/content/MoreCollectionModal'
-import useCollections from '@/lib/hooks/useCollections'
+import { useCollections } from '@/lib/contexts/CollectionsContext'
 import { CollectionsStackParamList } from '@/lib/types'
 
 type Props = NativeStackScreenProps<CollectionsStackParamList, 'Collection'>
