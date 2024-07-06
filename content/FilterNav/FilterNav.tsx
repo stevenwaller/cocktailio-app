@@ -50,7 +50,7 @@ const FilterNav = ({ currentFilterIndex, filters, onChange }: FilterNavProps) =>
                 {(props) => (
                   <ScreenComponent
                     {...props}
-                    filter={filters.find((item) => item.name === 'With Bar Stock')}
+                    filter={filters.find((item) => item.name === filter.name)}
                     onChange={onChange}
                   />
                 )}
