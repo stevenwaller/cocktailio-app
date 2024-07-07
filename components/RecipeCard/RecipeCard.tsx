@@ -119,15 +119,45 @@ const RecipeCard = ({ cocktail, style, barId, ...restProps }: RecipeCardProps) =
   }
 
   const renderAmount = (component: IComponent) => {
-    const { amount, amount_max, measurement } = component
+    const {
+      amount,
+      amount_numerator,
+      amount_denominator,
+      amount_max,
+      amount_max_numerator,
+      amount_max_denominator,
+      measurement,
+    } = component
+    let amountString = ''
+    let amountMaxString = ''
 
-    if (!amount && !amount_max) return null
+    // if (!amount && !amount_max) return null
+
+    if (amount) {
+      amountString = `${amount} `
+    }
+
+    if (amount_numerator && amount_denominator) {
+      amountString += `${amount_numerator}/${amount_denominator} `
+    }
+
+    // if (amount_max || amount_max_numerator || amount_max_denominator) {
+    //   amountString = `- `
+    // }
+
+    if (amount_max) {
+      amountMaxString = `${amount_max} `
+    }
+
+    if (amount_max_numerator && amount_max_denominator) {
+      amountMaxString += `${amount_max_numerator}/${amount_max_denominator}`
+    }
 
     return (
       <View style={styles.pill}>
         <Text style={styles.pillText}>
-          {amount}
-          {amount_max && ` - ${amount_max}`}
+          {amountString}
+          {amountMaxString && ` - ${amountMaxString}`}
           {measurement && ` ${measurement.abbreviation}`}
         </Text>
       </View>
@@ -143,7 +173,6 @@ const RecipeCard = ({ cocktail, style, barId, ...restProps }: RecipeCardProps) =
       recommended_ingredients,
       note: ingredientNote,
       substitute,
-      optional,
     } = component
 
     return (

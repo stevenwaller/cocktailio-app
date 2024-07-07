@@ -128,82 +128,14 @@ export type Database = {
           },
         ]
       }
-      cocktail_component_or_ingredients: {
-        Row: {
-          cocktail_component_id: string | null
-          created_at: string | null
-          id: string
-          ingredient_id: string | null
-        }
-        Insert: {
-          cocktail_component_id?: string | null
-          created_at?: string | null
-          id?: string
-          ingredient_id?: string | null
-        }
-        Update: {
-          cocktail_component_id?: string | null
-          created_at?: string | null
-          id?: string
-          ingredient_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "public_cocktail_component_or_ingredients_cocktail_component_id_"
-            columns: ["cocktail_component_id"]
-            isOneToOne: false
-            referencedRelation: "cocktail_components"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "public_cocktail_component_or_ingredients_ingredient_id_fkey"
-            columns: ["ingredient_id"]
-            isOneToOne: false
-            referencedRelation: "ingredients"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      cocktail_component_pref_ingredients: {
-        Row: {
-          cocktail_component_id: string | null
-          created_at: string | null
-          id: string
-          ingredient_id: string | null
-        }
-        Insert: {
-          cocktail_component_id?: string | null
-          created_at?: string | null
-          id?: string
-          ingredient_id?: string | null
-        }
-        Update: {
-          cocktail_component_id?: string | null
-          created_at?: string | null
-          id?: string
-          ingredient_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "public_cocktail_component_pref_ingredients_cocktail_component_i"
-            columns: ["cocktail_component_id"]
-            isOneToOne: false
-            referencedRelation: "cocktail_components"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "public_cocktail_component_pref_ingredients_ingredient_id_fkey"
-            columns: ["ingredient_id"]
-            isOneToOne: false
-            referencedRelation: "ingredients"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       cocktail_components: {
         Row: {
           amount: number | null
+          amount_denominator: number | null
           amount_max: number | null
+          amount_max_denominator: number | null
+          amount_max_numerator: number | null
+          amount_numerator: number | null
           cocktail_id: string | null
           created_at: string | null
           id: string
@@ -218,7 +150,11 @@ export type Database = {
         }
         Insert: {
           amount?: number | null
+          amount_denominator?: number | null
           amount_max?: number | null
+          amount_max_denominator?: number | null
+          amount_max_numerator?: number | null
+          amount_numerator?: number | null
           cocktail_id?: string | null
           created_at?: string | null
           id?: string
@@ -233,7 +169,11 @@ export type Database = {
         }
         Update: {
           amount?: number | null
+          amount_denominator?: number | null
           amount_max?: number | null
+          amount_max_denominator?: number | null
+          amount_max_numerator?: number | null
+          amount_numerator?: number | null
           cocktail_id?: string | null
           created_at?: string | null
           id?: string
