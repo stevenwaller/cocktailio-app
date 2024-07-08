@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState } from 'react'
 import { ScrollView, RefreshControl, ActivityIndicator } from 'react-native'
 
 import NewBarModal from './NewBarModal'
@@ -12,19 +12,16 @@ import Button from '@/components/_inputs/Button'
 import { IModal } from '@/components/_overlays/Modal'
 import { COLORS } from '@/lib/constants'
 import { useBars } from '@/lib/contexts/BarsContext'
+import useIsMounted from '@/lib/hooks/useIsMounted'
 
 const BarList = () => {
   const { isFetching, refetch, error, bars } = useBars()
   const newModalRef = useRef<IModal>(null)
   const moreModalRef = useRef<IMoreBarModal>(null)
   const [currentBarId, setCurrentBarId] = useState<string>()
-  const isMounted = useRef(false)
+  const checkIfMounted = useIsMounted()
 
-  useEffect(() => {
-    isMounted.current = true
-  }, [])
-
-  if (isFetching && !isMounted.current) {
+  if (isFetching && !checkIfMounted()) {
     return (
       <PageContainer>
         <ActivityIndicator size="small" />
@@ -36,7 +33,7 @@ const BarList = () => {
     <ScrollView
       refreshControl={
         <RefreshControl
-          refreshing={isFetching && isMounted.current}
+          refreshing={isFetching && checkIfMounted()}
           onRefresh={refetch}
           tintColor={COLORS.text.body}
         />

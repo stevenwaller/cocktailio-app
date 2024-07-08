@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState } from 'react'
 import { ScrollView, RefreshControl, ActivityIndicator } from 'react-native'
 
 import NewCollectionModal from './NewCollectionModal'
@@ -13,6 +13,7 @@ import { IModal } from '@/components/_overlays/Modal'
 import { IStackNavModal } from '@/components/_overlays/StackNavModal'
 import { COLORS } from '@/lib/constants'
 import { useCollections } from '@/lib/contexts/CollectionsContext'
+import useIsMounted from '@/lib/hooks/useIsMounted'
 import { TCollection } from '@/lib/types/supabase'
 
 const CollectionList = () => {
@@ -20,13 +21,9 @@ const CollectionList = () => {
   const newModalRef = useRef<IModal>(null)
   const moreModalRef = useRef<IStackNavModal>(null)
   const [currentCollection, setCurrentCollection] = useState<TCollection | null>(null)
-  const isMounted = useRef(false)
+  const checkIfMounted = useIsMounted()
 
-  useEffect(() => {
-    isMounted.current = true
-  }, [])
-
-  if (isFetching && !isMounted.current) {
+  if (isFetching && !checkIfMounted()) {
     return (
       <PageContainer>
         <ActivityIndicator size="small" />
@@ -38,7 +35,7 @@ const CollectionList = () => {
     <ScrollView
       refreshControl={
         <RefreshControl
-          refreshing={isFetching && isMounted.current}
+          refreshing={isFetching && checkIfMounted()}
           onRefresh={refetch}
           tintColor={COLORS.text.body}
         />
