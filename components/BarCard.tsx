@@ -40,9 +40,7 @@ const BarCard = ({ bar, onMorePress = () => {}, ...restProps }: BarCardProps) =>
           <View style={[styles.action, { marginBottom: 20 }]}>
             <Text style={styles.actionText}>Add/Remove Ingredients</Text>
             <View style={styles.actionRight}>
-              {bar.bar_ingredients.length > 0 && (
-                <Badge style={styles.badge}>{bar.bar_ingredients.length}</Badge>
-              )}
+              <Badge style={styles.badge}>{bar.bar_ingredients.length}</Badge>
               <ChevronRightIcon color={COLORS.text.link} />
             </View>
           </View>

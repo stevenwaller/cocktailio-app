@@ -1,6 +1,7 @@
 import { useNavigation, NavigationProp } from '@react-navigation/native'
 import { StyleSheet, Text, View, Pressable } from 'react-native'
 
+import Badge from '@/components/Badge'
 import Card, { CardProps } from '@/components/Card'
 import ChevronRightIcon from '@/components/_icons/ChevronRight'
 import MoreIcon from '@/components/_icons/More'
@@ -40,7 +41,10 @@ const CollectionCard = ({
         >
           <View style={[styles.action, { marginBottom: 10 }]}>
             <Text style={styles.actionText}>View cocktails</Text>
-            <ChevronRightIcon color={COLORS.text.link} />
+            <View style={styles.actionRight}>
+              <Badge style={styles.badge}>{collection.collection_cocktails.length}</Badge>
+              <ChevronRightIcon color={COLORS.text.link} />
+            </View>
           </View>
         </Pressable>
       </Card.Body>
