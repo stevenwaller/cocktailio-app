@@ -1,10 +1,12 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
+import { ScrollView, RefreshControl, ActivityIndicator } from 'react-native'
 
 import NewCollectionModal from './NewCollectionModal'
 import MoreCollectionModal from '../MoreCollectionModal'
 
 import CollectionCard from '@/components/CollectionCard'
-import { BodyText } from '@/components/_elements/Text'
+import ErrorAlert from '@/components/ErrorAlert'
+import PageContainer from '@/components/PageContainer'
 import PlusIcon from '@/components/_icons/Plus'
 import Button from '@/components/_inputs/Button'
 import { IModal } from '@/components/_overlays/Modal'
@@ -14,44 +16,60 @@ import { useCollections } from '@/lib/contexts/CollectionsContext'
 import { TCollection } from '@/lib/types/supabase'
 
 const CollectionList = () => {
-  const { isFetching, error, collections } = useCollections()
+  const { isFetching, refetch, error, collections } = useCollections()
   const newModalRef = useRef<IModal>(null)
   const moreModalRef = useRef<IStackNavModal>(null)
   const [currentCollection, setCurrentCollection] = useState<TCollection | null>(null)
+  const isMounted = useRef(false)
 
-  if (error) {
-    return <BodyText>Error: {error.message}</BodyText>
-  }
+  useEffect(() => {
+    isMounted.current = true
+  }, [])
 
-  if (isFetching) {
-    return <BodyText>Loading...</BodyText>
+  if (isFetching && !isMounted.current) {
+    return (
+      <PageContainer>
+        <ActivityIndicator size="small" />
+      </PageContainer>
+    )
   }
 
   return (
-    <>
-      {collections.map((collection: any) => (
-        <CollectionCard
-          style={{ marginBottom: 20 }}
-          key={collection.id}
-          collection={collection}
-          onMorePress={() => {
-            setCurrentCollection(collection)
-            moreModalRef.current?.present()
-          }}
+    <ScrollView
+      refreshControl={
+        <RefreshControl
+          refreshing={isFetching && isMounted.current}
+          onRefresh={refetch}
+          tintColor={COLORS.text.body}
         />
-      ))}
-      <Button
-        slotLeft={<PlusIcon color={COLORS.text.dark} />}
-        label="Create New Collection"
-        onPress={() => newModalRef.current?.present()}
-      />
-      <NewCollectionModal ref={newModalRef} onComplete={() => newModalRef.current?.dismiss()} />
-      <MoreCollectionModal
-        ref={moreModalRef}
-        collection={currentCollection}
-        onComplete={() => moreModalRef.current?.dismiss()}
-      />
-    </>
+      }
+    >
+      <PageContainer>
+        <ErrorAlert message={error?.message} />
+        {collections.map((collection: any) => (
+          <CollectionCard
+            style={{ marginBottom: 20 }}
+            key={collection.id}
+            collection={collection}
+            onMorePress={() => {
+              setCurrentCollection(collection)
+              moreModalRef.current?.present()
+            }}
+          />
+        ))}
+        <Button
+          slotLeft={<PlusIcon color={COLORS.text.dark} />}
+          label="Create New Collection"
+          onPress={() => newModalRef.current?.present()}
+        />
+        <NewCollectionModal ref={newModalRef} onComplete={() => newModalRef.current?.dismiss()} />
+        <MoreCollectionModal
+          ref={moreModalRef}
+          collection={currentCollection}
+          onComplete={() => moreModalRef.current?.dismiss()}
+        />
+      </PageContainer>
+    </ScrollView>
   )
 }
 
