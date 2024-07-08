@@ -7,13 +7,15 @@ export type TFilterName =
   | 'Era'
   | 'Glassware'
 
+export interface IFilterValue {
+  id: string
+  name: string
+}
+
 export interface IFilter {
   name: TFilterName
   rowName?: string
-  value: {
-    id: string
-    name: string
-  }[]
+  value: IFilterValue[]
 }
 
 type CocktailsParams =
