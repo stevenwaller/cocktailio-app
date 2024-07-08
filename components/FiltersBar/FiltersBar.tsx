@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { StyleSheet, ScrollView, View, Pressable, ViewProps } from 'react-native'
+import { StyleSheet, ScrollView, View, ViewProps } from 'react-native'
 
 import Badge from '@/components/Badge'
 import ChevronDown from '@/components/_icons/ChevronDown'
@@ -55,10 +55,30 @@ const FiltersBar = ({ filters: filtersProp, onApply, style }: FiltersBarProps) =
     </ModalFooter>
   )
 
+  const renderTotalBadge = () => {
+    let total = 0
+
+    filtersProp.forEach((filter) => {
+      total += filter.value.length
+    })
+
+    if (total === 0) return null
+
+    return (
+      <Badge style={styles.iconBadge} isLink>
+        {total}
+      </Badge>
+    )
+  }
+
   const renderBadge = (filter: IFilter) => {
     if (filter.value.length === 0) return null
 
-    return <Badge isLink>{filter.value.length}</Badge>
+    return (
+      <Badge style={styles.badge} isLink>
+        {filter.value.length}
+      </Badge>
+    )
   }
 
   return (
@@ -70,9 +90,18 @@ const FiltersBar = ({ filters: filtersProp, onApply, style }: FiltersBarProps) =
         showsHorizontalScrollIndicator={false}
       >
         <View style={styles.filters}>
-          <Pressable style={styles.iconBtn} hitSlop={15} onPress={() => handleFilterPress()}>
+          {/* <Pressable style={styles.iconBtn} hitSlop={15} onPress={() => handleFilterPress()}>
             <FilterIcon color={COLORS.text.action} />
-          </Pressable>
+            {renderTotalBadge()}
+          </Pressable> */}
+          <Button
+            style={[styles.button, styles.filterButton]}
+            size="small"
+            onPress={() => handleFilterPress()}
+          >
+            <FilterIcon color={COLORS.text.dark} width={20} height={20} />
+            {renderTotalBadge()}
+          </Button>
           {filtersProp.map((filter) => (
             <Button
               key={filter.name}
@@ -109,11 +138,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  iconBtn: {
-    marginRight: 15,
-  },
   button: {
     marginRight: 10,
+  },
+  filterButton: {
+    paddingVertical: 6,
+    paddingHorizontal: 7,
+  },
+  badge: {
+    marginLeft: 3,
+    marginRight: 2,
+  },
+  iconBadge: {
+    marginLeft: 3,
   },
   title: {
     fontSize: 20,

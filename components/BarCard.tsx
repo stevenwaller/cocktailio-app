@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
   },
   badge: {
     marginRight: 5,
+    marginLeft: 3,
   },
   more: {
     height: 20,

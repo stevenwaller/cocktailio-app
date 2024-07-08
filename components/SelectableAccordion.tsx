@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
   },
   badge: {
     marginRight: 10,
+    marginLeft: 3,
   },
   addInput: {
     marginRight: 9,

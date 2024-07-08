@@ -31,11 +31,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginLeft: 3,
     marginRight: 2,
+    textAlign: 'center',
   },
   badgeText: {
     fontSize: 10,
     color: COLORS.text.dark,
     fontFamily: FONTS.hells.sans.bold,
+    textAlign: 'center',
   },
 })
 
