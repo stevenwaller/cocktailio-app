@@ -1,5 +1,3 @@
-import { ScrollView } from 'react-native'
-
 import PageContainer from '@/components/PageContainer'
 import { BodyText } from '@/components/_elements/Text'
 import Button from '@/components/_inputs/Button'
@@ -11,18 +9,14 @@ export default function BarStockScreen() {
   const { openAuthModal } = useAuthModal()
   const { user } = useUser()
 
+  if (user) {
+    return <BarList />
+  }
+
   return (
-    <ScrollView>
-      <PageContainer>
-        {user ? (
-          <BarList />
-        ) : (
-          <>
-            <BodyText>Create a free account or sign in to manage your bar stock</BodyText>
-            <Button label="Create a free account / Sign in" onPress={() => openAuthModal()} />
-          </>
-        )}
-      </PageContainer>
-    </ScrollView>
+    <PageContainer>
+      <BodyText>Create a free account or sign in to manage your bar stock</BodyText>
+      <Button label="Create a free account / Sign in" onPress={() => openAuthModal()} />
+    </PageContainer>
   )
 }
