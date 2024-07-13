@@ -3,7 +3,8 @@ import { useState } from 'react'
 import SearchInput from '@/components/SearchInput'
 import ModalBody from '@/components/_overlays/ModalBody'
 import IngredientList from '@/content/IngredientList'
-import { COLORS } from '@/lib/constants'
+import IngredientTabs from '@/content/IngredientTabs'
+import SelectedIngredientList from '@/content/SelectedIngredientList'
 import { IFilter } from '@/lib/types'
 import { TIngredient } from '@/lib/types/supabase'
 
@@ -14,6 +15,7 @@ interface IngredientsScreenProps {
 
 const IngredientScreen = ({ filter, onChange }: IngredientsScreenProps) => {
   const [searchValue, setSearchValue] = useState('')
+  const [showSelected, setShowSelected] = useState(false)
 
   const checkIfSelected = (ingredient: TIngredient) => {
     if (filter) {
@@ -44,14 +46,24 @@ const IngredientScreen = ({ filter, onChange }: IngredientsScreenProps) => {
         onChange={setSearchValue}
         onClear={() => setSearchValue('')}
         placeholder="Search by ingredient name"
-        inputStyle={{ backgroundColor: COLORS.bg.level1 }}
       />
-      <ModalBody contentStyle={{ paddingTop: 10 }}>
-        <IngredientList
-          onSelect={handleSelect}
-          checkIfSelected={checkIfSelected}
-          searchValue={searchValue}
-        />
+      <ModalBody
+        contentStyle={{ paddingTop: 0, paddingRight: 0, paddingBottom: 0, paddingLeft: 0 }}
+      >
+        <IngredientTabs showSelected={showSelected} onPress={setShowSelected} />
+        {showSelected ? (
+          <SelectedIngredientList
+            onSelect={handleSelect}
+            checkIfSelected={checkIfSelected}
+            searchValue={searchValue}
+          />
+        ) : (
+          <IngredientList
+            onSelect={handleSelect}
+            checkIfSelected={checkIfSelected}
+            searchValue={searchValue}
+          />
+        )}
       </ModalBody>
     </>
   )

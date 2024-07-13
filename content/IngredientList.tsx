@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { View, StyleSheet } from 'react-native'
 
 import SelectableAccordion from '@/components/SelectableAccordion'
 import { BodyText } from '@/components/_elements/Text'
@@ -145,8 +146,19 @@ const IngredientList = ({ checkIfSelected, onSelect, searchValue = '' }: Props) 
     return <BodyText>No results found</BodyText>
   }
 
-  return renderIngredients(ingredientCategoryIds, 0)
+  return (
+    <View style={styles.ingredientsContainer}>{renderIngredients(ingredientCategoryIds, 0)}</View>
+  )
 }
+
+const styles = StyleSheet.create({
+  ingredientsContainer: {
+    paddingTop: 10,
+    paddingRight: 15,
+    paddingBottom: 20,
+    paddingLeft: 20,
+  },
+})
 
 IngredientList.displayName = 'IngredientList'
 

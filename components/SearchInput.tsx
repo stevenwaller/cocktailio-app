@@ -51,7 +51,7 @@ const SearchInput = ({
 
 const styles = StyleSheet.create({
   input: {
-    backgroundColor: COLORS.bg.level2,
+    backgroundColor: COLORS.bg.level1,
     color: COLORS.text.body,
     height: SEARCH_HEIGHT,
     fontFamily: FONTS.hells.sans.medium,

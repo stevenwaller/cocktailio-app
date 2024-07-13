@@ -5,9 +5,11 @@ import { ScrollView, KeyboardAvoidingView } from 'react-native'
 
 import BarIngredientsHeaderBtns from '../_sharedHeaderBtns/BarIngredientsHeaderBtns'
 
-import PageContainer from '@/components/PageContainer'
 import SearchInput from '@/components/SearchInput'
 import IngredientList from '@/content/IngredientList'
+import IngredientTabs from '@/content/IngredientTabs'
+import SelectedIngredientList from '@/content/SelectedIngredientList'
+import { COLORS } from '@/lib/constants'
 import { useBars } from '@/lib/contexts/BarsContext'
 import { useIngredients } from '@/lib/contexts/IngredientsContext'
 import { BarStockStackParamList } from '@/lib/types'
@@ -18,6 +20,7 @@ type Props = NativeStackScreenProps<BarStockStackParamList, 'Bar Ingredients'>
 
 export default function BarIngredients({ route, navigation }: Props) {
   const [searchValue, setSearchValue] = useState('')
+  const [showSelected, setShowSelected] = useState(false)
   const barId = route.params.barId
   const { bar, setBar } = useBars(barId as string)
   const { ingredientsById } = useIngredients()
@@ -52,7 +55,7 @@ export default function BarIngredients({ route, navigation }: Props) {
   return (
     <KeyboardAvoidingView
       behavior="padding"
-      style={{ flex: 1 }}
+      style={{ flex: 1, backgroundColor: COLORS.bg.level3 }}
       keyboardVerticalOffset={headerHeight}
     >
       <SearchInput
@@ -62,13 +65,20 @@ export default function BarIngredients({ route, navigation }: Props) {
         placeholder="Search by ingredient name"
       />
       <ScrollView>
-        <PageContainer style={{ paddingTop: 5 }}>
+        <IngredientTabs showSelected={showSelected} onPress={setShowSelected} />
+        {showSelected ? (
+          <SelectedIngredientList
+            onSelect={handleSelect}
+            checkIfSelected={checkIfSelected}
+            searchValue={searchValue}
+          />
+        ) : (
           <IngredientList
             onSelect={handleSelect}
             checkIfSelected={checkIfSelected}
             searchValue={searchValue}
           />
-        </PageContainer>
+        )}
       </ScrollView>
     </KeyboardAvoidingView>
   )
