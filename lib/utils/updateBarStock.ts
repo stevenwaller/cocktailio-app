@@ -73,8 +73,6 @@ export default async function updateBarStock({
     ingredient_id: ingredient.id,
   })
 
-  console.log('update bar stock response', response.data)
-
   if (response.error) {
     // roll back the bar changes
     setBar(ogBar)
