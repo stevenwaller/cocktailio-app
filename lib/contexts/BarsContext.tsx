@@ -55,10 +55,7 @@ export const BarsProvider = ({ children }: { children: ReactNode }) => {
       .select(
         `
         *,
-        bar_ingredients (
-          *,
-          ingredient:ingredients (*)
-        )
+        bar_ingredients (*)
         `,
       )
       .order('created_at', { ascending: true })

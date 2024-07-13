@@ -1,5 +1,6 @@
 import { PostgrestError } from '@supabase/supabase-js'
 
+import { TIngredientById } from '@/lib/contexts/IngredientsContext'
 import { TBar, TIngredient } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
 import uuid from '@/lib/utils/uuid'
@@ -7,6 +8,7 @@ import uuid from '@/lib/utils/uuid'
 interface Args {
   bar: TBar
   ingredient: TIngredient
+  ingredientsById: TIngredientById
   setBar: (newBar: TBar) => void
   onSuccess?: (bar: TBar) => void
   onError?: (error: PostgrestError) => void
@@ -15,6 +17,7 @@ interface Args {
 export default async function updateBarStock({
   bar,
   ingredient,
+  ingredientsById,
   setBar,
   onSuccess = () => {},
   onError = () => {},
@@ -27,24 +30,26 @@ export default async function updateBarStock({
     ingredients_by_id: {},
     bar_ingredients: [...bar.bar_ingredients],
   }
-  const newBarIngredientVariables = {
-    id: uuid(),
-    created_at: new Date().toISOString(),
-    bar_id: bar.id,
-    ingredient_id: ingredient.id,
-  }
 
   if (alreadySelected) {
     newBar.bar_ingredients = newBar.bar_ingredients.filter(
       (bar_ingredient) => bar_ingredient.ingredient_id !== ingredient.id,
     )
   } else {
-    newBar.bar_ingredients.push({ ...newBarIngredientVariables, ingredient })
+    newBar.bar_ingredients.push({
+      id: uuid(),
+      created_at: new Date().toISOString(),
+      bar_id: bar.id,
+      ingredient_id: ingredient.id,
+    })
   }
 
   // rebuild the ingredients by id objects
+  // this is also done on the server, but we do it here to update the UI optimistically
   newBar.bar_ingredients.forEach((barIngredient) => {
-    const thisIngredient = barIngredient.ingredient
+    if (!barIngredient.ingredient_id) return
+
+    const thisIngredient = ingredientsById[barIngredient.ingredient_id]
 
     newBar.ingredients_by_id[thisIngredient.id] = thisIngredient.name
     newBar.all_ingredients_by_id[thisIngredient.id] = thisIngredient.name
@@ -60,6 +65,7 @@ export default async function updateBarStock({
   })
 
   // optimistically update the bar
+  // does not include the updated cocktail_count
   setBar(newBar)
 
   const response = await supabaseClient.rpc('update_bar_stock', {
@@ -67,22 +73,25 @@ export default async function updateBarStock({
     ingredient_id: ingredient.id,
   })
 
+  if (response.error) {
+    // roll back the bar changes
+    setBar(ogBar)
+    onError(response.error)
+    return
+  }
+
   const savedBar = {
     ...newBar,
     all_ingredients_by_id: response.data[0].all_ingredients_by_id,
     ingredients_by_id: response.data[0].ingredients_by_id,
+    cocktail_count: response.data[0].cocktail_count,
   }
 
   // sync database responses with local state
+  // this will also include the updated cocktail_count
   if (response.data) {
     setBar(savedBar)
   }
 
-  if (response.error) {
-    // roll bar the bar changes
-    setBar(ogBar)
-    onError(response.error)
-  } else {
-    onSuccess(savedBar)
-  }
+  onSuccess(savedBar)
 }

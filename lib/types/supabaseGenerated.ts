@@ -48,6 +48,7 @@ export type Database = {
       bars: {
         Row: {
           all_ingredients_by_id: Json
+          cocktail_count: number
           created_at: string
           id: string
           ingredients_by_id: Json
@@ -57,6 +58,7 @@ export type Database = {
         }
         Insert: {
           all_ingredients_by_id?: Json
+          cocktail_count?: number
           created_at?: string
           id?: string
           ingredients_by_id?: Json
@@ -66,6 +68,7 @@ export type Database = {
         }
         Update: {
           all_ingredients_by_id?: Json
+          cocktail_count?: number
           created_at?: string
           id?: string
           ingredients_by_id?: Json
@@ -787,6 +790,10 @@ export type Database = {
         }
         Returns: Json
       }
+      query_bars: {
+        Args: Record<PropertyKey, never>
+        Returns: Json
+      }
       query_cocktails: {
         Args: {
           bar_id: string
@@ -853,6 +860,7 @@ export type Database = {
         }
         Returns: {
           all_ingredients_by_id: Json
+          cocktail_count: number
           created_at: string
           id: string
           ingredients_by_id: Json

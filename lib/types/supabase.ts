@@ -51,9 +51,7 @@ export type TBar = Omit<Tables<'bars'>, 'ingredients_by_id' | 'all_ingredients_b
   ingredients_by_id: TIngredientsById
 }
 
-export type TBarIngredient = Tables<'bar_ingredients'> & {
-  ingredient: TIngredient
-}
+export type TBarIngredient = Tables<'bar_ingredients'>
 
 export type TMethod = Tables<'methods'>
 

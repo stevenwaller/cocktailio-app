@@ -54,7 +54,10 @@ const BarCard = ({ bar, onMorePress = () => {}, ...restProps }: BarCardProps) =>
         >
           <View style={[styles.action, { marginBottom: 10 }]}>
             <Text style={styles.actionText}>View cocktails you can make</Text>
-            <ChevronRightIcon color={COLORS.text.link} />
+            <View style={styles.actionRight}>
+              <Badge style={styles.badge}>{bar.cocktail_count}</Badge>
+              <ChevronRightIcon color={COLORS.text.link} />
+            </View>
           </View>
         </Pressable>
       </Card.Body>

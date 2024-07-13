@@ -9,6 +9,7 @@ import StackNavModal, {
   StackNavModalProps,
 } from '@/components/_overlays/StackNavModal'
 import { useBars } from '@/lib/contexts/BarsContext'
+import { useIngredients } from '@/lib/contexts/IngredientsContext'
 import { useToast } from '@/lib/contexts/ToastContext'
 import { TBar, TIngredient } from '@/lib/types/supabase'
 import { modalScreenOptions } from '@/lib/utils/options'
@@ -43,6 +44,7 @@ const AddToBarModal = forwardRef<IStackNavModal, AddToBarModalProps>(
     const modalRef = useRef<IStackNavModal>(null)
     const toast = useToast()
     const { setBar } = useBars()
+    const { ingredientsById } = useIngredients()
 
     useImperativeHandle(ref, () => modalRef.current as IStackNavModal)
 
@@ -59,6 +61,7 @@ const AddToBarModal = forwardRef<IStackNavModal, AddToBarModalProps>(
       updateBarStock({
         bar: selectedBar,
         ingredient,
+        ingredientsById,
         setBar,
         onError: (error) => {
           toast.show(error.message)
@@ -82,6 +85,7 @@ const AddToBarModal = forwardRef<IStackNavModal, AddToBarModalProps>(
       updateBarStock({
         bar: selectedBar,
         ingredient,
+        ingredientsById,
         setBar,
         onError: (error) => {
           toast.show(error.message)

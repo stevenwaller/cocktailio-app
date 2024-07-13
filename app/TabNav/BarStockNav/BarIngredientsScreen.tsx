@@ -9,6 +9,7 @@ import PageContainer from '@/components/PageContainer'
 import SearchInput from '@/components/SearchInput'
 import IngredientList from '@/content/IngredientList'
 import { useBars } from '@/lib/contexts/BarsContext'
+import { useIngredients } from '@/lib/contexts/IngredientsContext'
 import { BarStockStackParamList } from '@/lib/types'
 import { TIngredient } from '@/lib/types/supabase'
 import updateBarStock from '@/lib/utils/updateBarStock'
@@ -19,6 +20,7 @@ export default function BarIngredients({ route, navigation }: Props) {
   const [searchValue, setSearchValue] = useState('')
   const barId = route.params.barId
   const { bar, setBar } = useBars(barId as string)
+  const { ingredientsById } = useIngredients()
   const headerHeight = useHeaderHeight()
 
   const clearAll = useCallback(async () => {}, [])
@@ -39,6 +41,7 @@ export default function BarIngredients({ route, navigation }: Props) {
     updateBarStock({
       bar,
       ingredient,
+      ingredientsById,
       setBar,
       onError: () => {
         // TODO: show error in toast
