@@ -40,7 +40,7 @@ const CollectionCard = ({
           }}
         >
           <View style={[styles.action, { marginBottom: 10 }]}>
-            <Text style={styles.actionText}>View cocktails</Text>
+            <Text style={styles.actionText}>Cocktails</Text>
             <View style={styles.actionRight}>
               <Badge style={styles.badge}>{collection.collection_cocktails.length}</Badge>
               <ChevronRightIcon color={COLORS.text.link} />

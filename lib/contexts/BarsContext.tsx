@@ -50,16 +50,7 @@ export const BarsProvider = ({ children }: { children: ReactNode }) => {
     isFirstFetch.current = false
     setIsFetching(true)
 
-    const response = await supabaseClient
-      .from('bars')
-      .select(
-        `
-        *,
-        bar_ingredients (*)
-        `,
-      )
-      .order('created_at', { ascending: true })
-      .returns<TBar[]>()
+    const response = await supabaseClient.rpc('query_bars', { bar_id: null })
 
     if (response.data) {
       setItems(response.data)

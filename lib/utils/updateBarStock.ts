@@ -73,6 +73,8 @@ export default async function updateBarStock({
     ingredient_id: ingredient.id,
   })
 
+  console.log('update bar stock response', response.data)
+
   if (response.error) {
     // roll back the bar changes
     setBar(ogBar)
@@ -82,9 +84,9 @@ export default async function updateBarStock({
 
   const savedBar = {
     ...newBar,
-    all_ingredients_by_id: response.data[0].all_ingredients_by_id,
-    ingredients_by_id: response.data[0].ingredients_by_id,
-    cocktail_count: response.data[0].cocktail_count,
+    all_ingredients_by_id: response.data.all_ingredients_by_id,
+    ingredients_by_id: response.data.ingredients_by_id,
+    cocktail_count: response.data.cocktail_count,
   }
 
   // sync database responses with local state

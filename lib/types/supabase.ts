@@ -49,6 +49,7 @@ export type TBar = Omit<Tables<'bars'>, 'ingredients_by_id' | 'all_ingredients_b
   bar_ingredients: TBarIngredient[]
   all_ingredients_by_id: TIngredientsById
   ingredients_by_id: TIngredientsById
+  cocktail_count: number
 }
 
 export type TBarIngredient = Tables<'bar_ingredients'>
