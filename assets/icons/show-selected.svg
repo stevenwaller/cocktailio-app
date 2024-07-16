@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="17px" height="17px" viewBox="0 0 17 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>unchecked</title>
+    <g id="Bar-Stock" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Cocktails-Copy-20" transform="translate(-253, -120)" fill-rule="nonzero">
+            <g id="just-selected" transform="translate(18, 117)">
+                <g id="unchecked" transform="translate(236, 4)">
+                    <path d="M7.5,14.968815 C5.504158,14.968815 3.63305613,14.2203742 2.1985447,12.7858628 C-0.732848233,9.85446985 -0.732848233,5.11434511 2.1985447,2.18295218 C3.63305613,0.748440748 5.504158,0 7.5,0 C9.495842,0 11.3669439,0.748440748 12.8014553,2.18295218 C15.7328482,5.11434511 15.7328482,9.85446985 12.8014553,12.7858628 C11.3669439,14.2203742 9.495842,14.968815 7.5,14.968815 Z" id="Shape" stroke="#F0B59E" stroke-width="2"></path>
+                    <polygon id="Path" fill="#F0B59E" points="3.74220374 7.71084225 5.07419439 6.3316487 6.53505717 7.84428134 9.89462058 4.36590437 11.2266112 5.74509791 6.53505717 10.6029106"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

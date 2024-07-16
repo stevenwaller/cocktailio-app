@@ -1,10 +1,6 @@
-import { useState } from 'react'
-
-import SearchInput from '@/components/SearchInput'
 import ModalBody from '@/components/_overlays/ModalBody'
-import IngredientList from '@/content/IngredientList'
-import IngredientTabs from '@/content/IngredientTabs'
-import SelectedIngredientList from '@/content/SelectedIngredientList'
+import IngredientNav from '@/content/IngredientNav'
+import { COLORS } from '@/lib/constants'
 import { IFilter } from '@/lib/types'
 import { TIngredient } from '@/lib/types/supabase'
 
@@ -14,9 +10,6 @@ interface IngredientsScreenProps {
 }
 
 const IngredientScreen = ({ filter, onChange }: IngredientsScreenProps) => {
-  const [searchValue, setSearchValue] = useState('')
-  const [showSelected, setShowSelected] = useState(false)
-
   const checkIfSelected = (ingredient: TIngredient) => {
     if (filter) {
       return filter.value.some((item) => item.id === ingredient.id)
@@ -39,33 +32,21 @@ const IngredientScreen = ({ filter, onChange }: IngredientsScreenProps) => {
     onChange(newFilter)
   }
 
+  const handleDeselectAll = () => {
+    if (!filter) return
+
+    onChange({ ...filter, value: [] })
+  }
+
   return (
-    <>
-      <SearchInput
-        value={searchValue}
-        onChange={setSearchValue}
-        onClear={() => setSearchValue('')}
-        placeholder="Search by ingredient name"
+    <ModalBody contentStyle={{ paddingTop: 0, paddingRight: 0, paddingBottom: 0, paddingLeft: 0 }}>
+      <IngredientNav
+        checkIfSelected={checkIfSelected}
+        onSelect={handleSelect}
+        onDeselectAll={handleDeselectAll}
+        tabListProps={{ style: { borderTopWidth: 2, borderTopColor: COLORS.bg.level1 } }}
       />
-      <ModalBody
-        contentStyle={{ paddingTop: 0, paddingRight: 0, paddingBottom: 0, paddingLeft: 0 }}
-      >
-        <IngredientTabs showSelected={showSelected} onPress={setShowSelected} />
-        {showSelected ? (
-          <SelectedIngredientList
-            onSelect={handleSelect}
-            checkIfSelected={checkIfSelected}
-            searchValue={searchValue}
-          />
-        ) : (
-          <IngredientList
-            onSelect={handleSelect}
-            checkIfSelected={checkIfSelected}
-            searchValue={searchValue}
-          />
-        )}
-      </ModalBody>
-    </>
+    </ModalBody>
   )
 }
 

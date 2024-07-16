@@ -1,19 +1,24 @@
 import { useState, useEffect } from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, Pressable, Text } from 'react-native'
 
 import SelectableAccordion from '@/components/SelectableAccordion'
 import { BodyText } from '@/components/_elements/Text'
-import { FONTS } from '@/lib/constants'
+import DeselectIcon from '@/components/_icons/Deselect'
+import ShowSelectedIcon from '@/components/_icons/ShowSelected'
+import ShowSelectedSolidIcon from '@/components/_icons/ShowSelectedSolid'
+import { FONTS, COLORS } from '@/lib/constants'
 import { useIngredients } from '@/lib/contexts/IngredientsContext'
 import { TIngredient } from '@/lib/types/supabase'
 
 interface Props {
   checkIfSelected: (item: TIngredient) => boolean
   onSelect: (item: TIngredient) => void
+  onDeselectAll?: () => void
   searchValue?: string
 }
 
-const IngredientList = ({ checkIfSelected, onSelect, searchValue = '' }: Props) => {
+const IngredientList = ({ checkIfSelected, onSelect, onDeselectAll, searchValue = '' }: Props) => {
+  const [showSelected, setShowSelected] = useState(false)
   const [openAccordions, setOpenAccordions] = useState<{ [key: string]: boolean }>({})
   const { ingredientsById, ingredientCategoryIds, error, isFetching } = useIngredients()
 
@@ -31,11 +36,11 @@ const IngredientList = ({ checkIfSelected, onSelect, searchValue = '' }: Props) 
       const ingredient = ingredientsById[id]
 
       if (ingredient.name.toLowerCase().includes(lowerCaseSearchValue)) {
-        foundIngredients[ingredient.name] = ingredient.id
+        foundIngredients[ingredient.id] = ingredient.name
 
         if (ingredient.hierarchy) {
           ingredient.hierarchy.forEach((parentIngredient) => {
-            foundIngredients[parentIngredient?.name] = parentIngredient?.id
+            foundIngredients[parentIngredient?.id] = parentIngredient?.name
           })
         }
       }
@@ -105,7 +110,7 @@ const IngredientList = ({ checkIfSelected, onSelect, searchValue = '' }: Props) 
     return parentIngredientIds.map((ingredientId, index) => {
       const ingredient = ingredientsById[ingredientId]
 
-      if (searchValue && !foundIngredients[ingredient.name]) return null
+      if (searchValue && !foundIngredients[ingredient.id]) return null
 
       return (
         <SelectableAccordion
@@ -152,11 +157,33 @@ const IngredientList = ({ checkIfSelected, onSelect, searchValue = '' }: Props) 
 }
 
 const styles = StyleSheet.create({
+  controls: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+    paddingTop: 5,
+    paddingBottom: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.bg.level2,
+  },
+  control: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  controlIcon: {
+    marginRight: 7,
+  },
+  controlText: {
+    fontFamily: FONTS.hells.sans.bold,
+    fontSize: 14,
+    color: COLORS.text.link,
+  },
   ingredientsContainer: {
-    paddingTop: 10,
-    paddingRight: 15,
-    paddingBottom: 20,
-    paddingLeft: 20,
+    // paddingTop: 10,
+    // paddingRight: 15,
+    // paddingBottom: 20,
+    // paddingLeft: 20,
   },
 })
 
