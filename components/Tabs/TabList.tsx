@@ -20,6 +20,8 @@ const TabList = ({ children, style, contentContainerStyle, ...restProps }: TabLi
           flexDirection: 'row',
           justifyContent: 'flex-start',
           padding: 0,
+          borderTopWidth: 2,
+          borderTopColor: COLORS.bg.level1,
         },
         contentContainerStyle,
       ]}

@@ -1,4 +1,3 @@
-import { useHeaderHeight } from '@react-navigation/elements'
 import { useNavigation, NavigationProp } from '@react-navigation/native'
 import { PostgrestError } from '@supabase/supabase-js'
 import { useState, useEffect, useCallback } from 'react'
@@ -33,7 +32,6 @@ export default function SearchCocktails({ barId, collectionId }: Props) {
   const [isFetching, setIsFetching] = useState(false)
   const [error, setError] = useState<PostgrestError | null>(null)
   const navigation = useNavigation<NavigationProp<CocktailsStackParamList>>()
-  const headerHeight = useHeaderHeight()
   const { defaultBar, bar } = useBars(barId)
 
   const fetchData = useCallback(async () => {
@@ -66,11 +64,7 @@ export default function SearchCocktails({ barId, collectionId }: Props) {
 
   return (
     <>
-      <KeyboardAvoidingView
-        behavior="padding"
-        style={{ flex: 1 }}
-        keyboardVerticalOffset={headerHeight}
-      >
+      <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
         <SearchInput
           value={searchValue}
           isFetching={isFetching}
@@ -78,7 +72,13 @@ export default function SearchCocktails({ barId, collectionId }: Props) {
           onClear={() => setSearchValue('')}
           autoFocus
           placeholder="Search by cocktail name"
-          style={{ position: 'absolute', top: 0, zIndex: 1, width: '100%' }}
+          style={{
+            position: 'absolute',
+            top: 0,
+            zIndex: 1,
+            width: '100%',
+          }}
+          inputStyle={{ backgroundColor: COLORS.bg.level2 }}
         />
 
         <SafeAreaView style={{ marginTop: SEARCH_HEIGHT }}>

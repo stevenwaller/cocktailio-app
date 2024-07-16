@@ -36,9 +36,12 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.bg.level2,
     borderRightWidth: 1,
     borderRightColor: COLORS.bg.level1,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.bg.level1,
   },
   activeTab: {
     backgroundColor: COLORS.bg.level3,
+    borderBottomColor: COLORS.bg.level3,
   },
   tabText: {
     fontFamily: FONTS.hells.sans.bold,

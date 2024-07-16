@@ -2,20 +2,19 @@ import { Text, StyleSheet } from 'react-native'
 
 import IngredientList from './components/IngredientList'
 
-import { Tabs, Tab, TabList, TabListProps, TabPanel } from '@/components/Tabs'
+import { Tabs, Tab, TabList, TabPanel } from '@/components/Tabs'
 import { TIngredient } from '@/lib/types/supabase'
 
 interface Props {
   checkIfSelected: (item: TIngredient) => boolean
   onSelect: (item: TIngredient) => void
   onDeselectAll?: () => void
-  tabListProps?: TabListProps
 }
 
-const IngredientNav = ({ checkIfSelected, onSelect, onDeselectAll, tabListProps }: Props) => {
+const IngredientNav = ({ checkIfSelected, onSelect, onDeselectAll }: Props) => {
   return (
     <Tabs defaultValue="all">
-      <TabList {...tabListProps}>
+      <TabList>
         <Tab value="all">All</Tab>
         <Tab value="essentials">Essentials</Tab>
         <Tab value="recommended" isLast>

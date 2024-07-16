@@ -1,6 +1,6 @@
 import { useHeaderHeight } from '@react-navigation/elements'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { useEffect, useCallback } from 'react'
+import { useEffect } from 'react'
 import { ScrollView, KeyboardAvoidingView } from 'react-native'
 
 import BarIngredientsHeaderBtns from '../_sharedHeaderBtns/BarIngredientsHeaderBtns'
@@ -22,13 +22,19 @@ export default function BarIngredients({ route, navigation }: Props) {
   const { ingredientsById } = useIngredients()
   const headerHeight = useHeaderHeight()
 
-  const clearAll = useCallback(async () => {}, [])
-
   useEffect(() => {
     navigation.setOptions({
-      headerRight: () => <BarIngredientsHeaderBtns onDeselectPress={clearAll} />,
+      headerRight: () => (
+        <BarIngredientsHeaderBtns
+          onSearchPress={() =>
+            navigation.navigate('Search Ingredients', {
+              barId,
+            })
+          }
+        />
+      ),
     })
-  }, [navigation, clearAll])
+  }, [navigation, barId])
 
   if (!bar) return null
 
@@ -77,12 +83,6 @@ export default function BarIngredients({ route, navigation }: Props) {
       style={{ flex: 1, backgroundColor: COLORS.bg.level3 }}
       keyboardVerticalOffset={headerHeight}
     >
-      {/* <SearchInput
-        value={searchValue}
-        onChange={setSearchValue}
-        onClear={() => setSearchValue('')}
-        placeholder="Search by ingredient name"
-      /> */}
       <ScrollView>
         <IngredientNav
           checkIfSelected={checkIfSelected}

@@ -1,18 +1,17 @@
-import { Pressable, Text } from 'react-native'
+import { Pressable } from 'react-native'
 
-import { FONTS, COLORS } from '@/lib/constants'
+import SearchIcon from '@/components/_icons/Search'
+import { COLORS } from '@/lib/constants'
 
 interface Props {
-  onDeselectPress?: () => void
+  onSearchPress?: () => void
 }
 
-const BarIngredientsHeaderBtns = ({ onDeselectPress }: Props) => {
+const BarIngredientsHeaderBtns = ({ onSearchPress = () => {} }: Props) => {
   return (
     <>
-      <Pressable onPress={onDeselectPress}>
-        <Text style={{ fontFamily: FONTS.hells.sans.medium, color: COLORS.nav.text }}>
-          Deselect All
-        </Text>
+      <Pressable onPress={onSearchPress} style={{ marginLeft: 15 }}>
+        <SearchIcon color={COLORS.nav.text} />
       </Pressable>
     </>
   )

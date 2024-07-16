@@ -1,11 +1,4 @@
-export type TFilterName =
-  | 'With Bar Stock'
-  | 'Collection'
-  | 'Base Spirit'
-  | 'Ingredient'
-  | 'Method'
-  | 'Era'
-  | 'Glassware'
+export type TFilterName = keyof FilterNavStackParamList
 
 export interface IFilterValue {
   id: string
@@ -53,6 +46,7 @@ export type BarStockStackParamList = {
   Cocktail: CocktailDetailParams
   Ingredient: IngredientDetailParams
   'Source Detail': SourceDetailParams
+  'Search Ingredients': { barId: string }
   'Search Bar Cocktails': CocktailSearchParams
 }
 
@@ -67,6 +61,18 @@ export type CollectionsStackParamList = {
 
 export type SettingsStackParamList = {
   Settings: undefined
+}
+
+export type FilterNavStackParamList = {
+  Filters: undefined
+  'With Bar Stock': undefined
+  Collection: undefined
+  'Base Spirit': undefined
+  Ingredient: undefined
+  Method: undefined
+  Era: undefined
+  Glassware: undefined
+  'Search Ingredients': undefined
 }
 
 export type SortableColumns = 'name' | 'created_at'

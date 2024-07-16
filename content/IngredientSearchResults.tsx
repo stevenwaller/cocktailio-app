@@ -1,11 +1,8 @@
 import { useState, useEffect } from 'react'
-import { View, StyleSheet, Pressable, Text } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 
 import SelectableAccordion from '@/components/SelectableAccordion'
 import { BodyText } from '@/components/_elements/Text'
-import DeselectIcon from '@/components/_icons/Deselect'
-import ShowSelectedIcon from '@/components/_icons/ShowSelected'
-import ShowSelectedSolidIcon from '@/components/_icons/ShowSelectedSolid'
 import { FONTS, COLORS } from '@/lib/constants'
 import { useIngredients } from '@/lib/contexts/IngredientsContext'
 import { TIngredient } from '@/lib/types/supabase'
@@ -18,7 +15,6 @@ interface Props {
 }
 
 const IngredientList = ({ checkIfSelected, onSelect, onDeselectAll, searchValue = '' }: Props) => {
-  const [showSelected, setShowSelected] = useState(false)
   const [openAccordions, setOpenAccordions] = useState<{ [key: string]: boolean }>({})
   const { ingredientsById, ingredientCategoryIds, error, isFetching } = useIngredients()
 
@@ -147,6 +143,10 @@ const IngredientList = ({ checkIfSelected, onSelect, onDeselectAll, searchValue 
     return <BodyText>No data</BodyText>
   }
 
+  if (searchValue === '') {
+    return null
+  }
+
   if (searchValue !== '' && Object.keys(foundIngredients).length === 0) {
     return <BodyText>No results found</BodyText>
   }
@@ -180,10 +180,10 @@ const styles = StyleSheet.create({
     color: COLORS.text.link,
   },
   ingredientsContainer: {
-    // paddingTop: 10,
-    // paddingRight: 15,
-    // paddingBottom: 20,
-    // paddingLeft: 20,
+    paddingTop: 10,
+    paddingRight: 15,
+    paddingBottom: 20,
+    paddingLeft: 20,
   },
 })
 

@@ -1,17 +1,17 @@
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, NavigationProp } from '@react-navigation/native'
 import { StyleSheet, Pressable, Text, View } from 'react-native'
 
 import ChevronRight from '@/components/_icons/ChevronRight'
 import ModalBody from '@/components/_overlays/ModalBody'
 import { COLORS, FONTS } from '@/lib/constants'
-import { IFilter, IFilterValue } from '@/lib/types'
+import { IFilter, IFilterValue, FilterNavStackParamList } from '@/lib/types'
 
 interface IFiltersScreen {
   filters: IFilter[]
 }
 
 const FiltersScreen = ({ filters }: IFiltersScreen) => {
-  const { navigate } = useNavigation()
+  const { navigate } = useNavigation<NavigationProp<FilterNavStackParamList>>()
 
   const renderValue = (value: IFilterValue[]) => {
     const maxLength = value.length > 3 ? 3 : value.length
@@ -30,12 +30,14 @@ const FiltersScreen = ({ filters }: IFiltersScreen) => {
 
   return (
     <ModalBody>
+      <Pressable style={styles.filter} onPress={() => navigate('Search Ingredients')}>
+        <Text style={styles.filterName}>Search Ingredients</Text>
+        <View style={styles.filterRight}>
+          <ChevronRight style={styles.filterIcon} color={COLORS.text.link} />
+        </View>
+      </Pressable>
       {filters.map((filter) => (
-        <Pressable
-          key={filter.name}
-          style={styles.filter}
-          onPress={() => navigate(filter.name as never)}
-        >
+        <Pressable key={filter.name} style={styles.filter} onPress={() => navigate(filter.name)}>
           <Text style={styles.filterName}>{filter.name}</Text>
           <View style={styles.filterRight}>
             <View style={styles.filterValue}>
