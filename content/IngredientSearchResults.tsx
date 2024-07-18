@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import { View, StyleSheet } from 'react-native'
 
 import SelectableAccordion from '@/components/SelectableAccordion'
@@ -10,22 +9,14 @@ import { TIngredient } from '@/lib/types/supabase'
 interface Props {
   checkIfSelected: (item: TIngredient) => boolean
   onSelect: (item: TIngredient) => void
-  onDeselectAll?: () => void
   searchValue?: string
 }
 
-const IngredientList = ({ checkIfSelected, onSelect, onDeselectAll, searchValue = '' }: Props) => {
-  const [openAccordions, setOpenAccordions] = useState<{ [key: string]: boolean }>({})
+const IngredientSearchResults = ({ checkIfSelected, onSelect, searchValue = '' }: Props) => {
   const { ingredientsById, ingredientCategoryIds, error, isFetching } = useIngredients()
 
   const lowerCaseSearchValue = searchValue.toLowerCase()
   const foundIngredients: { [key: string]: string } = {}
-
-  useEffect(() => {
-    if (searchValue === '') {
-      setOpenAccordions({})
-    }
-  }, [searchValue])
 
   const findIngredients = (parentIngredientIds: string[]) => {
     parentIngredientIds.forEach((id) => {
@@ -79,27 +70,6 @@ const IngredientList = ({ checkIfSelected, onSelect, onDeselectAll, searchValue 
     return count
   }
 
-  const handleToggle = (ingredient: TIngredient) => {
-    const newOpenAccordions = { ...openAccordions }
-
-    if (openAccordions[ingredient.id]) {
-      delete newOpenAccordions[ingredient.id]
-
-      const closeChildren = (parentIngredient: TIngredient) => {
-        parentIngredient.childIngredientIds?.forEach((childId) => {
-          delete newOpenAccordions[childId]
-          closeChildren(ingredientsById[childId])
-        })
-      }
-
-      closeChildren(ingredient)
-    } else {
-      newOpenAccordions[ingredient.id] = true
-    }
-
-    setOpenAccordions(newOpenAccordions)
-  }
-
   const renderIngredients = (parentIngredientIds: string[] | undefined, depth: number) => {
     if (!parentIngredientIds || parentIngredientIds.length === 0) return null
 
@@ -114,8 +84,7 @@ const IngredientList = ({ checkIfSelected, onSelect, onDeselectAll, searchValue 
           label={ingredient.name}
           style={[depth > 1 && { paddingLeft: 34 }, { marginTop: 12 }]}
           isSelected={checkIfSelected(ingredient)}
-          isOpen={openAccordions[ingredient.id] || searchValue !== ''}
-          onToggle={() => handleToggle(ingredient)}
+          isOpen
           onSelect={() => onSelect(ingredient)}
           headerLabelStyle={[
             ingredient.is_brand && { fontFamily: FONTS.hells.sans.mediumItalic },
@@ -187,6 +156,6 @@ const styles = StyleSheet.create({
   },
 })
 
-IngredientList.displayName = 'IngredientList'
+IngredientSearchResults.displayName = 'IngredientSearchResults'
 
-export default IngredientList
+export default IngredientSearchResults
