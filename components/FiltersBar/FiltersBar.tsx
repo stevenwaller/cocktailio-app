@@ -5,7 +5,6 @@ import Badge from '@/components/Badge'
 import ChevronDown from '@/components/_icons/ChevronDown'
 import FilterIcon from '@/components/_icons/Filter'
 import Button from '@/components/_inputs/Button'
-import ModalFooter from '@/components/_overlays/ModalFooter'
 import StackNavModal, { IStackNavModal } from '@/components/_overlays/StackNavModal'
 import FilterNav from '@/content/FilterNav'
 import { COLORS, FONTS, SIZE } from '@/lib/constants'
@@ -16,8 +15,7 @@ interface FiltersBarProps extends ViewProps {
   onApply: (filters: IFilter[]) => void
 }
 
-const FiltersBar = ({ filters: filtersProp, onApply, style }: FiltersBarProps) => {
-  const [filters, setFilters] = useState<IFilter[]>(filtersProp)
+const FiltersBar = ({ filters, onApply, style }: FiltersBarProps) => {
   const [currentFilterIndex, setCurrentFilterIndex] = useState<number>()
   const modalRef = useRef<IStackNavModal>(null)
   const [snapPoints, setSnapPoints] = useState(['50%'])
@@ -27,7 +25,7 @@ const FiltersBar = ({ filters: filtersProp, onApply, style }: FiltersBarProps) =
     const index = newFilters.findIndex((item) => item.name === filter.name)
     newFilters[index] = filter
 
-    setFilters(newFilters)
+    onApply(newFilters)
   }
 
   const handleFilterPress = (filter?: IFilter) => {
@@ -44,21 +42,10 @@ const FiltersBar = ({ filters: filtersProp, onApply, style }: FiltersBarProps) =
     modalRef.current?.present()
   }
 
-  const handleApply = () => {
-    onApply(filters)
-    modalRef.current?.dismiss()
-  }
-
-  const renderFooter = (props: any) => (
-    <ModalFooter {...props}>
-      <Button label="Apply" onPress={handleApply} />
-    </ModalFooter>
-  )
-
   const renderTotalBadge = () => {
     let total = 0
 
-    filtersProp.forEach((filter) => {
+    filters.forEach((filter) => {
       total += filter.value.length
     })
 
@@ -90,10 +77,6 @@ const FiltersBar = ({ filters: filtersProp, onApply, style }: FiltersBarProps) =
         showsHorizontalScrollIndicator={false}
       >
         <View style={styles.filters}>
-          {/* <Pressable style={styles.iconBtn} hitSlop={15} onPress={() => handleFilterPress()}>
-            <FilterIcon color={COLORS.text.action} />
-            {renderTotalBadge()}
-          </Pressable> */}
           <Button
             style={[styles.button, styles.filterButton]}
             size="small"
@@ -102,7 +85,7 @@ const FiltersBar = ({ filters: filtersProp, onApply, style }: FiltersBarProps) =
             <FilterIcon color={COLORS.text.dark} width={20} height={20} />
             {renderTotalBadge()}
           </Button>
-          {filtersProp.map((filter) => (
+          {filters.map((filter) => (
             <Button
               key={filter.name}
               style={styles.button}
@@ -116,7 +99,7 @@ const FiltersBar = ({ filters: filtersProp, onApply, style }: FiltersBarProps) =
           ))}
         </View>
       </ScrollView>
-      <StackNavModal ref={modalRef} footerComponent={renderFooter} snapPoints={snapPoints}>
+      <StackNavModal ref={modalRef} snapPoints={snapPoints}>
         <FilterNav
           currentFilterIndex={currentFilterIndex}
           filters={filters}
