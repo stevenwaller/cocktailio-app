@@ -19,6 +19,7 @@ const FiltersBar = ({ filters, onApply, style }: FiltersBarProps) => {
   const [currentFilterIndex, setCurrentFilterIndex] = useState<number>()
   const modalRef = useRef<IStackNavModal>(null)
   const [snapPoints, setSnapPoints] = useState(['50%'])
+  const ogFilters = useRef<IFilter[]>(filters)
 
   const handleFilterChange = (filter: IFilter) => {
     const newFilters = [...filters]
@@ -26,6 +27,10 @@ const FiltersBar = ({ filters, onApply, style }: FiltersBarProps) => {
     newFilters[index] = filter
 
     onApply(newFilters)
+  }
+
+  const handleResetAll = () => {
+    onApply(ogFilters.current)
   }
 
   const handleFilterPress = (filter?: IFilter) => {
@@ -104,6 +109,7 @@ const FiltersBar = ({ filters, onApply, style }: FiltersBarProps) => {
           currentFilterIndex={currentFilterIndex}
           filters={filters}
           onChange={handleFilterChange}
+          onResetAll={handleResetAll}
         />
       </StackNavModal>
     </View>

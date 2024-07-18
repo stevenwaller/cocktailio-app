@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import BaseSpiritScreen from './screens/BaseSpiritScreen'
 import CollectionScreen from './screens/CollectionScreen'
 import EraScreen from './screens/EraScreen'
+import FilterHeaderBtns from './screens/FilterHeaderBtns'
 import FiltersScreen from './screens/FiltersScreen'
 import GlasswareScreen from './screens/GlasswareScreen'
 import IngredientScreen from './screens/IngredientScreen'
@@ -17,6 +18,7 @@ interface FilterNavProps {
   currentFilterIndex?: number
   filters: IFilter[]
   onChange: (filter: IFilter) => void
+  onResetAll: () => void
 }
 
 const Components = {
@@ -33,9 +35,7 @@ const Components = {
 
 const Stack = createStackNavigator<FilterNavStackParamList>()
 
-const filtersScreenOptions = { headerLeft: () => null }
-
-const FilterNav = ({ currentFilterIndex, filters, onChange }: FilterNavProps) => {
+const FilterNav = ({ currentFilterIndex, filters, onChange, onResetAll }: FilterNavProps) => {
   const currentFilter = currentFilterIndex !== undefined ? filters[currentFilterIndex] : undefined
   const ingredientFilter = filters.find((item) => item.name === 'Ingredient')
 
@@ -55,7 +55,13 @@ const FilterNav = ({ currentFilterIndex, filters, onChange }: FilterNavProps) =>
     if (currentFilter === undefined) {
       return (
         <>
-          <Stack.Screen name="Filters" options={filtersScreenOptions}>
+          <Stack.Screen
+            name="Filters"
+            options={() => ({
+              headerLeft: () => null,
+              headerRight: () => <FilterHeaderBtns resetAll onReset={onResetAll} />,
+            })}
+          >
             {(props) => <FiltersScreen {...props} filters={filters} />}
           </Stack.Screen>
           {renderIngredientSearch()}
@@ -63,7 +69,20 @@ const FilterNav = ({ currentFilterIndex, filters, onChange }: FilterNavProps) =>
             const ScreenComponent: any = Components[filter.name]
 
             return (
-              <Stack.Screen key={filter.name} name={filter.name}>
+              <Stack.Screen
+                key={filter.name}
+                name={filter.name}
+                options={() => ({
+                  headerRight: () => (
+                    <FilterHeaderBtns
+                      onReset={() => {
+                        if (!filter) return
+                        onChange({ ...filter, value: [] })
+                      }}
+                    />
+                  ),
+                })}
+              >
                 {(props) => (
                   <ScreenComponent
                     {...props}
@@ -82,7 +101,19 @@ const FilterNav = ({ currentFilterIndex, filters, onChange }: FilterNavProps) =>
 
     return (
       <>
-        <Stack.Screen name={currentFilter.name}>
+        <Stack.Screen
+          name={currentFilter.name}
+          options={() => ({
+            headerRight: () => (
+              <FilterHeaderBtns
+                onReset={() => {
+                  if (!currentFilter) return
+                  onChange({ ...currentFilter, value: [] })
+                }}
+              />
+            ),
+          })}
+        >
           {(props) => <ScreenComponent {...props} filter={currentFilter} onChange={onChange} />}
         </Stack.Screen>
         {renderIngredientSearch()}

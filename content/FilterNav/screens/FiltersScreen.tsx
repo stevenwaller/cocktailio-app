@@ -11,7 +11,8 @@ interface IFiltersScreen {
 }
 
 const FiltersScreen = ({ filters }: IFiltersScreen) => {
-  const { navigate } = useNavigation<NavigationProp<FilterNavStackParamList>>()
+  const navigation = useNavigation<NavigationProp<FilterNavStackParamList>>()
+  const { navigate } = navigation
 
   const renderValue = (value: IFilterValue[]) => {
     const maxLength = value.length > 3 ? 3 : value.length
@@ -30,12 +31,6 @@ const FiltersScreen = ({ filters }: IFiltersScreen) => {
 
   return (
     <ModalBody>
-      <Pressable style={styles.filter} onPress={() => navigate('Search Ingredients')}>
-        <Text style={styles.filterName}>Search Ingredients</Text>
-        <View style={styles.filterRight}>
-          <ChevronRight style={styles.filterIcon} color={COLORS.text.link} />
-        </View>
-      </Pressable>
       {filters.map((filter) => (
         <Pressable key={filter.name} style={styles.filter} onPress={() => navigate(filter.name)}>
           <Text style={styles.filterName}>{filter.name}</Text>
