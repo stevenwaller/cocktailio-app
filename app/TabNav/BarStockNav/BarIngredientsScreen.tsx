@@ -1,8 +1,6 @@
-import { useHeaderHeight } from '@react-navigation/elements'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import IngredientTabs from '@/content/IngredientTabs'
-import { COLORS } from '@/lib/constants'
 import { useBars } from '@/lib/contexts/BarsContext'
 import { useIngredients } from '@/lib/contexts/IngredientsContext'
 import { BarStockStackParamList } from '@/lib/types'
@@ -16,7 +14,6 @@ export default function BarIngredients({ route, navigation }: Props) {
   const barId = route.params.barId
   const { bar, setBar } = useBars(barId as string)
   const { ingredientsById } = useIngredients()
-  const headerHeight = useHeaderHeight()
 
   if (!bar) return null
 

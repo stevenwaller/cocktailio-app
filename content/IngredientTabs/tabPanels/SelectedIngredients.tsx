@@ -2,7 +2,7 @@ import { View, StyleSheet } from 'react-native'
 
 import SelectableAccordion from '@/components/SelectableAccordion'
 import { BodyText } from '@/components/_elements/Text'
-import { FONTS, COLORS } from '@/lib/constants'
+import { FONTS } from '@/lib/constants'
 import { useIngredients } from '@/lib/contexts/IngredientsContext'
 import { TIngredient } from '@/lib/types/supabase'
 
