@@ -35,9 +35,9 @@ const FiltersBar = ({ filters, onApply, style }: FiltersBarProps) => {
 
   const handleFilterPress = (filter?: IFilter) => {
     if (filter?.name === 'Ingredient') {
-      setSnapPoints(['90%'])
+      setSnapPoints(['75%'])
     } else {
-      setSnapPoints(['50%', '90%'])
+      setSnapPoints(['50%', '75%'])
     }
 
     const index = filters.findIndex((item) => item.name === filter?.name)

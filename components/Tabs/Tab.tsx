@@ -8,10 +8,11 @@ import { COLORS, FONTS } from '@/lib/constants'
 export interface TabProps extends ViewProps {
   value: string
   isLast?: boolean
-  children: React.ReactNode
+  children?: React.ReactNode
+  icon?: React.ReactNode
 }
 
-const Tab = ({ children, value, isLast, style, ...restProps }: TabProps) => {
+const Tab = ({ children, value, isLast, style, icon, ...restProps }: TabProps) => {
   const { activeTab, onChange } = useContext(TabsContext)
 
   const isActive = activeTab === value
@@ -22,7 +23,10 @@ const Tab = ({ children, value, isLast, style, ...restProps }: TabProps) => {
       onPress={() => onChange(value)}
       {...restProps}
     >
-      <Text style={[styles.tabText, isActive && styles.activeTabText]}>{children}</Text>
+      {icon}
+      {children && (
+        <Text style={[styles.tabText, isActive && styles.activeTabText]}>{children}</Text>
+      )}
     </Pressable>
   )
 }
@@ -33,15 +37,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: COLORS.bg.level2,
-    borderRightWidth: 1,
-    borderRightColor: COLORS.bg.level1,
-    borderBottomWidth: 1,
+    // backgroundColor: COLORS.bg.level2,
+    // borderRightWidth: 1,
+    // borderRightColor: COLORS.bg.level1,
+    // borderBottomWidth: 1,
     borderBottomColor: COLORS.bg.level1,
   },
   activeTab: {
     backgroundColor: COLORS.bg.level3,
-    borderBottomColor: COLORS.bg.level3,
+    // borderBottomColor: COLORS.bg.level3,
   },
   tabText: {
     fontFamily: FONTS.hells.sans.bold,

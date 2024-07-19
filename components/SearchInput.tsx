@@ -13,6 +13,7 @@ interface Props {
   placeholder?: string
   style?: ViewStyle
   inputStyle?: ViewStyle
+  noIcon?: boolean
 }
 
 const SearchInput = ({
@@ -24,11 +25,12 @@ const SearchInput = ({
   autoFocus = false,
   placeholder,
   inputStyle,
+  noIcon,
 }: Props) => {
   return (
     <View style={style}>
       <TextInput
-        style={[styles.input, inputStyle]}
+        style={[styles.input, noIcon && { paddingStart: 15 }, inputStyle]}
         value={value}
         onChangeText={onChange}
         placeholder={placeholder}
@@ -38,11 +40,13 @@ const SearchInput = ({
       {isFetching ? (
         <ActivityIndicator style={styles.spinner} color={COLORS.text.body} />
       ) : (
-        <SearchIcon style={styles.searchIcon} color={COLORS.text.body} pointerEvents="box-none" />
+        !noIcon && (
+          <SearchIcon style={styles.searchIcon} color={COLORS.text.body} pointerEvents="box-none" />
+        )
       )}
       {value && (
         <Pressable style={styles.clearBtn} onPress={onClear}>
-          <MaterialCommunityIcons name="close" size={28} color={COLORS.text.link} />
+          <MaterialCommunityIcons name="close" size={20} color={COLORS.text.link} />
         </Pressable>
       )}
     </View>
@@ -71,7 +75,7 @@ const styles = StyleSheet.create({
   },
   clearBtn: {
     position: 'absolute',
-    top: 10,
+    top: 14,
     right: 10,
   },
 })

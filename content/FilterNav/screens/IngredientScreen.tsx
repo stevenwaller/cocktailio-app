@@ -1,12 +1,6 @@
-import { useNavigation, NavigationProp } from '@react-navigation/native'
-import { useEffect } from 'react'
-import { Pressable } from 'react-native'
-
-import SearchIcon from '@/components/_icons/Search'
 import ModalBody from '@/components/_overlays/ModalBody'
-import IngredientNav from '@/content/IngredientNav'
-import { COLORS } from '@/lib/constants'
-import { IFilter, FilterNavStackParamList } from '@/lib/types'
+import IngredientTabs from '@/content/IngredientTabs'
+import { IFilter } from '@/lib/types'
 import { TIngredient } from '@/lib/types/supabase'
 
 interface IngredientsScreenProps {
@@ -15,23 +9,6 @@ interface IngredientsScreenProps {
 }
 
 const IngredientScreen = ({ filter, onChange }: IngredientsScreenProps) => {
-  const navigation = useNavigation<NavigationProp<FilterNavStackParamList>>()
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <Pressable
-          onPress={() => {
-            navigation.navigate('Search Ingredients')
-          }}
-          style={{ marginRight: 15, marginBottom: 10 }}
-        >
-          <SearchIcon color={COLORS.text.link} />
-        </Pressable>
-      ),
-    })
-  }, [navigation])
-
   const checkIfSelected = (ingredient: TIngredient) => {
     if (filter) {
       return filter.value.some((item) => item.id === ingredient.id)
@@ -62,7 +39,7 @@ const IngredientScreen = ({ filter, onChange }: IngredientsScreenProps) => {
 
   return (
     <ModalBody contentStyle={{ paddingTop: 0, paddingRight: 0, paddingBottom: 0, paddingLeft: 0 }}>
-      <IngredientNav
+      <IngredientTabs
         checkIfSelected={checkIfSelected}
         onSelect={handleSelect}
         onDeselectAll={handleDeselectAll}

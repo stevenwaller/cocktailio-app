@@ -285,7 +285,9 @@ const CocktailList = ({
             <View style={styles.header}>
               <ErrorAlert message={error?.message} />
               {nameProp && <Text style={styles.title}>{nameProp}</Text>}
-              <Text style={styles.count}>{count} cocktails</Text>
+              <Text style={styles.count}>
+                {count} cocktail{count > 1 && 's'}
+              </Text>
             </View>
           }
           data={data}

@@ -1,11 +1,8 @@
 import { useHeaderHeight } from '@react-navigation/elements'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { useEffect } from 'react'
 import { ScrollView, KeyboardAvoidingView } from 'react-native'
 
-import BarIngredientsHeaderBtns from '../_sharedHeaderBtns/BarIngredientsHeaderBtns'
-
-import IngredientNav from '@/content/IngredientNav'
+import IngredientTabs from '@/content/IngredientTabs'
 import { COLORS } from '@/lib/constants'
 import { useBars } from '@/lib/contexts/BarsContext'
 import { useIngredients } from '@/lib/contexts/IngredientsContext'
@@ -21,20 +18,6 @@ export default function BarIngredients({ route, navigation }: Props) {
   const { bar, setBar } = useBars(barId as string)
   const { ingredientsById } = useIngredients()
   const headerHeight = useHeaderHeight()
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <BarIngredientsHeaderBtns
-          onSearchPress={() =>
-            navigation.navigate('Search Ingredients', {
-              barId,
-            })
-          }
-        />
-      ),
-    })
-  }, [navigation, barId])
 
   if (!bar) return null
 
@@ -84,7 +67,7 @@ export default function BarIngredients({ route, navigation }: Props) {
       keyboardVerticalOffset={headerHeight}
     >
       <ScrollView>
-        <IngredientNav
+        <IngredientTabs
           checkIfSelected={checkIfSelected}
           onSelect={handleSelect}
           onDeselectAll={handleDeselectAll}
