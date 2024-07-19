@@ -129,7 +129,7 @@ const SearchIngredients = ({ checkIfSelected, onSelect }: Props) => {
   }
 
   return (
-    <>
+    <View style={{ marginTop: 20 }}>
       <SearchInput
         value={searchValue}
         onChange={setSearchValue}
@@ -139,7 +139,7 @@ const SearchIngredients = ({ checkIfSelected, onSelect }: Props) => {
         placeholder="Search by ingredient name"
       />
       {renderContent()}
-    </>
+    </View>
   )
 }
 

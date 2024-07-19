@@ -1,4 +1,3 @@
-import ModalBody from '@/components/_overlays/ModalBody'
 import IngredientTabs from '@/content/IngredientTabs'
 import { IFilter } from '@/lib/types'
 import { TIngredient } from '@/lib/types/supabase'
@@ -38,13 +37,12 @@ const IngredientScreen = ({ filter, onChange }: IngredientsScreenProps) => {
   }
 
   return (
-    <ModalBody contentStyle={{ paddingTop: 0, paddingRight: 0, paddingBottom: 0, paddingLeft: 0 }}>
-      <IngredientTabs
-        checkIfSelected={checkIfSelected}
-        onSelect={handleSelect}
-        onDeselectAll={handleDeselectAll}
-      />
-    </ModalBody>
+    <IngredientTabs
+      checkIfSelected={checkIfSelected}
+      onSelect={handleSelect}
+      onDeselectAll={handleDeselectAll}
+      isInModal
+    />
   )
 }
 

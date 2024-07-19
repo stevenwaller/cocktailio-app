@@ -2,7 +2,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import BarDetailScreen from './BarDetailScreen'
 import BarIngredientsScreen from './BarIngredientsScreen'
-import BarSearchIngredientsScreen from './BarSearchIngredientsScreen'
 import BarStockScreen from './BarStockScreen'
 import CocktailsHeaderBtns from '../_sharedHeaderBtns/CocktailsHeaderBtns'
 import CocktailDetailScreen from '../_sharedScreens/CocktailDetailScreen'
@@ -30,7 +29,6 @@ export default function BarStockNav() {
         />
         <BarStockStack.Screen name="Cocktail" component={CocktailDetailScreen} />
         <BarStockStack.Screen name="Ingredient" component={IngredientDetailScreen} />
-        <BarStockStack.Screen name="Search Ingredients" component={BarSearchIngredientsScreen} />
         <BarStockStack.Screen
           name="Source Detail"
           component={SourceDetailScreen}

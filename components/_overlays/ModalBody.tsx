@@ -12,9 +12,20 @@ interface ModalBodyProps extends BottomSheetScrollableProps {
   children: ReactNode
   scrollViewStyle?: ViewStyle
   contentStyle?: ViewStyle
+  noScroll?: boolean
 }
 
-const ModalBody = ({ children, scrollViewStyle, contentStyle, ...restProps }: ModalBodyProps) => {
+const ModalBody = ({
+  children,
+  scrollViewStyle,
+  contentStyle,
+  noScroll,
+  ...restProps
+}: ModalBodyProps) => {
+  if (noScroll) {
+    return <BottomSheetView style={[styles.container, contentStyle]}>{children}</BottomSheetView>
+  }
+
   return (
     <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }} keyboardVerticalOffset={60}>
       <BottomSheetScrollView

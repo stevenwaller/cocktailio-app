@@ -1,6 +1,5 @@
 import { useHeaderHeight } from '@react-navigation/elements'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { ScrollView, KeyboardAvoidingView } from 'react-native'
 
 import IngredientTabs from '@/content/IngredientTabs'
 import { COLORS } from '@/lib/constants'
@@ -61,18 +60,10 @@ export default function BarIngredients({ route, navigation }: Props) {
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior="padding"
-      style={{ flex: 1, backgroundColor: COLORS.bg.level3 }}
-      keyboardVerticalOffset={headerHeight}
-    >
-      <ScrollView>
-        <IngredientTabs
-          checkIfSelected={checkIfSelected}
-          onSelect={handleSelect}
-          onDeselectAll={handleDeselectAll}
-        />
-      </ScrollView>
-    </KeyboardAvoidingView>
+    <IngredientTabs
+      checkIfSelected={checkIfSelected}
+      onSelect={handleSelect}
+      onDeselectAll={handleDeselectAll}
+    />
   )
 }

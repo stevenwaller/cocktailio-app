@@ -1,4 +1,4 @@
-import { View, StyleSheet } from 'react-native'
+import { View } from 'react-native'
 
 import SelectableAccordion from '@/components/SelectableAccordion'
 import { BodyText } from '@/components/_elements/Text'
@@ -167,16 +167,8 @@ const CommonIngredients = ({ checkIfSelected, onSelect }: Props) => {
     return <BodyText>No data</BodyText>
   }
 
-  return (
-    <View style={styles.ingredientsContainer}>{renderIngredients(ingredientCategoryIds, 0)}</View>
-  )
+  return <View>{renderIngredients(ingredientCategoryIds, 0)}</View>
 }
-
-const styles = StyleSheet.create({
-  ingredientsContainer: {
-    paddingTop: 5,
-  },
-})
 
 CommonIngredients.displayName = 'CommonIngredients'
 

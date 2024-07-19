@@ -75,48 +75,32 @@ const SelectedIngredients = ({ checkIfSelected, onSelect }: Props) => {
     })
   }
 
-  if (isFetching) {
-    return <BodyText>Loading...</BodyText>
+  const renderContent = () => {
+    if (isFetching) {
+      return <BodyText style={styles.justText}>Loading...</BodyText>
+    }
+
+    if (error) {
+      return <BodyText style={styles.justText}>Error: {error.message}</BodyText>
+    }
+
+    if (!ingredientCategoryIds) {
+      return <BodyText style={styles.justText}>No data</BodyText>
+    }
+
+    if (Object.keys(selectedIngredients).length === 0) {
+      return <BodyText style={styles.justText}>No ingredients selected</BodyText>
+    }
+
+    return renderIngredients(ingredientCategoryIds, 0)
   }
 
-  if (error) {
-    return <BodyText>Error: {error.message}</BodyText>
-  }
-
-  if (!ingredientCategoryIds) {
-    return <BodyText>No data</BodyText>
-  }
-
-  if (Object.keys(selectedIngredients).length === 0) {
-    return <BodyText>No ingredients selected</BodyText>
-  }
-
-  return (
-    <View style={styles.ingredientsContainer}>{renderIngredients(ingredientCategoryIds, 0)}</View>
-  )
+  return <View>{renderContent()}</View>
 }
 
 const styles = StyleSheet.create({
-  item: {
-    marginBottom: 12,
-  },
-  category: {},
-  label: {
-    fontSize: 18,
-    color: COLORS.text.body,
-    fontFamily: FONTS.hells.sans.medium,
-  },
-  categoryLabel: {
-    fontFamily: FONTS.hells.sans.bold,
-  },
-  brandLabel: {
-    fontFamily: FONTS.hells.sans.mediumItalic,
-  },
-  ingredientsContainer: {
-    // paddingTop: 10,
-    // paddingRight: 15,
-    // paddingBottom: 20,
-    // paddingLeft: 20,
+  justText: {
+    paddingTop: 20,
   },
 })
 
