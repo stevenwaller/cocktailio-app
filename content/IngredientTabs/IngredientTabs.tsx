@@ -1,6 +1,7 @@
-import { Text, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 import AllIngredients from './tabPanels/AllIngredients'
+import CommonIngredients from './tabPanels/CommonIngredients'
 import SearchIngredients from './tabPanels/SearchIngredients'
 import SelectedIngredients from './tabPanels/SelectedIngredientList'
 
@@ -26,10 +27,10 @@ const IngredientTabs = ({ checkIfSelected, onSelect, onDeselectAll }: Props) => 
         />
         <Tab value="all">All</Tab>
         <Tab value="selected">Selected</Tab>
-        <Tab value="essentials">Essentials</Tab>
-        <Tab value="recommended" isLast>
+        <Tab value="common">Common</Tab>
+        {/* <Tab value="recommended" isLast>
           Recommended
-        </Tab>
+        </Tab> */}
       </TabList>
       <TabPanel value="search" style={styles.tabPanel}>
         <SearchIngredients onSelect={onSelect} checkIfSelected={checkIfSelected} />
@@ -40,12 +41,12 @@ const IngredientTabs = ({ checkIfSelected, onSelect, onDeselectAll }: Props) => 
       <TabPanel value="selected" style={styles.tabPanel}>
         <SelectedIngredients onSelect={onSelect} checkIfSelected={checkIfSelected} />
       </TabPanel>
-      <TabPanel value="essentials" style={styles.tabPanel}>
-        <Text>Essentials</Text>
+      <TabPanel value="common" style={styles.tabPanel}>
+        <CommonIngredients onSelect={onSelect} checkIfSelected={checkIfSelected} />
       </TabPanel>
-      <TabPanel value="recommended" style={styles.tabPanel}>
+      {/* <TabPanel value="recommended" style={styles.tabPanel}>
         <Text>Recommended</Text>
-      </TabPanel>
+      </TabPanel> */}
     </Tabs>
   )
 }
