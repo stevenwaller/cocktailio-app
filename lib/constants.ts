@@ -81,5 +81,5 @@ export const SIZE = {
 }
 
 export const SEARCH_HEIGHT = 48
-export const TAB_HEIGHT = 45
+export const TAB_HEIGHT = 41
 export const TAB_NAV_HEIGHT = 47

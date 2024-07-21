@@ -3,7 +3,7 @@ import { ViewProps, StyleSheet, Pressable, Text } from 'react-native'
 
 import TabsContext from './TabsContext'
 
-import { COLORS, FONTS, TAB_HEIGHT } from '@/lib/constants'
+import { COLORS, FONTS, TAB_HEIGHT, SIZE } from '@/lib/constants'
 
 export interface TabProps extends ViewProps {
   value: string
@@ -37,15 +37,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: COLORS.bg.level2,
-    // borderRightWidth: 1,
-    // borderRightColor: COLORS.bg.level1,
-    // borderBottomWidth: 1,
     borderBottomColor: COLORS.bg.level1,
+    borderTopStartRadius: SIZE.border.radius,
+    borderTopEndRadius: SIZE.border.radius,
   },
   activeTab: {
     backgroundColor: COLORS.bg.level3,
-    // borderBottomColor: COLORS.bg.level3,
   },
   tabText: {
     fontFamily: FONTS.hells.sans.bold,

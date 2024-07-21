@@ -7,7 +7,7 @@ import SelectedIngredients from './tabPanels/SelectedIngredients'
 
 import { Tabs, Tab, TabList, TabPanel } from '@/components/Tabs'
 import SearchIcon from '@/components/_icons/Search'
-import { COLORS } from '@/lib/constants'
+import { COLORS, TAB_NAV_HEIGHT } from '@/lib/constants'
 import { TIngredient } from '@/lib/types/supabase'
 
 interface Props {
@@ -32,7 +32,7 @@ const IngredientTabs = ({ checkIfSelected, onSelect, onDeselectAll, isInModal }:
       </TabList>
       <TabPanel
         value="search"
-        style={[styles.tabPanel, { paddingTop: 46 }]}
+        style={[styles.tabPanel, { paddingTop: TAB_NAV_HEIGHT }]}
         scrollable
         isInModal={isInModal}
       >

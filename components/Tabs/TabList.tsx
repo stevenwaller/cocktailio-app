@@ -14,7 +14,7 @@ const TabList = ({ children, style, contentContainerStyle, ...restProps }: TabLi
           backgroundColor: COLORS.bg.level1,
           flexGrow: 0,
           flexShrink: 0,
-          borderTopWidth: 2,
+          borderTopWidth: 6,
           borderTopColor: COLORS.bg.level1,
         },
         style,
