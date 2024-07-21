@@ -172,6 +172,7 @@ const RecipeCard = ({ cocktail, style, barId, ...restProps }: RecipeCardProps) =
       or_ingredients,
       recommended_ingredients,
       note: ingredientNote,
+      variation,
       substitute,
     } = component
 
@@ -282,6 +283,13 @@ const RecipeCard = ({ cocktail, style, barId, ...restProps }: RecipeCardProps) =
                   )
                 })}
               </Text>
+            </View>
+          )}
+
+          {variation && (
+            <View style={styles.ingredientNote}>
+              <Text style={styles.ingredientNoteTitle}>VARIATION</Text>
+              <Text style={styles.ingredientNoteDescription}>{variation}</Text>
             </View>
           )}
 

@@ -14,6 +14,7 @@ interface SelectableAccordionProps extends ViewProps {
   isOpen: boolean
   count?: number
   headerLabelStyle?: StyleProp<TextStyle>
+  bodyStyle?: StyleProp<TextStyle>
   onSelect?: () => void
   onToggle?: () => void
 }
@@ -25,6 +26,7 @@ const SelectableAccordion = ({
   noSelect,
   noExpand,
   style,
+  bodyStyle,
   count,
   headerLabelStyle,
   isSelected,
@@ -62,7 +64,7 @@ const SelectableAccordion = ({
           </View>
         )}
       </View>
-      {isOpen && children && <View style={styles.body}>{children}</View>}
+      {isOpen && children && <View style={[styles.body, bodyStyle]}>{children}</View>}
     </View>
   )
 }

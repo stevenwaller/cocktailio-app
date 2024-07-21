@@ -83,6 +83,7 @@ const IngredientSearchResults = ({ checkIfSelected, onSelect, searchValue = '' }
           key={ingredient.id}
           label={ingredient.name}
           style={[depth > 1 && { paddingLeft: 34 }, { marginTop: 12 }]}
+          bodyStyle={[depth === 0 && { paddingBottom: 10 }]}
           isSelected={checkIfSelected(ingredient)}
           isOpen
           onSelect={() => onSelect(ingredient)}

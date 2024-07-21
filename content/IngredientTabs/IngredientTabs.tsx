@@ -30,7 +30,12 @@ const IngredientTabs = ({ checkIfSelected, onSelect, onDeselectAll, isInModal }:
         <Tab value="selected">Selected</Tab>
         <Tab value="common">Common</Tab>
       </TabList>
-      <TabPanel value="search" style={styles.tabPanel} scrollable isInModal={isInModal}>
+      <TabPanel
+        value="search"
+        style={[styles.tabPanel, { paddingTop: 46 }]}
+        scrollable
+        isInModal={isInModal}
+      >
         <SearchIngredients onSelect={onSelect} checkIfSelected={checkIfSelected} />
       </TabPanel>
       <TabPanel value="all" style={styles.tabPanel} scrollable isInModal={isInModal}>
@@ -48,7 +53,7 @@ const IngredientTabs = ({ checkIfSelected, onSelect, onDeselectAll, isInModal }:
 
 const styles = StyleSheet.create({
   tabPanel: {
-    paddingTop: 46,
+    paddingTop: 55,
     paddingRight: 15,
     paddingBottom: 46,
     paddingLeft: 20,
