@@ -52,3 +52,20 @@ export function PageTitleText({ style, ...restProps }: TextProps) {
     />
   )
 }
+
+export function SubTitleText({ style, ...restProps }: TextProps) {
+  return (
+    <Text
+      style={[
+        style,
+        {
+          fontFamily: FONTS.schotis.bold,
+          fontSize: 20,
+          color: COLORS.text.body,
+          lineHeight: 21,
+        },
+      ]}
+      {...restProps}
+    />
+  )
+}

@@ -1,4 +1,4 @@
-import { useNavigation, NavigationProp } from '@react-navigation/native'
+import { useNavigation, NavigationProp, StackActions } from '@react-navigation/native'
 import { Fragment } from 'react'
 import {
   StyleSheet,
@@ -30,8 +30,6 @@ const RecipeCard = ({ cocktail, style, barId, ...restProps }: RecipeCardProps) =
   const { defaultBar, bar } = useBars(barId)
   const { ingredientsById } = useIngredients()
   const currentBar = bar ? bar : defaultBar
-
-  console.log('cocktail', cocktail)
 
   const renderIngredientsYouHave = (component: IComponent) => {
     if (!component) return null
@@ -94,10 +92,13 @@ const RecipeCard = ({ cocktail, style, barId, ...restProps }: RecipeCardProps) =
               {idIndex !== 0 && ', '}
               <TouchableWithoutFeedback
                 onPress={() =>
-                  navigation.navigate('Ingredient', {
-                    ingredientId: id,
-                    name: ingredientsById[id].name,
-                  })
+                  navigation.dispatch(
+                    StackActions.push('Ingredient', {
+                      ingredientId: id,
+                      name: ingredientsById[id].name,
+                      barId,
+                    }),
+                  )
                 }
               >
                 <Text
@@ -131,8 +132,6 @@ const RecipeCard = ({ cocktail, style, barId, ...restProps }: RecipeCardProps) =
     let amountString = ''
     let amountMaxString = ''
 
-    // if (!amount && !amount_max) return null
-
     if (amount) {
       amountString = `${amount} `
     }
@@ -141,10 +140,6 @@ const RecipeCard = ({ cocktail, style, barId, ...restProps }: RecipeCardProps) =
       amountString += `${amount_numerator}/${amount_denominator} `
     }
 
-    // if (amount_max || amount_max_numerator || amount_max_denominator) {
-    //   amountString = `- `
-    // }
-
     if (amount_max) {
       amountMaxString = `${amount_max} `
     }
@@ -152,6 +147,8 @@ const RecipeCard = ({ cocktail, style, barId, ...restProps }: RecipeCardProps) =
     if (amount_max_numerator && amount_max_denominator) {
       amountMaxString += `${amount_max_numerator}/${amount_max_denominator}`
     }
+
+    if (!amountString && !amountMaxString) return null
 
     return (
       <View style={styles.pill}>
@@ -188,10 +185,13 @@ const RecipeCard = ({ cocktail, style, barId, ...restProps }: RecipeCardProps) =
                   {index !== 0 && ' or '}
                   <TouchableWithoutFeedback
                     onPress={() =>
-                      navigation.navigate('Ingredient', {
-                        ingredientId: ingredient.id,
-                        name: ingredient.name,
-                      })
+                      navigation.dispatch(
+                        StackActions.push('Ingredient', {
+                          ingredientId: ingredient.id,
+                          name: ingredient.name,
+                          barId,
+                        }),
+                      )
                     }
                   >
                     <Text
@@ -217,10 +217,13 @@ const RecipeCard = ({ cocktail, style, barId, ...restProps }: RecipeCardProps) =
                     {index !== 0 && ' or '}
                     <TouchableWithoutFeedback
                       onPress={() =>
-                        navigation.navigate('Ingredient', {
-                          ingredientId: ingredient.id,
-                          name: ingredient.name,
-                        })
+                        navigation.dispatch(
+                          StackActions.push('Ingredient', {
+                            ingredientId: ingredient.id,
+                            name: ingredient.name,
+                            barId,
+                          }),
+                        )
                       }
                     >
                       <Text
@@ -262,10 +265,13 @@ const RecipeCard = ({ cocktail, style, barId, ...restProps }: RecipeCardProps) =
                         ' or '}
                       <TouchableWithoutFeedback
                         onPress={() =>
-                          navigation.navigate('Ingredient', {
-                            ingredientId: ingredient.id,
-                            name: ingredient.name,
-                          })
+                          navigation.dispatch(
+                            StackActions.push('Ingredient', {
+                              ingredientId: ingredient.id,
+                              name: ingredient.name,
+                              barId,
+                            }),
+                          )
                         }
                       >
                         <Text

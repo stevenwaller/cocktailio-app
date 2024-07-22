@@ -1,4 +1,4 @@
-import { useNavigation, NavigationProp } from '@react-navigation/native'
+import { useNavigation, NavigationProp, StackActions } from '@react-navigation/native'
 import { Pressable, ViewProps, View } from 'react-native'
 
 import CanMake from '@/components/CanMake'
@@ -14,6 +14,7 @@ interface CocktailCardProps extends ViewProps {
   cocktail: TCocktail
   onBookmarkPress?: (cocktail: TCocktail) => void
   isBookmarked?: boolean
+  hideBookmark?: boolean
   bar?: TBar
 }
 
@@ -21,6 +22,7 @@ const CocktailCard = ({
   cocktail,
   onBookmarkPress = () => {},
   isBookmarked,
+  hideBookmark,
   bar,
   ...restProps
 }: CocktailCardProps) => {
@@ -32,22 +34,26 @@ const CocktailCard = ({
       <Card.Header>
         <Pressable
           onPress={() =>
-            navigation.navigate('Cocktail', {
-              cocktailId: cocktail.id,
-              barId: bar?.id,
-              name,
-            })
+            navigation.dispatch(
+              StackActions.push('Cocktail', {
+                cocktailId: cocktail.id,
+                barId: bar?.id,
+                name,
+              }),
+            )
           }
         >
           <Card.HeaderText isLink>{name}</Card.HeaderText>
         </Pressable>
-        <Pressable onPress={() => onBookmarkPress(cocktail)}>
-          {isBookmarked ? (
-            <BookmarkSolidIcon color={COLORS.text.link} />
-          ) : (
-            <BookmarkIcon color={COLORS.text.link} />
-          )}
-        </Pressable>
+        {!hideBookmark && (
+          <Pressable onPress={() => onBookmarkPress(cocktail)}>
+            {isBookmarked ? (
+              <BookmarkSolidIcon color={COLORS.text.link} />
+            ) : (
+              <BookmarkIcon color={COLORS.text.link} />
+            )}
+          </Pressable>
+        )}
       </Card.Header>
       <Card.Body>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>

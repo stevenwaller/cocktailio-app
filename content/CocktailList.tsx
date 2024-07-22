@@ -1,4 +1,4 @@
-import { useNavigation, NavigationProp } from '@react-navigation/native'
+import { useNavigation, NavigationProp, RouteProp, useRoute } from '@react-navigation/native'
 import { PostgrestError } from '@supabase/supabase-js'
 import { useEffect, useState, useCallback, useRef } from 'react'
 import {
@@ -65,7 +65,9 @@ const CocktailList = ({
   const defaultBarModalRef = useRef<IDefaultBarModal>(null)
   const sortModalRef = useRef<ISortModal>(null)
   const navigation = useNavigation<NavigationProp<CocktailsStackParamList>>()
+  const route = useRoute<RouteProp<CocktailsStackParamList, 'Cocktails'>>()
   const currentBar = bar ? bar : defaultBar
+  const ingredientId = route.params?.ingredientId
 
   const [filters, setFilters] = useState<IFilter[]>([
     ...(barIdProp
@@ -83,7 +85,14 @@ const CocktailList = ({
     },
     {
       name: 'Ingredient',
-      value: [],
+      value: ingredientId
+        ? [
+            {
+              id: ingredientId,
+              name: ingredientsById[ingredientId].name,
+            },
+          ]
+        : [],
     },
     ...(collectionIdProp
       ? []

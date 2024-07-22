@@ -15,13 +15,14 @@ type CocktailsParams =
   | {
       barId?: string
       collectionId?: string
+      ingredientId?: string
       name?: string
     }
   | undefined
 
 type CocktailDetailParams = { cocktailId: string; barId?: string; name: string }
 
-type IngredientDetailParams = { ingredientId: string; name: string }
+type IngredientDetailParams = { ingredientId: string; barId?: string; name: string }
 
 type SourceDetailParams = { sourceId: string; name: string }
 
@@ -43,6 +44,7 @@ export type BarStockStackParamList = {
   'Bar Stock': undefined
   'Bar Ingredients': { barId: string }
   Bar: CocktailsParams
+  Cocktails: CocktailsParams
   Cocktail: CocktailDetailParams
   Ingredient: IngredientDetailParams
   'Source Detail': SourceDetailParams
@@ -53,6 +55,7 @@ export type BarStockStackParamList = {
 export type CollectionsStackParamList = {
   Collections: undefined
   Collection: CocktailsParams
+  Cocktails: CocktailsParams
   Cocktail: CocktailDetailParams
   Ingredient: IngredientDetailParams
   'Source Detail': SourceDetailParams

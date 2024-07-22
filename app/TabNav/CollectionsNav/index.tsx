@@ -5,6 +5,7 @@ import CollectionSearchCocktailsScreen from './CollectionSearchCocktailsScreen'
 import CollectionsScreen from './CollectionsScreen'
 import CocktailsHeaderBtns from '../_sharedHeaderBtns/CocktailsHeaderBtns'
 import CocktailDetailScreen from '../_sharedScreens/CocktailDetailScreen'
+import CocktailsScreen from '../_sharedScreens/CocktailsScreen'
 import IngredientDetailScreen from '../_sharedScreens/IngredientDetailScreen'
 import SourceDetailScreen from '../_sharedScreens/SourceDetailScreen'
 
@@ -26,6 +27,7 @@ export default function CollectionsNav() {
           })}
           component={CollectionDetailScreen}
         />
+        <CollectionsStack.Screen name="Cocktails" component={CocktailsScreen} />
         <CollectionsStack.Screen name="Cocktail" component={CocktailDetailScreen} />
         <CollectionsStack.Screen
           name="Search Collection Cocktails"

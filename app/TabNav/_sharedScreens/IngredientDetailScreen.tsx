@@ -6,6 +6,7 @@ import PageContainer from '@/components/PageContainer'
 import { BodyText, PageTitleText } from '@/components/_elements/Text'
 import AddInput from '@/components/_inputs/AddInput'
 import AddToBarModal, { IAddToBarModal } from '@/content/AddToBarModal'
+import CocktailsByIngredient from '@/content/CocktailsByIngredient'
 import { FONTS, COLORS } from '@/lib/constants'
 import { useBars } from '@/lib/contexts/BarsContext'
 import { useIngredients } from '@/lib/contexts/IngredientsContext'
@@ -20,6 +21,8 @@ export default function IngredientDetailPage({ route }: Props) {
   const { bars } = useBars()
   const ingredientId = route.params?.ingredientId
   const name = route.params?.name
+  const barId = route.params?.barId
+
   const ingredient = ingredientsById[ingredientId]
   let isInBar = false
 
@@ -44,10 +47,12 @@ export default function IngredientDetailPage({ route }: Props) {
 
     return (
       <>
-        <View style={styles.description}>
-          <Text style={styles.descriptionText}>Ingredient</Text>
-          <Text style={styles.descriptionText}>{ingredient.name}</Text>
-        </View>
+        {ingredient.description && (
+          <View style={styles.description}>
+            <Text style={styles.descriptionText}>{ingredient.description}</Text>
+          </View>
+        )}
+        <CocktailsByIngredient ingredientId={ingredientId} barId={barId} />
       </>
     )
   }
@@ -73,12 +78,13 @@ export default function IngredientDetailPage({ route }: Props) {
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
+    marginBottom: 10,
   },
   addInput: {
     marginRight: 10,
   },
   description: {
-    marginTop: 10,
+    marginBottom: 30,
   },
   descriptionText: {
     fontFamily: FONTS.hells.sans.medium,
