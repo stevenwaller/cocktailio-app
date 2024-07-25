@@ -1,7 +1,7 @@
 import { useNavigation, NavigationProp, StackActions } from '@react-navigation/native'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { useRef } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, RefreshControl, ActivityIndicator } from 'react-native'
 
 import PageContainer from '@/components/PageContainer'
 import { BodyText, PageTitleText } from '@/components/_elements/Text'
@@ -11,15 +11,17 @@ import RelatedCocktails from '@/content/RelatedCocktails'
 import { FONTS, COLORS } from '@/lib/constants'
 import { useBars } from '@/lib/contexts/BarsContext'
 import { useIngredients } from '@/lib/contexts/IngredientsContext'
+import useIsMounted from '@/lib/hooks/useIsMounted'
 import { CocktailsStackParamList } from '@/lib/types'
 
 type Props = NativeStackScreenProps<CocktailsStackParamList, 'Ingredient'>
 
 export default function IngredientDetailPage({ route }: Props) {
   const navigation = useNavigation<NavigationProp<CocktailsStackParamList>>()
-  const { ingredientsById, error, isFetching } = useIngredients()
+  const { ingredientsById, error, isFetching, refetch } = useIngredients()
 
   const addToBarModalRef = useRef<IAddToBarModal | null>(null)
+  const checkIfMounted = useIsMounted()
   const ingredientId = route.params?.ingredientId
   const name = route.params?.name
   const barId = route.params?.barId
@@ -36,8 +38,12 @@ export default function IngredientDetailPage({ route }: Props) {
   })
 
   const renderContent = () => {
-    if (isFetching) {
-      return <BodyText>Loading...</BodyText>
+    if (isFetching && !checkIfMounted()) {
+      return (
+        <PageContainer>
+          <ActivityIndicator size="small" />
+        </PageContainer>
+      )
     }
 
     if (error) {
@@ -69,24 +75,33 @@ export default function IngredientDetailPage({ route }: Props) {
             )
           }}
         />
-        {/* <CocktailsByIngredient ingredientId={ingredientId} barId={barId} /> */}
       </>
     )
   }
 
   return (
     <>
-      <PageContainer>
-        <View style={styles.header}>
-          <AddInput
-            style={styles.addInput}
-            onPress={() => addToBarModalRef.current?.present()}
-            checked={isInBar}
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={isFetching && checkIfMounted()}
+            onRefresh={refetch}
+            tintColor={COLORS.text.body}
           />
-          <PageTitleText>{name}</PageTitleText>
-        </View>
-        {renderContent()}
-      </PageContainer>
+        }
+      >
+        <PageContainer>
+          <View style={styles.header}>
+            <AddInput
+              style={styles.addInput}
+              onPress={() => addToBarModalRef.current?.present()}
+              checked={isInBar}
+            />
+            <PageTitleText>{name}</PageTitleText>
+          </View>
+          {renderContent()}
+        </PageContainer>
+      </ScrollView>
       <AddToBarModal ref={addToBarModalRef} ingredient={ingredient} />
     </>
   )
