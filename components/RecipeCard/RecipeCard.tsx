@@ -13,23 +13,20 @@ import CanMake from '@/components/CanMake'
 import Card from '@/components/Card'
 import { BodyText, BodyLinkText } from '@/components/_elements/Text'
 import { FONTS, COLORS } from '@/lib/constants'
-import { useBars } from '@/lib/contexts/BarsContext'
 import { useIngredients } from '@/lib/contexts/IngredientsContext'
 import { CocktailsStackParamList } from '@/lib/types'
-import { TCocktail, IComponent } from '@/lib/types/supabase'
+import { TCocktail, IComponent, TBar } from '@/lib/types/supabase'
 
 interface RecipeCardProps {
   style?: StyleProp<ViewStyle>
   cocktail: TCocktail
-  barId?: string
+  currentBar?: TBar
 }
 
-const RecipeCard = ({ cocktail, style, barId, ...restProps }: RecipeCardProps) => {
+const RecipeCard = ({ cocktail, style, currentBar, ...restProps }: RecipeCardProps) => {
   const navigation = useNavigation<NavigationProp<CocktailsStackParamList>>()
   const { steps, components, optional_components, note, sources } = cocktail
-  const { defaultBar, bar } = useBars(barId)
   const { ingredientsById } = useIngredients()
-  const currentBar = bar ? bar : defaultBar
 
   const renderIngredientsYouHave = (component: IComponent) => {
     if (!component) return null
@@ -96,7 +93,7 @@ const RecipeCard = ({ cocktail, style, barId, ...restProps }: RecipeCardProps) =
                     StackActions.push('Ingredient', {
                       ingredientId: id,
                       name: ingredientsById[id].name,
-                      barId,
+                      barId: currentBar?.id,
                     }),
                   )
                 }
@@ -189,7 +186,7 @@ const RecipeCard = ({ cocktail, style, barId, ...restProps }: RecipeCardProps) =
                         StackActions.push('Ingredient', {
                           ingredientId: ingredient.id,
                           name: ingredient.name,
-                          barId,
+                          barId: currentBar?.id,
                         }),
                       )
                     }
@@ -221,7 +218,7 @@ const RecipeCard = ({ cocktail, style, barId, ...restProps }: RecipeCardProps) =
                           StackActions.push('Ingredient', {
                             ingredientId: ingredient.id,
                             name: ingredient.name,
-                            barId,
+                            barId: currentBar?.id,
                           }),
                         )
                       }
@@ -269,7 +266,7 @@ const RecipeCard = ({ cocktail, style, barId, ...restProps }: RecipeCardProps) =
                             StackActions.push('Ingredient', {
                               ingredientId: ingredient.id,
                               name: ingredient.name,
-                              barId,
+                              barId: currentBar?.id,
                             }),
                           )
                         }

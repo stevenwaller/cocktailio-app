@@ -37,7 +37,7 @@ const BarCard = ({ bar, onMorePress = () => {}, ...restProps }: BarCardProps) =>
             })
           }}
         >
-          <View style={[styles.action, { marginBottom: 20 }]}>
+          <View style={[styles.action, { marginBottom: 10 }]}>
             <Text style={styles.actionText}>Ingredients in bar</Text>
             <View style={styles.actionRight}>
               <Badge style={styles.badge}>{bar.bar_ingredients.length}</Badge>
@@ -52,7 +52,7 @@ const BarCard = ({ bar, onMorePress = () => {}, ...restProps }: BarCardProps) =>
             })
           }}
         >
-          <View style={[styles.action, { marginBottom: 10 }]}>
+          <View style={[styles.action, { marginBottom: 5 }]}>
             <Text style={styles.actionText}>Cocktails you can make</Text>
             <View style={styles.actionRight}>
               <Badge style={styles.badge}>{bar.cocktail_count}</Badge>

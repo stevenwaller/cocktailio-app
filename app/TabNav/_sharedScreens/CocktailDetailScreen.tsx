@@ -9,7 +9,9 @@ import PageContainer from '@/components/PageContainer'
 import RecipeCard from '@/components/RecipeCard'
 import { BodyText, PageTitleText } from '@/components/_elements/Text'
 import AddToCollectionModal, { IAddToCollectionModal } from '@/content/AddToCollectionModal'
+import RelatedCocktails from '@/content/RelatedCocktails'
 import { FONTS, COLORS, SIZE } from '@/lib/constants'
+import { useBars } from '@/lib/contexts/BarsContext'
 import { useCollections } from '@/lib/contexts/CollectionsContext'
 import { CocktailsStackParamList } from '@/lib/types'
 import { TCocktail } from '@/lib/types/supabase'
@@ -26,6 +28,15 @@ export default function CocktailDetailScreen({ route, navigation }: Props) {
   const cocktailId = route.params?.cocktailId
   const barId = route.params?.barId
   const name = route.params?.name
+  const relatedCocktailIds: string[] = []
+  const { defaultBar, bar } = useBars(barId)
+  const currentBar = bar ? bar : defaultBar
+
+  cocktail?.related_cocktails?.forEach((relatedCocktail) => {
+    if (relatedCocktail.related_cocktail_id) {
+      relatedCocktailIds.push(relatedCocktail.related_cocktail_id)
+    }
+  })
 
   const checkIfBookmarked = useCallback(() => {
     let isBookmarked = false
@@ -82,6 +93,9 @@ export default function CocktailDetailScreen({ route, navigation }: Props) {
           ingredients:cocktail_component_ingredients(*),
           or_ingredients:cocktail_component_ingredients(*),
           recommended_ingredients:cocktail_component_ingredients(*)
+        ),
+        related_cocktails:cocktail_related_cocktails!public_cocktail_related_cocktails_cocktail_id_fkey(
+          *
         )
         `,
       )
@@ -98,6 +112,8 @@ export default function CocktailDetailScreen({ route, navigation }: Props) {
       .order('order', { referencedTable: 'cocktail_components' })
       .returns<TCocktail>()
       .single()
+
+    console.log('response', response)
 
     setIsFetching(false)
     setCocktail(response.data)
@@ -121,6 +137,8 @@ export default function CocktailDetailScreen({ route, navigation }: Props) {
       return <BodyText>No data</BodyText>
     }
 
+    console.log('cocktail', cocktail)
+
     const renderDescription = () => {
       if (!cocktail.description) return null
 
@@ -134,7 +152,12 @@ export default function CocktailDetailScreen({ route, navigation }: Props) {
     return (
       <>
         {renderDescription()}
-        <RecipeCard style={styles.recipeCard} cocktail={cocktail} barId={barId} />
+        <RecipeCard style={styles.recipeCard} cocktail={cocktail} currentBar={currentBar} />
+        <RelatedCocktails
+          label="Related"
+          cocktailIds={relatedCocktailIds}
+          currentBar={currentBar}
+        />
       </>
     )
   }
@@ -166,5 +189,6 @@ const styles = StyleSheet.create({
   },
   recipeCard: {
     marginTop: SIZE.app.paddingY,
+    marginBottom: 40,
   },
 })

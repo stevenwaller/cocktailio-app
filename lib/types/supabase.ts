@@ -4,6 +4,8 @@ export type TEra = Tables<'eras'>
 
 export type TGlass = Tables<'glasses'>
 
+export type TRelatedCocktail = Tables<'cocktail_related_cocktails'>
+
 export type TCocktail = Tables<'cocktails'> & {
   base_ingredient: Tables<'ingredients'>
   glass: TGlass
@@ -19,6 +21,7 @@ export type TCocktail = Tables<'cocktails'> & {
     | null
   components: IComponent[] | null
   optional_components: IComponent[] | null
+  related_cocktails: TRelatedCocktail[] | null
 }
 
 export type IComponent = Tables<'cocktail_components'> & {

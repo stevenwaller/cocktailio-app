@@ -1,3 +1,4 @@
+import { useNavigation, NavigationProp, StackActions } from '@react-navigation/native'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { useRef } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
@@ -6,7 +7,7 @@ import PageContainer from '@/components/PageContainer'
 import { BodyText, PageTitleText } from '@/components/_elements/Text'
 import AddInput from '@/components/_inputs/AddInput'
 import AddToBarModal, { IAddToBarModal } from '@/content/AddToBarModal'
-import CocktailsByIngredient from '@/content/CocktailsByIngredient'
+import RelatedCocktails from '@/content/RelatedCocktails'
 import { FONTS, COLORS } from '@/lib/constants'
 import { useBars } from '@/lib/contexts/BarsContext'
 import { useIngredients } from '@/lib/contexts/IngredientsContext'
@@ -15,19 +16,21 @@ import { CocktailsStackParamList } from '@/lib/types'
 type Props = NativeStackScreenProps<CocktailsStackParamList, 'Ingredient'>
 
 export default function IngredientDetailPage({ route }: Props) {
+  const navigation = useNavigation<NavigationProp<CocktailsStackParamList>>()
   const { ingredientsById, error, isFetching } = useIngredients()
 
   const addToBarModalRef = useRef<IAddToBarModal | null>(null)
-  const { bars } = useBars()
   const ingredientId = route.params?.ingredientId
   const name = route.params?.name
   const barId = route.params?.barId
+  const { bars, defaultBar, bar } = useBars(barId)
+  const currentBar = bar ? bar : defaultBar
 
   const ingredient = ingredientsById[ingredientId]
   let isInBar = false
 
-  bars.forEach((bar) => {
-    if (bar.ingredients_by_id[ingredientId]) {
+  bars.forEach((barItem) => {
+    if (barItem.ingredients_by_id[ingredientId]) {
       isInBar = true
     }
   })
@@ -52,7 +55,21 @@ export default function IngredientDetailPage({ route }: Props) {
             <Text style={styles.descriptionText}>{ingredient.description}</Text>
           </View>
         )}
-        <CocktailsByIngredient ingredientId={ingredientId} barId={barId} />
+        <RelatedCocktails
+          ingredientId={ingredientId}
+          currentBar={currentBar}
+          maxToShow={10}
+          onViewAllPress={() => {
+            console.log('onpress')
+
+            navigation.dispatch(
+              StackActions.push('Cocktails', {
+                ingredientId,
+              }),
+            )
+          }}
+        />
+        {/* <CocktailsByIngredient ingredientId={ingredientId} barId={barId} /> */}
       </>
     )
   }

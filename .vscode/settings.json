@@ -6,6 +6,7 @@
     "Postgrest",
     "Pressable",
     "Schotis",
+    "Scroller",
     "supabase",
     "zustand"
   ],
