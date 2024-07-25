@@ -51,6 +51,7 @@ const SelectedIngredients = ({ checkIfSelected, onSelect }: Props) => {
 
     return parentIngredientIds.map((ingredientId, index) => {
       const ingredient = ingredientsById[ingredientId]
+      const isSelected = checkIfSelected(ingredient)
 
       if (!selectedIngredients[ingredient.id] && !selectedParents[ingredient.id]) return null
 
@@ -60,14 +61,15 @@ const SelectedIngredients = ({ checkIfSelected, onSelect }: Props) => {
           label={ingredient.name}
           style={[depth > 1 && { paddingLeft: 34 }, { marginTop: 12 }]}
           bodyStyle={[depth === 0 && { paddingBottom: 10 }]}
-          isSelected={checkIfSelected(ingredient)}
+          isSelected={isSelected}
           isOpen
           onSelect={() => onSelect(ingredient)}
           headerLabelStyle={[
             ingredient.is_brand && { fontFamily: FONTS.hells.sans.mediumItalic },
             depth === 0 && { fontFamily: FONTS.hells.sans.bold },
+            depth > 0 && !isSelected && { paddingLeft: 18 },
           ]}
-          noSelect={depth === 0}
+          noSelect={depth === 0 || !isSelected}
           noExpand
         >
           {renderIngredients(ingredient.childIngredientIds, depth + 1)}
