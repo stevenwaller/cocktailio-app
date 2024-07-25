@@ -1,7 +1,7 @@
 import { Text, StyleSheet, View } from 'react-native'
 
 import { BodyText } from '@/components/_elements/Text'
-import RadioInput from '@/components/_inputs/RadioInput'
+import AddInput from '@/components/_inputs/AddInput'
 import ModalBody from '@/components/_overlays/ModalBody'
 import { COLORS, FONTS } from '@/lib/constants'
 import { useCollections } from '@/lib/contexts/CollectionsContext'
@@ -43,7 +43,7 @@ const CollectionScreen = ({ filter, onChange }: CollectionScreenProps) => {
       </BodyText>
       {collections.map((collection) => (
         <View key={collection.id} style={styles.item}>
-          <RadioInput
+          <AddInput
             checked={filter?.value.some((item) => item.id === collection.id)}
             onPress={() => handleItemPress(collection)}
           />
