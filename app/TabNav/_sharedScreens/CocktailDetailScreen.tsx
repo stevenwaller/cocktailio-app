@@ -1,7 +1,7 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { PostgrestError } from '@supabase/supabase-js'
 import { useEffect, useState, useCallback, useRef } from 'react'
-import { StyleSheet, Text, View, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, RefreshControl, ActivityIndicator } from 'react-native'
 
 import CocktailHeaderBtns from '../_sharedHeaderBtns/CocktailHeaderBtns'
 
@@ -13,6 +13,7 @@ import RelatedCocktails from '@/content/RelatedCocktails'
 import { FONTS, COLORS, SIZE } from '@/lib/constants'
 import { useBars } from '@/lib/contexts/BarsContext'
 import { useCollections } from '@/lib/contexts/CollectionsContext'
+import useIsMounted from '@/lib/hooks/useIsMounted'
 import { CocktailsStackParamList } from '@/lib/types'
 import { TCocktail } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
@@ -20,11 +21,12 @@ import supabaseClient from '@/lib/utils/supabaseClient'
 type Props = NativeStackScreenProps<CocktailsStackParamList, 'Cocktail'>
 
 export default function CocktailDetailScreen({ route, navigation }: Props) {
-  const [isFetching, setIsFetching] = useState(false)
+  const [isFetching, setIsFetching] = useState(true)
   const [cocktail, setCocktail] = useState<TCocktail | null>(null)
   const [error, setError] = useState<PostgrestError | null>(null)
   const { collections } = useCollections()
   const addToCollectionModalRef = useRef<IAddToCollectionModal | null>(null)
+  const checkIfMounted = useIsMounted()
   const cocktailId = route.params?.cocktailId
   const barId = route.params?.barId
   const name = route.params?.name
@@ -81,55 +83,6 @@ export default function CocktailDetailScreen({ route, navigation }: Props) {
       .returns<TCocktail>()
       .single()
 
-    // const response = await supabaseClient
-    //   .from('cocktails')
-    //   .select(
-    //     `
-    //     *,
-    //     base_ingredient:ingredients(*),
-    //     glass:glasses(*),
-    //     era:eras(*),
-    //     method:methods(*),
-    //     steps:cocktail_steps(*),
-    //     sources:cocktail_sources(
-    //       *,
-    //       source:sources(*)
-    //     ),
-    //     components:cocktail_components(
-    //       *,
-    //       measurement:measurements(*),
-    //       ingredients:cocktail_component_ingredients(*),
-    //       or_ingredients:cocktail_component_ingredients(*),
-    //       recommended_ingredients:cocktail_component_ingredients(*)
-    //     ),
-    //     optional_components:cocktail_components(
-    //       *,
-    //       measurement:measurements(*),
-    //       ingredients:cocktail_component_ingredients(*),
-    //       or_ingredients:cocktail_component_ingredients(*),
-    //       recommended_ingredients:cocktail_component_ingredients(*)
-    //     ),
-    //     related_cocktails:cocktail_related_cocktails!public_cocktail_related_cocktails_cocktail_id_fkey(
-    //       *
-    //     )
-    //     `,
-    //   )
-    //   .eq('id', cocktailId)
-    //   .eq('components.optional', false)
-    //   .eq('components.ingredients.type', 'Default')
-    //   .eq('components.or_ingredients.type', 'Or')
-    //   .eq('components.recommended_ingredients.type', 'Recommended')
-    //   .eq('optional_components.optional', true)
-    //   .eq('optional_components.ingredients.type', 'Default')
-    //   .eq('optional_components.or_ingredients.type', 'Or')
-    //   .eq('optional_components.recommended_ingredients.type', 'Recommended')
-    //   .order('order', { referencedTable: 'steps' })
-    //   .order('order', { referencedTable: 'cocktail_components' })
-    //   .returns<TCocktail>()
-    //   .single()
-
-    console.log('response', response)
-
     setIsFetching(false)
     setCocktail(response.data)
     setError(response.error)
@@ -140,8 +93,12 @@ export default function CocktailDetailScreen({ route, navigation }: Props) {
   }, [fetchData])
 
   const renderContent = () => {
-    if (isFetching) {
-      return <BodyText>Loading...</BodyText>
+    if (isFetching && !checkIfMounted()) {
+      return (
+        <PageContainer>
+          <ActivityIndicator size="small" />
+        </PageContainer>
+      )
     }
 
     if (error) {
@@ -151,8 +108,6 @@ export default function CocktailDetailScreen({ route, navigation }: Props) {
     if (!cocktail) {
       return <BodyText>No data</BodyText>
     }
-
-    console.log('cocktail', cocktail)
 
     const renderDescription = () => {
       if (!cocktail.description) return null
@@ -179,7 +134,15 @@ export default function CocktailDetailScreen({ route, navigation }: Props) {
 
   return (
     <>
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={isFetching && checkIfMounted()}
+            onRefresh={fetchData}
+            tintColor={COLORS.text.body}
+          />
+        }
+      >
         <PageContainer>
           <View style={styles.header}>
             <PageTitleText>{name}</PageTitleText>
