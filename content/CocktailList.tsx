@@ -15,8 +15,8 @@ import CocktailsHeaderBtns from '@/app/TabNav/_sharedHeaderBtns/CocktailsHeaderB
 import CocktailCard from '@/components/CocktailCard'
 import ErrorAlert from '@/components/ErrorAlert'
 import FiltersBar from '@/components/FiltersBar'
-import PageContainer from '@/components/PageContainer'
-import { BodyText } from '@/components/_elements/Text'
+import Skeleton from '@/components/Skeleton'
+import { BodyText, PageTitleText } from '@/components/_elements/Text'
 import AddToCollectionModal, { IAddToCollectionModal } from '@/content/AddToCollectionModal'
 import DefaultBarModal, { IDefaultBarModal } from '@/content/DefaultBarModal'
 import SortModal, { ISortModal } from '@/content/SortModal'
@@ -281,19 +281,30 @@ const CocktailList = ({
       (isFetching || Object.keys(ingredientsById).length === 0)
     ) {
       return (
-        <PageContainer style={styles.pageContainer}>
-          <ActivityIndicator size="small" />
-        </PageContainer>
+        <View style={styles.pageContainer}>
+          <View style={styles.header}>
+            {nameProp && (
+              <Skeleton style={{ marginTop: -2, marginBottom: 10 }} width={150} height={27} />
+            )}
+            <Skeleton style={{ marginTop: 1, marginBottom: 2 }} width={75} height={17} />
+          </View>
+          <Skeleton style={styles.card} height={95} />
+          <Skeleton style={styles.card} height={95} />
+          <Skeleton style={styles.card} height={95} />
+          <Skeleton style={styles.card} height={95} />
+          <Skeleton style={styles.card} height={95} />
+          <Skeleton style={styles.card} height={95} />
+        </View>
       )
     }
 
     return (
-      <SafeAreaView style={{ marginTop: 54 }}>
+      <SafeAreaView style={styles.pageContainer}>
         <FlatList
           ListHeaderComponent={
             <View style={styles.header}>
               <ErrorAlert message={error?.message} />
-              {nameProp && <Text style={styles.title}>{nameProp}</Text>}
+              {nameProp && <PageTitleText>{nameProp}</PageTitleText>}
               <Text style={styles.count}>
                 {count} cocktail{count > 1 && 's'}
               </Text>
@@ -368,17 +379,13 @@ const CocktailList = ({
 
 const styles = StyleSheet.create({
   pageContainer: {
-    paddingTop: 54 + SIZE.marginY,
+    marginTop: 54,
   },
   header: {
-    paddingTop: SIZE.marginY,
-    paddingLeft: SIZE.app.paddingX,
-    paddingRight: SIZE.app.paddingX,
-  },
-  title: {
-    fontSize: 32,
-    color: COLORS.text.body,
-    fontFamily: FONTS.schotis.bold,
+    marginTop: SIZE.marginY,
+    marginLeft: SIZE.app.paddingX,
+    marginRight: SIZE.app.paddingX,
+    marginBottom: 20,
   },
   emptyList: {
     borderWidth: 1,
@@ -402,7 +409,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: COLORS.text.body,
     fontFamily: FONTS.hells.sans.mediumItalic,
-    marginBottom: 20,
   },
   card: {
     marginLeft: SIZE.app.paddingX,

@@ -54,6 +54,16 @@ const IngredientList = ({ checkIfSelected, onSelect, onDeselectAll }: Props) => 
 
       closeChildren(ingredient)
     } else {
+      // close all other open accordions
+      Object.keys(newOpenAccordions).forEach((key) => {
+        delete newOpenAccordions[key]
+      })
+
+      // keep parent open
+      ingredient.hierarchy?.forEach((hierarchy) => {
+        newOpenAccordions[hierarchy.id] = true
+      })
+
       newOpenAccordions[ingredient.id] = true
     }
 
