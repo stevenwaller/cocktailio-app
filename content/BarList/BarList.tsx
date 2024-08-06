@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { ScrollView, RefreshControl, ActivityIndicator } from 'react-native'
+import { ScrollView, RefreshControl, StyleSheet } from 'react-native'
 
 import NewBarModal from './NewBarModal'
 import MoreBarModal, { IMoreBarModal } from '../MoreBarModal'
@@ -7,6 +7,7 @@ import MoreBarModal, { IMoreBarModal } from '../MoreBarModal'
 import BarCard from '@/components/BarCard'
 import ErrorAlert from '@/components/ErrorAlert'
 import PageContainer from '@/components/PageContainer'
+import Skeleton from '@/components/Skeleton'
 import PlusIcon from '@/components/_icons/Plus'
 import Button from '@/components/_inputs/Button'
 import { IModal } from '@/components/_overlays/Modal'
@@ -24,7 +25,8 @@ const BarList = () => {
   if (isFetching && !checkIfMounted()) {
     return (
       <PageContainer>
-        <ActivityIndicator size="small" />
+        <Skeleton style={styles.card} height={132} />
+        <Skeleton height={40} />
       </PageContainer>
     )
   }
@@ -43,7 +45,7 @@ const BarList = () => {
         <ErrorAlert message={error?.message} />
         {bars.map((bar: any) => (
           <BarCard
-            style={{ marginBottom: 20 }}
+            style={styles.card}
             key={bar.id}
             bar={bar}
             onMorePress={() => {
@@ -67,6 +69,12 @@ const BarList = () => {
     </ScrollView>
   )
 }
+
+const styles = StyleSheet.create({
+  card: {
+    marginBottom: 20,
+  },
+})
 
 BarList.displayName = 'BarList'
 

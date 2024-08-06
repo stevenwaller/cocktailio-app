@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { ScrollView, RefreshControl, ActivityIndicator } from 'react-native'
+import { ScrollView, RefreshControl, StyleSheet } from 'react-native'
 
 import NewCollectionModal from './NewCollectionModal'
 import MoreCollectionModal from '../MoreCollectionModal'
@@ -7,6 +7,7 @@ import MoreCollectionModal from '../MoreCollectionModal'
 import CollectionCard from '@/components/CollectionCard'
 import ErrorAlert from '@/components/ErrorAlert'
 import PageContainer from '@/components/PageContainer'
+import Skeleton from '@/components/Skeleton'
 import PlusIcon from '@/components/_icons/Plus'
 import Button from '@/components/_inputs/Button'
 import { IModal } from '@/components/_overlays/Modal'
@@ -26,7 +27,8 @@ const CollectionList = () => {
   if (isFetching && !checkIfMounted()) {
     return (
       <PageContainer>
-        <ActivityIndicator size="small" />
+        <Skeleton style={styles.card} height={102} />
+        <Skeleton height={40} />
       </PageContainer>
     )
   }
@@ -45,7 +47,7 @@ const CollectionList = () => {
         <ErrorAlert message={error?.message} />
         {collections.map((collection: any) => (
           <CollectionCard
-            style={{ marginBottom: 20 }}
+            style={styles.card}
             key={collection.id}
             collection={collection}
             onMorePress={() => {
@@ -69,6 +71,12 @@ const CollectionList = () => {
     </ScrollView>
   )
 }
+
+const styles = StyleSheet.create({
+  card: {
+    marginBottom: 20,
+  },
+})
 
 CollectionList.displayName = 'CollectionList'
 
