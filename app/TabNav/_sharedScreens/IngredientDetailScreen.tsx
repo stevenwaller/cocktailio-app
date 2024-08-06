@@ -66,8 +66,6 @@ export default function IngredientDetailPage({ route }: Props) {
           currentBar={currentBar}
           maxToShow={10}
           onViewAllPress={() => {
-            console.log('onpress')
-
             navigation.dispatch(
               StackActions.push('Cocktails', {
                 ingredientId,

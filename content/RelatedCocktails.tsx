@@ -3,6 +3,7 @@ import { useState, useCallback, useEffect } from 'react'
 import { ScrollView, View, StyleSheet, Pressable, Text } from 'react-native'
 
 import CocktailCard from '@/components/CocktailCard'
+import Skeleton from '@/components/Skeleton'
 import { SubTitleText, BodyText } from '@/components/_elements/Text'
 import ChevronRightIcon from '@/components/_icons/ChevronRight'
 import { SIZE, COLORS, FONTS } from '@/lib/constants'
@@ -74,15 +75,31 @@ const RelatedCocktails = ({
     )
   }
 
+  if (isFetching) {
+    return (
+      <>
+        <View style={styles.header}>
+          <Skeleton style={{ marginTop: -1, marginBottom: 4 }} width={100} height={18} />
+        </View>
+        <View style={styles.scrollView}>
+          <View style={[styles.scrollViewContainer, { flexDirection: 'row' }]}>
+            <Skeleton style={styles.card} width={300} height={113} />
+            <Skeleton style={styles.card} width={300} height={113} />
+            <Skeleton style={styles.card} width={300} height={113} />
+          </View>
+        </View>
+      </>
+    )
+  }
+
   return (
     <>
       <View style={styles.header}>
         <SubTitleText>
-          {isFetching ? '' : count} {label ? `${label} ` : ''}Cocktails
+          {count} {label ? `${label} ` : ''}Cocktail{count > 1 ? 's' : ''}
         </SubTitleText>
         {renderViewAll()}
       </View>
-      {isFetching && <BodyText>Loading...</BodyText>}
       {error && <BodyText>Error: {error.message}</BodyText>}
       <ScrollView
         horizontal
@@ -95,7 +112,7 @@ const RelatedCocktails = ({
 
             return (
               <CocktailCard
-                style={{ width: 300, marginRight: 20 }}
+                style={styles.card}
                 key={cocktail.id}
                 cocktail={cocktail}
                 bar={currentBar}
@@ -135,6 +152,10 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingBottom: 40,
     paddingHorizontal: SIZE.app.paddingX,
+  },
+  card: {
+    width: 300,
+    marginRight: 20,
   },
 })
 

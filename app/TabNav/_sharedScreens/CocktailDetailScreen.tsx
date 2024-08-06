@@ -1,12 +1,13 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { PostgrestError } from '@supabase/supabase-js'
 import { useEffect, useState, useCallback, useRef } from 'react'
-import { StyleSheet, Text, View, ScrollView, RefreshControl, ActivityIndicator } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, RefreshControl } from 'react-native'
 
 import CocktailHeaderBtns from '../_sharedHeaderBtns/CocktailHeaderBtns'
 
 import PageContainer from '@/components/PageContainer'
 import RecipeCard from '@/components/RecipeCard'
+import Skeleton from '@/components/Skeleton'
 import { BodyText, PageTitleText } from '@/components/_elements/Text'
 import AddToCollectionModal, { IAddToCollectionModal } from '@/content/AddToCollectionModal'
 import RelatedCocktails from '@/content/RelatedCocktails'
@@ -94,11 +95,7 @@ export default function CocktailDetailScreen({ route, navigation }: Props) {
 
   const renderContent = () => {
     if (isFetching && !checkIfMounted()) {
-      return (
-        <PageContainer>
-          <ActivityIndicator size="small" />
-        </PageContainer>
-      )
+      return <Skeleton style={styles.recipeCard} height={900} />
     }
 
     if (error) {

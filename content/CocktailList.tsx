@@ -1,15 +1,7 @@
 import { useNavigation, NavigationProp, RouteProp, useRoute } from '@react-navigation/native'
 import { PostgrestError } from '@supabase/supabase-js'
 import { useEffect, useState, useCallback, useRef } from 'react'
-import {
-  StyleSheet,
-  FlatList,
-  Text,
-  View,
-  RefreshControl,
-  SafeAreaView,
-  ActivityIndicator,
-} from 'react-native'
+import { StyleSheet, FlatList, Text, View, RefreshControl, SafeAreaView } from 'react-native'
 
 import CocktailsHeaderBtns from '@/app/TabNav/_sharedHeaderBtns/CocktailsHeaderBtns'
 import CocktailCard from '@/components/CocktailCard'
@@ -339,11 +331,6 @@ const CocktailList = ({
                 {barIdProp && 'Add more ingredients to your bar stock. '}
               </BodyText>
               <BodyText style={styles.emptyListBody}>Try changing the filters</BodyText>
-            </View>
-          )}
-          ListFooterComponent={() => (
-            <View style={styles.footer}>
-              <ActivityIndicator animating={isFirstPageReceived && isFetching} />
             </View>
           )}
         />
