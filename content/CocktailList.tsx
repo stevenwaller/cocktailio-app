@@ -59,8 +59,9 @@ const CocktailList = ({
   const navigation = useNavigation<NavigationProp<CocktailsStackParamList>>()
   const route = useRoute<RouteProp<CocktailsStackParamList, 'Cocktails'>>()
   const currentBar = bar ? bar : defaultBar
-  const ingredientId = route.params?.ingredientId
-  const baseSpiritId = route.params?.baseSpiritId
+  const ingredientParam = route.params?.ingredient
+  const baseSpiritParam = route.params?.baseSpirit
+  const methodParam = route.params?.method
 
   const [filters, setFilters] = useState<IFilter[]>([
     ...(barIdProp
@@ -74,25 +75,11 @@ const CocktailList = ({
     {
       name: 'Base Spirit',
       rowName: 'base_ingredient_id',
-      value: baseSpiritId
-        ? [
-            {
-              id: baseSpiritId,
-              name: ingredientsById[baseSpiritId].name,
-            },
-          ]
-        : [],
+      value: baseSpiritParam ? [baseSpiritParam] : [],
     },
     {
       name: 'Ingredient',
-      value: ingredientId
-        ? [
-            {
-              id: ingredientId,
-              name: ingredientsById[ingredientId].name,
-            },
-          ]
-        : [],
+      value: ingredientParam ? [ingredientParam] : [],
     },
     ...(collectionIdProp
       ? []
@@ -105,7 +92,7 @@ const CocktailList = ({
     {
       name: 'Method',
       rowName: 'method_id',
-      value: [],
+      value: methodParam ? [methodParam] : [],
     },
     {
       name: 'Era',

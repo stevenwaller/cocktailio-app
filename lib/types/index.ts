@@ -14,10 +14,10 @@ export interface IFilter {
 type CocktailsParams =
   | {
       barId?: string
-      collectionId?: string
-      ingredientId?: string
-      baseSpiritId?: string
-      methodId?: string
+      collection?: IFilterValue
+      ingredient?: IFilterValue
+      baseSpirit?: IFilterValue
+      method?: IFilterValue
       name?: string
     }
   | undefined

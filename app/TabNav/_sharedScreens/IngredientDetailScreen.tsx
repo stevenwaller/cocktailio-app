@@ -68,7 +68,10 @@ export default function IngredientDetailPage({ route }: Props) {
           onViewAllPress={() => {
             navigation.dispatch(
               StackActions.push('Cocktails', {
-                ingredientId,
+                ingredient: {
+                  id: ingredient.id,
+                  name: ingredient.name,
+                },
               }),
             )
           }}

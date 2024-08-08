@@ -2,28 +2,26 @@ import { useNavigation, NavigationProp } from '@react-navigation/native'
 import { Pressable, View, ViewProps } from 'react-native'
 
 import { BodyText, BodyLinkText, SubTitleText } from '@/components/_elements/Text'
-import { useIngredients } from '@/lib/contexts/IngredientsContext'
+import { useMethods } from '@/lib/contexts/MethodsContext'
 import { HomeStackParamList } from '@/lib/types'
 
-export default function BaseSpirits(restProps: ViewProps) {
-  const { isFetching, baseSpirits } = useIngredients()
+export default function MethodList(restProps: ViewProps) {
+  const { isFetching, methods } = useMethods()
   const navigation = useNavigation<NavigationProp<HomeStackParamList>>()
 
   if (isFetching) return <BodyText>Loading...</BodyText>
 
   return (
     <View {...restProps}>
-      <SubTitleText>Base Spirit</SubTitleText>
-      {baseSpirits.map((baseSpirit) => (
+      <SubTitleText>Methods</SubTitleText>
+      {methods.map((method) => (
         <Pressable
-          key={baseSpirit.id}
+          key={method.id}
           onPress={() =>
-            navigation.navigate('Cocktails', {
-              baseSpirit: { id: baseSpirit.id, name: baseSpirit.name },
-            })
+            navigation.navigate('Cocktails', { method: { id: method.id, name: method.name } })
           }
         >
-          <BodyLinkText>{baseSpirit.name}</BodyLinkText>
+          <BodyLinkText>{method.name}</BodyLinkText>
         </Pressable>
       ))}
     </View>
