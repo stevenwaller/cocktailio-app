@@ -18,6 +18,7 @@ type CocktailsParams =
       ingredient?: IFilterValue
       baseSpirit?: IFilterValue
       method?: IFilterValue
+      era?: IFilterValue
       name?: string
     }
   | undefined

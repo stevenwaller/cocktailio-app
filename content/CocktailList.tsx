@@ -62,6 +62,7 @@ const CocktailList = ({
   const ingredientParam = route.params?.ingredient
   const baseSpiritParam = route.params?.baseSpirit
   const methodParam = route.params?.method
+  const eraParam = route.params?.era
 
   const [filters, setFilters] = useState<IFilter[]>([
     ...(barIdProp
@@ -97,7 +98,7 @@ const CocktailList = ({
     {
       name: 'Era',
       rowName: 'era_id',
-      value: [],
+      value: eraParam ? [eraParam] : [],
     },
     {
       name: 'Glassware',
