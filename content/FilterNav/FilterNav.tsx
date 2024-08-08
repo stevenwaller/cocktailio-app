@@ -8,7 +8,6 @@ import FiltersScreen from './screens/FiltersScreen'
 import GlasswareScreen from './screens/GlasswareScreen'
 import IngredientScreen from './screens/IngredientScreen'
 import MethodScreen from './screens/MethodScreen'
-import SearchIngredientsScreen from './screens/SearchIngredientsScreen'
 import WithBarStockScreen from './screens/WithBarStockScreen'
 
 import { IFilter, FilterNavStackParamList } from '@/lib/types'
@@ -23,7 +22,6 @@ interface FilterNavProps {
 
 const Components = {
   Filters: null,
-  'Search Ingredients': SearchIngredientsScreen,
   'With Bar Stock': WithBarStockScreen,
   Collection: CollectionScreen,
   'Base Spirit': BaseSpiritScreen,
@@ -37,19 +35,6 @@ const Stack = createStackNavigator<FilterNavStackParamList>()
 
 const FilterNav = ({ currentFilterIndex, filters, onChange, onResetAll }: FilterNavProps) => {
   const currentFilter = currentFilterIndex !== undefined ? filters[currentFilterIndex] : undefined
-  const ingredientFilter = filters.find((item) => item.name === 'Ingredient')
-
-  const renderIngredientSearch = () => {
-    if (ingredientFilter) {
-      return (
-        <Stack.Screen name="Search Ingredients">
-          {(props) => (
-            <SearchIngredientsScreen {...props} filter={ingredientFilter} onChange={onChange} />
-          )}
-        </Stack.Screen>
-      )
-    }
-  }
 
   const renderScreens = () => {
     if (currentFilter === undefined) {
@@ -64,7 +49,6 @@ const FilterNav = ({ currentFilterIndex, filters, onChange, onResetAll }: Filter
           >
             {(props) => <FiltersScreen {...props} filters={filters} />}
           </Stack.Screen>
-          {renderIngredientSearch()}
           {filters.map((filter) => {
             const ScreenComponent: any = Components[filter.name]
 
@@ -116,7 +100,6 @@ const FilterNav = ({ currentFilterIndex, filters, onChange, onResetAll }: Filter
         >
           {(props) => <ScreenComponent {...props} filter={currentFilter} onChange={onChange} />}
         </Stack.Screen>
-        {renderIngredientSearch()}
       </>
     )
   }

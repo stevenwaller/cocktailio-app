@@ -75,7 +75,6 @@ export type FilterNavStackParamList = {
   Method: undefined
   Era: undefined
   Glassware: undefined
-  'Search Ingredients': undefined
 }
 
 export type SortableColumns = 'name' | 'created_at'
