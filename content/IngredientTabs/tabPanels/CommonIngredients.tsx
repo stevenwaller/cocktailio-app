@@ -2,7 +2,9 @@ import { View } from 'react-native'
 
 import SelectableAccordion from '@/components/SelectableAccordion'
 import { BodyText } from '@/components/_elements/Text'
-import { FONTS } from '@/lib/constants'
+import SelectableItemLoader from '@/components/_loaders/SelectableItemLoader'
+import Skeleton from '@/components/_loaders/Skeleton'
+import { FONTS, COLORS } from '@/lib/constants'
 import { useIngredients } from '@/lib/contexts/IngredientsContext'
 import { TIngredient } from '@/lib/types/supabase'
 
@@ -157,7 +159,26 @@ const CommonIngredients = ({ checkIfSelected, onSelect }: Props) => {
   }
 
   if (isFetching) {
-    return <BodyText>Loading...</BodyText>
+    return (
+      <View style={{ marginTop: 13 }}>
+        <Skeleton style={{ marginBottom: 14 }} bgColor={COLORS.bg.level4} height={20} />
+        <SelectableItemLoader style={{ marginBottom: 12 }} bgColor={COLORS.bg.level4} />
+        <SelectableItemLoader style={{ marginBottom: 12 }} bgColor={COLORS.bg.level4} />
+        <SelectableItemLoader style={{ marginBottom: 12 }} bgColor={COLORS.bg.level4} />
+        <SelectableItemLoader style={{ marginBottom: 12 }} bgColor={COLORS.bg.level4} />
+        <SelectableItemLoader style={{ marginBottom: 12 }} bgColor={COLORS.bg.level4} />
+        <Skeleton
+          style={{ marginTop: 10, marginBottom: 14 }}
+          bgColor={COLORS.bg.level4}
+          height={20}
+        />
+        <SelectableItemLoader style={{ marginBottom: 12 }} bgColor={COLORS.bg.level4} />
+        <SelectableItemLoader style={{ marginBottom: 12 }} bgColor={COLORS.bg.level4} />
+        <SelectableItemLoader style={{ marginBottom: 12 }} bgColor={COLORS.bg.level4} />
+        <SelectableItemLoader style={{ marginBottom: 12 }} bgColor={COLORS.bg.level4} />
+        <SelectableItemLoader style={{ marginBottom: 12 }} bgColor={COLORS.bg.level4} />
+      </View>
+    )
   }
 
   if (error) {

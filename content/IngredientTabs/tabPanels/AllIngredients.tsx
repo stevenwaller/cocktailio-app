@@ -1,8 +1,10 @@
 import { useState } from 'react'
+import { View } from 'react-native'
 
 import SelectableAccordion from '@/components/SelectableAccordion'
 import { BodyText } from '@/components/_elements/Text'
-import { FONTS } from '@/lib/constants'
+import Skeleton from '@/components/_loaders/Skeleton'
+import { FONTS, COLORS } from '@/lib/constants'
 import { useIngredients } from '@/lib/contexts/IngredientsContext'
 import { TIngredient } from '@/lib/types/supabase'
 
@@ -100,7 +102,14 @@ const IngredientList = ({ checkIfSelected, onSelect, onDeselectAll }: Props) => 
   }
 
   if (isFetching) {
-    return <BodyText>Loading...</BodyText>
+    const placeholders = []
+    for (let i = 0; i < 21; i++) {
+      placeholders.push(
+        <Skeleton key={i} style={{ marginBottom: 15 }} bgColor={COLORS.bg.level4} height={20} />,
+      )
+    }
+
+    return <View style={{ marginTop: 13 }}>{placeholders}</View>
   }
 
   if (error) {
