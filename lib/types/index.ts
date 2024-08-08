@@ -19,6 +19,7 @@ type CocktailsParams =
       baseSpirit?: IFilterValue
       method?: IFilterValue
       era?: IFilterValue
+      glass?: IFilterValue
       name?: string
     }
   | undefined
