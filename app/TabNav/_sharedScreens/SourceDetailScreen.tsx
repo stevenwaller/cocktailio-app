@@ -10,7 +10,7 @@ import { CocktailsStackParamList } from '@/lib/types'
 import { TSource } from '@/lib/types/supabase'
 import supabaseClient from '@/lib/utils/supabaseClient'
 
-type Props = NativeStackScreenProps<CocktailsStackParamList, 'Source Detail'>
+type Props = NativeStackScreenProps<CocktailsStackParamList, 'Source'>
 
 export default function SourceDetailScreen({ route }: Props) {
   const [isFetching, setIsFetching] = useState(false)

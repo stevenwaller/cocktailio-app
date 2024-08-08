@@ -34,11 +34,7 @@ export default function CocktailsNav() {
         />
         <CocktailsStack.Screen name="Search Cocktails" component={SearchCocktailsScreen} />
         <CocktailsStack.Screen name="Ingredient" component={IngredientDetailScreen} />
-        <CocktailsStack.Screen
-          name="Source Detail"
-          component={SourceDetailScreen}
-          options={{ title: '' }}
-        />
+        <CocktailsStack.Screen name="Source" component={SourceDetailScreen} />
       </CocktailsStack.Navigator>
     </ToastProvider>
   )

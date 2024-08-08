@@ -60,6 +60,7 @@ const CocktailList = ({
   const route = useRoute<RouteProp<CocktailsStackParamList, 'Cocktails'>>()
   const currentBar = bar ? bar : defaultBar
   const ingredientId = route.params?.ingredientId
+  const baseSpiritId = route.params?.baseSpiritId
 
   const [filters, setFilters] = useState<IFilter[]>([
     ...(barIdProp
@@ -73,7 +74,14 @@ const CocktailList = ({
     {
       name: 'Base Spirit',
       rowName: 'base_ingredient_id',
-      value: [],
+      value: baseSpiritId
+        ? [
+            {
+              id: baseSpiritId,
+              name: ingredientsById[baseSpiritId].name,
+            },
+          ]
+        : [],
     },
     {
       name: 'Ingredient',

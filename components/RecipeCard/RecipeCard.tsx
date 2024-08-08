@@ -422,7 +422,7 @@ const RecipeCard = ({ cocktail, style, currentBar, ...restProps }: RecipeCardPro
             <TouchableWithoutFeedback
               key={source.id}
               onPress={() =>
-                navigation.navigate('Source Detail', {
+                navigation.navigate('Source', {
                   sourceId: source.source.id,
                   name: source.source.name,
                 })

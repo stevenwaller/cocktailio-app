@@ -33,11 +33,7 @@ export default function BarStockNav() {
         <BarStockStack.Screen name="Cocktails" component={CocktailsScreen} />
         <BarStockStack.Screen name="Cocktail" component={CocktailDetailScreen} />
         <BarStockStack.Screen name="Ingredient" component={IngredientDetailScreen} />
-        <BarStockStack.Screen
-          name="Source Detail"
-          component={SourceDetailScreen}
-          options={{ title: '' }}
-        />
+        <BarStockStack.Screen name="Source" component={SourceDetailScreen} />
       </BarStockStack.Navigator>
     </ToastProvider>
   )

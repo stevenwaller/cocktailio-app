@@ -16,6 +16,8 @@ type CocktailsParams =
       barId?: string
       collectionId?: string
       ingredientId?: string
+      baseSpiritId?: string
+      methodId?: string
       name?: string
     }
   | undefined
@@ -30,13 +32,18 @@ type CocktailSearchParams = { barId?: string; collectionId?: string } | undefine
 
 export type HomeStackParamList = {
   Home: undefined
+  Cocktails: CocktailsParams
+  'Search Cocktails': CocktailSearchParams
+  Cocktail: CocktailDetailParams
+  Ingredient: IngredientDetailParams
+  Source: SourceDetailParams
 }
 
 export type CocktailsStackParamList = {
   Cocktails: CocktailsParams
   Cocktail: CocktailDetailParams
   Ingredient: IngredientDetailParams
-  'Source Detail': SourceDetailParams
+  Source: SourceDetailParams
   'Search Cocktails': CocktailSearchParams
 }
 
@@ -47,7 +54,7 @@ export type BarStockStackParamList = {
   Cocktails: CocktailsParams
   Cocktail: CocktailDetailParams
   Ingredient: IngredientDetailParams
-  'Source Detail': SourceDetailParams
+  Source: SourceDetailParams
   'Search Ingredients': { barId: string }
   'Search Bar Cocktails': CocktailSearchParams
 }
@@ -58,7 +65,7 @@ export type CollectionsStackParamList = {
   Cocktails: CocktailsParams
   Cocktail: CocktailDetailParams
   Ingredient: IngredientDetailParams
-  'Source Detail': SourceDetailParams
+  Source: SourceDetailParams
   'Search Collection Cocktails': CocktailSearchParams
 }
 

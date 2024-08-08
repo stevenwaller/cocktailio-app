@@ -34,11 +34,7 @@ export default function CollectionsNav() {
           component={CollectionSearchCocktailsScreen}
         />
         <CollectionsStack.Screen name="Ingredient" component={IngredientDetailScreen} />
-        <CollectionsStack.Screen
-          name="Source Detail"
-          component={SourceDetailScreen}
-          options={{ title: '' }}
-        />
+        <CollectionsStack.Screen name="Source" component={SourceDetailScreen} />
       </CollectionsStack.Navigator>
     </ToastProvider>
   )
