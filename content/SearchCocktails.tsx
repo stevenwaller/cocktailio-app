@@ -43,6 +43,7 @@ export default function SearchCocktails({ barId, collectionId }: Props) {
         {
           bar_id: barId ? barId : null,
           collection_id: collectionId ? collectionId : null,
+          cocktail_id: null,
           search_value: searchValue,
           filter_ingredients: null,
         },

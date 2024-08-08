@@ -33,6 +33,7 @@ export default function RecentCocktails({
       .rpc('query_cocktails', {
         bar_id: null,
         collection_id: null,
+        cocktail_id: null,
         search_value: null,
         filter_ingredients: null,
       })

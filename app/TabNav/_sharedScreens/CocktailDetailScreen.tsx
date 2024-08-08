@@ -75,6 +75,7 @@ export default function CocktailDetailScreen({ route, navigation }: Props) {
         {
           bar_id: null,
           collection_id: null,
+          cocktail_id: null,
           search_value: null,
           filter_ingredients: null,
         },

@@ -35,6 +35,7 @@ export default function RelatedCocktails({
       {
         bar_id: null,
         collection_id: null,
+        cocktail_id: null,
         search_value: null,
         filter_ingredients: ingredientId ? { [ingredientId]: true } : null,
       },

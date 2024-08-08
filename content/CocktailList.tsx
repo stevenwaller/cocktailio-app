@@ -166,6 +166,7 @@ const CocktailList = ({
         {
           bar_id: barId,
           collection_id: collectionId,
+          cocktail_id: null,
           search_value: null,
           filter_ingredients: ingredientFilter,
         },
