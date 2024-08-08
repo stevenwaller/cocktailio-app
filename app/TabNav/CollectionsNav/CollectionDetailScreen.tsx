@@ -9,8 +9,8 @@ import { CollectionsStackParamList } from '@/lib/types'
 type Props = NativeStackScreenProps<CollectionsStackParamList, 'Collection'>
 
 export default function CollectionDetailScreen({ route, navigation }: Props) {
-  const collectionId = route.params?.collectionId
-  const { collection } = useCollections(collectionId)
+  const collectionParam = route.params?.collection
+  const { collection } = useCollections(collectionParam?.id)
   const moreModalRef = useRef<IMoreCollectionModal>(null)
 
   return (

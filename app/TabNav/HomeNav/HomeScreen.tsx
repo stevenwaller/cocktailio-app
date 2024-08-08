@@ -6,6 +6,7 @@ import BaseSpiritList from '@/content/BaseSpiritList'
 import EraList from '@/content/EraList'
 import GlassList from '@/content/GlassList'
 import MethodList from '@/content/MethodList'
+import RecentCocktails from '@/content/RecentCocktails'
 import { HomeStackParamList } from '@/lib/types'
 
 type Props = NativeStackScreenProps<HomeStackParamList, 'Home'>
@@ -14,6 +15,7 @@ export default function HomeScreen({ navigation }: Props) {
   return (
     <ScrollView>
       <PageContainer>
+        <RecentCocktails />
         <BaseSpiritList style={{ marginBottom: 20 }} />
         <MethodList style={{ marginBottom: 20 }} />
         <EraList style={{ marginBottom: 20 }} />

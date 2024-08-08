@@ -14,7 +14,7 @@ interface Props {
   onViewAllPress?: () => void
 }
 
-export default function RelatedCocktails({
+export default function RecentCocktails({
   cocktailIds,
   label,
   currentBar,
@@ -25,21 +25,18 @@ export default function RelatedCocktails({
   const [isFetching, setIsFetching] = useState(false)
   const [error, setError] = useState<PostgrestError | null>(null)
   const [cocktails, setCocktails] = useState<TCocktail[] | null>(null)
-  const [count, setCount] = useState(0)
 
   const fetchData = useCallback(async () => {
     setIsFetching(true)
 
-    const query = supabaseClient.rpc(
-      'query_cocktails',
-      {
+    const query = supabaseClient
+      .rpc('query_cocktails', {
         bar_id: null,
         collection_id: null,
         search_value: null,
-        filter_ingredients: ingredientId ? { [ingredientId]: true } : null,
-      },
-      { count: 'exact' },
-    )
+        filter_ingredients: null,
+      })
+      .range(0, 10)
 
     if (cocktailIds) {
       query.in('id', cocktailIds)
@@ -49,9 +46,8 @@ export default function RelatedCocktails({
 
     setIsFetching(false)
     setCocktails(response.data)
-    setCount(response.count ? response.count : 0)
     setError(response.error)
-  }, [cocktailIds, ingredientId])
+  }, [cocktailIds])
 
   useEffect(() => {
     fetchData()
@@ -59,7 +55,7 @@ export default function RelatedCocktails({
 
   return (
     <CocktailScroller
-      label={`${count} ${label ? `${label} ` : ''}Cocktail${count > 1 ? 's' : ''}`}
+      label="Recently Added"
       isFetching={isFetching}
       error={error}
       cocktails={cocktails}

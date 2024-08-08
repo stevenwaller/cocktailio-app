@@ -34,7 +34,10 @@ const CollectionCard = ({
         <Pressable
           onPress={() => {
             navigation.navigate('Collection', {
-              collectionId: collection.id,
+              collection: {
+                id: collection.id,
+                name: collection.name,
+              },
               name: collection.name,
             })
           }}
