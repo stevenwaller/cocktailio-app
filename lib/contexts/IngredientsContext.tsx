@@ -22,6 +22,7 @@ interface IIngredientContext {
   ingredientsById: TIngredientById
   ingredientCategoryIds: string[]
   baseSpiritIds: string[]
+  baseSpirits: TIngredient[]
 }
 
 const IngredientsContext = createContext<IIngredientContext>({
@@ -32,6 +33,7 @@ const IngredientsContext = createContext<IIngredientContext>({
   ingredientsById: {},
   ingredientCategoryIds: [],
   baseSpiritIds: [],
+  baseSpirits: [],
 })
 
 export const IngredientsProvider = ({ children }: { children: ReactNode }) => {
@@ -40,6 +42,7 @@ export const IngredientsProvider = ({ children }: { children: ReactNode }) => {
   const [ingredientsById, setIngredientsById] = useState<TIngredientById>({})
   const [ingredientCategoryIds, setIngredientCategoryIds] = useState<string[]>([])
   const [baseSpiritIds, setBaseSpiritIds] = useState<string[]>([])
+  const baseSpirits = useRef<TIngredient[]>([])
   const isFirstFetch = useRef(true)
 
   const fetchData = useCallback(async () => {
@@ -100,6 +103,12 @@ export const IngredientsProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [fetchData])
 
+  useEffect(() => {
+    if (baseSpiritIds.length > 0) {
+      baseSpirits.current = baseSpiritIds.map((id) => ingredientsById[id])
+    }
+  }, [baseSpiritIds, ingredientsById])
+
   return (
     <IngredientsContext.Provider
       value={{
@@ -108,6 +117,7 @@ export const IngredientsProvider = ({ children }: { children: ReactNode }) => {
         ingredientsById,
         ingredientCategoryIds,
         baseSpiritIds,
+        baseSpirits: baseSpirits.current,
         refetch: fetchData,
         init,
       }}

@@ -7,7 +7,7 @@ import CocktailsHeaderBtns from '@/app/TabNav/_sharedHeaderBtns/CocktailsHeaderB
 import CocktailCard from '@/components/CocktailCard'
 import ErrorAlert from '@/components/ErrorAlert'
 import FiltersBar from '@/components/FiltersBar'
-import Skeleton from '@/components/Skeleton'
+import Skeleton from '@/components/_loaders/Skeleton'
 import { BodyText, PageTitleText } from '@/components/_elements/Text'
 import AddToCollectionModal, { IAddToCollectionModal } from '@/content/AddToCollectionModal'
 import DefaultBarModal, { IDefaultBarModal } from '@/content/DefaultBarModal'

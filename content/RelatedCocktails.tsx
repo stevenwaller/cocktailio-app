@@ -3,7 +3,7 @@ import { useState, useCallback, useEffect } from 'react'
 import { ScrollView, View, StyleSheet, Pressable, Text } from 'react-native'
 
 import CocktailCard from '@/components/CocktailCard'
-import Skeleton from '@/components/Skeleton'
+import Skeleton from '@/components/_loaders/Skeleton'
 import { SubTitleText, BodyText } from '@/components/_elements/Text'
 import ChevronRightIcon from '@/components/_icons/ChevronRight'
 import { SIZE, COLORS, FONTS } from '@/lib/constants'

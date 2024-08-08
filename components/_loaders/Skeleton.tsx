@@ -3,7 +3,7 @@ import { Animated, DimensionValue, StyleProp, ViewStyle } from 'react-native'
 
 import { COLORS, SIZE } from '@/lib/constants'
 
-type SkeletonProps = {
+type IProps = {
   width?: DimensionValue
   height: DimensionValue
   borderRadius?: number
@@ -17,7 +17,7 @@ const Skeleton = ({
   bgColor = COLORS.bg.level3,
   borderRadius = SIZE.border.radius,
   style,
-}: SkeletonProps) => {
+}: IProps) => {
   const animation = useRef(new Animated.Value(0.5)).current
 
   const startAnimation = useCallback(() => {

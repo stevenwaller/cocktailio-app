@@ -7,7 +7,7 @@ import CocktailHeaderBtns from '../_sharedHeaderBtns/CocktailHeaderBtns'
 
 import PageContainer from '@/components/PageContainer'
 import RecipeCard from '@/components/RecipeCard'
-import Skeleton from '@/components/Skeleton'
+import Skeleton from '@/components/_loaders/Skeleton'
 import { BodyText, PageTitleText } from '@/components/_elements/Text'
 import AddToCollectionModal, { IAddToCollectionModal } from '@/content/AddToCollectionModal'
 import RelatedCocktails from '@/content/RelatedCocktails'
