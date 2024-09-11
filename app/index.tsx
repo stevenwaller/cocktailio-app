@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { registerRootComponent } from 'expo'
 import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
+import { StatusBar } from 'expo-status-bar'
 import { useEffect } from 'react'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
@@ -67,29 +68,32 @@ function App() {
   }
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <UserContextProvider>
-        <IngredientsProvider>
-          <BarsProvider>
-            <CollectionsProvider>
-              <ErasProvider>
-                <GlassesProvider>
-                  <MethodsProvider>
-                    <BottomSheetModalProvider>
-                      <AuthModalContextProvider>
-                        <NavigationContainer>
-                          <TabNav />
-                        </NavigationContainer>
-                      </AuthModalContextProvider>
-                    </BottomSheetModalProvider>
-                  </MethodsProvider>
-                </GlassesProvider>
-              </ErasProvider>
-            </CollectionsProvider>
-          </BarsProvider>
-        </IngredientsProvider>
-      </UserContextProvider>
-    </GestureHandlerRootView>
+    <>
+      <StatusBar style="dark" />
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <UserContextProvider>
+          <IngredientsProvider>
+            <BarsProvider>
+              <CollectionsProvider>
+                <ErasProvider>
+                  <GlassesProvider>
+                    <MethodsProvider>
+                      <BottomSheetModalProvider>
+                        <AuthModalContextProvider>
+                          <NavigationContainer>
+                            <TabNav />
+                          </NavigationContainer>
+                        </AuthModalContextProvider>
+                      </BottomSheetModalProvider>
+                    </MethodsProvider>
+                  </GlassesProvider>
+                </ErasProvider>
+              </CollectionsProvider>
+            </BarsProvider>
+          </IngredientsProvider>
+        </UserContextProvider>
+      </GestureHandlerRootView>
+    </>
   )
 }
 
