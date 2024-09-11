@@ -12,9 +12,12 @@
       "resizeMode": "contain",
       "backgroundColor": "#123742"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.cocktailio.cocktailio"
     },
     "android": {
       "adaptiveIcon": {
@@ -23,6 +26,13 @@
       },
       "softwareKeyboardLayoutMode": "pan"
     },
-    "plugins": ["expo-font"]
+    "plugins": [
+      "expo-font"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "51c9c80c-5668-4afa-9864-fe2884d3464c"
+      }
+    }
   }
 }
