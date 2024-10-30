@@ -55,3 +55,23 @@ npx supabase login
 ```
 npx supabase gen types typescript --project-id "oysrqfsfxvjeyvtjohix" --schema public > lib/types/supabaseGenerated.ts
 ```
+
+## Expo Preview
+
+### Create a development build
+
+```
+eas build --profile development --platform ios
+```
+
+Use the QR code or URL to install the dev build on your phone
+
+### Publish and update
+
+```
+eas update --channel [channel-name] --message "[message]"
+```
+
+### load update on phone
+
+Use the extensions in the dev menu in the installed up to load the update
